@@ -21,6 +21,7 @@ const userSchema = mongoose.Schema({
     timestamps:true
 });
 
+//pre means before saving to database hashing the password
 userSchema.pre('save',async function(next){
     if(!this.isModified('password')){
         next();
