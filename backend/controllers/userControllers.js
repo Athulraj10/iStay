@@ -1,4 +1,6 @@
 import asyncHnadler from 'express-async-handler'
+import User from '../models/userModel';
+
 
 //@desc Auth user/set token
 //access Public
