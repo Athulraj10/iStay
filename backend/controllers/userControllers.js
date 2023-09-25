@@ -1,5 +1,5 @@
 import asyncHnadler from 'express-async-handler'
-import User from '../models/userModel';
+import User from '../models/userModel.js';
 
 
 //@desc Auth user/set token
@@ -13,7 +13,28 @@ const authUser =asyncHnadler(async (req,res)=>{
 //access Public
 //route POST// /api/register
 const registerUser =asyncHnadler(async (req,res)=>{
-    res.status(200).json({message:"Register user"})
+    const {name,email,password} = req.body;
+    const userExists = await User.findOne({email})
+    if(userExists){
+        res.status(400);
+        throw new Error(' User already Exists');
+    }
+    const userRegister = await User.create({
+        name,
+        email,
+        password
+    });
+    console.log(userRegister)
+    if(userRegister){
+        res.status(201).json({
+            _id:userRegister._id,
+            name:userRegister.name,
+            email:userRegister.email
+        });
+    }else{
+        res.status(400);
+        throw new Error("Invalid User Data")
+    }
 });
 //@desc logout USer
 //access Public
