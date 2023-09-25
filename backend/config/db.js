@@ -6,7 +6,10 @@ const connectDB = async () => {
     } catch (error) {
         console.error(`Error : ${error.message}`);
         process.exit(1);
+        //process exit is a keyword that used to product in node.js to sent
+        //an instruction to not terminate 
     }
 }
+
 
 export default connectDB
