@@ -24,6 +24,7 @@ const registerUser =asyncHnadler(async (req,res)=>{
         email,
         password
     });
+    
     console.log(userRegister)
     if(userRegister){
         res.status(201).json({
