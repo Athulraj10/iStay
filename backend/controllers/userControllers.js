@@ -9,7 +9,7 @@ const authUser =asyncHnadler(async (req,res)=>{
     res.status(200).json({message:"Auth user"})
 });
 
-//@desc create user
+//@desc createing new  user
 //access Public
 //route POST// /api/register
 const registerUser =asyncHnadler(async (req,res)=>{
@@ -24,7 +24,7 @@ const registerUser =asyncHnadler(async (req,res)=>{
         email,
         password
     });
-    
+
     console.log(userRegister)
     if(userRegister){
         res.status(201).json({
