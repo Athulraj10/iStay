@@ -1,5 +1,6 @@
 import asyncHnadler from 'express-async-handler'
 import User from '../models/userModel.js';
+import genereateToken from '../utils/generateToken.js';
 
 
 //@desc Auth user/set token
@@ -26,6 +27,7 @@ const registerUser =asyncHnadler(async (req,res)=>{
     });
 
     if(userRegister){
+        genereateToken(res,userRegister._id)
         res.status(201).json({
             _id:userRegister._id,
             name:userRegister.name,
