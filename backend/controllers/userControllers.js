@@ -7,7 +7,20 @@ import genereateToken from '../utils/generateToken.js';
 //access Public
 //route POST// /api/users
 const authUser =asyncHnadler(async (req,res)=>{
-    res.status(200).json({message:"Auth user"})
+   const {email,password}=req.body;
+   const user = await User.findOne({email});
+   if(user){
+    genereateToken(res,user._id)
+    res.status(201).json({
+        _id:user._id,
+        name:user.name,
+        email:user.email
+    });
+}else{
+    res.status(401);
+    throw new Error("Invalid Email or Password")
+}
+  
 });
 
 //@desc createing new  user
