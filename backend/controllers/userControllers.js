@@ -9,7 +9,7 @@ import genereateToken from '../utils/generateToken.js';
 const authUser =asyncHnadler(async (req,res)=>{
    const {email,password}=req.body;
    const user = await User.findOne({email});
-   if(user){
+   if(user && (await user.matchPassword(password))){
     genereateToken(res,user._id)
     res.status(201).json({
         _id:user._id,
@@ -55,7 +55,11 @@ const registerUser =asyncHnadler(async (req,res)=>{
 //access Public
 //route POST// /api/logout
 const logoutUser =asyncHnadler(async (req,res)=>{
-    res.status(200).json({message:"Logout User"})
+    res.cookie('jwt','',{
+        httpOnly:true,
+        expires:new Date(0)
+    })
+    res.status(200).json({message:"User Logout"})
 });
 
 //@desc get user profile
