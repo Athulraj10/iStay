@@ -66,6 +66,13 @@ const logoutUser =asyncHnadler(async (req,res)=>{
 //access Private
 //route POST// /api/users/profile
 const getUserProfile =asyncHnadler(async (req,res)=>{
+    // console.log(req.user)
+    const userDetails = {
+        name:req.user.name,
+        email:req.user.email,
+        user_id:req.user._id
+    }
+    // console.log(userDetails)
     res.status(200).json({message:"User profile"})
 });
 
