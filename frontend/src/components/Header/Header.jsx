@@ -1,7 +1,8 @@
-import { Navbar, Nav, Button, Container } from "react-bootstrap";
+import { Navbar, Nav, Container } from "react-bootstrap";
 import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 import "./Header.css";
-import logoImage from './iStays.png'
+import logoImage from "./iStays.png";
+import { LinkContainer } from "react-router-bootstrap";
 
 const Header = () => {
   return (
@@ -12,18 +13,31 @@ const Header = () => {
         expand="lg"
         collapseOnSelect
       >
-
         <Container>
-          <Navbar.Brand href=""> <img src={logoImage} alt="LOGO" />  </Navbar.Brand>
+          <LinkContainer to="/">
+            <Navbar.Brand>
+              <img src={logoImage} alt="LOGO" />
+            </Navbar.Brand>
+          </LinkContainer>
+
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              <Nav.Link href="/login">
-                <FaSignInAlt/> Login In
+              
+              {/* login link created for link to login page */}
+              <LinkContainer to='/login' >
+                 <Nav.Link>
+                    <FaSignInAlt /> Login In
+                 </Nav.Link>
+              </LinkContainer>
+
+              {/* login link created for link to register page */}
+              <LinkContainer to='/register'>
+              <Nav.Link>
+                <FaSignOutAlt /> Sign Up
               </Nav.Link>
-              <Nav.Link href="/login">
-                <FaSignOutAlt/> Sign Up
-              </Nav.Link>
+              </LinkContainer>
+           
             </Nav>
           </Navbar.Collapse>
         </Container>

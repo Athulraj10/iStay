@@ -1,5 +1,5 @@
 import React from 'react'
-import Home from '../Homes/Home'
+import Home from '../Home/Home'
 
 const HomeScreen = () => {
   return (
