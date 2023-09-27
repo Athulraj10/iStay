@@ -2,8 +2,6 @@ import { useState } from "react";
 import "./FormValidation.jsx";
 
 const FormValidation = (props) => {
-  const [focused, setFocused] = useState(false);
-  const { label, errorMessage, onChange, id, ...inputProps } = props;
 
   return (
     <div className="formInput">
