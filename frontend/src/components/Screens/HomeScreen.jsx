@@ -1,11 +1,9 @@
 import React from 'react'
-import './HomeScreen.css'
+import Home from '../Homes/Home'
 
 const HomeScreen = () => {
   return (
-    <div className='homescreen'>HomeScreen
-    
-    </div>
+   <Home/>
   )
 }
 

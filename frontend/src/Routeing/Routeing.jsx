@@ -1,11 +1,11 @@
 import React from 'react'
 import { Route,Routes } from 'react-router-dom'
-import Home from '../components/Homes/Home'
+import HomeScreen from '../components/Screens/HomeScreen'
 
 const Routeing = () => {
   return (
     <Routes>
-        <Route path='/' element={Home}/>
+        <Route path='/' element={<HomeScreen/>}/>
     </Routes>
   )
 }
