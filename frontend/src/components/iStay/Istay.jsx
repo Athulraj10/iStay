@@ -1,14 +1,13 @@
 import React from 'react'
 import Header from '../Header/Header'
-import HomeScreen from '../HomeScreen/HomeScreen'
 import Home from '../Homes/Home'
+import Routeing from '../../Routeing/Routeing'
 
 const Istay = () => {
   return (
     <>
         <Header/>
-        <HomeScreen/>
-        <Home/>
+        <Routeing/>
     </>
   )
 }
