@@ -1,16 +1,7 @@
-import { Outlet } from "react-router-dom";
-import Header from "./components/Header";
-import { Container } from "react-bootstrap";
+import React from 'react'
+import Istay from './components/iStay/Istay'
 
-const App = () => {
-  return (
-    <>
-      <Header />
-      <Container className="my-2">
-        <Outlet />
-      </Container>
-    </>
-  );
-};
+const App = () => <Istay/>
 
-export default App;
+
+export default App

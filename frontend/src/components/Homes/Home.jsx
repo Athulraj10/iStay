@@ -1,6 +1,6 @@
 import { Container, Card, Button } from 'react-bootstrap';
 
-const Hero = () => {
+const Home = () => {
   return (
     <div className=' py-5'>
       <Container className='d-flex justify-content-center'>
@@ -16,7 +16,7 @@ const Hero = () => {
               Sign In
             </Button>
             <Button variant='secondary' href='/register'>
-              Sign up
+              Register
             </Button>
           </div>
         </Card>
@@ -25,4 +25,4 @@ const Hero = () => {
   );
 };
 
-export default Hero;
+export default Home;

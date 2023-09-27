@@ -1,0 +1,15 @@
+.navbarStyle {
+    background: linear-gradient(to bottom, #023334, rgb(0, 0, 0));
+   height: auto;
+  }
+  
+ .logout{
+color: white;
+width: 50px;
+padding-left: 15px;
+margin-right: 20px;
+}
+
+.navbarButton{
+    background: #bb7474;
+}
