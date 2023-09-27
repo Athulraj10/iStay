@@ -2,10 +2,3 @@
 
 
 
-label{
-    font-size: 12px;
-    color: gray;
-}
-input:invalid[focused="true"] ~ span{
-    display: block;
-}
