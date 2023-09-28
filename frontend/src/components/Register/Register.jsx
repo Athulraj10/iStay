@@ -1,32 +1,19 @@
-// import Container from "react-bootstrap/Container";
-// import Row from "react-bootstrap/Row";
-// import Col from "react-bootstrap/Col";
-// import './Register.css'
-// import { Form } from "react-bootstrap";
+import React from "react";
+import "tailwindcss/tailwind.css";
 
-// const Register = () => {
-//   return (
-//     <div>
-//       <Container className='mainContainer' fluid={true}>
-//         <Row className="p-3 registrationContainer">
-//           <Col className="left_setion">
-//             <Form>
+const Register = () => {
+  return (
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-96 p-6 shadow-lg bg-white rounded-md">
+        <h1>Register Page</h1>
+        <hr className="mt-3" />
+        <div className='mt-3'>
+          <label for='username' className="block text-base mb-2">UserName</label>
+          <input type="text" id="username" className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600" placeholder="enter user name"/>
+        </div>
+      </div>
+    </div>
+  );
+};
 
-//             </Form>
-//           </Col>
-//           <Col className="right_setion">2 of 2</Col>
-//         </Row>
-
-//         <Row>
-//           <Col>1 of 3</Col>
-//           <Col>2 of 3</Col>
-//           <Col>3 of 3</Col>
-//         </Row>
-//       </Container>
-     
-//     </div>
-//   );
-// };
-
-// export default Register;
-
+export default Register;
