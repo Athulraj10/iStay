@@ -1,18 +1,38 @@
-import React from "react";
-import "tailwindcss/tailwind.css";
+import React, { useState } from "react";
+import { Button, Col, Form, Row } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import FormContainer from "../Forms/FormContainer";
 
 const Register = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const sumbitHandler = (e) => {
+    e.preventDefault();
+    console.log("submitted");
+  };
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="w-96 p-6 shadow-lg bg-white rounded-md">
-        <h1>Register Page</h1>
-        <hr className="mt-3" />
-        <div className='mt-3'>
-          <label for='username' className="block text-base mb-2">UserName</label>
-          <input type="text" id="username" className="border w-full text-base px-2 py-1 focus:outline-none focus:ring-0 focus:border-gray-600" placeholder="enter user name"/>
-        </div>
-      </div>
-    </div>
+    <FormContainer>
+      <h1>sign in </h1>
+      {/* Normally we are useing forms */}
+      <Form onSubmit={sumbitHandler}>
+        {/* for wraping our content into a group of items like Div Started */}
+        <Form.Group className="my-2" controlId="email">
+          {/* Normal like a label input box top Nameing Email Address */}
+          <Form.Label>Email Address</Form.Label>
+          {/* Controll is LIke a input box same as a HTMl */}
+          <Form.Control
+            type="email"
+            placeholder="Enter Email Address"
+            value={email}
+            onChange={(e)=>{setEmail(e.target.value)}}
+            >
+          </Form.Control>
+        {/* for wraping our content into a group Ended */}
+        </Form.Group>
+
+      </Form>
+    </FormContainer>
   );
 };
 
