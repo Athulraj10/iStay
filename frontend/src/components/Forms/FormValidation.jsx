@@ -19,16 +19,15 @@ const FormValidation = ({ onSubmit }) => {
     let isValid = true;
     const hasNumber = /\d/;
     // Validate user name
-    if (userName.trim() === "" ) {
+    if (userName.trim() === "") {
       setUserNameError("User Name is required.");
       isValid = false;
-    }else if(hasNumber.test(userName)){
-      setUserNameError("Number Not Allowed")
+    } else if (hasNumber.test(userName)) {
+      setUserNameError("Number Not Allowed");
       isValid = false;
-    }else if(userName.length<3){
-      setUserNameError("Please Provide Full Name")
-    }
-     else {
+    } else if (userName.length < 3) {
+      setUserNameError("Please Provide Full Name");
+    } else {
       setUserNameError("");
     }
 
@@ -69,20 +68,27 @@ const FormValidation = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
     // Validate the form
     if (validateForm()) {
-      console.log({userName})
       console.log("Form submitted");
+      onSubmit({
+        userName,
+        email,
+        password,
+        mobile,
+      });
     } else {
       // Form is not valid, do not submit
     }
   };
 
   return (
-          <FormContainer>
+
+    <FormContainer>
       <h1>Register New User</h1>
       <Form onSubmit={handleSubmit}>
+
+
         {/* User Name */}
         <Form.Group controlId="userName">
           <Form.Label>User Name</Form.Label>
@@ -103,7 +109,7 @@ const FormValidation = ({ onSubmit }) => {
             placeholder="Enter Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-          />
+            />
           <Form.Text className="text-danger">{emailError}</Form.Text>
         </Form.Group>
 
@@ -139,7 +145,7 @@ const FormValidation = ({ onSubmit }) => {
             placeholder="Enter Mobile Number"
             value={mobile}
             onChange={(e) => setMobile(e.target.value)}
-          />
+            />
           <Form.Text className="text-danger">{mobileError}</Form.Text>
         </Form.Group>
 
