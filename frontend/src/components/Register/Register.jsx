@@ -8,110 +8,156 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [mobile, setmobile] = useState("");
+  const [mobile, setMobile] = useState("");
 
-  const sumbitHandler = (e) => {
-    e.preventDefault();
-    console.log("submitted");
+  // State variables for validation errors
+  const [userNameError, setUserNameError] = useState("");
+  const [emailError, setEmailError] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [mobileError, setMobileError] = useState("");
+
+  const validateForm = () => {
+    let isValid = true;
+    const hasNumber = /\d/;
+    // Validate user name
+    if (userName.trim() === "" ) {
+      setUserNameError("User Name is required.");
+      isValid = false;
+    }else if(hasNumber.test(userName)){
+      setUserNameError("Number Not Allowed")
+      isValid = false;
+    }else if(userName.length<3){
+      setUserNameError("Please Provide Full Name")
+    }
+     else {
+      setUserNameError("");
+    }
+
+    // Validate email
+    if (!/^\S+@\S+\.\S+$/.test(email)) {
+      setEmailError("Invalid email address.");
+      isValid = false;
+    } else {
+      setEmailError("");
+    }
+
+    // Validate password
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    // Validate confirm password
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match.");
+      isValid = false;
+    } else {
+      setConfirmPasswordError("");
+    }
+
+    // Validate mobile number
+    if (!/^\d{10}$/.test(mobile)) {
+      setMobileError("Invalid mobile number.");
+      isValid = false;
+    } else {
+      setMobileError("");
+    }
+
+    return isValid;
   };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Validate the form
+    if (validateForm()) {
+      // Form is valid, you can submit it here
+      console.log("Form submitted");
+    } else {
+      // Form is not valid, do not submit
+    }
+  };
+
   return (
     <FormContainer>
-      <h1>Register New User </h1>
-      {/* Normally we are useing forms */}
-      <Form onSubmit={sumbitHandler}>
-        {/* for wraping our content into a group of items like Div Started */}
-        <Form.Group className="my-2" controlId="email">
-          {/* Normal like a label input box top Nameing Email Address */}
-          <Form.Label>UserName</Form.Label>
-          {/* Controll is LIke a input box same as a HTMl */}
+      <h1>Register New User</h1>
+      <Form onSubmit={handleSubmit}>
+        {/* User Name */}
+        <Form.Group controlId="userName">
+          <Form.Label>User Name</Form.Label>
           <Form.Control
-            type="name"
-            placeholder="Enter UserName"
+            type="text"
+            placeholder="Enter User Name"
             value={userName}
-            onChange={(e) => {
-              setUserName(e.target.value);
-            }}
-          ></Form.Control>
-
-          {/* for wraping our content into a group Ended */}
+            onChange={(e) => setUserName(e.target.value)}
+          />
+          <Form.Text className="text-danger">{userNameError}</Form.Text>
         </Form.Group>
-        {/* for wraping our content into a group of items like Div Started */}
-        <Form.Group className="my-2" controlId="email">
-          {/* Normal like a label input box top Nameing Email Address */}
+
+        {/* Email */}
+        <Form.Group controlId="email">
           <Form.Label>Email Address</Form.Label>
-          {/* Controll is LIke a input box same as a HTMl */}
           <Form.Control
             type="email"
             placeholder="Enter Email"
             value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-            }}
-          ></Form.Control>
-
-          {/* for wraping our content into a group of items like Div Started */}
-          <Form.Group className="my-2" controlId="password">
-            {/* Normal like a label input box top Nameing Email Address */}
-            <Form.Label>Enter Mobile</Form.Label>
-            {/* Controll is LIke a input box same as a HTMl */}
-            <Form.Control
-              type="number"
-              placeholder="Mobile No"
-              value={confirmPassword}
-              onChange={(e) => {
-                setConfirmPassword(e.target.value);
-              }}
-            ></Form.Control>
-            {/* for wraping our content into a group Ended */}
-          </Form.Group>
-
-          {/* for wraping our content into a group Ended */}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <Form.Text className="text-danger">{emailError}</Form.Text>
         </Form.Group>
-        {/* for wraping our content into a group of items like Div Started */}
-        <Form.Group className="my-2" controlId="email">
-          {/* Normal like a label input box top Nameing Email Address */}
-          <Form.Label>Enter Password</Form.Label>
-          {/* Controll is LIke a input box same as a HTMl */}
+
+        {/* Password */}
+        <Form.Group controlId="password">
+          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Enter Password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-            }}
-          ></Form.Control>
-          {/* for wraping our content into a group Ended */}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <Form.Text className="text-danger">{passwordError}</Form.Text>
         </Form.Group>
 
-        {/* for wraping our content into a group of items like Div Started */}
-        <Form.Group className="my-2" controlId="password">
-          {/* Normal like a label input box top Nameing Email Address */}
+        {/* Confirm Password */}
+        <Form.Group controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
-          {/* Controll is LIke a input box same as a HTMl */}
           <Form.Control
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={(e) => {
-              setConfirmPassword(e.target.value);
-            }}
-          ></Form.Control>
-          {/* for wraping our content into a group Ended */}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+          />
+          <Form.Text className="text-danger">{confirmPasswordError}</Form.Text>
         </Form.Group>
 
-        {/* creating a button for submit values */}
+        {/* Mobile Number */}
+        <Form.Group controlId="mobile">
+          <Form.Label>Mobile Number</Form.Label>
+          <Form.Control
+            type="text"
+            placeholder="Enter Mobile Number"
+            value={mobile}
+            onChange={(e) => setMobile(e.target.value)}
+          />
+          <Form.Text className="text-danger">{mobileError}</Form.Text>
+        </Form.Group>
+
         <Button type="submit" variant="primary" className="mt-3">
           Register
         </Button>
 
         <Row className="py-3">
           <Col>
-            Already Customer ? <Link to="/login">Login</Link>
+            Already a customer? <Link to="/login">Login</Link>
           </Col>
         </Row>
       </Form>
     </FormContainer>
   );
 };
+
 
 export default Register;
