@@ -1,5 +1,4 @@
-import React from "react";
-import FormValidation from "../Forms/FormValidation";
+import RegisterValidation from "./RegistrationValidation";
 
 
 const RegisterPage = () => {
@@ -10,7 +9,7 @@ const RegisterPage = () => {
 
   return (
     <div>
-      <FormValidation onSubmit={handleSubmit} />
+      <RegisterValidation onSubmit={handleSubmit} />
     </div>
   );
 };

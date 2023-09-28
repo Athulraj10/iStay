@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import FormContainer from "./FormContainer";
+import FormContainer from "../Forms/FormContainer";
 import { Button, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
 

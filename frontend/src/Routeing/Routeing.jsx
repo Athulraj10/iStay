@@ -1,16 +1,18 @@
 import React from 'react'
 import { Route,Routes } from 'react-router-dom'
 import HomeScreen from '../components/Screens/HomeScreen'
-import Login from '../components/Login/Login'
-import Register from '../components/Register/Register'
+import LoginScreen from '../components/Screens/LoginScreen'
+import RegisterScreen from '../components/Screens/RegisterScreen'
+
+
 
 
 const Routeing = () => {
   return (
     <Routes>
         <Route path='/' element={<HomeScreen/>}/>
-        <Route path='/login' element={<Login/>}/>
-        <Route path='/register' element={<Register/>}/>
+        <Route path='/login' element={<LoginScreen/>}/>
+        <Route path='/register' element={<RegisterScreen/>}/>
     </Routes>
   )
 }
