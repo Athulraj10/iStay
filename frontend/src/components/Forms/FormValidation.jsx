@@ -152,12 +152,6 @@ const FormValidation = ({ onSubmit }) => {
         <Button type="submit" variant="primary" className="mt-3">
           Register
         </Button>
-
-        <Row className="py-3">
-          <Col>
-            Already a customer? <Link to="/login">Login</Link>
-          </Col>
-        </Row>
       </Form>
     </FormContainer>
   );
