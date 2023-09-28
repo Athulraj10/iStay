@@ -7,8 +7,8 @@ const Layout = ({ children }) => {
     <div
       className='mainContainer'
       style={{
-        backgroundImage: `url(${backgroundImage})`, // Set the background image
-        // background:'green',
+        // backgroundImage: `url(${backgroundImage})`, // Set the background image
+        background:'green',
         backgroundSize: 'cover', // Adjust the image size to cover the container
         backgroundPosition: 'center', // Center the image horizontally and vertically
       }}

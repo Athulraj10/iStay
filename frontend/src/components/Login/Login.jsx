@@ -13,7 +13,7 @@ const Login = () => {
   };
   return (
     <FormContainer>
-      <h1>Login  </h1>
+      <h1>Login </h1>
       {/* Normally we are useing forms */}
       <Form onSubmit={sumbitHandler}>
         {/* for wraping our content into a group of items like Div Started */}
@@ -25,12 +25,13 @@ const Login = () => {
             type="email"
             placeholder="Enter Email"
             value={email}
-            onChange={(e)=>{setEmail(e.target.value)}}
-            >
-          </Form.Control>
-        {/* for wraping our content into a group Ended */}
+            onChange={(e) => {
+              setEmail(e.target.value);
+            }}
+          ></Form.Control>
+          {/* for wraping our content into a group Ended */}
         </Form.Group>
-       
+
         {/* for wraping our content into a group of items like Div Started */}
         <Form.Group className="my-2" controlId="password">
           {/* Normal like a label input box top Nameing Email Address */}
@@ -40,21 +41,17 @@ const Login = () => {
             type="password"
             placeholder="Enter Password"
             value={password}
-            onChange={(e)=>{setPassword(e.target.value)}}
-            >
-          </Form.Control>
-        {/* for wraping our content into a group Ended */}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+          ></Form.Control>
+          {/* for wraping our content into a group Ended */}
         </Form.Group>
 
         {/* creating a button for submit values */}
-        <Button type="submit" variant="primary" className='mt-3'>Register</Button>
-
-        <Row className="py-3"> 
-          <Col>
-          New Customer ? <Link to='/register'>Register</Link>
-          </Col>
-        </Row>
-
+        <Button type="submit" variant="primary" className="mt-3">
+          Register
+        </Button>
       </Form>
     </FormContainer>
   );
