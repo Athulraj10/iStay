@@ -2,6 +2,8 @@ import { Container, Row, Col } from "react-bootstrap";
 import HeaderLeftSection from "./loginSections/HeaderLeftSection";
 import HeaderRightSection from "./loginSections/HeaderRightSection";
 
+
+
 const Login = () => {
   const rightSection = {
     background: "rgba(255, 255, 255, 0)",
