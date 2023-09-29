@@ -7,10 +7,12 @@ const Login = () => {
     background: "rgba(255, 255, 255, 0)",
     color: "white",
   };
+  
   const leftSection = {
     background: "rgba(255, 255, 255, 0)",
-    color: "white",
-  };
+    color: rightSection.color,
+    };
+  
   return (
     <Container>
       <Row className="justify-content-md-center mt-5">

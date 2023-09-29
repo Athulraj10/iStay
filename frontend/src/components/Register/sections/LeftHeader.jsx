@@ -6,10 +6,10 @@ const LeftHeader = () => {
     return (
       <div className="container">
         <div className="left-content">
-          <h1 className="createAccount">Create an account</h1>
+          <h1 className="createAccount">Please login to explore more</h1>
         </div>
         <div className="centered-content">
-          <h6 className="loginDecription">Login using YourName and Password</h6>
+          <h6 className="loginDecription">Login using Email and Password</h6>
          <Link to='/login'>
          <button className="loginButton">Login</button>
          </Link>

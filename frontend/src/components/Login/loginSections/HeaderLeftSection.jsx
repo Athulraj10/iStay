@@ -11,9 +11,9 @@ const HeaderLeftSection = () => {
       <h1 className="createAccount">Create an account</h1>
     </div>
     <div className="centered-content">
-      <h6 className="loginDecription">Login using YourName and Password</h6>
-     <Link to='/login'>
-     <button className="loginButton">Login</button>
+      <h6 className="loginDecription">New User Free To log</h6>
+     <Link to='/register'>
+     <button className="loginButton">Register</button>
      </Link>
     </div>
   </div>
