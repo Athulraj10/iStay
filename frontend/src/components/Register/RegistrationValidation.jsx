@@ -82,12 +82,12 @@ const FormValidation = ({ onSubmit }) => {
     }
   };
   const rightSection = {
-    background: "rgba(255, 255, 255, 0)",
+    background: "rgba(255, 255, 255, 0.052)",
     color: "white",
   };
   const leftSection = {
-    background: "rgba(255, 255, 255, 0.052)",
-    color: "white",
+    background: "rgba(255, 255, 255, 0)",
+    color: rightSection.color,
   };
   return (
     <Container>
@@ -96,10 +96,10 @@ const FormValidation = ({ onSubmit }) => {
           <LeftHeader />
         </Col>
 
-        <Col xs={12} md={5} style={rightSection} className="card p-5 m-5">
+        <Col xs={12} md={5} style={rightSection} className="card p-5 ms-5">
           <h1>Register New User</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="userName">
+            <Form.Group controlId="userName" className="mt-2 mb-3">
               <Form.Label>User Name</Form.Label>
               <Form.Control
                 type="text"
@@ -111,7 +111,7 @@ const FormValidation = ({ onSubmit }) => {
             </Form.Group>
 
             {/* Email */}
-            <Form.Group controlId="email">
+            <Form.Group controlId="email" className="mt-2 mb-3">
               <Form.Label>Email Address</Form.Label>
               <Form.Control
                 type="email"
@@ -123,7 +123,7 @@ const FormValidation = ({ onSubmit }) => {
             </Form.Group>
 
             {/* Password */}
-            <Form.Group controlId="password">
+            <Form.Group controlId="password" className="mt-2 mb-3">
               <Form.Label>Password</Form.Label>
               <Form.Control
                 type="password"
@@ -135,7 +135,7 @@ const FormValidation = ({ onSubmit }) => {
             </Form.Group>
 
             {/* Confirm Password */}
-            <Form.Group controlId="confirmPassword">
+            <Form.Group controlId="confirmPassword" className="mt-2 mb-3">
               <Form.Label>Confirm Password</Form.Label>
               <Form.Control
                 type="password"
@@ -149,7 +149,7 @@ const FormValidation = ({ onSubmit }) => {
             </Form.Group>
 
             {/* Mobile Number */}
-            <Form.Group controlId="mobile">
+            <Form.Group controlId="mobile" className="mt-2 ">
               <Form.Label>Mobile Number</Form.Label>
               <Form.Control
                 type="text"
@@ -160,12 +160,13 @@ const FormValidation = ({ onSubmit }) => {
               <Form.Text className="text-danger">{mobileError}</Form.Text>
             </Form.Group>
 
-            <Button type="submit" variant="primary" className="mt-3">
-              Register
-            </Button>
+            <div className="mt-3 text-center">
+              <Button type="submit" variant="primary">
+                Register
+              </Button>
+            </div>
           </Form>
         </Col>
-        
       </Row>
     </Container>
   );
