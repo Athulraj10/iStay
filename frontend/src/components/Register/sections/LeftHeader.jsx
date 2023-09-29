@@ -2,7 +2,7 @@ import React from 'react'
 import './Register.css'
 import { Link } from 'react-router-dom';
 
-const RegisterHeaderLeft = () => {
+const LeftHeader = () => {
     return (
       <div className="container">
         <div className="left-content">
@@ -19,4 +19,4 @@ const RegisterHeaderLeft = () => {
   };
   
 
-export default RegisterHeaderLeft;
+export default LeftHeader;

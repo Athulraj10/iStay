@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import FormContainer from "../Forms/FormContainer";
-import { Button, Col, Form, Row } from "react-bootstrap";
+import { Button, Container, Col, Form, Row } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import LeftHeader from "./sections/LeftHeader";
 
 const FormValidation = ({ onSubmit }) => {
   const [userName, setUserName] = useState("");
@@ -81,79 +81,95 @@ const FormValidation = ({ onSubmit }) => {
       // Form is not valid, do not submit
     }
   };
-
+  const rightSection = {
+    background: "rgba(255, 255, 255, 0)",
+    color: "white",
+  };
+  const leftSection = {
+    background: "rgba(255, 255, 255, 0.052)",
+    color: "white",
+  };
   return (
+    <Container>
+      <Row className="justify-content-md-center mt-5">
+        <Col xs={12} md={6} style={leftSection} className="card p-5">
+        <LeftHeader/>
+        </Col>
 
-    <FormContainer>
-      <h1>Register New User</h1>
-      <Form onSubmit={handleSubmit}>
 
+        <Col xs={12} md={5} style={rightSection} className="card p-5 m-5">
+          <h1>Register New User</h1>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="userName">
+              <Form.Label>User Name</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter User Name"
+                value={userName}
+                onChange={(e) => setUserName(e.target.value)}
+              />
+              <Form.Text className="text-danger">{userNameError}</Form.Text>
+            </Form.Group>
 
-        {/* User Name */}
-        <Form.Group controlId="userName">
-          <Form.Label>User Name</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter User Name"
-            value={userName}
-            onChange={(e) => setUserName(e.target.value)}
-          />
-          <Form.Text className="text-danger">{userNameError}</Form.Text>
-        </Form.Group>
+            {/* Email */}
+            <Form.Group controlId="email">
+              <Form.Label>Email Address</Form.Label>
+              <Form.Control
+                type="email"
+                placeholder="Enter Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <Form.Text className="text-danger">{emailError}</Form.Text>
+            </Form.Group>
 
-        {/* Email */}
-        <Form.Group controlId="email">
-          <Form.Label>Email Address</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            />
-          <Form.Text className="text-danger">{emailError}</Form.Text>
-        </Form.Group>
+            {/* Password */}
+            <Form.Group controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Form.Text className="text-danger">{passwordError}</Form.Text>
+            </Form.Group>
 
-        {/* Password */}
-        <Form.Group controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Form.Text className="text-danger">{passwordError}</Form.Text>
-        </Form.Group>
+            {/* Confirm Password */}
+            <Form.Group controlId="confirmPassword">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <Form.Text className="text-danger">
+                {confirmPasswordError}
+              </Form.Text>
+            </Form.Group>
 
-        {/* Confirm Password */}
-        <Form.Group controlId="confirmPassword">
-          <Form.Label>Confirm Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Confirm Password"
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <Form.Text className="text-danger">{confirmPasswordError}</Form.Text>
-        </Form.Group>
+            {/* Mobile Number */}
+            <Form.Group controlId="mobile">
+              <Form.Label>Mobile Number</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Mobile Number"
+                value={mobile}
+                onChange={(e) => setMobile(e.target.value)}
+              />
+              <Form.Text className="text-danger">{mobileError}</Form.Text>
+            </Form.Group>
 
-        {/* Mobile Number */}
-        <Form.Group controlId="mobile">
-          <Form.Label>Mobile Number</Form.Label>
-          <Form.Control
-            type="text"
-            placeholder="Enter Mobile Number"
-            value={mobile}
-            onChange={(e) => setMobile(e.target.value)}
-            />
-          <Form.Text className="text-danger">{mobileError}</Form.Text>
-        </Form.Group>
-
-        <Button type="submit" variant="primary" className="mt-3">
-          Register
-        </Button>
-      </Form>
-    </FormContainer>
+           <Link to='/login'>
+           <Button type="submit" variant="primary" className="mt-3">
+              Register
+            </Button>
+           </Link>
+          </Form>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
