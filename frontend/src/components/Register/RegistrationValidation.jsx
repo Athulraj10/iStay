@@ -93,9 +93,8 @@ const FormValidation = ({ onSubmit }) => {
     <Container>
       <Row className="justify-content-md-center mt-5">
         <Col xs={12} md={6} style={leftSection} className="card p-5">
-        <LeftHeader/>
+          <LeftHeader />
         </Col>
-
 
         <Col xs={12} md={5} style={rightSection} className="card p-5 m-5">
           <h1>Register New User</h1>
@@ -161,13 +160,12 @@ const FormValidation = ({ onSubmit }) => {
               <Form.Text className="text-danger">{mobileError}</Form.Text>
             </Form.Group>
 
-           <Link to='/login'>
-           <Button type="submit" variant="primary" className="mt-3">
+            <Button type="submit" variant="primary" className="mt-3">
               Register
             </Button>
-           </Link>
           </Form>
         </Col>
+        
       </Row>
     </Container>
   );

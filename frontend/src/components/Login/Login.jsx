@@ -1,60 +1,29 @@
-import { Button, Form, Row, Col } from "react-bootstrap";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import FormContainer from "../Forms/FormContainer";
-import './Login.css'
-
+import { Container, Row, Col } from "react-bootstrap";
+import HeaderLeftSection from "./loginSections/HeaderLeftSection";
+import HeaderRightSection from "./loginSections/HeaderRightSection";
 
 const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const sumbitHandler = () => {
-    e.preventDefault();
-    console.log("value submitted");
+  const rightSection = {
+    background: "rgba(255, 255, 255, 0)",
+    color: "white",
+  };
+  const leftSection = {
+    background: "rgba(255, 255, 255, 0)",
+    color: "white",
   };
   return (
-    <div className='formInput'>
-      <FormContainer>
-        <h1>Sign In </h1>
-        <Form onSubmit={sumbitHandler}>
+    <Container>
+      <Row className="justify-content-md-center mt-5">
+        
+        <Col xs={12} md={6} style={leftSection} className="card p-5">
+          <HeaderLeftSection />
+        </Col>
 
-            {/* User Email Entering Place and Stored in State SetEmail  */}
-            <Form.Group className="my-2" controlId="email">
-            <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                type="email"
-                placeholder="Enter Email"
-                value={email}
-                onChange={(e)=>setEmail(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
-            
-            {/* User Password Entering Place and Stored in State  */}
-            <Form.Group className="my-2" controlId="password">
-            <Form.Label>Email Address</Form.Label>
-                <Form.Control
-                type="password"
-                placeholder="Enter Password"
-                value={password}
-                onChange={(e)=>setPassword(e.target.value)}
-                >
-                </Form.Control>
-            </Form.Group>
-            <Button type="submit" variant="primary" className="mt-3">
-                Sign In
-            </Button>
-           
-            {/* If user Already registered then Directed to register page  */}
-            <Row className="py-3">
-                <Col>
-                New Customer ? <Link to='/register'>Register</Link>
-                </Col>
-            </Row>
-        </Form>
-      </FormContainer>
-    </div>
+        <Col xs={12} md={5} style={rightSection} className="card p-5 m-5">
+          <HeaderRightSection />
+        </Col>
+      </Row>
+    </Container>
   );
 };
 

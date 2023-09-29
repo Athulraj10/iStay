@@ -1,6 +1,5 @@
 import RegisterValidation from "./RegistrationValidation";
 
-
 const RegisterPage = () => {
   const handleSubmit = (formData) => {
     // Handle form submission, e.g., make an API request
