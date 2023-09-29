@@ -15,11 +15,11 @@ const HeaderRightSection = () => {
 
   return (
     <>
-      <h1>Sign In </h1>
+      <h1>Login</h1>
       <Form onSubmit={sumbitHandler}>
         {/* User Email Entering Place and Stored in State SetEmail  */}
         <Form.Group className="my-2" controlId="email">
-          <Form.Label>Email Address</Form.Label>
+          <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter Email"
@@ -30,7 +30,7 @@ const HeaderRightSection = () => {
 
         {/* User Password Entering Place and Stored in State  */}
         <Form.Group className="my-2" controlId="password">
-          <Form.Label>Email Address</Form.Label>
+          <Form.Label>Password</Form.Label>
           <Form.Control
             type="password"
             placeholder="Enter Password"
@@ -43,11 +43,6 @@ const HeaderRightSection = () => {
         </Button>
 
         {/* If user Already registered then Directed to register page  */}
-        <Row className="py-3">
-          <Col>
-            New Customer ? <Link to="/register">Register</Link>
-          </Col>
-        </Row>
       </Form>
     </>
   );
