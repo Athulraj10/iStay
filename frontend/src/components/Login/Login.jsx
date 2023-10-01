@@ -6,7 +6,7 @@ import HeaderRightSection from "./loginSections/HeaderRightSection";
 
 const Login = () => {
   const rightSection = {
-    background: "rgba(255, 255, 255, 0)",
+    background: "rgba(255, 255, 255, 0.052)",
     color: "white",
   };
   

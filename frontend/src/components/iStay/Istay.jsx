@@ -7,6 +7,7 @@ import Layout from "../layouts/Layouts";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Footer from "../Footer/Footer";
 
 const Istay = () => {
   return (
@@ -20,6 +21,7 @@ const Istay = () => {
 
         <Header />
         <Routeing />
+        <Footer/>
         <Container>
           {/* This is like a box or a container in your web page. 
        t's a component that's used for layout and structuring 
@@ -31,6 +33,7 @@ const Istay = () => {
         pages or routes in your application, the content
       specific to that route will be placed inside this empty space. */}
         </Container>
+
       </Layout>
     </div>
   );
