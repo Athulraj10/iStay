@@ -4,7 +4,7 @@ const Home = () => {
   return (
     <div className=' py-5'>
       <div>
-        <h1>homw page</h1>
+        <h1>home page</h1>
       </div>
     </div>
   );

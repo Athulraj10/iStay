@@ -1,4 +1,8 @@
 import RegisterValidation from "./RegistrationValidation";
+import BodySection from "./sections/BodySection";
+import MainSection from "./sections/MainSection";
+import Navbars from "./sections/Navbar";
+
 
 const RegisterPage = () => {
   const handleSubmit = (formData) => {
@@ -9,6 +13,9 @@ const RegisterPage = () => {
   return (
     <div>
       <RegisterValidation onSubmit={handleSubmit} />
+      <Navbars/>
+      <BodySection/>
+      <MainSection/>
     </div>
   );
 };
