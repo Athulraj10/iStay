@@ -10,10 +10,7 @@ const Navbars = () => {
   };
   const width = "w-100";
   const textAlign = "text-center";
-  // const ContainerStyle = {
-  //     backgroundColor: 'red', // Use backgroundColor for background color
-  //     color: 'white' "!important",
-  //   };
+
   return (
     <Container>
       <h2 className="m-4">FEATURED ON</h2>
