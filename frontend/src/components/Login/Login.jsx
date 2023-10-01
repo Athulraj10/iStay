@@ -23,9 +23,10 @@ const Login = () => {
           <HeaderLeftSection />
         </Col>
 
-        <Col xs={12} md={5} style={rightSection} className="card p-5 m-5">
+        <Col xs={12} md={5} style={rightSection} className="card p-5 m-1">
           <HeaderRightSection />
         </Col>
+        
       </Row>
     </Container>
   );

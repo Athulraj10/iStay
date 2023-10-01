@@ -35,6 +35,11 @@ const MainSection = () => {
               be a part of the <br /> Istay
             </h1>
            
+
+            <button class="button" style={{width:'200px',margin:'30px'}}> Get in touch</button>
+
+
+
           </Col>
           {/* </Col> */}
         </Row>
