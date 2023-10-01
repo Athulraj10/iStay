@@ -8,7 +8,7 @@ const MainSection = () => {
     // }
     const styleSteet = {
         color:'white',
-        background:'rgba(6, 106, 110, 1)',
+        background:`url(${backgroundImage})`,
         display:'flex',
         flexDirection:'column',
         alignItems:'center',
