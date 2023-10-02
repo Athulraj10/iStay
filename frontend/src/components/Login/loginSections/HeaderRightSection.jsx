@@ -25,10 +25,10 @@ const HeaderRightSection = () => {
   const [password, setPassword] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     try {
       const formData = {
-        email: email, 
+        email: email,
         password: password,
       };
       let res = await USERSAPI.post("users/login", formData);
@@ -36,11 +36,10 @@ const HeaderRightSection = () => {
         localStorage.setItem("userInfo", JSON.stringify(res.data));
         return navigate("/");
       } else {
-          return navigate("/login");
-        }
+        return navigate("/login");
       }
-     catch (error) {
-     return toast.error(error.response.data.message);
+    } catch (error) {
+      return toast.error(error.response.data.message);
     }
   };
 
@@ -72,7 +71,19 @@ const HeaderRightSection = () => {
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
         </Form.Group>
-        <Button type="submit" variant="primary" className="mt-3">
+
+        <Form.Group>
+          <Link to="/forget">
+            <Form.Label
+              className="mt-1 mb-2"
+              style={{ color: "red", cursor: "pointer" }}
+            >
+              Forget Password
+            </Form.Label>
+          </Link>
+        </Form.Group>
+
+        <Button type="submit" className="m-0" variant="primary">
           Sign In
         </Button>
 
