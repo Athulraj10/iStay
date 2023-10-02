@@ -44,31 +44,6 @@ const HeaderRightSection = () => {
     }
   };
 
-  //   const handleSubmit = async () => {
-  //     try {
-  //       let res = await USERSAPI.post("users/register", formData);
-  //       if (res.data) {
-  //         localStorage.setItem("userInfo", JSON.stringify(res.data));
-  //         navigate("/");
-  //       }
-  //     } catch (error) {
-  //       toast.error(error.message);
-  //     }
-  //   };
-  // };
-  // const navigate = useNavigate();
-  // const dispatch = useDispatch();
-
-  // const [login, { isLoading }] = useLoginMutation();
-
-  // const { userInfo } = useSelector((state) => state.auth);
-
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     navigate("/");
-  //   }
-  // }, [navigate, userInfo]);
-
   return (
     <>
       <h1>Login</h1>
