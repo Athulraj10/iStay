@@ -2,11 +2,7 @@ import React from 'react'
 import OTP from '../OTP/OTP'
 
 const OTPScreen = () => {
-  return (
-    <>
-    <OTP/>
-    </>
-  )
+  return <OTP/>
 }
 
 export default OTPScreen

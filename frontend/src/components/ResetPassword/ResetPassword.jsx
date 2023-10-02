@@ -1,15 +1,15 @@
 import { useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 
-const OTP = () => {
+const ResetPassword = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // const userEnterEmail = location.state.email;
+
   const rightSection = {
     margin:'40px',
     background: "rgba(255, 255, 255, 0.052)",
@@ -23,27 +23,27 @@ const OTP = () => {
     height:rightSection.height
   };
   
-  const [email, setEmail] = useState(location.state.email);
-  const [enteredOTP, setOTP] = useState("");
+
+
+  const [userId, setUserId] = useState(location.state.userId);
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = {
-      email,enteredOTP
+      userId,password
     }
     try {
-      let res = await USERSAPI.post("users/verifyOTP", form);
+      let res = await USERSAPI.post("users/resetPassword", form);
       if (res.data) {
-        const userId = res.data.user;
-        console.log(userId)
-       return  navigate('/resetPassword',{state:{userId}})
+       return  navigate('/login')
       }else{
         console.log('error')
       }
     } catch (error) {
       if (error.response && error.response.data && error.response.data.message) {
         // If the error response contains a message, display it
-        console.log(error)
         toast.error(error.response.data.message);
       } else {
         // If there's no specific error message, display a generic error message
@@ -59,34 +59,49 @@ const OTP = () => {
           <Col xs={12} md={6} style={leftSection} className="card p-5">
             <div className="container">
               <div className="left-content">
-                <h1 className="createAccount">OTP Verfication</h1>
+                <h1 className="createAccount">Reset Password</h1>
               </div>
               <div className="centered-content">
-                <h6 className="m-3">Enter the OTP you received in Email</h6>
-                <h6 className="m-3">Please Don't share OTP To Anyone</h6>
+                <h6 className="m-3">Enter the New Password</h6>
+                <h6 className="m-3">Please Conform Your Password</h6>
               </div>
             </div>
           </Col>
 
           <Col xs={12} md={5} style={rightSection} className="card p-5 m-1">
-            <h1>Verify OTP</h1>
+            <h1>Reset Password</h1>
             <Form onSubmit={handleSubmit}>
               {/* User Email Entering Place and Stored in State SetEmail  */}
               <Form.Group className="my-2" controlId="email">
-                <Form.Label  className="m-2" >Enter OTP</Form.Label>
+                <Form.Label  className="m-2" >Enter Password</Form.Label>
                 <Form.Control
                   type="OTP"
-                  placeholder="Enter OTP"
+                  placeholder="Enter Password"
                   required
                   autoComplete="off"
-                  value={enteredOTP}
+                  value={password}
                   className="m-2"
-                  onChange={(e) => setOTP(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
+                ></Form.Control>
+              </Form.Group>
+
+
+              {/* User Email Entering Place and Stored in State SetEmail  */}
+              <Form.Group className="my-2" controlId="email">
+                <Form.Label  className="m-2" >Confirm Password</Form.Label>
+                <Form.Control
+                  type="OTP"
+                  placeholder="Enter Password Again"
+                  required
+                  autoComplete="off"
+                  value={confirmPassword}
+                  className="m-2"
+                  onChange={(e) => setConfirmPassword(e.target.value)}
                 ></Form.Control>
               </Form.Group>
 
               <Button type="submit" className="m-2" variant="primary">
-                Verify OTP
+                Reset Password
               </Button>
 
               {/* If user Already registered then Directed to register page  */}
@@ -97,4 +112,4 @@ const OTP = () => {
     </>
   );
 };
-export default OTP;
+export default ResetPassword;

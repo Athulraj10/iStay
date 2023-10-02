@@ -5,6 +5,7 @@ import LoginScreen from '../components/Screens/LoginScreen'
 import RegisterScreen from '../components/Screens/RegisterScreen'
 import OTPScreen from '../components/Screens/OTPScreen'
 import { ForgetScreenPassword } from '../components/Screens/ForgetScreenPassword'
+import ResetPassword from '../components/ResetPassword/ResetPassword'
 
 
 
@@ -16,6 +17,7 @@ const Routeing = () => {
         <Route path='/register' element={<RegisterScreen/>}/>
         <Route path='/forget' element={<ForgetScreenPassword/>}/>
         <Route path='/OTP' element={<OTPScreen/>}/>
+        <Route path='/resetPassword' element={<ResetPassword/>}/>
     
     </Routes>
   )
