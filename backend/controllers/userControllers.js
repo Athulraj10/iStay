@@ -9,6 +9,12 @@ import genereateToken from '../utils/generateToken.js';
 const authUser =asyncHnadler(async (req,res)=>{
    const {email,password}=req.body;
    const user = await User.findOne({email});
+   if(!user){
+    res.status(401).json({
+        message:'Invalid Email or Password'
+    })
+    throw new Error('Invalid Email or Password')
+   }
    if(user && (await user.matchPassword(password))){
     genereateToken(res,user._id)
     res.status(201).json({

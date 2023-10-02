@@ -2,51 +2,85 @@ import { Button, Form, Row, Col } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useLoginMutation } from "../../../slices/usersApiSlice";
-import { setCredentials } from "../../../slices/authSlice";
+import { toast } from "react-toastify";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
-import { toast } from 'react-toastify';
-
+// import { useDispatch, useSelector } from "react-redux";
+// import { useLoginMutation } from "../../../slices/usersApiSlice";
+// import { setCredentials } from "../../../slices/authSlice";
+// const navigate = useNavigate();
 
 const HeaderRightSection = () => {
+  const navigate = useNavigate();
+  const userInfo = localStorage.getItem("userInfo");
+  if (userInfo) {
+    useEffect(() => {
+      if (userInfo) {
+        navigate("/");
+      }
+    });
+  }
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const sumbitHandler = async(e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault()
     try {
-      const res = await login({email,password}).unwrap();
-      dispatch(setCredentials({...res}))
-      navigate('/')
-    } catch (err) {
-      toast.error(err ?.data ?.message || err.error)
+      const formData = {
+        email: email, 
+        password: password,
+      };
+      let res = await USERSAPI.post("users/login", formData);
+      if (res.data) {
+        localStorage.setItem("userInfo", JSON.stringify(res.data));
+        return navigate("/");
+      } else {
+          return navigate("/login");
+        }
+      }
+     catch (error) {
+     return toast.error(error.response.data.message);
     }
   };
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
+  //   const handleSubmit = async () => {
+  //     try {
+  //       let res = await USERSAPI.post("users/register", formData);
+  //       if (res.data) {
+  //         localStorage.setItem("userInfo", JSON.stringify(res.data));
+  //         navigate("/");
+  //       }
+  //     } catch (error) {
+  //       toast.error(error.message);
+  //     }
+  //   };
+  // };
+  // const navigate = useNavigate();
+  // const dispatch = useDispatch();
 
-  const [login, { isLoading }] = useLoginMutation();
+  // const [login, { isLoading }] = useLoginMutation();
 
-  const { userInfo } = useSelector((state) => state.auth);
+  // const { userInfo } = useSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (userInfo) {
-      navigate("/");
-    }
-  }, [navigate, userInfo]);
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     navigate("/");
+  //   }
+  // }, [navigate, userInfo]);
 
   return (
     <>
       <h1>Login</h1>
-      <Form onSubmit={sumbitHandler}>
+      <Form onSubmit={handleSubmit}>
         {/* User Email Entering Place and Stored in State SetEmail  */}
         <Form.Group className="my-2" controlId="email">
           <Form.Label>Email</Form.Label>
           <Form.Control
             type="email"
             placeholder="Enter Email"
+            required
+            autoComplete="off"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           ></Form.Control>
@@ -58,6 +92,7 @@ const HeaderRightSection = () => {
           <Form.Control
             type="password"
             placeholder="Enter Password"
+            required
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           ></Form.Control>
