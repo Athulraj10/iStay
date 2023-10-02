@@ -3,10 +3,13 @@ import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
+import React from 'react'
+import { useLocation } from 'react-router-dom'
 
-const ForgetPassword = () => {
-  const navigate=useNavigate()
-
+const OTP = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  // const userEnterEmail = location.state.email;
   const rightSection = {
     margin:'40px',
     background: "rgba(255, 255, 255, 0.052)",
@@ -20,22 +23,32 @@ const ForgetPassword = () => {
     height:rightSection.height
   };
   
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(location.state.email);
+  const [OTP, setOTP] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = {
-      email
+      email,OTP
     }
     try {
-      let res = await USERSAPI.post("users/forget", form);
+      let res = await USERSAPI.post("users/verifyOTP", form);
       if (res.data) {
-       return  navigate('/OTP',{state:{email}})
+        console.log(res.data)
+       return  navigate('/login',{state:{email}})
+      }else{
+        console.log('error')
       }
     } catch (error) {
-      toast.error(error.response.data.message)
+      if (error.response && error.response.data && error.response.data.message) {
+        // If the error response contains a message, display it
+        toast.error(error.response.data.message);
+      } else {
+        // If there's no specific error message, display a generic error message
+        toast.error('An error occurred. Please try again.');
+      }
     }
-  };
+  }
 
   return (
     <>
@@ -44,34 +57,34 @@ const ForgetPassword = () => {
           <Col xs={12} md={6} style={leftSection} className="card p-5">
             <div className="container">
               <div className="left-content">
-                <h1 className="createAccount">Forget Password</h1>
+                <h1 className="createAccount">OTP Verfication</h1>
               </div>
               <div className="centered-content">
-                <h6 className="m-3">We will sent an OTP to verify</h6>
+                <h6 className="m-3">Enter the OTP you received in Email</h6>
                 <h6 className="m-3">Please Don't share OTP To Anyone</h6>
               </div>
             </div>
           </Col>
 
           <Col xs={12} md={5} style={rightSection} className="card p-5 m-1">
-            <h1>Reset Password</h1>
+            <h1>Verify OTP</h1>
             <Form onSubmit={handleSubmit}>
               {/* User Email Entering Place and Stored in State SetEmail  */}
               <Form.Group className="my-2" controlId="email">
-                <Form.Label  className="m-2" >Email</Form.Label>
+                <Form.Label  className="m-2" >Enter OTP</Form.Label>
                 <Form.Control
-                  type="email"
-                  placeholder="Enter Email"
+                  type="OTP"
+                  placeholder="Enter OTP"
                   required
                   autoComplete="off"
-                  value={email}
+                  value={OTP}
                   className="m-2"
-                  onChange={(e) => setEmail(e.target.value)}
+                  onChange={(e) => setOTP(e.target.value)}
                 ></Form.Control>
               </Form.Group>
 
               <Button type="submit" className="m-2" variant="primary">
-                Sent OTP
+                Verify OTP
               </Button>
 
               {/* If user Already registered then Directed to register page  */}
@@ -82,5 +95,4 @@ const ForgetPassword = () => {
     </>
   );
 };
-
-export default ForgetPassword;
+export default OTP;

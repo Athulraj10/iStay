@@ -147,30 +147,33 @@ const forget = asyncHnadler(async (req, res) => {
     // sendForgetPassword(user.name, user.email, OTPgenerated);
     console.log(OTPgenerated)
     const saveOrNot = await OTPsaveFunction(user.email, OTPgenerated);
-    
-    return;
+    return res.json({
+      email
+    })
   }
 });
 
 
 const verifyOTP = asyncHnadler(async (req, res) => {
-  const { email } = req.body;
-  console.log(req.body);
-  const user = await User.findOne({ email });
-  if (!user) {
-    return res.status(401).json({
-      message: "Invalid Email",
-    });
-  }
-  if (user) {
-    let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
-    sendForgetPassword(user.name, user.email, OTPgenerated);
-    const saveOrNot = await OTPsaveFunction(user.email, OTPgenerated);
-    const { _id: userId } = userFinded;
-    req.session.email = req.body.email;
-    res.redirect("/loadOTPPage");
-    return;
-  }
+  const {email,otp} = req.body;
+  try {
+    const user = await OTP.findOne({ email });
+    if(!user){return res.json({message:'Invalid Expired'})}
+    if(user){
+        const enterOTP=parseInt(otp)
+        const databaseOTP= parseInt(user.otp)
+        if (enterOTP !== databaseOTP) {
+            return res.status(401).json({ message: "Invalid OTP" });
+        } 
+        if (enterOTP === databaseOTP) {
+          console.log('OTP verified')
+          return
+            return res.json({valid:true,OTP:true})
+        } 
+    }
+} catch (error) {
+    console.log(error.message)
+}
 });
 
 //@desc logout USer
