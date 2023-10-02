@@ -36,7 +36,7 @@ const MainSection = () => {
             </h1>
            
 
-            <button class="button" style={{width:'200px',margin:'30px'}}> Get in touch</button>
+            <button className="button" style={{width:'200px',margin:'30px'}}> Get in touch</button>
 
 
 
