@@ -29,9 +29,9 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
-      <Navbars/>
-      <BodySection/>
-      <MainSection/>
+      <Navbars />
+      <BodySection />
+      <MainSection />
     </>
   );
 };

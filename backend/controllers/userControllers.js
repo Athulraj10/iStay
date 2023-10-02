@@ -27,17 +27,19 @@ const authUser =asyncHnadler(async (req,res)=>{
 //access Public
 //route POST// /api/register
 const registerUser =asyncHnadler(async (req,res)=>{
-    const {name,email,password} = req.body;
+    const {userName,email,password,mobile} = req.body;
     const userExists = await User.findOne({email})
     if(userExists){
         res.status(400);
         throw new Error(' User already Exists');
     }
     const userRegister = await User.create({
-        name,
+        name:userName,
         email,
-        password
+        password,
+        mobile
     });
+    console.log(userRegister)
 
     if(userRegister){
         genereateToken(res,userRegister._id)
