@@ -4,7 +4,9 @@ import {
     registerUser,
     logoutUser,
     getUserProfile,
-    updateUserProfile}
+    updateUserProfile,
+    forget,verifyOTP
+}
     from "../controllers/userControllers.js";
 import { protect } from "../middleware/authMiddleware.js";
 
@@ -12,6 +14,8 @@ const router = express.Router()
 
 router.post('/register',registerUser)
 router.post('/login',authUser)
+router.post('/forget',forget)
+router.post('/OTP',verifyOTP)
 // router.post('/',)
 router.post('/logout',logoutUser)
 router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
