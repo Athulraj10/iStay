@@ -5,7 +5,7 @@ const BodySection = () => {
   const rightSection = {
     background: "transparent",
     backgroundImage: `url(${premiumLogo})`,
-    backgroundSize: "95% 95%",
+    backgroundSize: "80% 100%",
     backgroundRepeat: "no-repeat",
     };
   const leftSection = {
