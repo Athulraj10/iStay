@@ -24,18 +24,17 @@ const OTP = () => {
   };
   
   const [email, setEmail] = useState(location.state.email);
-  const [OTP, setOTP] = useState("");
+  const [enteredOTP, setOTP] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const form = {
-      email,OTP
+      email,enteredOTP
     }
     try {
       let res = await USERSAPI.post("users/verifyOTP", form);
       if (res.data) {
-        console.log(res.data)
-       return  navigate('/login',{state:{email}})
+       return  navigate('/resetPassword',{state:{email}})
       }else{
         console.log('error')
       }
@@ -77,7 +76,7 @@ const OTP = () => {
                   placeholder="Enter OTP"
                   required
                   autoComplete="off"
-                  value={OTP}
+                  value={enteredOTP}
                   className="m-2"
                   onChange={(e) => setOTP(e.target.value)}
                 ></Form.Control>
