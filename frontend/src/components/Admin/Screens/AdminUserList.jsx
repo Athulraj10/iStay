@@ -5,25 +5,32 @@ import { toast } from 'react-toastify';
 
 const AdminUserList = () => {
   const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await USERSAPI.post("admin/listUser");
-        const responseData = res.data;
-        setData(responseData); // Set the data in the state
+        const responseData = res.data.data; // Access the data property
+        setData(responseData);
+        setLoading(false);
+        console.log(data)
       } catch (error) {
-        toast.error(error);
+        toast.error(error.message);
+        setLoading(false);
       }
     };
 
     fetchData();
-  }, []);
+  },[]);
 
   return (
     <div>
-      {/* Pass the data as a prop to the UserList component */}
-      <UserList data={data} />
+      {loading ? (
+        <p>Loading...</p>
+      ) : (
+        <UserList data={data} />
+      )}
     </div>
   );
 };
