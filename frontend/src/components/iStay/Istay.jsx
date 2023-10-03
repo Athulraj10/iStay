@@ -1,5 +1,5 @@
 import React from "react";
-import Header from "../Header/Header";
+import Header from "../Users/Header/Header";
 import Routeing from "../../Routeing/Routeing";
 import { Outlet, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
@@ -8,7 +8,8 @@ import Layout from "../layouts/Layouts";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../Footer/Footer";
-import SellerHeader from "../SellerHeader/SellerHeader";
+import SellerHeader from "../Sellers/SellerHeader/SellerHeader";
+import AdminHeader from "../Admin/AdminHeader/AdminHeader";
 
 const Istay = () => {
   let location = useLocation();
@@ -24,7 +25,7 @@ const Istay = () => {
         {/* is used to show user to implent error message */}
 
         {
-          (admin)?<Header /> :((seller)?<SellerHeader /> : <Header />)
+          (admin)?<AdminHeader/> :((seller)?<SellerHeader /> : <Header />)
         }
         <Routeing />
         <Footer/>

@@ -6,28 +6,28 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const SellerHeader = () => {
+const AdminHeader = () => {
   const location = useNavigate()
-  const [sellerInfo, setsellerInfo] = useState(null);
+  const [adminInfo, setadminInfo] = useState(null);
 
   const handleLogout = () => {
-    localStorage.removeItem("sellerInfo");
-    setsellerInfo(null);
+    localStorage.removeItem("adminInfo");
+    setadminInfo(null);
     location('/seller/login')
   };
 
   useEffect(() => {
-    // Define an asynchronous function to fetch sellerInfo from localStorage
-    const fetchsellerInfo = async () => {
-      const storedsellerInfo = localStorage.getItem("sellerInfo");
-      if (storedsellerInfo) {
+    // Define an asynchronous function to fetch adminInfo from localStorage
+    const fetchadminInfo = async () => {
+      const storedadminInfo = localStorage.getItem("adminInfo");
+      if (storedadminInfo) {
         // You can add await here if needed
-        setsellerInfo(storedsellerInfo);
+        setadminInfo(storedadminInfo);
       }
     };
 
     // Call the asynchronous function
-    fetchsellerInfo();
+    fetchadminInfo();
   }, []); // Empty dependency array to run once on mount
 
   return (
@@ -49,7 +49,7 @@ const SellerHeader = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               {/* Conditionally render Login/Logout button */}
-              {sellerInfo ? (
+              {adminInfo ? (
                 // If user information is available, show Logout button
                 <>
                   <Nav.Link onClick={handleLogout}>
@@ -73,4 +73,4 @@ const SellerHeader = () => {
   );
 };
 
-export default SellerHeader
+export default AdminHeader
