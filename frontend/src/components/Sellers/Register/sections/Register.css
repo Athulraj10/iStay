@@ -1,0 +1,174 @@
+
+.createAccount {
+  text-transform: capitalize;
+  margin: 0%;
+  font-size: 60px;
+  font-weight: 600;
+  font-family: "Franklin Gothic Medium";
+}
+.loginDecription {
+  margin: 50px 0px 0px 50px;
+  font-size: medium;
+  font-family: sans-serif;
+  font-weight: bold;
+}
+.loginButton {
+  margin: 150px;
+  width: 6.5em;
+  height: 2.3em;
+  margin: 40px;
+  background: black;
+  color: white;
+  border: none;
+  border-radius: 0.625em;
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+button:hover {
+  color: black;
+}
+
+button:after {
+  content: "";
+  background: white;
+  position: absolute;
+  z-index: -1;
+  left: -20%;
+  right: -20%;
+  top: 0;
+  bottom: 0;
+  transform: skewX(-45deg) scale(0, 1);
+  transition: all 0.5s;
+}
+
+button:hover:after {
+  transform: skewX(-45deg) scale(1, 1);
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+}
+/* -----button styleing completed */
+
+#custom-navbar {
+  background-color: rgba(255, 255, 255, 0.052) !important;
+}
+
+/* --------Premium Button style */
+.button {
+  width: 350px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 15px 30px;
+  border: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 10rem;
+  transition: all 0.02s;
+  font-weight: bold;
+  color: rgb(37, 37, 37);
+  z-index: 0;
+  box-shadow: 0 0px 7px -5px rgba(0, 0, 0, 0.5);
+}
+
+.button:hover {
+  background: rgb(193, 228, 248);
+  color: rgb(33, 0, 85);
+}
+
+.button:active {
+  transform: scale(0.97);
+}
+
+.hoverEffect {
+  position: absolute;
+  bottom: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+}
+
+.hoverEffect div {
+  background: rgb(222,0,75);
+  background: linear-gradient(90deg, rgba(222,0,75,1) 0%, rgba(191,70,255,1) 49%, rgba(0,212,255,1) 100%);
+  border-radius: 40rem;
+  width: 10rem;
+  height: 10rem;
+  transition: 0.4s;
+  filter: blur(20px);
+  animation: effect infinite 3s linear;
+  opacity: 0.5;
+}
+
+.button:hover .hoverEffect div {
+  width: 8rem;
+  height: 8rem;
+}
+
+@keyframes effect {
+
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+
+
+/* --------------coustomButtonStyling */
+.custom-button a {
+  height: 4em;
+  width: 15em;
+  border: none;
+  border-radius: 40px;
+  background-color: #fff;
+}
+
+.custom-button button span {
+  z-index: 1;
+  display: inline-block;
+  background-color: black;
+  height: 3em;
+  width: 11.5em;
+  border-radius: 25px;
+  color: #fff;
+  line-height: 55px;
+  font-size: 18px;
+  letter-spacing: 3px;
+  transition: all 0.5s;
+}
+
+.custom-button button .container {
+  z-index: -1;
+  width: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  transform: translateY(-50px);
+  transition: all 0.4s;
+}
+
+.custom-button button .container svg {
+  padding: 0 10px;
+}
+
+.custom-button button:hover span {
+  width: 0;
+}
+
+.custom-button button:hover .container {
+  z-index: 2;
+  width: 100%;
+}

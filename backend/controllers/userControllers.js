@@ -1,77 +1,66 @@
 import asyncHnadler from "express-async-handler";
 import User from "../models/userModel.js";
 import genereateToken from "../utils/generateToken.js";
-import nodemailer from 'nodemailer'
-import { sessionSecret,emailUser,NewAppPassword } from "../config/config.js";
+import nodemailer from "nodemailer";
+import { sessionSecret, emailUser, NewAppPassword } from "../config/config.js";
 import OTP from "../models/OTPModel.js";
-
-
-
 
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
+// -------------------------SENT OTP NodeMailer---------------------------------------
 const sendForgetPassword = async (name, email, OTP) => {
-
-    try {
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false,
-            requireTLS: true,
-            auth: {
-                user: emailUser,
-                pass: NewAppPassword
-            }
-        });
-        const mailOptions = {
-            from: emailUser,
-            to: email,
-            subject: "Reset your Password",
-            html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`
-        }
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error)
-            } else {
-                console.log("email successfully", info.response);
-            }
-        })
-
-    } catch (error) {
-        console.log(error.message)
-    }
-}
-
-// ----------------------------------------------------------------
-
-const OTPsaveFunction = async (email, otp) => {
-    try {
-        const existingOTP = await OTP.findOne({ email });
-        if (existingOTP) {
-            await OTP.deleteOne({ email });
-        }
-        const saveOTP = new OTP({
-            email: email,
-            otp: otp
-        });
-        const OTPsaved = await saveOTP.save();
-        return;
-    } catch (error) {
-        console.log(error.message);
-    }
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: emailUser,
+        pass: NewAppPassword,
+      },
+    });
+    const mailOptions = {
+      from: emailUser,
+      to: email,
+      subject: "Reset your Password",
+      html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("email successfully", info.response);
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
 };
 
-// -------------------save OTP---------------------------
+
+// -------------------Save OTP with UserEmail---------------------------
+const OTPsaveFunction = async (email, otp) => {
+  try {
+    const existingOTP = await OTP.findOne({ email });
+    if (existingOTP) {
+      await OTP.deleteOne({ email });
+    }
+    const saveOTP = new OTP({
+      email: email,
+      otp: otp,
+    });
+    const OTPsaved = await saveOTP.save();
+    return;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 
-
-
-
-
-
-
+// -------------------User Authentication---------------------------
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
@@ -99,7 +88,7 @@ const authUser = asyncHnadler(async (req, res) => {
 
 
 
-
+// -------------------Register New User---------------------------
 //@desc createing new  user
 //access Public
 //route POST// /api/register
@@ -131,6 +120,9 @@ const registerUser = asyncHnadler(async (req, res) => {
   }
 });
 
+
+
+// -------------------Forget Password User Verification---------------------------
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
@@ -145,55 +137,66 @@ const forget = asyncHnadler(async (req, res) => {
   if (user) {
     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
     // sendForgetPassword(user.name, user.email, OTPgenerated);
-    console.log(OTPgenerated)
+    console.log(OTPgenerated);
     const saveOrNot = await OTPsaveFunction(user.email, OTPgenerated);
     return res.json({
-      email
-    })
+      email,
+    });
   }
 });
 
 
+
+// -----------------------------Verify OTP ---------------------------
 const verifyOTP = asyncHnadler(async (req, res) => {
-  const {email} = req.body;
+  const { email } = req.body;
   const otp = req.body.enteredOTP;
   try {
     const user = await OTP.findOne({ email });
-    if(!user){return res.json({message:'Invalid Expired'})}
-    if(user){
-        const enterOTP=parseInt(otp)
-        const databaseOTP= parseInt(user.otp)
-        if (enterOTP !== databaseOTP) {
-            return res.status(401).json({ message: "Invalid OTP" });
-        } 
-        if (enterOTP === databaseOTP) {
-          return res.json({user:user.email})
-        } 
+    if (!user) {
+      return res.json({ message: "Invalid Expired" });
     }
-} catch (error) {
-    console.log(error.message)
-}
+    if (user) {
+      const enterOTP = parseInt(otp);
+      const databaseOTP = parseInt(user.otp);
+      if (enterOTP !== databaseOTP) {
+        return res.status(401).json({ message: "Invalid OTP" });
+      }
+      if (enterOTP === databaseOTP) {
+        return res.json({ user: user.email });
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 
 
-// -----------------------------------------------------Reset Password-------------
+// ----------------------------Reset Password-------------
 const resetPassword = asyncHnadler(async (req, res) => {
-  const {userId,password} = req.body;
+  const { userId, password } = req.body;
   try {
-    const user = await User.findOne({email:userId});
-    if(!user){return res.status(404).json({message:'Something Wrong Please Try Again'})}
-    if(user){
+    const user = await User.findOne({ email: userId });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (user) {
       user.password = password;
       await user.save();
-      res.status(200).json({message:'Password reset successfully',})
+      res.status(200).json({ message: "Password reset successfully" });
     }
-} catch (error) {
-   console.error(error);
-   res.status(500).json({message:'Internal server Error'})
-}
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
 });
 
+
+
+// --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
 //access Public
 //route POST// /api/logout
@@ -205,6 +208,9 @@ const logoutUser = asyncHnadler(async (req, res) => {
   res.status(200).json({ message: "User Logout" });
 });
 
+
+
+// ---------------------------Get User Profile---------------------------
 //@desc get user profile
 //access Private
 //route POST// /api/users/profile
@@ -219,6 +225,9 @@ const getUserProfile = asyncHnadler(async (req, res) => {
   res.status(200).json({ message: "User profile" });
 });
 
+
+
+// ---------------------------Update User Profile---------------------------
 //@desc get update user profile
 //access Private
 //route PUT// /api/users/profile
@@ -251,5 +260,6 @@ export {
   forget,
   getUserProfile,
   updateUserProfile,
-  verifyOTP,resetPassword
+  verifyOTP,
+  resetPassword,
 };
