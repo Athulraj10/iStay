@@ -13,7 +13,7 @@ const Navbars = () => {
 
   return (
     <Container>
-      <h2 className="m-4">FEATURED ON</h2>
+      <h2 className="m-4" style={{color:'white'}}>FEATURED ON</h2>
 
       <Navbar
         expand="lg"
