@@ -1,5 +1,9 @@
-import ForgetPassword from "../ForgetPassword/ForgetPassword"
-
-export const ForgetScreenPassword = () => {
-  return <ForgetPassword/>
+import React from 'react'
+import  ForgetPassword from '../ForgetPassword/ForgetPassword'
+const ForgetScreenPassword = () => {
+  return (
+    <div><ForgetPassword/></div>
+  )
 }
+
+export default ForgetScreenPassword

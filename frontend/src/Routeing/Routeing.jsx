@@ -11,8 +11,8 @@ import ResetPassword from '../components/Users/Screens/ResetPasswordScreen'
 
 
 // --------------Sellers Panel-----------
-import SellerLoginScreen from '../components/Sellers/Screens/SellerLoginScreen'
 import SellerRegisterScreen from '../components/Sellers/Screens/SellerRegisterScreen'
+import SellerLoginScreen from '../components/Sellers/Screens/SellerLoginScreen'
 import SellerDashboardScreen from '../components/Sellers/Screens/SellerHomeScreen'
 import SellerOTPScreen from '../components/Sellers/Screens/SellerOTPScreen'
 import SellerForgetScreenPassword  from '../components/Sellers/Screens/SellerForgetScreenPassword'
@@ -37,12 +37,12 @@ const Routeing = () => {
 
 
 {/* -----------Seller Routes---------- */}
-        <Route path='/sellers/register' element={<SellerRegisterScreen/>}/>
-        <Route path='/sellers/login' element={<SellerLoginScreen/>}/>
-        <Route path='/sellers/dashboard' element={<SellerDashboardScreen/>}/>
-        <Route path='/sellers/forget' element={<SellerForgetScreenPassword/>}/>
-        <Route path='/sellers/OTP' element={<SellerOTPScreen/>}/>
-        <Route path='/sellers/resetPassword' element={<SellerResetPassword/>}/>
+        <Route path='/seller/register' element={<SellerRegisterScreen/>}/>
+        <Route path='/seller/login' element={<SellerLoginScreen/>}/>
+        <Route path='/seller/dashboard' element={<SellerDashboardScreen/>}/>
+        <Route path='/seller/forget' element={<SellerForgetScreenPassword/>}/>
+        <Route path='/seller/OTP' element={<SellerOTPScreen/>}/>
+        <Route path='/seller/resetPassword' element={<SellerResetPassword/>}/>
 
 {/* ------------Admin Panel--------- */}
 

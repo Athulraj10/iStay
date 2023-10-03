@@ -7,8 +7,8 @@ import {
     updateUserProfile,
     forget,verifyOTP,resetPassword
 }
-    from "../controllers/userControllers.js";
-import { protect } from "../middleware/authMiddleware.js";
+    from "../../controllers/UserControllers/userControllers.js";
+import { protect } from "../../middleware/authMiddleware.js";
 
 const router = express.Router()
 

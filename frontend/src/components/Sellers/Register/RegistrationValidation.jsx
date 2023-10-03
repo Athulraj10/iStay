@@ -4,12 +4,12 @@ import { Link } from "react-router-dom";
 import LeftHeader from "./sections/LeftHeader";
 
 const FormValidation = ({ onSubmit }) => {
-  const [userName, setUserName] = useState("");
+  const [name, setname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [mobile, setMobile] = useState("");
-  const [userNameError, setUserNameError] = useState("");
+  const [nameError, setnameError] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
@@ -19,16 +19,16 @@ const FormValidation = ({ onSubmit }) => {
     let isValid = true;
     const hasNumber = /\d/;
     // Validate user name
-    if (userName.trim() === "") {
-      setUserNameError("User Name is required.");
+    if (name.trim() === "") {
+      setnameError("User Name is required.");
       isValid = false;
-    } else if (hasNumber.test(userName)) {
-      setUserNameError("Number Not Allowed");
+    } else if (hasNumber.test(name)) {
+      setnameError("Number Not Allowed");
       isValid = false;
-    } else if (userName.length < 3) {
-      setUserNameError("Please Provide Full Name");
+    } else if (name.length < 3) {
+      setnameError("Please Provide Full Name");
     } else {
-      setUserNameError("");
+      setnameError("");
     }
 
     // Validate email
@@ -72,7 +72,7 @@ const FormValidation = ({ onSubmit }) => {
     if (validateForm()) {
       console.log("Form submitted");
       onSubmit({
-        userName,
+        name,
         email,
         password,
         mobile,
@@ -99,15 +99,15 @@ const FormValidation = ({ onSubmit }) => {
         <Col xs={12} md={5} style={rightSection} className="card p-5 ms-5">
           <h1>Register New User</h1>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="userName" className="mt-2 mb-3">
+            <Form.Group controlId="name" className="mt-2 mb-3">
               <Form.Label>User Name</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter User Name"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
+                value={name}
+                onChange={(e) => setname(e.target.value)}
               />
-              <Form.Text className="text-danger">{userNameError}</Form.Text>
+              <Form.Text className="text-danger">{nameError}</Form.Text>
             </Form.Group>
 
             {/* Email */}

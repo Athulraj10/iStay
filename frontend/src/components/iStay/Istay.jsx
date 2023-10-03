@@ -1,15 +1,19 @@
 import React from "react";
 import Header from "../Header/Header";
 import Routeing from "../../Routeing/Routeing";
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { Container } from "react-bootstrap";
 import Layout from "../layouts/Layouts";
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Footer from "../Footer/Footer";
+import SellerHeader from "../SellerHeader/SellerHeader";
 
 const Istay = () => {
+  let locatin = useLocation();
+  let seller = location.pathname.startsWith('/seller')
+  let admin = location.pathname.startsWith('/admin')
   return (
     <div>
       <Layout>
@@ -19,7 +23,9 @@ const Istay = () => {
         <ToastContainer />
         {/* is used to show user to implent error message */}
 
-        <Header />
+        {
+          (admin)?<Header /> :((seller)?<SellerHeader /> : <Header />)
+        }
         <Routeing />
         <Footer/>
         <Container>

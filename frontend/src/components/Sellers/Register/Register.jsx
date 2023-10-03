@@ -5,6 +5,7 @@ import MainSection from "./sections/MainSection";
 import Navbars from "./sections/Navbar";
 import { useEffect } from "react";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -12,21 +13,27 @@ const RegisterPage = () => {
  if(sellerInfo){
   useEffect(() => {
     if (sellerInfo) {
-      navigate("/");
+      navigate("/seller/dashboard");
     }
   });
  }
-  const handleSubmit = async (formData) => {
-    try {
-      let res = await USERSAPI.post("seller/register", formData);
-      if (res.data) {
-        localStorage.setItem("sellerInfo", JSON.stringify(res.data));
-        navigate("/");
-      }
-    } catch (error) {
-      toast.error(error.message)
+ const handleSubmit = async (formData) => {
+  try {
+    console.log(formData);
+    let res = await USERSAPI.post("/seller/register", formData);
+    if (res.data) {
+      // Store seller info in localStorage
+      localStorage.setItem("sellerInfo", JSON.stringify(res.data));
+      // Redirect to the login page
+      navigate("/seller/login");
     }
-  };
+  } catch (error) {
+    console.log(error)
+    toast.error(error.response.data.message || error.response || 'Something Went Wrong'); // This will display an error message if registration fails
+  }
+};
+
+
 
  
 

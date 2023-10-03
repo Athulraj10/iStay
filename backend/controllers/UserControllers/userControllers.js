@@ -1,9 +1,10 @@
 import asyncHnadler from "express-async-handler";
-import User from "../models/userModel.js";
-import genereateToken from "../utils/generateToken.js";
+import User from '../../models/OTPModel.js'
+import OTP from "../../models/OTPModel.js";
+import genereateToken from "../../utils/generateToken.js";
 import nodemailer from "nodemailer";
-import { sessionSecret, emailUser, NewAppPassword } from "../config/config.js";
-import OTP from "../models/OTPModel.js";
+import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js";
+
 
 //@desc forgetOTP
 //access Public
