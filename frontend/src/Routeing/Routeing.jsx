@@ -18,11 +18,11 @@ import SellerForgetScreenPassword from "../components/Sellers/Screens/SellerForg
 import SellerResetPassword from "../components/Sellers/Screens/SellerResetPasswordScreen";
 
 // --------------Admin  Panel-----------
-import AdminLoginScreen from "../components/Sellers/Screens/SellerLoginScreen";
-import AdminDashboardScreen from "../components/Sellers/Screens/SellerDashboardScreen";
-import AdminOTPScreen from "../components/Sellers/Screens/SellerOTPScreen";
-import AdminForgetScreenPassword from "../components/Sellers/Screens/SellerForgetScreenPassword";
-import AdminResetPassword from "../components/Sellers/Screens/SellerResetPasswordScreen";
+import AdminLoginScreen from "../components/Admin/Screens/AdminLoginScreen";
+import AdminDashboardScreen from "../components/Admin/Screens/AdminDashboardScreen";
+import AdminOTPScreen from "../components/Admin/Screens/AdminOTPScreen";
+import AdminForgetScreenPassword from "../components/Admin/Screens/AdminForgetScreenPassword";
+import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordScreen";
 
 
 
@@ -47,7 +47,7 @@ const Routeing = () => {
       <Route path="/seller/resetPassword" element={<SellerResetPassword />} />
 
       {/* ------------Admin Panel--------- */}
-      <Route path="/admin/login" element={<AdminLoginScreen />} />
+      <Route path="/admin" element={<AdminLoginScreen />} />
       <Route path="/admin/dashboard" element={<AdminDashboardScreen />} />
       <Route path="/admin/forget" element={<AdminForgetScreenPassword />} />
       <Route path="/admin/verifyOTP" element={<AdminOTPScreen />} />

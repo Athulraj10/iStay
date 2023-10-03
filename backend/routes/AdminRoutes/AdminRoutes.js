@@ -1,26 +1,24 @@
-// import express from "express"
-// import { 
-//     authUser,
-//     registerUser,
-//     logoutUser,
-//     getUserProfile,
-//     updateUserProfile,
-//     forget,verifyOTP,resetPassword
-// }
-//     from "../controllers/userControllers.js";
+import express from "express"
+import { 
+    adminAuthentication,
+    // logoutUser,
+    // getUserProfile,
+    // updateUserProfile,
+    // forget,verifyOTP,resetPassword
+}
+    from "../../controllers/AdminController/adminController.js"
 // import { protect } from "../middleware/authMiddleware.js";
 
-// const router = express.Router()
+const AdminRoute = express.Router()
 
-// router.post('/register',registerUser)
-// router.post('/login',authUser)
-// router.post('/forget',forget)
-// router.post('/verifyOTP',verifyOTP)
-// router.post('/resetPassword',resetPassword)
-// // router.post('/',)
-// router.post('/logout',logoutUser)
-// router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
+AdminRoute.post('/login',adminAuthentication)
+// AdminRoute.post('/forget',forget)
+// AdminRoute.post('/verifyOTP',verifyOTP)
+// AdminRoute.post('/resetPassword',resetPassword)
+// // AdminRoute.post('/',)
+// AdminRoute.post('/logout',logoutUser)
+// AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 
 
-// export default router
+export default AdminRoute
 

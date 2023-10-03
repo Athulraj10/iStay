@@ -10,11 +10,11 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const HeaderRightSection = () => {
   const navigate = useNavigate();
-  const sellerInfo = localStorage.getItem("sellerInfo");
-  if (sellerInfo) {
+  const adminInfo = localStorage.getItem("adminInfo");
+  if (adminInfo) {
     useEffect(() => {
-      if (sellerInfo) {
-        navigate("/seller/dashboard");
+      if (adminInfo) {
+        navigate("/admin/dashboard");
       }
     });
   }
@@ -29,12 +29,12 @@ const HeaderRightSection = () => {
         email: email,
         password: password,
       };
-      let res = await USERSAPI.post("seller/login", formData);
+      let res = await USERSAPI.post("admin/login", formData);
       if (res.data) {
-        localStorage.setItem("sellerInfo", JSON.stringify(res.data));
-        return navigate("/seller/dashboard");
+        localStorage.setItem("adminInfo", JSON.stringify(res.data));
+        return navigate("/admin/dashboard");
       } else {
-        return navigate("seller/login");
+        return navigate("admin/login");
       }
     } catch (error) {
       return toast.error(error.response.data.message);
@@ -60,14 +60,14 @@ const HeaderRightSection = () => {
         User Login
       </Link>
     </div>
-    <h1>Seller Login</h1>
+    <h1>Admin Login</h1>
     <Form onSubmit={handleSubmit}>
       {/* User Email Entering Place and Stored in State SetEmail  */}
       <Form.Group className="my-2" controlId="email">
-        <Form.Label>Email</Form.Label>
+        <Form.Label>Unique ID</Form.Label>
         <Form.Control
           type="email"
-          placeholder="Enter Email"
+          placeholder="Enter ID"
           required
           autoComplete="off"
           value={email}
@@ -77,10 +77,10 @@ const HeaderRightSection = () => {
 
       {/* User Password Entering Place and Stored in State  */}
       <Form.Group className="my-2" controlId="password">
-        <Form.Label>Password</Form.Label>
+        <Form.Label>Key</Form.Label>
         <Form.Control
           type="password"
-          placeholder="Enter Password"
+          placeholder="Enter Key"
           required
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -88,12 +88,12 @@ const HeaderRightSection = () => {
       </Form.Group>
 
       <Form.Group>
-        <Link to="/seller/forget">
+        <Link to="/admin/forget">
           <Form.Label
             className="mt-1 mb-2"
             style={{ color: "red", cursor: "pointer" }}
           >
-            Forget Password
+            Forget Key
           </Form.Label>
         </Link>
       </Form.Group>
