@@ -4,13 +4,16 @@ import "./SellerHeader.css";
 import logoImage from "./iStays.png";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const SellerHeader = () => {
+  const location = useNavigate()
   const [sellerInfo, setsellerInfo] = useState(null);
 
   const handleLogout = () => {
     localStorage.removeItem("sellerInfo");
     setsellerInfo(null);
+    location('/seller/login')
   };
 
   useEffect(() => {
@@ -57,12 +60,7 @@ const SellerHeader = () => {
                 <>
                   <LinkContainer to="/seller/login">
                     <Nav.Link>
-                      <FaSignInAlt /> Login In
-                    </Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/seller/register">
-                    <Nav.Link>
-                      <FaSignOutAlt /> Sign Up
+                      <FaSignInAlt />&nbsp;
                     </Nav.Link>
                   </LinkContainer>
                 </>

@@ -59,7 +59,7 @@ import generateToken from "../../utils/generateToken.js";
 // };
 
 
-// -------------------User Authentication---------------------------
+// -------------------seller Authentication---------------------------
 // @desc Auth user/set token
 // access Public
 // route POST// /api/users
@@ -127,7 +127,7 @@ const registerSeller = asyncHandler(async (req, res) => {
 
 
 
-// -------------------Forget Password User Verification---------------------------
+// -------------------Forget Password Seller Verification---------------------------
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users

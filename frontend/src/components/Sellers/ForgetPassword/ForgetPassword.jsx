@@ -28,9 +28,9 @@ const ForgetPassword = () => {
       email
     }
     try {
-      let res = await USERSAPI.post("users/forget", form);
+      let res = await USERSAPI.post("seller/forget", form);
       if (res.data) {
-       return  navigate('/OTP',{state:{email}})
+       return  navigate('/seller/OTP',{state:{email}})
       }
     } catch (error) {
       toast.error(error.response.data.message)

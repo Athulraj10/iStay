@@ -39,6 +39,7 @@ const Routeing = () => {
 {/* -----------Seller Routes---------- */}
         <Route path='/seller/register' element={<SellerRegisterScreen/>}/>
         <Route path='/seller/login' element={<SellerLoginScreen/>}/>
+        <Route path='/seller' element={<SellerLoginScreen/>}/>
         <Route path='/seller/dashboard' element={<SellerDashboardScreen/>}/>
         <Route path='/seller/forget' element={<SellerForgetScreenPassword/>}/>
         <Route path='/seller/OTP' element={<SellerOTPScreen/>}/>

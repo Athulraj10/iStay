@@ -7,7 +7,6 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 // import { useDispatch, useSelector } from "react-redux";
 // import { useLoginMutation } from "../../../slices/usersApiSlice";
 // import { setCredentials } from "../../../slices/authSlice";
-// const navigate = useNavigate();
 
 const HeaderRightSection = () => {
   const navigate = useNavigate();
@@ -49,7 +48,7 @@ const HeaderRightSection = () => {
       style={{ textAlign: "end", fontSize: "20px" }}
     >
       <Link
-        to="/login/"
+        to="/login"
         style={{
           padding: "5px",
           border: "1px solid silver",
@@ -89,7 +88,7 @@ const HeaderRightSection = () => {
       </Form.Group>
 
       <Form.Group>
-        <Link to="/forget">
+        <Link to="/seller/forget">
           <Form.Label
             className="mt-1 mb-2"
             style={{ color: "red", cursor: "pointer" }}
