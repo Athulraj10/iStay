@@ -1,11 +1,11 @@
 import React from 'react'
 import { Route,Routes } from 'react-router-dom'
-import HomeScreen from '../components/Screens/HomeScreen'
-import LoginScreen from '../components/Screens/LoginScreen'
-import RegisterScreen from '../components/Screens/RegisterScreen'
-import OTPScreen from '../components/Screens/OTPScreen'
-import { ForgetScreenPassword } from '../components/Screens/ForgetScreenPassword'
-import ResetPassword from '../components/ResetPassword/ResetPassword'
+import HomeScreen from '../components/Users/Screens/HomeScreen'
+import LoginScreen from '../components/Users/Screens/LoginScreen'
+import RegisterScreen from '../components/Users/Screens/RegisterScreen'
+import OTPScreen from '../components/Users/Screens/OTPScreen'
+import { ForgetScreenPassword } from '../components/Users/Screens/ForgetScreenPassword'
+import ResetPassword from '../components/Users/Screens/ResetPasswordScreen'
 
 
 

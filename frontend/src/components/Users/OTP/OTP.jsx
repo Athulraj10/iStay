@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { USERSAPI } from "../AxiosAPI/AxiosInstance";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import React from 'react'
 import { useLocation } from 'react-router-dom'

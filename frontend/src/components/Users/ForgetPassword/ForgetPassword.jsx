@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Form, Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const ForgetPassword = () => {
   const navigate=useNavigate()

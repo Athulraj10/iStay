@@ -1,10 +1,10 @@
 import { useNavigate } from "react-router-dom";
-import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 import RegisterValidation from "./RegistrationValidation";
 import BodySection from "./sections/BodySection";
 import MainSection from "./sections/MainSection";
 import Navbars from "./sections/Navbar";
 import { useEffect } from "react";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const RegisterPage = () => {
   const navigate = useNavigate();

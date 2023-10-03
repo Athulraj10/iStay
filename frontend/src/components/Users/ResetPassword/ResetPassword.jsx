@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { USERSAPI } from "../AxiosAPI/AxiosInstance";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const ResetPassword = () => {
   const location = useLocation();
