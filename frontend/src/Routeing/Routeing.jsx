@@ -52,6 +52,10 @@ const Routeing = () => {
       <Route path="/admin/forget" element={<AdminForgetScreenPassword />} />
       <Route path="/admin/verifyOTP" element={<AdminOTPScreen />} />
       <Route path="/admin/resetPassword" element={<AdminResetPassword />} />
+
+      <Route path="/admin/listUsers" element={<AdminResetPassword />} />
+      <Route path="/admin/listSellers" element={<AdminResetPassword />} />
+      <Route path="/admin/listHostels" element={<AdminResetPassword />} />
     </Routes>
   );
 };

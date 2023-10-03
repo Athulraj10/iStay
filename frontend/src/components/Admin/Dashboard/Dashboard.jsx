@@ -1,9 +1,9 @@
+import DashBoardValues from "./DashboardValue/DashboardValues";
+
 const Dashboard = () => {
   return (
-    <div className=' py-5'>
-      <div>
-        <h1>Welcome seller Dashboard</h1>
-      </div>
+    <div>
+      <DashBoardValues/>
     </div>
   );
 };
