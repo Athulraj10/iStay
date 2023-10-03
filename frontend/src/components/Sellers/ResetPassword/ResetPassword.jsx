@@ -24,7 +24,8 @@ const ResetPassword = () => {
   };
 
   
-  const [userId, setUserId] = useState(location.state.userId);
+  const [userId, setUserId] = useState(location.state.email);
+  console.log(userId)
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [passwordError, setPasswordError] = useState("");
@@ -53,14 +54,18 @@ const ResetPassword = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
-    validateForm()
+    const isValid = validateForm();
+    if(!isValid){
+      toast.error('Validation Error :  Please cheak your input');
+      return
+    }
     const form = {
       userId,password
     }
     try {
-      let res = await USERSAPI.post("users/resetPassword", form);
+        let res = await USERSAPI.post("seller/resetPassword",form);
       if (res.data) {
-       return navigate('/login')
+       return navigate('/seller/login')
       }else{
         console.log('error')
       }

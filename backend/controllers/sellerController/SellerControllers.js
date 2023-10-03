@@ -179,25 +179,26 @@ const sellerVerifyOTP = asyncHandler(async (req, res) => {
 
 
 // ----------------------------Reset Password-------------
-// const resetPassword = asyncHandler(async (req, res) => {
-//   const { userId, password } = req.body;
-//   try {
-//     const user = await User.findOne({ email: userId });
-//     if (!user) {
-//       return res
-//         .status(404)
-//         .json({ message: "Something Wrong Please Try Again" });
-//     }
-//     if (user) {
-//       user.password = password;
-//       await user.save();
-//       res.status(200).json({ message: "Password reset successfully" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal server Error" });
-//   }
-// });
+const sellersResetPassword = asyncHandler(async (req, res) => {
+  const { userId, password } = req.body;
+  console.log(req.body)
+  try {
+    const seller = await Seller.findOne({ email: userId });
+    if (!seller) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (seller) {
+      seller.password = password;
+      await seller.save();
+      res.status(200).json({ message: "Password reset successfully" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
 
 
 
@@ -266,5 +267,5 @@ export {
   // getUserProfile,
   // updateUserProfile,
   sellerVerifyOTP,
-  // resetPassword,
+  sellersResetPassword,
 };
