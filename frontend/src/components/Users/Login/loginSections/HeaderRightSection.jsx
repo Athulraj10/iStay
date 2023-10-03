@@ -45,6 +45,15 @@ const HeaderRightSection = () => {
 
   return (
     <>
+      <div
+        className="sellerSection"
+        style={{ textAlign: "end", fontSize: "20px" }}
+      >
+        <Link to="/sellers/login" style={{ textDecoration: "none" }}>
+          Are you a seller
+        </Link>
+      </div>
+
       <h1>Login</h1>
       <Form onSubmit={handleSubmit}>
         {/* User Email Entering Place and Stored in State SetEmail  */}

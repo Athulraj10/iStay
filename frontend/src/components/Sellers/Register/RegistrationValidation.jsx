@@ -97,7 +97,7 @@ const FormValidation = ({ onSubmit }) => {
         </Col>
 
         <Col xs={12} md={5} style={rightSection} className="card p-5 ms-5">
-          <h1>Register New User</h1>
+          <h1>Register New Seller</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="userName" className="mt-2 mb-3">
               <Form.Label>User Name</Form.Label>
@@ -162,7 +162,7 @@ const FormValidation = ({ onSubmit }) => {
 
             <div className="mt-3 text-center">
               <Button type="submit" variant="primary">
-                Register
+                Register Seller
               </Button>
             </div>
           </Form>

@@ -8,10 +8,10 @@ const HeaderLeftSection = () => {
   return (
     <div className="container">
     <div className="left-content">
-      <h1 className="createAccount">Create an account</h1>
+      <h1 className="createAccount">Create a Seller Account</h1>
     </div>
     <div className="centered-content">
-      <h6 className="loginDecription">New User Free To log</h6>
+      <h6 className="loginDecription">You can share available Hostels your own</h6>
      <Link to='/register'>
      <button className="loginButton">Register</button>
      </Link>
