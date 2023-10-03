@@ -49,11 +49,19 @@ const HeaderRightSection = () => {
         className="sellerSection"
         style={{ textAlign: "end", fontSize: "20px" }}
       >
-        <Link to="/sellers/login" style={{ textDecoration: "none" }}>
-          Are you a seller
+        <Link
+          to="/sellers/login/"
+          style={{
+            padding: "5px",
+            border: "1px solid silver",
+            textDecoration: "none",
+            color: "silver",
+            borderRadius: "5px",
+          }}
+        >
+          Seller Login
         </Link>
       </div>
-
       <h1>Login</h1>
       <Form onSubmit={handleSubmit}>
         {/* User Email Entering Place and Stored in State SetEmail  */}

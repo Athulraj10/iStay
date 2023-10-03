@@ -1,7 +1,6 @@
 import { Button, Form, Row, Col } from "react-bootstrap";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
@@ -45,52 +44,70 @@ const HeaderRightSection = () => {
 
   return (
     <>
-      <h1>Login</h1>
-      <Form onSubmit={handleSubmit}>
-        {/* User Email Entering Place and Stored in State SetEmail  */}
-        <Form.Group className="my-2" controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
-            type="email"
-            placeholder="Enter Email"
-            required
-            autoComplete="off"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+    <div
+      className="sellerSection"
+      style={{ textAlign: "end", fontSize: "20px" }}
+    >
+      <Link
+        to="/login/"
+        style={{
+          padding: "5px",
+          border: "1px solid silver",
+          textDecoration: "none",
+          color: "silver",
+          borderRadius: "5px",
+        }}
+      >
+        User Login
+      </Link>
+    </div>
+    <h1>Seller Login</h1>
+    <Form onSubmit={handleSubmit}>
+      {/* User Email Entering Place and Stored in State SetEmail  */}
+      <Form.Group className="my-2" controlId="email">
+        <Form.Label>Email</Form.Label>
+        <Form.Control
+          type="email"
+          placeholder="Enter Email"
+          required
+          autoComplete="off"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        ></Form.Control>
+      </Form.Group>
 
-        {/* User Password Entering Place and Stored in State  */}
-        <Form.Group className="my-2" controlId="password">
-          <Form.Label>Password</Form.Label>
-          <Form.Control
-            type="password"
-            placeholder="Enter Password"
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          ></Form.Control>
-        </Form.Group>
+      {/* User Password Entering Place and Stored in State  */}
+      <Form.Group className="my-2" controlId="password">
+        <Form.Label>Password</Form.Label>
+        <Form.Control
+          type="password"
+          placeholder="Enter Password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        ></Form.Control>
+      </Form.Group>
 
-        <Form.Group>
-          <Link to="/forget">
-            <Form.Label
-              className="mt-1 mb-2"
-              style={{ color: "red", cursor: "pointer" }}
-            >
-              Forget Password
-            </Form.Label>
-          </Link>
-        </Form.Group>
+      <Form.Group>
+        <Link to="/forget">
+          <Form.Label
+            className="mt-1 mb-2"
+            style={{ color: "red", cursor: "pointer" }}
+          >
+            Forget Password
+          </Form.Label>
+        </Link>
+      </Form.Group>
 
-        <Button type="submit" className="m-0" variant="primary">
-          Sign In
-        </Button>
+      <Button type="submit" className="m-0" variant="primary">
+        Sign In
+      </Button>
 
-        {/* If user Already registered then Directed to register page  */}
-      </Form>
-    </>
-  );
+      {/* If user Already registered then Directed to register page  */}
+    </Form>
+  </>
+);
 };
+
 
 export default HeaderRightSection;

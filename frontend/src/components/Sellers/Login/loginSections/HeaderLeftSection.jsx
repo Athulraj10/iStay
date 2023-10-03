@@ -12,7 +12,7 @@ const HeaderLeftSection = () => {
     </div>
     <div className="centered-content">
       <h6 className="loginDecription">You can share available Hostels your own</h6>
-     <Link to='/register'>
+     <Link to='/sellers/register'>
      <button className="loginButton">Register</button>
      </Link>
     </div>

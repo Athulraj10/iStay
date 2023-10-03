@@ -1,9 +1,9 @@
 import { Container, Row, Col } from "react-bootstrap";
 import HeaderLeftSection from "./loginSections/HeaderLeftSection";
 import HeaderRightSection from "./loginSections/HeaderRightSection";
-import Navbars from "../Register/sections/Navbar";
-import BodySection from "../Register/sections/BodySection";
-import MainSection from "../Register/sections/MainSection";
+// import Navbars from "../Register/sections/Navbar";
+// import BodySection from "../Register/sections/BodySection";
+// import MainSection from "../Register/sections/MainSection";
 
 const Login = () => {
   const rightSection = {
@@ -18,7 +18,7 @@ const Login = () => {
 
   return (
     <>
-      <Container>
+      <Container style={{height:'100vh'}}>
         <Row className="justify-content-md-center mt-5">
           <Col xs={12} md={6} style={leftSection} className="card p-5">
             <HeaderLeftSection />
@@ -29,9 +29,9 @@ const Login = () => {
           </Col>
         </Row>
       </Container>
-      <Navbars />
+      {/* <Navbars />
       <BodySection />
-      <MainSection />
+      <MainSection /> */}
     </>
   );
 };

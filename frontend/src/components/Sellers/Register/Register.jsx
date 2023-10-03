@@ -8,19 +8,19 @@ import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
-  const userInfo = localStorage.getItem("userInfo");
- if(userInfo){
+  const sellerInfo = localStorage.getItem("sellerInfo");
+ if(sellerInfo){
   useEffect(() => {
-    if (userInfo) {
+    if (sellerInfo) {
       navigate("/");
     }
   });
  }
   const handleSubmit = async (formData) => {
     try {
-      let res = await USERSAPI.post("users/register", formData);
+      let res = await USERSAPI.post("seller/register", formData);
       if (res.data) {
-        localStorage.setItem("userInfo", JSON.stringify(res.data));
+        localStorage.setItem("sellerInfo", JSON.stringify(res.data));
         navigate("/");
       }
     } catch (error) {
