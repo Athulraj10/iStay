@@ -42,7 +42,7 @@ const Routeing = () => {
         <Route path='/seller' element={<SellerLoginScreen/>}/>
         <Route path='/seller/dashboard' element={<SellerDashboardScreen/>}/>
         <Route path='/seller/forget' element={<SellerForgetScreenPassword/>}/>
-        <Route path='/seller/OTP' element={<SellerOTPScreen/>}/>
+        <Route path='/seller/verifyOTP' element={<SellerOTPScreen/>}/>
         <Route path='/seller/resetPassword' element={<SellerResetPassword/>}/>
 
 {/* ------------Admin Panel--------- */}

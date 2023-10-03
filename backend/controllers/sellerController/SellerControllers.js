@@ -9,54 +9,54 @@ import generateToken from "../../utils/generateToken.js";
 //access Public
 //route POST// users/forget
 // -------------------------SENT OTP NodeMailer---------------------------------------
-// const sendForgetPassword = async (name, email, OTP) => {
-//   try {
-//     const transporter = nodemailer.createTransport({
-//       host: "smtp.gmail.com",
-//       port: 587,
-//       secure: false,
-//       requireTLS: true,
-//       auth: {
-//         user: emailUser,
-//         pass: NewAppPassword,
-//       },
-//     });
-//     const mailOptions = {
-//       from: emailUser,
-//       to: email,
-//       subject: "Reset your Password",
-//       html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
-//     };
-//     transporter.sendMail(mailOptions, (error, info) => {
-//       if (error) {
-//         console.log(error);
-//       } else {
-//         console.log("email successfully", info.response);
-//       }
-//     });
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+const sendForgetPassword = async (name, email, OTP) => {
+  try {
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: emailUser,
+        pass: NewAppPassword,
+      },
+    });
+    const mailOptions = {
+      from: emailUser,
+      to: email,
+      subject: "Reset your Password",
+      html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
+    };
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("email successfully", info.response);
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 // -------------------Save OTP with UserEmail---------------------------
-// const OTPsaveFunction = async (email, otp) => {
-//   try {
-//     const existingOTP = await OTP.findOne({ email });
-//     if (existingOTP) {
-//       await OTP.deleteOne({ email });
-//     }
-//     const saveOTP = new OTP({
-//       email: email,
-//       otp: otp,
-//     });
-//     const OTPsaved = await saveOTP.save();
-//     return;
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// };
+const OTPsaveFunction = async (email, otp) => {
+  try {
+    const existingOTP = await OTP.findOne({ email });
+    if (existingOTP) {
+      await OTP.deleteOne({ email });
+    }
+    const saveOTP = new OTP({
+      email: email,
+      otp: otp,
+    });
+    const OTPsaved = await saveOTP.save();
+    return;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 
 // -------------------seller Authentication---------------------------
@@ -90,7 +90,6 @@ const authSeller = asyncHandler(async (req, res) => {
     message: "Invalid Email or Password",
   });
 });
-
 
 // -------------------Register New seller---------------------------
 //@desc createing new  user
@@ -131,50 +130,51 @@ const registerSeller = asyncHandler(async (req, res) => {
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
-// const forget = asyncHandler(async (req, res) => {
-//   const { email } = req.body;
-//   const user = await User.findOne({ email });
-//   if (!user) {
-//     return res.status(401).json({
-//       message: "Invalid Email",
-//     });
-//   }
-//   if (user) {
-//     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
-//     // sendForgetPassword(user.name, user.email, OTPgenerated);
-//     console.log(OTPgenerated);
-//     const saveOrNot = await OTPsaveFunction(user.email, OTPgenerated);
-//     return res.json({
-//       email,
-//     });
-//   }
-// });
+const sellerForget = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body)
+  const seller = await Seller.findOne({ email });
+  if (!seller) {
+    return res.status(401).json({
+      message: "Invalid Email"
+    });
+  }
+  if (seller) {
+    let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
+    // sendForgetPassword(seller.name, seller.email, OTPgenerated);
+    console.log(OTPgenerated);
+    const saveOrNot = await OTPsaveFunction(seller.email, OTPgenerated);
+    return res.json({
+      email
+    });
+  }
+});
 
 
 
 // -----------------------------Verify OTP ---------------------------
-// const verifyOTP = asyncHandler(async (req, res) => {
-//   const { email } = req.body;
-//   const otp = req.body.enteredOTP;
-//   try {
-//     const user = await OTP.findOne({ email });
-//     if (!user) {
-//       return res.json({ message: "Invalid Expired" });
-//     }
-//     if (user) {
-//       const enterOTP = parseInt(otp);
-//       const databaseOTP = parseInt(user.otp);
-//       if (enterOTP !== databaseOTP) {
-//         return res.status(401).json({ message: "Invalid OTP" });
-//       }
-//       if (enterOTP === databaseOTP) {
-//         return res.json({ user: user.email });
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// });
+const sellerVerifyOTP = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const otp = req.body.enteredOTP;
+  try {
+    const seller = await OTP.findOne({ email });
+    if (!seller) {
+      return res.json({ message: "Invalid Expired" });
+    }
+    if (seller) {
+      const enterOTP = parseInt(otp);
+      const databaseOTP = parseInt(seller.otp);
+      if (enterOTP !== databaseOTP) {
+        return res.status(401).json({ message: "Invalid OTP" });
+      }
+      if (enterOTP === databaseOTP) {
+        return res.status(200).json({ seller: seller.email });
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 
 
@@ -262,9 +262,9 @@ export {
   authSeller,
   registerSeller,
   // logoutUser,
-  // forget,
+  sellerForget,
   // getUserProfile,
   // updateUserProfile,
-  // verifyOTP,
+  sellerVerifyOTP,
   // resetPassword,
 };
