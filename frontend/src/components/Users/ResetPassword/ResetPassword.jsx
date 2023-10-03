@@ -22,22 +22,45 @@ const ResetPassword = () => {
     color: rightSection.color,
     height:rightSection.height
   };
+
   
-
-
   const [userId, setUserId] = useState(location.state.userId);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState("");
 
+  const validateForm = () => {
+    let isValid = true;
+    // Validate password
+    if (password.length < 6) {
+      setPasswordError("Password must be at least 6 characters.");
+      isValid = false;
+    } else {
+      setPasswordError("");
+    }
+
+    // Validate confirm password
+    if (password !== confirmPassword) {
+      setConfirmPasswordError("Passwords do not match.");
+      isValid = false;
+    } else {
+      setConfirmPasswordError("");
+    }
+    return isValid;
+  };
+  
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
+    validateForm()
     const form = {
       userId,password
     }
     try {
       let res = await USERSAPI.post("users/resetPassword", form);
       if (res.data) {
-       return  navigate('/login')
+       return navigate('/login')
       }else{
         console.log('error')
       }
@@ -71,41 +94,39 @@ const ResetPassword = () => {
           <Col xs={12} md={5} style={rightSection} className="card p-5 m-1">
             <h1>Reset Password</h1>
             <Form onSubmit={handleSubmit}>
-              {/* User Email Entering Place and Stored in State SetEmail  */}
-              <Form.Group className="my-2" controlId="email">
-                <Form.Label  className="m-2" >Enter Password</Form.Label>
-                <Form.Control
-                  type="OTP"
-                  placeholder="Enter Password"
-                  required
-                  autoComplete="off"
-                  value={password}
-                  className="m-2"
-                  onChange={(e) => setPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
 
+            {/* Password */}
+            <Form.Group controlId="password" className="mt-2 mb-3">
+              <Form.Label>Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Enter Password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <Form.Text className="text-danger">{passwordError}</Form.Text>
+            </Form.Group>
 
-              {/* User Email Entering Place and Stored in State SetEmail  */}
-              <Form.Group className="my-2" controlId="email">
-                <Form.Label  className="m-2" >Confirm Password</Form.Label>
-                <Form.Control
-                  type="OTP"
-                  placeholder="Enter Password Again"
-                  required
-                  autoComplete="off"
-                  value={confirmPassword}
-                  className="m-2"
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                ></Form.Control>
-              </Form.Group>
+            {/* Confirm Password */}
+            <Form.Group controlId="confirmPassword" className="mt-2 mb-3">
+              <Form.Label>Confirm Password</Form.Label>
+              <Form.Control
+                type="password"
+                placeholder="Confirm Password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+              <Form.Text className="text-danger">
+                {confirmPasswordError}
+              </Form.Text>
+            </Form.Group>
 
-              <Button type="submit" className="m-2" variant="primary">
-                Reset Password
+            <div className="mt-3 text-center">
+              <Button type="submit" variant="primary">
+                Register
               </Button>
-
-              {/* If user Already registered then Directed to register page  */}
-            </Form>
+            </div>
+          </Form>
           </Col>
         </Row>
       </Container>

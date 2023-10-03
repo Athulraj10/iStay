@@ -35,7 +35,6 @@ const OTP = () => {
       let res = await USERSAPI.post("users/verifyOTP", form);
       if (res.data) {
         const userId = res.data.user;
-        console.log(userId)
        return  navigate('/resetPassword',{state:{userId}})
       }else{
         console.log('error')

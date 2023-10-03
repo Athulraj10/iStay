@@ -51,13 +51,11 @@ const OTPsaveFunction = async (email, otp) => {
         if (existingOTP) {
             await OTP.deleteOne({ email });
         }
-
         const saveOTP = new OTP({
             email: email,
             otp: otp
         });
         const OTPsaved = await saveOTP.save();
-        console.log(OTPsaved)
         return;
     } catch (error) {
         console.log(error.message);
@@ -99,6 +97,9 @@ const authUser = asyncHnadler(async (req, res) => {
   }
 });
 
+
+
+
 //@desc createing new  user
 //access Public
 //route POST// /api/register
@@ -135,7 +136,6 @@ const registerUser = asyncHnadler(async (req, res) => {
 //route POST// /api/users
 const forget = asyncHnadler(async (req, res) => {
   const { email } = req.body;
-  console.log(req.body);
   const user = await User.findOne({ email });
   if (!user) {
     return res.status(401).json({
@@ -157,50 +157,46 @@ const forget = asyncHnadler(async (req, res) => {
 const verifyOTP = asyncHnadler(async (req, res) => {
   const {email} = req.body;
   const otp = req.body.enteredOTP;
-  console.log(req.body)
   try {
     const user = await OTP.findOne({ email });
     if(!user){return res.json({message:'Invalid Expired'})}
     if(user){
         const enterOTP=parseInt(otp)
         const databaseOTP= parseInt(user.otp)
-        console.log(enterOTP)
-        console.log(databaseOTP)
         if (enterOTP !== databaseOTP) {
             return res.status(401).json({ message: "Invalid OTP" });
         } 
         if (enterOTP === databaseOTP) {
-          console.log(user)
-          return res.json({user:user._id})
+          return res.json({user:user.email})
         } 
     }
 } catch (error) {
     console.log(error.message)
 }
 });
+
+
+
 // -----------------------------------------------------Reset Password-------------
 const resetPassword = asyncHnadler(async (req, res) => {
   const {userId,password} = req.body;
   try {
-    const user = await User.findById(userId);
-    // if(!user){return res.json({message:'Something Wrong Please Try Again'})}
+    const user = await User.findOne({email:userId});
+    if(!user){return res.status(404).json({message:'Something Wrong Please Try Again'})}
     if(user){
-      console.log(user)
-        // const enterOTP=parseInt(otp)
-        // const databaseOTP= parseInt(user.otp)
-        // console.log(enterOTP)
-        // console.log(databaseOTP)
-        // if (enterOTP !== databaseOTP) {
-        //     return res.status(401).json({ message: "Invalid OTP" });
-        // } 
-        // if (enterOTP === databaseOTP) {
-        //   return res.json({data:true})
-        // } 
+      user.password = password;
+      await user.save();
+      res.status(200).json({message:'Password reset successfully',})
     }
 } catch (error) {
-    console.log(error.message)
+   console.error(error);
+   res.status(500).json({message:'Internal server Error'})
 }
 });
+// 651b9c8db1446faebfc11297
+// 651b9cb2b1446faebfc1129b
+// 651b9d29e2aa5b31e49707fa
+
 
 //@desc logout USer
 //access Public
