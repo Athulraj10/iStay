@@ -6,6 +6,7 @@ import {
   NewAppPassword,
 } from "../../config/config.js";
 import Admin from "../../models/AdminModel/adminModel.js";
+import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import generateToken from "../../utils/generateToken.js";
 
@@ -213,6 +214,26 @@ const adminResetPassword = asyncHandler(async (req, res) => {
   }
 });
 
+// ----------------------------List User------------------------------
+const listUser = asyncHandler(async (req, res) => {
+  try {
+    const AllUser = await User.find();
+    if (!AllUser) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (AllUser) {
+      return res.status(200).json({
+        data:AllUser
+      })
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
 //access Public
@@ -269,7 +290,7 @@ const adminResetPassword = asyncHandler(async (req, res) => {
 export {
   adminAuthentication,
   // logoutUser,
-  adminForget,
+  adminForget,listUser,
   // getUserProfile,
   // updateUserProfile,
   adminVerifyOTP,

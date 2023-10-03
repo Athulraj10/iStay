@@ -23,6 +23,9 @@ import AdminDashboardScreen from "../components/Admin/Screens/AdminDashboardScre
 import AdminOTPScreen from "../components/Admin/Screens/AdminOTPScreen";
 import AdminForgetScreenPassword from "../components/Admin/Screens/AdminForgetScreenPassword";
 import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordScreen";
+import AdminUserList from "../components/Admin/Screens/AdminUserList";
+import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
+import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 
 
 
@@ -53,9 +56,9 @@ const Routeing = () => {
       <Route path="/admin/verifyOTP" element={<AdminOTPScreen />} />
       <Route path="/admin/resetPassword" element={<AdminResetPassword />} />
 
-      <Route path="/admin/listUsers" element={<AdminResetPassword />} />
-      <Route path="/admin/listSellers" element={<AdminResetPassword />} />
-      <Route path="/admin/listHostels" element={<AdminResetPassword />} />
+      <Route path="/admin/listUsers" element={<AdminUserList />} />
+      <Route path="/admin/listSellers" element={<AdminSellerList />} />
+      <Route path="/admin/listHostels" element={<AdminHostelList />} />
     </Routes>
   );
 };

@@ -56,15 +56,15 @@ const AdminHeader = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
               
-              <Link to="/listUsers" className="nav-link">
+              <Link to="/admin/listUsers" className="nav-link">
                 <FaUser /> List User
               </Link>
 
-              <Link to="/listSellers" className="nav-link">
+              <Link to="/admin/listSellers" className="nav-link">
                 <FaStore /> List Seller
               </Link>
 
-              <Link to="/listHostels" className="nav-link">
+              <Link to="/admin/listHostels" className="nav-link">
                 <FaHome /> List Hostel
               </Link>
               {/* Conditionally render Login/Logout button */}
