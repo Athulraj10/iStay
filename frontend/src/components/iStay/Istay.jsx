@@ -11,7 +11,7 @@ import Footer from "../Footer/Footer";
 import SellerHeader from "../SellerHeader/SellerHeader";
 
 const Istay = () => {
-  let locatin = useLocation();
+  let location = useLocation();
   let seller = location.pathname.startsWith('/seller')
   let admin = location.pathname.startsWith('/admin')
   return (
