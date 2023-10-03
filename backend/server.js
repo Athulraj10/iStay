@@ -15,6 +15,7 @@ app.use(express.urlencoded({extended:true}))
 
 app.use('/api/users',userRoutes)
 
+
 app.get('/',(req,res)=>res.send("server is ready"))
 
 app.use(notFound)

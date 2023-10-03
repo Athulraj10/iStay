@@ -180,27 +180,26 @@ const verifyOTP = asyncHnadler(async (req, res) => {
 });
 // -----------------------------------------------------Reset Password-------------
 const resetPassword = asyncHnadler(async (req, res) => {
-  const {email} = req.body;
-  const otp = req.body.enteredOTP;
-  console.log(req.body)
-//   try {
-//     const user = await OTP.findOne({ email });
-//     if(!user){return res.json({message:'Invalid Expired'})}
-//     if(user){
-//         const enterOTP=parseInt(otp)
-//         const databaseOTP= parseInt(user.otp)
-//         console.log(enterOTP)
-//         console.log(databaseOTP)
-//         if (enterOTP !== databaseOTP) {
-//             return res.status(401).json({ message: "Invalid OTP" });
-//         } 
-//         if (enterOTP === databaseOTP) {
-//           return res.json({data:true})
-//         } 
-//     }
-// } catch (error) {
-//     console.log(error.message)
-// }
+  const {userId,password} = req.body;
+  try {
+    const user = await User.findById(userId);
+    // if(!user){return res.json({message:'Something Wrong Please Try Again'})}
+    if(user){
+      console.log(user)
+        // const enterOTP=parseInt(otp)
+        // const databaseOTP= parseInt(user.otp)
+        // console.log(enterOTP)
+        // console.log(databaseOTP)
+        // if (enterOTP !== databaseOTP) {
+        //     return res.status(401).json({ message: "Invalid OTP" });
+        // } 
+        // if (enterOTP === databaseOTP) {
+        //   return res.json({data:true})
+        // } 
+    }
+} catch (error) {
+    console.log(error.message)
+}
 });
 
 //@desc logout USer
