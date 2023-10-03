@@ -1,7 +1,7 @@
 import express from "express"
 import { 
     adminAuthentication,
-    adminForget,adminVerifyOTP,adminResetPassword,listUser
+    adminForget,adminVerifyOTP,adminResetPassword,listUser,listSellers,editUser
     // logoutUser,
     // getUserProfile,
     // updateUserProfile,
@@ -17,6 +17,9 @@ AdminRoute.post('/forget',adminForget)
 AdminRoute.post('/verifyOTP',adminVerifyOTP)
 AdminRoute.post('/resetPassword',adminResetPassword)
 AdminRoute.post('/listUser',listUser)
+AdminRoute.post('/listSellers',listSellers)
+
+AdminRoute.post('/admin/listUsers/edit',editUser)
 // // AdminRoute.post('/',)
 // AdminRoute.post('/logout',logoutUser)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)

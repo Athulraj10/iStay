@@ -9,6 +9,7 @@ import Admin from "../../models/AdminModel/adminModel.js";
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import generateToken from "../../utils/generateToken.js";
+import Seller from "../../models/SellerModel/SellerModel.js";
 
 //@desc forgetOTP
 //access Public
@@ -233,6 +234,36 @@ const listUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
+// ----------------------------List Sellers------------------------------
+const listSellers = asyncHandler(async (req, res) => {
+  try {
+    const allSeller = await Seller.find();
+    if (!allSeller) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (allSeller) {
+      return res.status(200).json({
+        data:allSeller
+      })
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+// ----------------------------Edit------------------------------
+const editUser = asyncHandler(async (req, res) => {
+  try {
+    console.log(req.body)
+    const allSeller = await User.findOne({});
+    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
@@ -294,5 +325,6 @@ export {
   // getUserProfile,
   // updateUserProfile,
   adminVerifyOTP,
-  adminResetPassword,
+  listSellers,
+  adminResetPassword,editUser
 };

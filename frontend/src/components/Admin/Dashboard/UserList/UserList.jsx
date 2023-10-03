@@ -10,7 +10,18 @@ function EventSchedule({ data }) {
     try {
       let res = await USERSAPI.post("admin/listUsers/block", userId);
       if (res.data) {
-        localStorage.setItem("adminInfo", JSON.stringify(res.data));
+        // if data what will do
+      }
+    } catch (error) {
+      toast.error(error);
+    }
+  };
+  const handleEditButton = async (userId) => {
+    console.log(userId)
+    try {
+      let res = await USERSAPI.post("admin/listUsers/edit", userId);
+      if (res.data) {
+        // if data what will do
       }
     } catch (error) {
       toast.error(error);
@@ -85,6 +96,7 @@ function EventSchedule({ data }) {
                             <td className="align-middle text-center">
                               <div className={`primary-btn`}>
                                 <button
+                                 style={{margin:'10px'}}
                                   onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
                                   className={`btn ${
                                     item.status ? "btn-primary" : "btn-danger"
@@ -92,6 +104,11 @@ function EventSchedule({ data }) {
                                 >
                                   {item.status ? "Block" : "Active"}
                                 </button>
+
+                                <button style={{margin:'10px'}}
+                                  onClick={() => handleEditButton(item._id)} // Pass item._id as a parameter
+                                  className="btn btn-primary">Edit
+                                   </button>
                               </div>
                             </td>
                           </tr>
