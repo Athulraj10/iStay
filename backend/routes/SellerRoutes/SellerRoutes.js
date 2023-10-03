@@ -1,21 +1,21 @@
 import express from "express"
 import { 
-    registerSeller
+    registerSeller,authSeller
 }
     from "../../controllers/sellerController/SellerControllers.js";
 import { protect } from "../../middleware/authMiddleware.js";
 
-const router = express.Router()
+const sellerRoute = express.Router()
 
-router.post('/register',registerSeller)
-// router.post('/sellers/login',authSeller)
-// router.post('/sellers/forget',sellerForget)
-// router.post('/sellers/verifyOTP',sellerVerifyOTP)
-// router.post('/sellers/resetPassword',sellersResetPassword)
-// // router.post('/',)
-// router.post('/sellers/logout',logoutSeller)
-// router.route('/sellers/profile').get(protect,getSellerProfile).put(protect,updateSellerProfile)
+sellerRoute.post('/register',registerSeller)
+sellerRoute.post('/login',authSeller)
+// sellerRoute.post('/seller/forget',sellerForget)
+// sellerRoute.post('/seller/verifyOTP',sellerVerifyOTP)
+// sellerRoute.post('/seller/resetPassword',sellersResetPassword)
+// // sellerRoute.post('/',)
+// sellerRoute.post('/seller/logout',logoutSeller)
+// sellerRoute.route('/seller/profile').get(protect,getSellerProfile).put(protect,updateSellerProfile)
 
 
-export default router
+export default sellerRoute
 

@@ -1,9 +1,9 @@
-import asyncHnadler from "express-async-handler";;
+import asyncHandler from "express-async-handler";;
 import nodemailer from "nodemailer";
 import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js";
 import Seller from '../../models/SellerModel/SellerModel.js'
 import OTP from '../../models/OTPModel.js'
-import genereateToken from "../../utils/generateToken.js";
+import generateToken from "../../utils/generateToken.js";
 
 //@desc forgetOTP
 //access Public
@@ -60,38 +60,43 @@ import genereateToken from "../../utils/generateToken.js";
 
 
 // -------------------User Authentication---------------------------
-//@desc Auth user/set token
-//access Public
-//route POST// /api/users
-// const authUser = asyncHnadler(async (req, res) => {
-//   const { email, password } = req.body;
-//   const user = await User.findOne({ email });
-//   if (!user) {
-//     res.status(401).json({
-//       message: "Invalid Email or Password",
-//     });
-//     throw new Error("Invalid Email or Password");
-//   }
-//   if (user && (await user.matchPassword(password))) {
-//     genereateToken(res, user._id);
-//     res.status(201).json({
-//       _id: user._id,
-//       name: user.name,
-//       email: user.email,
-//     });
-//   } else {
-//     res.status(401);
-//     throw new Error("Invalid Email or Password");
-//   }
-// });
+// @desc Auth user/set token
+// access Public
+// route POST// /api/users
+const authSeller = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+  const seller = await Seller.findOne({ email });
 
+  if (!seller) {
+    return res.status(401).json({
+      message: "Invalid Email or Password",
+    });
+  }
+
+  if (seller && (await seller.matchPassword(password))) {
+    // Assuming generateToken is a valid function
+    const token = generateToken(res, seller._id); // Pass res as the first argument
+    
+    return res.status(201).json({
+      _id: seller._id,
+      name: seller.name,
+      email: seller.email,
+      token, // Send the token back to the client
+    });
+  }
+
+  // If the password doesn't match
+  return res.status(401).json({
+    message: "Invalid Email or Password",
+  });
+});
 
 
 // -------------------Register New seller---------------------------
 //@desc createing new  user
 //access Public
 //route POST// /api/register
-const registerSeller = asyncHnadler(async (req, res) => {
+const registerSeller = asyncHandler(async (req, res) => {
   const { name, email, password, mobile } = req.body;
   const sellerExists = await Seller.findOne({ email });
 
@@ -111,7 +116,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
   });
 
   if(sellerRegister){
-    genereateToken(res,sellerRegister._id);
+    generateToken(res,sellerRegister._id);
     res.status(201).json({
       _id:sellerRegister._id,
       name:sellerRegister.name,
@@ -126,7 +131,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
-// const forget = asyncHnadler(async (req, res) => {
+// const forget = asyncHandler(async (req, res) => {
 //   const { email } = req.body;
 //   const user = await User.findOne({ email });
 //   if (!user) {
@@ -148,7 +153,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
 
 
 // -----------------------------Verify OTP ---------------------------
-// const verifyOTP = asyncHnadler(async (req, res) => {
+// const verifyOTP = asyncHandler(async (req, res) => {
 //   const { email } = req.body;
 //   const otp = req.body.enteredOTP;
 //   try {
@@ -174,7 +179,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
 
 
 // ----------------------------Reset Password-------------
-// const resetPassword = asyncHnadler(async (req, res) => {
+// const resetPassword = asyncHandler(async (req, res) => {
 //   const { userId, password } = req.body;
 //   try {
 //     const user = await User.findOne({ email: userId });
@@ -200,7 +205,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
 //@desc logout USer
 //access Public
 //route POST// /api/logout
-// const logoutUser = asyncHnadler(async (req, res) => {
+// const logoutUser = asyncHandler(async (req, res) => {
 //   res.cookie("jwt", "", {
 //     httpOnly: true,
 //     expires: new Date(0),
@@ -214,7 +219,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
 //@desc get user profile
 //access Private
 //route POST// /api/users/profile
-// const getUserProfile = asyncHnadler(async (req, res) => {
+// const getUserProfile = asyncHandler(async (req, res) => {
 //   // console.log(req.user)
 //   const userDetails = {
 //     name: req.user.name,
@@ -231,7 +236,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
 //@desc get update user profile
 //access Private
 //route PUT// /api/users/profile
-// const updateUserProfile = asyncHnadler(async (req, res) => {
+// const updateUserProfile = asyncHandler(async (req, res) => {
 //   const user = await User.findById(req.user._id);
 //   // console.log(user)
 //   if (user) {
@@ -254,7 +259,7 @@ const registerSeller = asyncHnadler(async (req, res) => {
 // });
 
 export {
-  // authUser,
+  authSeller,
   registerSeller,
   // logoutUser,
   // forget,

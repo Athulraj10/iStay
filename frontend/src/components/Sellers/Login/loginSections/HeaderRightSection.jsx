@@ -11,11 +11,11 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const HeaderRightSection = () => {
   const navigate = useNavigate();
-  const userInfo = localStorage.getItem("userInfo");
-  if (userInfo) {
+  const sellerInfo = localStorage.getItem("sellerInfo");
+  if (sellerInfo) {
     useEffect(() => {
-      if (userInfo) {
-        navigate("/");
+      if (sellerInfo) {
+        navigate("/seller/dashboard");
       }
     });
   }
@@ -30,12 +30,12 @@ const HeaderRightSection = () => {
         email: email,
         password: password,
       };
-      let res = await USERSAPI.post("users/login", formData);
+      let res = await USERSAPI.post("seller/login", formData);
       if (res.data) {
-        localStorage.setItem("userInfo", JSON.stringify(res.data));
-        return navigate("/");
+        localStorage.setItem("sellerInfo", JSON.stringify(res.data));
+        return navigate("/seller/dashboard");
       } else {
-        return navigate("/login");
+        return navigate("seller/login");
       }
     } catch (error) {
       return toast.error(error.response.data.message);

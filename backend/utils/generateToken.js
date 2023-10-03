@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-const genereateToken = (res,userId)=>{
+const generateToken = (res,userId)=>{
     const token = jwt.sign({userId},process.env.JWT_SECRET,{
         expiresIn:'14d'
     });
@@ -11,4 +11,4 @@ const genereateToken = (res,userId)=>{
         maxAge : 14 * 24 * 60 * 1000
     })
 }
-export default genereateToken;
+export default generateToken;

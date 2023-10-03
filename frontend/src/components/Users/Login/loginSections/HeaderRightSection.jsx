@@ -50,7 +50,7 @@ const HeaderRightSection = () => {
         style={{ textAlign: "end", fontSize: "20px" }}
       >
         <Link
-          to="/seller/login/"
+          to="/seller/login"
           style={{
             padding: "5px",
             border: "1px solid silver",
