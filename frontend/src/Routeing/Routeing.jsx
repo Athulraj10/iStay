@@ -13,7 +13,7 @@ import ResetPassword from '../components/Users/Screens/ResetPasswordScreen'
 // --------------Sellers Panel-----------
 import SellerRegisterScreen from '../components/Sellers/Screens/SellerRegisterScreen'
 import SellerLoginScreen from '../components/Sellers/Screens/SellerLoginScreen'
-import SellerDashboardScreen from '../components/Sellers/Screens/SellerHomeScreen'
+import SellerDashboardScreen from '../components/Sellers/Screens/SellerDashboardScreen'
 import SellerOTPScreen from '../components/Sellers/Screens/SellerOTPScreen'
 import SellerForgetScreenPassword  from '../components/Sellers/Screens/SellerForgetScreenPassword'
 import SellerResetPassword from '../components/Sellers/Screens/SellerResetPasswordScreen'
