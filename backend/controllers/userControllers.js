@@ -193,10 +193,6 @@ const resetPassword = asyncHnadler(async (req, res) => {
    res.status(500).json({message:'Internal server Error'})
 }
 });
-// 651b9c8db1446faebfc11297
-// 651b9cb2b1446faebfc1129b
-// 651b9d29e2aa5b31e49707fa
-
 
 //@desc logout USer
 //access Public
