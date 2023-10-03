@@ -32,11 +32,11 @@ const OTP = () => {
       email,enteredOTP
     }
     try {
-      let res = await USERSAPI.post("seller/verifyOTP", form);
+      let res = await USERSAPI.post("admin/verifyOTP", form);
       if (res.data) {
         const userId = res.data.user;
         console.log('userid is ', userId)
-       return  navigate('/seller/resetPassword',{state:{email}})
+       return  navigate('/admin/resetPassword',{state:{email}})
       }else{
         console.log('error')
       }

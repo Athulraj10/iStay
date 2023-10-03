@@ -1,6 +1,7 @@
 import express from "express"
 import { 
     adminAuthentication,
+    adminForget,adminVerifyOTP,adminResetPassword
     // logoutUser,
     // getUserProfile,
     // updateUserProfile,
@@ -12,9 +13,9 @@ import {
 const AdminRoute = express.Router()
 
 AdminRoute.post('/login',adminAuthentication)
-// AdminRoute.post('/forget',forget)
-// AdminRoute.post('/verifyOTP',verifyOTP)
-// AdminRoute.post('/resetPassword',resetPassword)
+AdminRoute.post('/forget',adminForget)
+AdminRoute.post('/verifyOTP',adminVerifyOTP)
+AdminRoute.post('/resetPassword',adminResetPassword)
 // // AdminRoute.post('/',)
 // AdminRoute.post('/logout',logoutUser)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)

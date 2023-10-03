@@ -78,7 +78,6 @@ const adminAuthentication = asyncHandler(async (req, res) => {
       }
   
       if (admin && (await admin.matchPassword(password))) {
-        console.log('check password and email');
         // Assuming generateToken is a valid function
         const token = generateToken(res, admin._id); // Pass res as the first argument
   
@@ -137,75 +136,82 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 //   }
 // });
 
+
+
+
 // -------------------Forget Password Admin Verification---------------------------
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
-// const sellerForget = asyncHandler(async (req, res) => {
-//   const { email } = req.body;
-//   console.log(req.body)
-//   const admin = await Admin.findOne({ email });
-//   if (!admin) {
-//     return res.status(401).json({
-//       message: "Invalid Email"
-//     });
-//   }
-//   if (admin) {
-//     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
-//     // sendForgetPassword(admin.name, admin.email, OTPgenerated);
-//     console.log(OTPgenerated);
-//     const saveOrNot = await OTPsaveFunction(admin.email, OTPgenerated);
-//     return res.json({
-//       email
-//     });
-//   }
-// });
+
+
+
+
+const adminForget = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  console.log(req.body)
+  const admin = await Admin.findOne({ email });
+  if (!admin) {
+    return res.status(401).json({
+      message: "Invalid Email"
+    });
+  }
+  if (admin) {
+    let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
+    // sendForgetPassword(admin.name, admin.email, OTPgenerated);
+    console.log(OTPgenerated);
+    const saveOrNot = await OTPsaveFunction(admin.email, OTPgenerated);
+    return res.json({
+      email
+    });
+  }
+});
 
 // -----------------------------Verify OTP ---------------------------
-// const sellerVerifyOTP = asyncHandler(async (req, res) => {
-//   const { email } = req.body;
-//   const otp = req.body.enteredOTP;
-//   try {
-//     const admin = await OTP.findOne({ email });
-//     if (!admin) {
-//       return res.json({ message: "Invalid Expired" });
-//     }
-//     if (admin) {
-//       const enterOTP = parseInt(otp);
-//       const databaseOTP = parseInt(admin.otp);
-//       if (enterOTP !== databaseOTP) {
-//         return res.status(401).json({ message: "Invalid OTP" });
-//       }
-//       if (enterOTP === databaseOTP) {
-//         return res.status(200).json({ admin: admin.email });
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error.message);
-//   }
-// });
+const adminVerifyOTP = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const otp = req.body.enteredOTP;
+  try {
+    const admin = await OTP.findOne({ email });
+    if (!admin) {
+      return res.json({ message: "Invalid Expired" });
+    }
+    if (admin) {
+      const enterOTP = parseInt(otp);
+      const databaseOTP = parseInt(admin.otp);
+      if (enterOTP !== databaseOTP) {
+        return res.status(401).json({ message: "Invalid OTP" });
+      }
+      if (enterOTP === databaseOTP) {
+        return res.status(200).json({ admin: admin.email });
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+});
 
 // ----------------------------Reset Password-------------
-// const sellersResetPassword = asyncHandler(async (req, res) => {
-//   const { userId, password } = req.body;
-//   console.log(req.body)
-//   try {
-//     const admin = await Admin.findOne({ email: userId });
-//     if (!admin) {
-//       return res
-//         .status(404)
-//         .json({ message: "Something Wrong Please Try Again" });
-//     }
-//     if (admin) {
-//       admin.password = password;
-//       await admin.save();
-//       res.status(200).json({ message: "Password reset successfully" });
-//     }
-//   } catch (error) {
-//     console.error(error);
-//     res.status(500).json({ message: "Internal server Error" });
-//   }
-// });
+const adminResetPassword = asyncHandler(async (req, res) => {
+  const { userId, password } = req.body;
+  console.log(req.body)
+  try {
+    const admin = await Admin.findOne({ email: userId });
+    if (!admin) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (admin) {
+      admin.password = password;
+      await admin.save();
+      res.status(200).json({ message: "Password reset successfully" });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
@@ -263,9 +269,9 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 export {
   adminAuthentication,
   // logoutUser,
-//   sellerForget,
+  adminForget,
   // getUserProfile,
   // updateUserProfile,
-//   sellerVerifyOTP,
-//   sellersResetPassword,
+  adminVerifyOTP,
+  adminResetPassword,
 };

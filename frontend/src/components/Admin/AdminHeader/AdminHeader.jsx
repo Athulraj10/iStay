@@ -13,7 +13,7 @@ const AdminHeader = () => {
   const handleLogout = () => {
     localStorage.removeItem("adminInfo");
     setadminInfo(null);
-    location('/seller/login')
+    location('/admin')
   };
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const AdminHeader = () => {
         collapseOnSelect
       >
         <Container>
-          <LinkContainer to="/seller">
+          <LinkContainer to="/admin">
             <Navbar.Brand>
               <img src={logoImage} alt="LOGO" />
             </Navbar.Brand>
@@ -58,7 +58,7 @@ const AdminHeader = () => {
                 </>
               ) : (
                 <>
-                  <LinkContainer to="/seller/login">
+                  <LinkContainer to="/admin/login">
                     <Nav.Link>
                       <FaSignInAlt />&nbsp;
                     </Nav.Link>

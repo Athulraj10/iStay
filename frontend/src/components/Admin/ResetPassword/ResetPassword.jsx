@@ -63,9 +63,9 @@ const ResetPassword = () => {
       userId,password
     }
     try {
-        let res = await USERSAPI.post("seller/resetPassword",form);
+        let res = await USERSAPI.post("admin/resetPassword",form);
       if (res.data) {
-       return navigate('/seller/login')
+       return navigate('/admin')
       }else{
         console.log('error')
       }
