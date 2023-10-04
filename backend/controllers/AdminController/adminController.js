@@ -311,11 +311,16 @@ const editUser = asyncHandler(async (req, res) => {
 //access Public
 //route POST// /api/logout
 const logoutUser = asyncHandler(async (req, res) => {
-  res.cookie("jwt", "", {
-    httpOnly: true,
-    expires: new Date(0),
-  });
-  res.status(200).json({ message: "User Logout" });
+  console.log('logout')
+ // Set the SameSite attribute to None and Secure to true for cross-site cookies
+ res.cookie("jwt", "", {
+  httpOnly: true,
+  expires: new Date(0),
+  secure: false, // Set to true if you're using HTTPS
+  sameSite: "none", // Set to "none" for cross-site cookies
+});
+
+  res.status(200).json({ status: "User Logout" });
 });
 
 // ---------------------------Get User Profile---------------------------

@@ -18,11 +18,14 @@ const AdminHeader = () => {
   const location = useNavigate();
   const [adminInfo, setadminInfo] = useState(null);
 
-  const handleLogout = () => {
-    let logout = await USERSAPI
-    localStorage.removeItem("adminInfo");
-    setadminInfo(null);
-    location("/admin");
+  const handleLogout =async () => {
+    let res = await USERSAPI.post('/admin/logout')
+    console.log(res)
+    if(res.status){
+      localStorage.removeItem("adminInfo");
+      setadminInfo(null);
+      location("/admin");
+    }
   };
 
   useEffect(() => {
