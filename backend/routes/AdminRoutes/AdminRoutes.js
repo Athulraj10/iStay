@@ -8,8 +8,8 @@ import {
   listSellers,
   blockUser,
   editUser,
-  editUserDetails,
-  logoutUser,editSeller,
+  editUserDetails,userCount,
+  logoutUser,
   // logoutUser,
   // getUserProfile,
   // updateUserProfile,
@@ -29,6 +29,8 @@ AdminRoute.post("/listSellers", listSellers);
 AdminRoute.post("/listUser/block", blockUser);
 AdminRoute.post("/listUsers/edit", editUser);
 AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
+
+AdminRoute.post("/usersCount",userCount);
 
 
 

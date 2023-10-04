@@ -8,7 +8,7 @@ import {
     forget,verifyOTP,resetPassword
 }
     from "../../controllers/UserControllers/userControllers.js";
-import { protect } from "../../middleware/authMiddleware.js";
+// import { protect } from "../../middleware/authMiddleware.js";
 
 const router = express.Router()
 
@@ -19,7 +19,7 @@ router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
 // router.post('/',)
 router.post('/logout',logoutUser)
-router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
+// router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 
 
 export default router

@@ -1,5 +1,5 @@
 import asyncHnadler from "express-async-handler";
-import User from '../../models/OTPModel.js'
+import User from '../../models/UserModels/userModel.js'
 import OTP from "../../models/OTPModel.js";
 import genereateToken from "../../utils/generateToken.js";
 import nodemailer from "nodemailer";
@@ -94,13 +94,14 @@ const authUser = asyncHnadler(async (req, res) => {
 //access Public
 //route POST// /api/register
 const registerUser = asyncHnadler(async (req, res) => {
+  console.log(req.body)
   const { userName, email, password, mobile } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
     throw new Error(" User already Exists");
   }
-  const userRegister = await User.create({
+  const userRegister = await User.create({ 
     name: userName,
     email,
     password,
@@ -115,9 +116,6 @@ const registerUser = asyncHnadler(async (req, res) => {
       name: userRegister.name,
       email: userRegister.email,
     });
-  } else {
-    res.status(400);
-    throw new Error("Invalid User Data");
   }
 });
 
@@ -128,8 +126,11 @@ const registerUser = asyncHnadler(async (req, res) => {
 //access Public
 //route POST// /api/users
 const forget = asyncHnadler(async (req, res) => {
+  console.log(req.body)
+  const all = await User.find({})
+  console.log(all)
   const { email } = req.body;
-  const user = await User.findOne({ email });
+  const user = await User.findOne({email: email });
   if (!user) {
     return res.status(401).json({
       message: "Invalid Email",
@@ -137,7 +138,7 @@ const forget = asyncHnadler(async (req, res) => {
   }
   if (user) {
     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
-    // sendForgetPassword(user.name, user.email, OTPgenerated);
+    sendForgetPassword(user.name, user.email, OTPgenerated);
     console.log(OTPgenerated);
     const saveOrNot = await OTPsaveFunction(user.email, OTPgenerated);
     return res.json({
@@ -202,10 +203,14 @@ const resetPassword = asyncHnadler(async (req, res) => {
 //access Public
 //route POST// /api/logout
 const logoutUser = asyncHnadler(async (req, res) => {
+  console.log('logout')
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
+    secure: false, // Set to true if you're using HTTPS
+    sameSite: "none", // Set to "none" for cross-site cookies
   });
+
   res.status(200).json({ message: "User Logout" });
 });
 

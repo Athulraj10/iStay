@@ -5,6 +5,7 @@ import MainSection from "./sections/MainSection";
 import Navbars from "./sections/Navbar";
 import { useEffect } from "react";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
+import { toast } from "react-toastify";
 
 const RegisterPage = () => {
   const navigate = useNavigate();
@@ -18,8 +19,10 @@ const RegisterPage = () => {
  }
   const handleSubmit = async (formData) => {
     try {
-      let res = await USERSAPI.post("users/register", formData);
+      console.log("formData",formData)
+      let res = await USERSAPI.post("users/register",formData);
       if (res.data) {
+        console.log(res)
         localStorage.setItem("userInfo", JSON.stringify(res.data));
         navigate("/");
       }

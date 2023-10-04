@@ -4,15 +4,21 @@ import "./Header.css";
 import logoImage from "./iStays.png";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate()
   const [userInfo, setUserInfo] = useState(null);
 
-  const handleLogout = () => {
-    localStorage.removeItem("userInfo");
-    setUserInfo(null);
+  const handleLogout = async () => {
+    let res = await USERSAPI.post('users/logout')
+    if(res.status){
+      localStorage.removeItem("userInfo");
+      setUserInfo(null);
+      navigate("/login");
+    }
   };
-
   useEffect(() => {
     // Define an asynchronous function to fetch userInfo from localStorage
     const fetchUserInfo = async () => {
