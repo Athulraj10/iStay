@@ -1,3 +1,4 @@
+import  mongoose from 'mongoose'
 import asyncHandler from "express-async-handler";
 import nodemailer from "nodemailer";
 import {
@@ -253,12 +254,52 @@ const listSellers = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-// ----------------------------Edit------------------------------
-const editUser = asyncHandler(async (req, res) => {
+// ----------------------------Block User------------------------------
+const blockUser = asyncHandler(async (req, res) => {
   try {
     console.log(req.body)
-    const allSeller = await User.findOne({});
-    
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+
+// ----------------------------Edit User New Details Updating------------------------------
+const editUserDetails = asyncHandler(async (req, res) => {
+  try {
+    const {userName,email,mobile,location,userId}= req.body;
+    const user = await User.findOne({ _id: userId }).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if(user){
+      user.userName = userName;
+      user.email = email;
+      user.mobile = mobile;
+      user.location = location;
+      await user.save();
+      return res.status(200).json({userData:true})
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+
+// --------------------------Edit user Get User details---------------------------
+const editUser = asyncHandler(async (req, res) => {
+  try {
+    const {id}= req.body
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: "Invalid user ID" });
+    }
+    const user = await User.findOne({ _id: id }).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if(user){
+      return res.status(200).json({userData:user})
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
@@ -269,13 +310,13 @@ const editUser = asyncHandler(async (req, res) => {
 //@desc logout USer
 //access Public
 //route POST// /api/logout
-// const logoutUser = asyncHandler(async (req, res) => {
-//   res.cookie("jwt", "", {
-//     httpOnly: true,
-//     expires: new Date(0),
-//   });
-//   res.status(200).json({ message: "User Logout" });
-// });
+const logoutUser = asyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "User Logout" });
+});
 
 // ---------------------------Get User Profile---------------------------
 //@desc get user profile
@@ -320,11 +361,10 @@ const editUser = asyncHandler(async (req, res) => {
 
 export {
   adminAuthentication,
-  // logoutUser,
   adminForget,listUser,
   // getUserProfile,
   // updateUserProfile,
   adminVerifyOTP,
   listSellers,
-  adminResetPassword,editUser
+  adminResetPassword,blockUser,editUser,editUserDetails,logoutUser
 };

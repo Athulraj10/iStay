@@ -11,6 +11,7 @@ import logoImage from "./iStays.png";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 
 const AdminHeader = () => {
@@ -18,6 +19,7 @@ const AdminHeader = () => {
   const [adminInfo, setadminInfo] = useState(null);
 
   const handleLogout = () => {
+    let logout = await USERSAPI
     localStorage.removeItem("adminInfo");
     setadminInfo(null);
     location("/admin");

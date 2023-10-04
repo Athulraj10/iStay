@@ -26,6 +26,7 @@ import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordSc
 import AdminUserList from "../components/Admin/Screens/AdminUserList";
 import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
 import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
+import AdminEditUserScreen from "../components/Admin/Screens/AdminEditUserScreen";
 
 
 
@@ -57,9 +58,10 @@ const Routeing = () => {
       <Route path="/admin/resetPassword" element={<AdminResetPassword />} />
 
       <Route path="/admin/listUsers" element={<AdminUserList />} />
+      <Route path="/admin/listUser/editUser" element={<AdminEditUserScreen />} />
       <Route path="/admin/listSellers" element={<AdminSellerList />} />
       <Route path="/admin/listHostels" element={<AdminHostelList />} />
-    </Routes>
+      </Routes>
   );
 };
 

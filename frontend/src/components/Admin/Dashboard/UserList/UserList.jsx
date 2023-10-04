@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
-function EventSchedule({ data }) {
-  const [userId, setUserId] = useState();
+function UserList({ data }) {
+  const location = useNavigate()
   const handleBlockButton = async (userId) => {
     console.log(userId)
     try {
-      let res = await USERSAPI.post("admin/listUsers/block", userId);
+      let formData={
+        id:userId
+      }
+      let res = await USERSAPI.post("admin/listUser/block",formData);
       if (res.data) {
         // if data what will do
       }
@@ -17,11 +21,16 @@ function EventSchedule({ data }) {
     }
   };
   const handleEditButton = async (userId) => {
-    console.log(userId)
     try {
-      let res = await USERSAPI.post("admin/listUsers/edit", userId);
-      if (res.data) {
-        // if data what will do
+      let formData = {
+        id:userId
+      }
+      let res = await USERSAPI.post("admin/listUsers/edit", formData);
+      if (res.data.userData) {
+        const userData = res.data.userData
+        location('/admin/listUser/editUser',{state:{userData}})
+      }else{
+        toast.error('Cannot Retrive UserData')
       }
     } catch (error) {
       toast.error(error);
@@ -130,4 +139,4 @@ function EventSchedule({ data }) {
   );
 }
 
-export default EventSchedule;
+export default UserList;

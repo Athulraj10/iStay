@@ -4,11 +4,12 @@ import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 function ListHostel({ data }) {
-  const [userId, setUserId] = useState();
   const handleBlockButton = async (userId) => {
-    console.log(userId)
     try {
-      let res = await USERSAPI.post("admin/listUsers/block", userId);
+      let formData={
+        id:userId
+      }
+      let res = await USERSAPI.post("admin/listUsers/block",formData);
       if (res.data) {
         // if data what will do
       }
