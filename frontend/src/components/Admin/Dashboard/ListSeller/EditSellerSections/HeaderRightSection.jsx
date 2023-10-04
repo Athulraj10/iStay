@@ -10,8 +10,6 @@ import { USERSAPI } from "../../../../AxiosAPI/AxiosInstance"
 
 const HeaderRightSection = () => {
   const locations = useLocation();
-  const navigate = useNavigate();
-  
   const userData = locations.state.userData;
   
   const [userId, setUserId] = useState(userData._id);
@@ -28,8 +26,8 @@ const HeaderRightSection = () => {
       };
       let res = await USERSAPI.post("admin/listUsers/editUserDetails", formData);
       if (res.data) {
-        navigate("/admin/listUsers");
-        } else {
+       
+      } else {
        
       }
     } catch (error) {

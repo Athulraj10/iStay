@@ -9,7 +9,7 @@ import {
   blockUser,
   editUser,
   editUserDetails,
-  logoutUser,
+  logoutUser,editSeller,
   // logoutUser,
   // getUserProfile,
   // updateUserProfile,
@@ -29,6 +29,11 @@ AdminRoute.post("/listSellers", listSellers);
 AdminRoute.post("/listUser/block", blockUser);
 AdminRoute.post("/listUsers/edit", editUser);
 AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
+
+
+
+// AdminRoute.post("/listSeller/edit", editSeller);
+// AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
 // // AdminRoute.post('/',)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 AdminRoute.post('/logout',logoutUser)

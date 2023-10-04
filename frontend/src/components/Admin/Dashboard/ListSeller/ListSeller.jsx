@@ -16,6 +16,20 @@ function ListSeller({ data }) {
       toast.error(error);
     }
   };
+  const handleEditButton = async (sellerId) => {
+    let formData = {
+      id:sellerId
+    }
+    try {
+      let res = await USERSAPI.post("admin/listSeller/edit", formData);
+      if (res.data) {
+        const sellerDetails = res.data.sellerData
+        location('/admin/listSeller/editSeller',{state:{sellerDetails}})
+      }
+    } catch (error) {
+      toast.error(error);
+    }
+  };
   return (
     <div className="event-schedule-area-two p-4 rounded">
       <Container>
@@ -92,6 +106,8 @@ function ListSeller({ data }) {
                                 >
                                   {item.status ? "Block" : "Active"}
                                 </button>
+                                <button className="btn btn-primary mx-2"
+                                  onClick={() => handleEditButton(item._id)}>Edit</button>
                               </div>
                             </td>
                           </tr>

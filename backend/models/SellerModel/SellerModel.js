@@ -13,6 +13,9 @@ const sellerSchema = mongoose.Schema({
         required:true,
         unique:true
     },
+    location:{
+        type:String,
+    },
     password:{
         type:String,
         required:true
