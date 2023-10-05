@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col';
 function Dashboard() {
   return (
     <Container fluid>
+      
        <Row style={{height:'200px',backgroundColor:'#233d57'}}>
         <Col className='p-3 m-3 text-white' style={{border:'3px solid white'}}xs><h3>Chart</h3></Col>
         <Col className='p-3 m-3 text-white' style={{border:'3px solid white'}}xs><h3>Enquery</h3></Col>

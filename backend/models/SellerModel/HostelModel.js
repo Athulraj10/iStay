@@ -8,19 +8,95 @@ const hostelModel = mongoose.Schema({
         type:String,
         required:true
     },
-    email:{
+    houseName:{
         type:String,
         required:true,
         unique:true
     },
-    location:{
+    mainLocation:{
         type:String,
     },
-    password:{
+    additionalOptions:{
         type:String,
         required:true
     },
-    mobile:{
+    locationWithPincode:{
+        type:Number,
+        required:true
+    },
+    Restriction:{
+        type:String,
+        required:true
+    },
+    GuestProfile:{
+        type:Number,
+        required:true
+    },
+    images:{
+        type:Number,
+        required:true
+    },
+    contactDetails:{
+        type:Number,
+        required:true
+    },
+    contactNumber:{
+        type:Number,
+        required:true
+    },
+    MapLink:{
+        type:Number,
+        required:true
+    },
+    price:{
+        type:Number,
+        required:true
+    },
+    extraCharge:{
+        type:Number,
+        required:true
+    },
+    totalBed:{
+        type:Number,
+        required:true
+    },
+    bedAvailable:{
+        type:Number,
+        required:true
+    },
+    is_wifi:{
+        type:Number,
+        required:true
+    },
+    is_food:{
+        type:Number,
+        required:true
+    },
+    is_parking:{
+        type:Number,
+        required:true
+    },
+    drinkingWater:{
+        type:Number,
+        required:true
+    },
+    AdcancePayment:{
+        type:Number,
+        required:true
+    },
+    cancellationAmount:{
+        type:Number,
+        required:true
+    },
+    description:{
+        type:Number,
+        required:true
+    },
+    idProof:{
+        type:Number,
+        required:true
+    },
+    seller:{
         type:Number,
         required:true
     },
