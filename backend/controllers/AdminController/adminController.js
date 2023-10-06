@@ -336,7 +336,7 @@ const editSeller = asyncHandler(async (req, res) => {
     }
     if (seller) {
       return res.status(200).json({ sellerData: seller });
-    }
+      }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });

@@ -4,11 +4,17 @@ import {
   adminForget,
   adminVerifyOTP,
   adminResetPassword,
+
   listUser,
-  listSellers,
   blockUser,
   editUser,
-  editUserDetails,userCount,
+  editUserDetails,
+  userCount,
+  
+
+  listSellers,
+  editSeller,
+  
   logoutUser,
   // logoutUser,
   // getUserProfile,
@@ -23,18 +29,18 @@ AdminRoute.post("/login", adminAuthentication);
 AdminRoute.post("/forget", adminForget);
 AdminRoute.post("/verifyOTP", adminVerifyOTP);
 AdminRoute.post("/resetPassword", adminResetPassword);
-AdminRoute.post("/listUser", listUser);
-AdminRoute.post("/listSellers", listSellers);
 
-AdminRoute.post("/listUser/block", blockUser);
+AdminRoute.post("/listUser", listUser);
 AdminRoute.post("/listUsers/edit", editUser);
 AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
-
+AdminRoute.post("/listUser/block", blockUser);
 AdminRoute.post("/usersCount",userCount);
 
 
+AdminRoute.post("/listSellers", listSellers);
+AdminRoute.post("/listSeller/edit", editSeller);
 
-// AdminRoute.post("/listSeller/edit", editSeller);
+
 // AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
 // // AdminRoute.post('/',)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
