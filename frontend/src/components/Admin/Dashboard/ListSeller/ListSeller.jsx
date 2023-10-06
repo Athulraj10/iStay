@@ -2,15 +2,15 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
+import { useNavigate } from "react-router-dom";
 
 function ListSeller({ data }) {
-  const [userId, setUserId] = useState();
+  const location = useNavigate()
   const handleBlockButton = async (userId) => {
-    console.log(userId)
+    console.log(userId);
     try {
       let res = await USERSAPI.post("admin/listSeller/block", userId);
       if (res.data) {
-        
       }
     } catch (error) {
       toast.error(error);
@@ -18,16 +18,17 @@ function ListSeller({ data }) {
   };
   const handleEditButton = async (sellerId) => {
     let formData = {
-      id:sellerId
-    }
+      id: sellerId,
+    };
     try {
       let res = await USERSAPI.post("admin/listSeller/edit", formData);
-      if (res.data) {
-        const sellerDetails = res.data.sellerData
-        location('/admin/listSeller/editSeller',{state:{sellerDetails}})
+      if (res.data.sellerData) {
+        const sellerData = res.data.sellerData;
+        console.log(sellerData)
+        location("/admin/listSeller/editSeller", { state: { sellerData } });
       }
     } catch (error) {
-      toast.error(error);
+      toast.error(error || 'Error in ListSeller React');
     }
   };
   return (
@@ -106,8 +107,12 @@ function ListSeller({ data }) {
                                 >
                                   {item.status ? "Block" : "Active"}
                                 </button>
-                                <button className="btn btn-primary mx-2"
-                                  onClick={() => handleEditButton(item._id)}>Edit</button>
+                                <button
+                                  className="btn btn-primary mx-2"
+                                  onClick={() => handleEditButton(item._id)}
+                                >
+                                  Edit
+                                </button>
                               </div>
                             </td>
                           </tr>

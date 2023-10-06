@@ -15,7 +15,7 @@ import Seller from "../../models/SellerModel/SellerModel.js";
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
-// -------------------------SENT OTP NodeMailer---------------------------------------
+// -------------------------Admin forget SENT OTP NodeMailer---------------------------------------
 const sendForgetPassword = async (name, email, OTP) => {
   try {
     const transporter = nodemailer.createTransport({
@@ -46,7 +46,7 @@ const sendForgetPassword = async (name, email, OTP) => {
   }
 };
 
-// -------------------Save OTP with UserEmail---------------------------
+// -------------------Save OTP Function with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
   try {
     const existingOTP = await OTP.findOne({ email });
@@ -109,6 +109,7 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 // //@desc createing new  user
 // //access Public
 // //route POST// /api/register
+
 // const registerSeller = asyncHandler(async (req, res) => {
 //   const { name, email, password, mobile } = req.body;
 //   const sellerExists = await Admin.findOne({ email });
@@ -142,7 +143,6 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
-
 const adminForget = asyncHandler(async (req, res) => {
   const { email } = req.body;
   console.log(req.body);
@@ -209,28 +209,11 @@ const adminResetPassword = asyncHandler(async (req, res) => {
   }
 });
 
-// ----------------------------List User------------------------------
-const listUser = asyncHandler(async (req, res) => {
-  try {
-    const AllUser = await User.find();
-    if (!AllUser) {
-      return res
-        .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
-    }
-    if (AllUser) {
-      return res.status(200).json({
-        data: AllUser,
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
-  }
-});
 
-// ----------------------------User Count------------------------------
-const userCount = asyncHandler(async (req, res) => {
+
+
+// ----------------------------Dashboard Values------------------------------
+const dashboardValuesCount = asyncHandler(async (req, res) => {
   try {
     const userCount = await User.countDocuments();
     const sellerCount = await Seller.countDocuments();
@@ -252,25 +235,11 @@ const userCount = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-// ----------------------------List Sellers------------------------------
-const listSellers = asyncHandler(async (req, res) => {
-  try {
-    const allSeller = await Seller.find();
-    if (!allSeller) {
-      return res
-        .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
-    }
-    if (allSeller) {
-      return res.status(200).json({
-        data: allSeller,
-      });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
-  }
-});
+
+
+
+
+
 // ----------------------------Block User------------------------------
 const blockUser = asyncHandler(async (req, res) => {
   try {
@@ -280,7 +249,25 @@ const blockUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-
+// ----------------------------List User------------------------------
+const listUser = asyncHandler(async (req, res) => {
+  try {
+    const AllUser = await User.find();
+    if (!AllUser) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (AllUser) {
+      return res.status(200).json({
+        data: AllUser,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
 // ----------------------------Edit User New Details Updating------------------------------
 const editUserDetails = asyncHandler(async (req, res) => {
   try {
@@ -303,7 +290,6 @@ const editUserDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-
 // --------------------------Edit user Get User details---------------------------
 const editUser = asyncHandler(async (req, res) => {
   try {
@@ -323,7 +309,31 @@ const editUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-// --------------------------Edit user Get User details---------------------------
+
+
+
+
+
+// ----------------------------List Sellers------------------------------
+const listSellers = asyncHandler(async (req, res) => {
+  try {
+    const allSeller = await Seller.find();
+    if (!allSeller) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (allSeller) {
+      return res.status(200).json({
+        data: allSeller,
+      });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+// --------------------------Edit Seller Get User details---------------------------
 const editSeller = asyncHandler(async (req, res) => {
   try {
     const { id } = req.body;
@@ -342,6 +352,29 @@ const editSeller = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
+// ----------------------------Edit Seller New Details Updating------------------------------
+const editSellerDetails = asyncHandler(async (req, res) => {
+  try {
+    const { sellerName, email, mobile, locations, sellerId } = req.body;
+    const seller = await Seller.findOne({ _id: sellerId }).select("-password");
+    if (!seller) {
+      return res.status(404).json({ message: "Seller not found" });
+    }
+    if (seller) {
+      seller.name = sellerName;
+      seller.email = email;
+      seller.mobile = mobile;
+      seller.location = locations;
+      await seller.save();
+      return res.json({ sellerData: true });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+
+
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
@@ -404,15 +437,27 @@ const logoutUser = asyncHandler(async (req, res) => {
 export {
   adminAuthentication,
   adminForget,
-  listUser,
   // getUserProfile,
   // updateUserProfile,
   adminVerifyOTP,
-  listSellers,
   adminResetPassword,
-  blockUser,
+  
+  // ----------user Management
+  listUser,
   editUser,
   editUserDetails,
+  blockUser,
+  
+  
+  // ---------dashboard Management
+  dashboardValuesCount,
+  
+  
+  // ----------Seller Management
+  listSellers,
+  editSeller,
+  editSellerDetails,
+
+
   logoutUser,
-  editSeller,userCount,
 };

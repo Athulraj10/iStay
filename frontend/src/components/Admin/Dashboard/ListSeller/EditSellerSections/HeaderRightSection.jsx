@@ -9,36 +9,35 @@ import { USERSAPI } from "../../../../AxiosAPI/AxiosInstance"
 // import { setCredentials } from "../../../slices/authSlice";
 
 const HeaderRightSection = () => {
-  const locations = useLocation();
-  const userData = locations.state.userData;
+  const location = useLocation()
+  const navigate = useNavigate()
+  const sellerData = location.state.sellerData;
   
-  const [userId, setUserId] = useState(userData._id);
-  const [userName, setUserName] = useState(userData.name || 'userName');
-  const [email, setEmail] = useState(userData.email ||"email");
-  const [mobile, setMobile] = useState(userData.mobile || "Number");
-  const [location, setLocation] = useState(userData.location || "Location");
- 
+  const [sellerId, setSellerId] = useState(sellerData._id);
+  const [sellerName, setSellerName] = useState(sellerData.name || 'sellerName');
+  const [email, setEmail] = useState(sellerData.email ||"email");
+  const [mobile, setMobile] = useState(sellerData.mobile || "Number");
+  const [locations, setLocations] = useState(sellerData.location || "Location");
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const formData = {
-        userName,email,mobile,location,userId
+        sellerName,email,mobile,locations,sellerId
       };
-      let res = await USERSAPI.post("admin/listUsers/editUserDetails", formData);
-      if (res.data) {
-       
-      } else {
-       
+      let res = await USERSAPI.post("admin/listSeller/editSellerDetails", formData);
+      if(res.data.sellerData){
+        navigate('/admin/listSellers')
       }
     } catch (error) {
-      return toast.error(error.response.data.message);
+      return toast.error(error.response.data.message || error.response.data || error.response || error);
     }
   };
 
   return (
     <>
 
-  <h1>Edit User Details</h1>
+  <h1>Edit Seller Details</h1>
       <Container className="justify-content-center">
         <Form onSubmit={handleSubmit}>
           {/* User Password Entering Place and Stored in State */}
@@ -48,8 +47,8 @@ const HeaderRightSection = () => {
               type="String"
               placeholder="Enter Key"
               required
-              value={userName}
-              onChange={(e) => setUserName(e.target.value)}
+              value={sellerName}
+              onChange={(e) => setSellerName(e.target.value)}
             />
           </Form.Group>
 
@@ -85,15 +84,15 @@ const HeaderRightSection = () => {
           type="String"
           placeholder="Enter Key"
           required
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
+          value={locations}
+          onChange={(e) => setLocations(e.target.value)}
         ></Form.Control>
       </Form.Group>
 
 
      {/* Center-aligned button */}
      <Button type="submit" className="mt-3" variant="primary">
-            Edit User Details
+            Edit Seller Details
           </Button>
 
           {/* If user Already registered then Directed to the register page */}

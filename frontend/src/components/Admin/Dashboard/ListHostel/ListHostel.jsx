@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container,Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
@@ -19,8 +19,13 @@ function ListHostel({ data }) {
   };
   return (
     <div style={{background:'transparent'}}className="event-schedule-area-two p-4 rounded">
-      <Container>
-        <Row>
+      <Container >
+        <Row >
+          <Col>
+          <Button className="mb-3 p-2 " variant="dark">Add New Hostels</Button>
+          </Col>
+        </Row>
+        <Row >
           <Col lg={12} >
             <div className="tab-content" id="myTabContent">
               <div

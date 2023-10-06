@@ -14,6 +14,7 @@ import {
 
   listSellers,
   editSeller,
+  editSellerDetails,
   
   logoutUser,
   // logoutUser,
@@ -34,14 +35,15 @@ AdminRoute.post("/listUser", listUser);
 AdminRoute.post("/listUsers/edit", editUser);
 AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
 AdminRoute.post("/listUser/block", blockUser);
-AdminRoute.post("/usersCount",userCount);
 
 
 AdminRoute.post("/listSellers", listSellers);
 AdminRoute.post("/listSeller/edit", editSeller);
+AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
+//-------------------- Dashboard Values
+AdminRoute.post("/usersCount",userCount);
 
-// AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
 // // AdminRoute.post('/',)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 AdminRoute.post('/logout',logoutUser)

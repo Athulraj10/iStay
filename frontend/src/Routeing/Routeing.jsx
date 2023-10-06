@@ -27,6 +27,7 @@ import AdminUserList from "../components/Admin/Screens/AdminUserList";
 import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
 import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 import AdminEditUserScreen from "../components/Admin/Screens/AdminEditUserScreen";
+
 import AdminEditSellerScreen from "../components/Admin/Screens/AdminEditSellerScreen";
 
 
@@ -62,8 +63,9 @@ const Routeing = () => {
       <Route path="/admin/listUser/editUser" element={<AdminEditUserScreen />} />
 
       <Route path="/admin/listSellers" element={<AdminSellerList />} />
-      {/* <Route path="/admin/listSeller/editSeller" element={<AdminEditSellerScreen />} /> */}
-      
+      <Route path="/admin/listSeller/editSeller" element={<AdminEditSellerScreen />} />
+    
+
       <Route path="/admin/listHostels" element={<AdminHostelList />} />
       </Routes>
   );
