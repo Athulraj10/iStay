@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container,Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
+import { Link} from "react-router-dom";
 
 function ListHostel({ data }) {
   const handleBlockButton = async (userId) => {
@@ -21,9 +22,11 @@ function ListHostel({ data }) {
     <div style={{background:'transparent'}}className="event-schedule-area-two p-4 rounded">
       <Container >
         <Row >
+          <Link to='/admin/listHostels/addhostel'>
           <Col>
           <Button className="mb-3 p-2 " variant="dark">Add New Hostels</Button>
           </Col>
+          </Link>
         </Row>
         <Row >
           <Col lg={12} >

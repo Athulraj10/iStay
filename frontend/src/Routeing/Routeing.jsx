@@ -25,8 +25,9 @@ import AdminForgetScreenPassword from "../components/Admin/Screens/AdminForgetSc
 import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordScreen";
 import AdminUserList from "../components/Admin/Screens/AdminUserList";
 import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
-import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 import AdminEditUserScreen from "../components/Admin/Screens/AdminEditUserScreen";
+import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
+import AdminAddHostelScreen from "../components/Admin/Screens/AdminAddHostel";
 
 import AdminEditSellerScreen from "../components/Admin/Screens/AdminEditSellerScreen";
 
@@ -67,6 +68,8 @@ const Routeing = () => {
     
 
       <Route path="/admin/listHostels" element={<AdminHostelList />} />
+      <Route path="/admin/listHostels/addhostel" element={<AdminAddHostelScreen />} />
+
       </Routes>
   );
 };
