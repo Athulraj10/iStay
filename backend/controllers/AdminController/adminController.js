@@ -11,6 +11,7 @@ import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import generateToken from "../../utils/generateToken.js";
 import Seller from "../../models/SellerModel/SellerModel.js";
+import Hostel from "../../models/SellerModel/HostelModel.js";
 
 //@desc forgetOTP
 //access Public
@@ -240,9 +241,14 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
 
 // ----------------------------Add Hostel------------------------------------
 const addHostelDetails = asyncHandler(async(req,res) => {
-  const {  data } = req.body;
-console.log(data)
+    // Assuming the request body contains the JSON-encoded formData
+    const formData = req.body.formData;
+    // Parse the JSON string into an object
+    const formDataObject = JSON.parse(formData);
+    console.log(formDataObject)
+    // ---------destructureing to a new variable--------
   
+
 })
 
 

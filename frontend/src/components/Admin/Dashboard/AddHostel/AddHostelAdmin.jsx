@@ -40,7 +40,7 @@ const AddHostelAdmin = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        data: JSON.stringify(formData),
+        formData: JSON.stringify(formData),
       });
 
       if (response.ok) {
