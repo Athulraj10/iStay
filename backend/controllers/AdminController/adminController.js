@@ -265,7 +265,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
         bedAvailableNow: formDataObject.primaryImage,
         Wifi: formDataObject.primaryImage,
         food:formDataObject.primaryImage,
-        parking: "",
+        parking: formDataObject.primaryImage,
         drinkingWater: "",
       });
     }
