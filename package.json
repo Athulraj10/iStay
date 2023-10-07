@@ -21,6 +21,7 @@
     "express-async-handler": "^1.2.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.2",
+    "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.5",
     "tw-elements-react": "^1.0.0-alpha1"
   },

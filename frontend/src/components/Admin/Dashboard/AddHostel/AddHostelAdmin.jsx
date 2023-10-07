@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import "./AddHostelAdmin.css";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const AddHostelAdmin = () => {
-  const [formData, setFormData] = useState({
+  const [file,setFile] = useState()
+  const upload = () =>{
+
+  }
+  const [formData,setFormData] = useState({
+    primaryImage:"",
     category: "",
     hostelName: "",
     mainLocation: "",
@@ -30,19 +36,19 @@ const AddHostelAdmin = () => {
     e.preventDefault();
     try {
       console.log(formData)
-      // const response = await fetch("YOUR_API_ENDPOINT", {
-      //   method: "POST",
-      //   headers: {
-      //     "Content-Type": "application/json",
-      //   },
-      //   body: JSON.stringify(formData),
-      // });
+      const response = await USERSAPI.post("admin/listHostels/addhostelDetails", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-      // if (response.ok) {
-      //   console.log("Form data submitted successfully");
-      // } else {
-      //   console.error("Form data submission failed");
-      // }
+      if (response.ok) {
+        console.log("Form data submitted successfully");
+      } else {
+        console.error("Form data submission failed");
+      }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -65,7 +71,8 @@ const AddHostelAdmin = () => {
             className="d-flex align-items-center justify-content-center"
           >
             <Button className="primaryPhotoText primaryPhotoButton">
-              <span className="textPrimaryPhoto"  >+ Primary Photo</span>
+            <input type="file" onChange={()=>setFile(e.target.files[0])} />
+            <Button type="button" onClick={upload}>Upload</Button>
             </Button>
           </Col>
         </Row>
