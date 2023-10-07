@@ -253,7 +253,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
         description: formDataObject.primaryImage,
         fullDetails: formDataObject.primaryImage,
         contactNumber:formDataObject.primaryImage,
-        mapLink: formDataObject.primaryImagev,
+        mapLink: formDataObject.primaryImage,
         additionalAboutHostel: "",
         nearByLocation: "",
         restrictions: "",
