@@ -29,19 +29,20 @@ const AddHostelAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("YOUR_API_ENDPOINT", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      console.log(formData)
+      // const response = await fetch("YOUR_API_ENDPOINT", {
+      //   method: "POST",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //   },
+      //   body: JSON.stringify(formData),
+      // });
 
-      if (response.ok) {
-        console.log("Form data submitted successfully");
-      } else {
-        console.error("Form data submission failed");
-      }
+      // if (response.ok) {
+      //   console.log("Form data submitted successfully");
+      // } else {
+      //   console.error("Form data submission failed");
+      // }
     } catch (error) {
       console.error("Error:", error);
     }
@@ -88,6 +89,7 @@ const AddHostelAdmin = () => {
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
                 // id="custom-input-bg"
+               
                 className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
                 placeholder="Category Ex: Gents or Womens"
                 type="text"

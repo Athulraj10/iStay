@@ -9,7 +9,7 @@
 /* CSS to style the Form.Control */
 .custom-input-bg {
     background-color: transparent !important;
-    /* color: white !important; */
+    color: rgb(0, 149, 255) !important;
     /* Add any other styling you need */
   }
   
@@ -20,7 +20,7 @@
   }
 .myCustomButton{
   width: 300px; /* Set the desired width here */
-  color: #252f4f;
+  color: #ffffff;
 }
 Button{
   background-color: #252f4f !important;
