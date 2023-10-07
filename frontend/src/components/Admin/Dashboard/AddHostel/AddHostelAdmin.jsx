@@ -48,7 +48,7 @@ const AddHostelAdmin = () => {
     // </Container>
     <Container style={{ color: "white" }}>
       <Form onSubmit={handleSubmit}>
-        <Row className="photoAddContainer">
+        <Row className="photoAddContainer m-5">
           <Col
             lg={12}
             className="d-flex align-items-center justify-content-center"
@@ -59,7 +59,10 @@ const AddHostelAdmin = () => {
           </Col>
         </Row>
         <Row>
-          <Col lg={2} className="">
+          <Col
+            lg={3}
+            className="d-flex align-items-center justify-content-center"
+          >
             <Button
               className="primaryPhotoText"
               type="submit"
@@ -74,7 +77,8 @@ const AddHostelAdmin = () => {
             <Form.Group controlId="category">
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
-                className="m-1 form-input" // Add the form-input class here
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input" // Add the form-input class here
                 placeholder="Category Ex: Gents or Womens"
                 type="text"
                 name="category"
@@ -86,7 +90,8 @@ const AddHostelAdmin = () => {
             <Form.Group controlId="name">
               {/* <Form.Label>Name</Form.Label> */}
               <Form.Control
-                className="m-1"
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
                 type="text"
                 placeholder="Enter Hostel Name"
                 name="hostelName"
@@ -97,7 +102,8 @@ const AddHostelAdmin = () => {
 
             <Form.Group controlId="email">
               <Form.Control
-                className="m-1"
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
                 placeholder="Enter Main Location"
                 type="text"
                 name="mainLocation"
@@ -109,8 +115,60 @@ const AddHostelAdmin = () => {
             <Form.Group controlId="email">
               <Form.Control
                 id="custom-input-bg" // Add the id here
-                className="m-1"
-                placeholder="Enter Anything About Hostel"
+                className="ms-3 m-2 form-input"
+                placeholder="Enter Description"
+                type="text"
+                name="about hostel"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+
+          <Col lg={4}>
+            <Form.Group controlId="category">
+              {/* <Form.Label>Category</Form.Label> */}
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input" // Add the form-input class here
+                placeholder="Provide Full Details with Pincode"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="name">
+              {/* <Form.Label>Name</Form.Label> */}
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
+                type="text"
+                placeholder="Provide Contact Number"
+                name="hostelName"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
+                placeholder="Map Link"
+                type="text"
+                name="mainLocation"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Control
+                id="custom-input-bg" // Add the id here
+                className="ms-3 m-2 form-input"
+                placeholder="Enter Anything Additional About Hostel"
                 type="text"
                 name="about hostel"
                 value={formData.email}
@@ -119,6 +177,263 @@ const AddHostelAdmin = () => {
             </Form.Group>
           </Col>
         </Row>
+
+
+        <Row className="mt-5">
+          <Col
+            lg={3} >
+            <Button
+              className="primaryPhotoText"
+              type="submit"
+              style={{ height: "100px" }}
+            >
+              + Add Remaining Photo
+            </Button>
+          </Col>
+
+          {/* ----------about hostel details */}
+          <Col lg={4}>
+            <Form.Group controlId="category">
+              {/* <Form.Label>Category</Form.Label> */}
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input" // Add the form-input class here
+                placeholder="Category Ex: Gents or Womens"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="name">
+              {/* <Form.Label>Name</Form.Label> */}
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
+                type="text"
+                placeholder="Enter Hostel Name"
+                name="hostelName"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
+                placeholder="Enter Main Location"
+                type="text"
+                name="mainLocation"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Control
+                id="custom-input-bg" // Add the id here
+                className="ms-3 m-2 form-input"
+                placeholder="Enter Description"
+                type="text"
+                name="about hostel"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+
+          <Col lg={4}>
+            <Form.Group controlId="category">
+              {/* <Form.Label>Category</Form.Label> */}
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input" // Add the form-input class here
+                placeholder="Provide Full Details with Pincode"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="name">
+              {/* <Form.Label>Name</Form.Label> */}
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
+                type="text"
+                placeholder="Provide Contact Number"
+                name="hostelName"
+                value={formData.name}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Control
+                id="custom-input-bg"
+                className="ms-3 m-2 form-input"
+                placeholder="Map Link"
+                type="text"
+                name="mainLocation"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="email">
+              <Form.Control
+                id="custom-input-bg" // Add the id here
+                className="ms-3 m-2 form-input"
+                placeholder="Enter Anything Additional About Hostel"
+                type="text"
+                name="about hostel"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+        </Row>
+
+        {/* <Row className="m-4">
+          <Col lg={3}>
+            <Form.Group controlId="category">
+              <Form.Label className="mb-3 mt-2">
+                <strong>Restrictions</strong>
+              </Form.Label>
+              <Form.Control
+                id="custom-input-bg"
+                className="form-input mb-3" // Add the form-input class here
+                placeholder="Enter Any restrictions"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="category">
+              <Form.Control
+                id="custom-input-bg"
+                className="form-input  mb-3" // Add the form-input class here
+                placeholder="Enter Guest Profile"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+
+          <Col lg={4}>
+            <Form.Group controlId="category">
+              <Form.Label className="ms-3 m-2 ">
+                <strong>Price And Details</strong>
+              </Form.Label>
+              <Form.Control
+               className="m-2 "
+                id="custom-input-bg"
+                placeholder="Enter Price"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="category">
+              <Form.Control
+               className="m-2"
+                id="custom-input-bg"
+                placeholder="Any Extra Charge"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="category">
+              <Form.Control
+               className="m-2"
+                id="custom-input-bg"
+                placeholder="Enter Total Bed"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="category">
+              <Form.Control
+               className="m-2"
+                id="custom-input-bg"
+                placeholder="Enter bed Available"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+          </Col>
+
+          <Col lg={4}>
+            <Form.Group controlId="category">
+            <Form.Label className="ms-3 m-3 ">
+               
+              </Form.Label>
+              <Form.Control
+               className="m-2 "
+                id="custom-input-bg"
+                placeholder="Enter WIFI available"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="category">
+              <Form.Control
+               className="m-2"
+                id="custom-input-bg"
+                placeholder="Food Available"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="category">
+              <Form.Control
+               className="m-2"
+                id="custom-input-bg"
+                placeholder="Parking Available"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="category">
+              <Form.Control
+               className="m-2"
+                id="custom-input-bg"
+                placeholder="Drinking Water Available Yes Or No"
+                type="text"
+                name="category"
+                value={formData.category}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+          </Col>
+        </Row> */}
       </Form>
     </Container>
   );
