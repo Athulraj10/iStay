@@ -210,9 +210,6 @@ const adminResetPassword = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
 // ----------------------------Dashboard Values------------------------------
 const dashboardValuesCount = asyncHandler(async (req, res) => {
   try {
@@ -230,7 +227,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
       return res.status(200).json({
         userCount,
         sellerCount,
-        hostelCount:1
+        hostelCount: 1,
       });
     }
   } catch (error) {
@@ -240,26 +237,42 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
 });
 
 // ----------------------------Add Hostel------------------------------------
-const addHostelDetails = asyncHandler(async(req,res) => {
-    // Assuming the request body contains the JSON-encoded formData
-    // const formData = req.body.formData;
-    // Parse the JSON string into an object
-    const formDataObject = JSON.parse(req.body.formData);
-    // ---------save value to database--------
-    try {
-      if(formDataObject){
-        const hostelData={
-          
-        }
-      }
-    } catch (error) {
-      console.error(error)
+const addHostelDetails = asyncHandler(async (req, res) => {
+  // Assuming the request body contains the JSON-encoded formData
+  // const formData = req.body.formData;
+  // Parse the JSON string into an object
+  const formDataObject = JSON.parse(req.body.formData);
+  // ---------save value to database--------
+  try {
+    if (formDataObject) {
+      const hostelData = new Seller({
+        primaryImage: formDataObject.primaryImage,
+        category: formDataObject.primaryImage,
+        hostelName: formDataObject.primaryImage,
+        mainLocation: formDataObject.primaryImage,
+        description: formDataObject.primaryImage,
+        fullDetails: "",
+        contactNumber: "",
+        mapLink: "",
+        additionalAboutHostel: "",
+        nearByLocation: "",
+        restrictions: "",
+        descriptionAboutHostel: "",
+        guestProfile: "",
+        price: "",
+        extraPrice: "",
+        totalBedInRoom: "",
+        bedAvailableNow: "",
+        Wifi: "",
+        food: "",
+        parking: "",
+        drinkingWater: "",
+      });
     }
-  
-
-})
-
-
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // ----------------------------Block User------------------------------
 const blockUser = asyncHandler(async (req, res) => {
@@ -331,10 +344,6 @@ const editUser = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
-
 // ----------------------------List Sellers------------------------------
 const listSellers = asyncHandler(async (req, res) => {
   try {
@@ -367,7 +376,7 @@ const editSeller = asyncHandler(async (req, res) => {
     }
     if (seller) {
       return res.status(200).json({ sellerData: seller });
-      }
+    }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
@@ -394,8 +403,6 @@ const editSellerDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-
-
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
@@ -462,25 +469,22 @@ export {
   // updateUserProfile,
   adminVerifyOTP,
   adminResetPassword,
-  
+
   // ----------user Management
   listUser,
   editUser,
   editUserDetails,
   blockUser,
-  
-  
+
   // ---------dashboard Management
   dashboardValuesCount,
-  
+
   // ---------Hostel Management
   addHostelDetails,
-  
+
   // ----------Seller Management
   listSellers,
   editSeller,
   editSellerDetails,
-
-
   logoutUser,
 };
