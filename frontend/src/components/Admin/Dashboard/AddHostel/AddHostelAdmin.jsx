@@ -4,9 +4,26 @@ import { Container, Form, Row, Col, Button } from "react-bootstrap";
 
 const AddHostelAdmin = () => {
   const [formData, setFormData] = useState({
-    category: "", // Initial value for category
-    name: "", // Initial value for name
-    email: "", // Initial value for email
+    category: "",
+    hostelName: "",
+    mainLocation: "",
+    description: "",
+    fullDetails: "",
+    contactNumber: "",
+    mapLink: "",
+    additionalAboutHostel: "",
+    nearByLocation: "",
+    restrictions: "",
+    descriptionAboutHostel: "",
+    guestProfile: "",
+    price: "",
+    extraPrice: "",
+    totalBedInRoom: "",
+    bedAvailableNow: "",
+    Wifi: "",
+    food: "",
+    parking: "",
+    drinkingWater: "",
   });
 
   const handleSubmit = async (e) => {
@@ -39,13 +56,6 @@ const AddHostelAdmin = () => {
   };
 
   return (
-    //   <Container style={{color:'white'}}>
-    //   <Row className="photoAddContainer">
-    //     <Col lg={12} className=" d-flex align-items-center justify-content-center">
-    //       <Button className="primaryPhotoText">+ Primary Photo</Button>
-    //     </Col>
-    //   </Row>
-    // </Container>
     <Container style={{ color: "white" }}>
       <Form onSubmit={handleSubmit}>
         <Row className="photoAddContainer m-5">
@@ -53,8 +63,8 @@ const AddHostelAdmin = () => {
             lg={12}
             className="d-flex align-items-center justify-content-center"
           >
-            <Button className="primaryPhotoText" type="submit">
-              + Primary Photo
+            <Button className="primaryPhotoText primaryPhotoButton">
+              <span className="textPrimaryPhoto"  >+ Primary Photo</span>
             </Button>
           </Col>
         </Row>
@@ -77,8 +87,8 @@ const AddHostelAdmin = () => {
             <Form.Group controlId="category">
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input" // Add the form-input class here
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
                 placeholder="Category Ex: Gents or Womens"
                 type="text"
                 name="category"
@@ -87,353 +97,265 @@ const AddHostelAdmin = () => {
               />
             </Form.Group>
 
-            <Form.Group controlId="name">
+            <Form.Group controlId="hostelName">
               {/* <Form.Label>Name</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
                 type="text"
                 placeholder="Enter Hostel Name"
                 name="hostelName"
-                value={formData.name}
+                value={formData.hostelName}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="mainLocation">
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
                 placeholder="Enter Main Location"
                 type="text"
                 name="mainLocation"
-                value={formData.email}
+                value={formData.mainLocation}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="description">
               <Form.Control
-                id="custom-input-bg" // Add the id here
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg" // Add the id here
+                className="ms-3 m-2 form-input custom-input-bg"
                 placeholder="Enter Description"
                 type="text"
-                name="about hostel"
-                value={formData.email}
+                name="About hostel"
+                value={formData.description}
                 onChange={handleChange}
               />
             </Form.Group>
           </Col>
 
           <Col lg={4}>
-            <Form.Group controlId="category">
+            <Form.Group controlId="fullDetails">
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input" // Add the form-input class here
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
                 placeholder="Provide Full Details with Pincode"
                 type="text"
-                name="category"
-                value={formData.category}
+                name="fullDetails"
+                value={formData.fullDetails}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="name">
+            <Form.Group controlId="contactNumber">
               {/* <Form.Label>Name</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
                 type="text"
                 placeholder="Provide Contact Number"
-                name="hostelName"
-                value={formData.name}
+                name="contactNumber"
+                value={formData.contactNumber}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="mapLink">
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
                 placeholder="Map Link"
                 type="text"
-                name="mainLocation"
-                value={formData.email}
+                name="mapLink"
+                value={formData.mapLink}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="additionalAboutHostel">
               <Form.Control
-                id="custom-input-bg" // Add the id here
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg" // Add the id here
+                className="ms-3 m-2 form-input custom-input-bg"
                 placeholder="Enter Anything Additional About Hostel"
                 type="text"
-                name="about hostel"
-                value={formData.email}
+                name="additionalAboutHostel"
+                value={formData.additionalAboutHostel}
                 onChange={handleChange}
               />
             </Form.Group>
           </Col>
         </Row>
 
-
         <Row className="mt-5">
-          <Col
-            lg={3} >
-            <Button
-              className="primaryPhotoText"
-              type="submit"
-              style={{ height: "100px" }}
-            >
-              + Add Remaining Photo
-            </Button>
+          <Col lg={3}>
+            <Form.Group controlId="nearByLocation">
+              {/* <Form.Label className="ms-3" >Near By Location</Form.Label> */}
+              <Form.Control
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                placeholder="Enter Famous Shop or anything"
+                type="text"
+                name="nearByLocation"
+                value={formData.nearByLocation}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="restrictions">
+              {/* <Form.Label className="ms-3" >Restrictions</Form.Label> */}
+              <Form.Control
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                placeholder="Enter Any Restrictions"
+                type="text"
+                name="restrictions"
+                value={formData.restrictions}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="descriptionAboutHostel">
+              <Form.Control
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                placeholder="Descriptions About Hostel"
+                type="text"
+                name="descriptionAboutHostel"
+                value={formData.descriptionAboutHostel}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="guestProfile">
+              <Form.Control
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                placeholder="Guest Profile"
+                type="text"
+                name="guestProfile"
+                value={formData.guestProfile}
+                onChange={handleChange}
+              />
+            </Form.Group>
           </Col>
 
           {/* ----------about hostel details */}
           <Col lg={4}>
-            <Form.Group controlId="category">
+            <Form.Group controlId="price">
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input" // Add the form-input class here
-                placeholder="Category Ex: Gents or Womens"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                placeholder="Enter Price"
                 type="text"
-                name="category"
-                value={formData.category}
+                name="price"
+                value={formData.price}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="name">
+            <Form.Group controlId="extraPrice">
               {/* <Form.Label>Name</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
                 type="text"
-                placeholder="Enter Hostel Name"
-                name="hostelName"
-                value={formData.name}
+                placeholder="Any Extra Charges"
+                name="extraPrice"
+                value={formData.extraPrice}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="totalBedInRoom">
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
-                placeholder="Enter Main Location"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
+                placeholder="Total Bed In Room"
                 type="text"
-                name="mainLocation"
-                value={formData.email}
+                name="totalBedInRoom"
+                value={formData.totalBedInRoom}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="bedAvailableNow">
               <Form.Control
-                id="custom-input-bg" // Add the id here
-                className="ms-3 m-2 form-input"
-                placeholder="Enter Description"
+                // id="custom-input-bg" // Add the id here
+                className="ms-3 m-2 form-input custom-input-bg"
+                placeholder="Bed Available Now"
                 type="text"
-                name="about hostel"
-                value={formData.email}
+                name="bedAvailableNow"
+                value={formData.bedAvailableNow}
                 onChange={handleChange}
               />
             </Form.Group>
           </Col>
 
           <Col lg={4}>
-            <Form.Group controlId="category">
+            <Form.Group controlId="Wifi">
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input" // Add the form-input class here
-                placeholder="Provide Full Details with Pincode"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                placeholder="WIFI Availble or Not"
                 type="text"
-                name="category"
-                value={formData.category}
+                name="Wifi"
+                value={formData.Wifi}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="name">
+            <Form.Group controlId="food">
               {/* <Form.Label>Name</Form.Label> */}
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
                 type="text"
-                placeholder="Provide Contact Number"
-                name="hostelName"
-                value={formData.name}
+                placeholder="Food Availble"
+                name="food"
+                value={formData.food}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="parking">
               <Form.Control
-                id="custom-input-bg"
-                className="ms-3 m-2 form-input"
-                placeholder="Map Link"
+                // id="custom-input-bg"
+                className="ms-3 m-2 form-input custom-input-bg"
+                placeholder="Parking Available or Not"
                 type="text"
-                name="mainLocation"
-                value={formData.email}
+                name="parking"
+                value={formData.parking}
                 onChange={handleChange}
               />
             </Form.Group>
 
-            <Form.Group controlId="email">
+            <Form.Group controlId="drinkingWater">
               <Form.Control
-                id="custom-input-bg" // Add the id here
-                className="ms-3 m-2 form-input"
-                placeholder="Enter Anything Additional About Hostel"
+                // id="custom-input-bg" // Add the id here
+                className="ms-3 m-2 form-input custom-input-bg"
+                placeholder="Drinking Water Available"
                 type="text"
-                name="about hostel"
-                value={formData.email}
+                name="drinkingWater"
+                value={formData.drinkingWater}
                 onChange={handleChange}
               />
             </Form.Group>
           </Col>
         </Row>
-
-        {/* <Row className="m-4">
-          <Col lg={3}>
-            <Form.Group controlId="category">
-              <Form.Label className="mb-3 mt-2">
-                <strong>Restrictions</strong>
-              </Form.Label>
-              <Form.Control
-                id="custom-input-bg"
-                className="form-input mb-3" // Add the form-input class here
-                placeholder="Enter Any restrictions"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Control
-                id="custom-input-bg"
-                className="form-input  mb-3" // Add the form-input class here
-                placeholder="Enter Guest Profile"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
+        <Row className="m-4">
+          <Col
+            lg={12}
+            className="d-flex align-items-center justify-content-center"
+          >
+            <Button className="primaryPhotoText myCustomButton" type="submit">
+              Submit Data
+            </Button>
           </Col>
-
-          <Col lg={4}>
-            <Form.Group controlId="category">
-              <Form.Label className="ms-3 m-2 ">
-                <strong>Price And Details</strong>
-              </Form.Label>
-              <Form.Control
-               className="m-2 "
-                id="custom-input-bg"
-                placeholder="Enter Price"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Control
-               className="m-2"
-                id="custom-input-bg"
-                placeholder="Any Extra Charge"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Control
-               className="m-2"
-                id="custom-input-bg"
-                placeholder="Enter Total Bed"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Control
-               className="m-2"
-                id="custom-input-bg"
-                placeholder="Enter bed Available"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-          </Col>
-
-          <Col lg={4}>
-            <Form.Group controlId="category">
-            <Form.Label className="ms-3 m-3 ">
-               
-              </Form.Label>
-              <Form.Control
-               className="m-2 "
-                id="custom-input-bg"
-                placeholder="Enter WIFI available"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Control
-               className="m-2"
-                id="custom-input-bg"
-                placeholder="Food Available"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Control
-               className="m-2"
-                id="custom-input-bg"
-                placeholder="Parking Available"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <Form.Group controlId="category">
-              <Form.Control
-               className="m-2"
-                id="custom-input-bg"
-                placeholder="Drinking Water Available Yes Or No"
-                type="text"
-                name="category"
-                value={formData.category}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-          </Col>
-        </Row> */}
+        </Row>
       </Form>
     </Container>
   );

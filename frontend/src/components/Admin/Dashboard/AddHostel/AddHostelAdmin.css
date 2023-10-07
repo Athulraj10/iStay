@@ -7,14 +7,29 @@
     font-weight: 900;
 }
 /* CSS to style the Form.Control */
-#custom-input-bg {
-    background-color: transparent;
-    color: white;
+.custom-input-bg {
+    background-color: transparent !important;
+    /* color: white !important; */
     /* Add any other styling you need */
   }
   
   /* CSS to style the placeholder text */
-  #custom-input-bg::placeholder {
-    color: white; /* Set the placeholder text color to white */
+  .custom-input-bg::placeholder {
+    color: white !important; /* Set the placeholder text color to white */
     /* Add any other styling you need for the placeholder */
   }
+.myCustomButton{
+  width: 300px; /* Set the desired width here */
+  color: #252f4f;
+}
+Button{
+  background-color: #252f4f !important;
+}
+.textPrimaryPhoto{
+font-size: 25px;
+font-weight: 900;
+}
+.primaryPhotoButton{
+  height: 200px;
+  width: 400px;
+}
