@@ -262,7 +262,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
         price: formDataObject.primaryImage,
         extraPrice: formDataObject.primaryImage,
         totalBedInRoom: formDataObject.primaryImage,
-        bedAvailableNow: "",
+        bedAvailableNow: formDataObject.primaryImage,
         Wifi: "",
         food: "",
         parking: "",
