@@ -35,7 +35,6 @@ const AddHostelAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData)
       const response = await USERSAPI.post("admin/listHostels/addhostelDetails", {
         method: "POST",
         headers: {

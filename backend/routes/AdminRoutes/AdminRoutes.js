@@ -12,6 +12,8 @@ import {
 
   
   dashboardValuesCount,
+
+  addHostelDetails,
   
 
   listSellers,
@@ -42,6 +44,9 @@ AdminRoute.post("/listUser/block", blockUser);
 AdminRoute.post("/listSellers", listSellers);
 AdminRoute.post("/listSeller/edit", editSeller);
 AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
+
+AdminRoute.post("/listHostels/addhostelDetails",addHostelDetails);
+
 
 //-------------------- Dashboard Values
 AdminRoute.post("/usersCount",dashboardValuesCount);

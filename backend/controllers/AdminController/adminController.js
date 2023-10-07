@@ -238,7 +238,10 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
   }
 });
 
+// ----------------------------Add Hostel------------------------------------
+const addHostelDetails = asyncHandler(async(req,res) => {
 
+})
 
 
 
@@ -454,6 +457,8 @@ export {
   // ---------dashboard Management
   dashboardValuesCount,
   
+  // ---------Hostel Management
+  addHostelDetails,
   
   // ----------Seller Management
   listSellers,

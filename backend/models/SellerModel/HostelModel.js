@@ -1,103 +1,90 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcryptjs';
 
 
 //here time stamp was added with the mongoose inbuild function
 const hostelModel = mongoose.Schema({
+    primaryImage:{
+        type:File,
+        required:true
+    },
     category:{
         type:String,
         required:true
     },
-    houseName:{
+    hostelName:{
         type:String,
-        required:true,
-        unique:true
+        required:true
     },
     mainLocation:{
         type:String,
-    },
-    additionalOptions:{
-        type:String,
-        required:true
-    },
-    locationWithPincode:{
-        type:Number,
-        required:true
-    },
-    Restriction:{
-        type:String,
-        required:true
-    },
-    GuestProfile:{
-        type:Number,
-        required:true
-    },
-    images:{
-        type:Number,
-        required:true
-    },
-    contactDetails:{
-        type:Number,
-        required:true
-    },
-    contactNumber:{
-        type:Number,
-        required:true
-    },
-    MapLink:{
-        type:Number,
-        required:true
-    },
-    price:{
-        type:Number,
-        required:true
-    },
-    extraCharge:{
-        type:Number,
-        required:true
-    },
-    totalBed:{
-        type:Number,
-        required:true
-    },
-    bedAvailable:{
-        type:Number,
-        required:true
-    },
-    is_wifi:{
-        type:Number,
-        required:true
-    },
-    is_food:{
-        type:Number,
-        required:true
-    },
-    is_parking:{
-        type:Number,
-        required:true
-    },
-    drinkingWater:{
-        type:Number,
-        required:true
-    },
-    AdcancePayment:{
-        type:Number,
-        required:true
-    },
-    cancellationAmount:{
-        type:Number,
         required:true
     },
     description:{
-        type:Number,
+        type:String,
         required:true
     },
-    idProof:{
-        type:Number,
+    fullDetails:{
+        type:String,
         required:true
     },
-    seller:{
-        type:Number,
+    contactNumber:{
+        type:String,
+        required:true
+    },
+    mapLink:{
+        type:String,
+        required:true
+    },
+    additionalAboutHostel:{
+        type:String,
+        required:true
+    },
+    nearByLocation:{
+        type:String,
+        required:true
+    },
+    restrictions:{
+        type:String,
+        required:true
+    },
+    descriptionAboutHostel:{
+        type:String,
+        required:true
+    },
+    guestProfile:{
+        type:String,
+        required:true
+    },
+    price:{
+        type:String,
+        required:true
+    },
+    extraPrice:{
+        type:String,
+        required:true
+    },
+    totalBedInRoom:{
+        type:String,
+        required:true
+    },
+    bedAvailableNow:{
+        type:String,
+        required:true
+    },
+    Wifi:{
+        type:String,
+        required:true
+    },
+    food:{
+        type:String,
+        required:true
+    },
+    parking:{
+        type:String,
+        required:true
+    },
+    drinkingWater:{
+        type:String,
         required:true
     },
 },{ 
