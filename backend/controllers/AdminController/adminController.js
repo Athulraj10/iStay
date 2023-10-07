@@ -240,7 +240,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
 
 // ----------------------------Add Hostel------------------------------------
 const addHostelDetails = asyncHandler(async(req,res) => {
-
+console.log(req.body.price)
 })
 
 

@@ -13,7 +13,7 @@ const AddHostelAdmin = () => {
     category: "",
     hostelName: "",
     mainLocation: "",
-    description: "",
+    description:"",
     fullDetails: "",
     contactNumber: "",
     mapLink: "",
@@ -129,18 +129,20 @@ const AddHostelAdmin = () => {
                 onChange={handleChange}
               />
             </Form.Group>
+           
 
             <Form.Group controlId="description">
               <Form.Control
-                // id="custom-input-bg" // Add the id here
+                // id="custom-input-bg"
                 className="ms-3 m-2 form-input custom-input-bg"
-                placeholder="Enter Description"
+                placeholder="Enter Descriptions"
                 type="text"
-                name="About hostel"
+                name="description"
                 value={formData.description}
                 onChange={handleChange}
               />
             </Form.Group>
+
           </Col>
 
           <Col lg={4}>
