@@ -266,7 +266,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
         Wifi: formDataObject.primaryImage,
         food:formDataObject.primaryImage,
         parking: formDataObject.primaryImage,
-        drinkingWater: "",
+        drinkingWater: formDataObject.primaryImage,
       });
     }
   } catch (error) {
