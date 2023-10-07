@@ -218,6 +218,8 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const userCount = await User.countDocuments();
     const sellerCount = await Seller.countDocuments();
     // const hostelCount = await User.countDocuments();
+    // console.log(userCount)
+    // console.log(sellerCount)
     if (!userCount) {
       return res
         .status(404)

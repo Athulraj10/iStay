@@ -9,7 +9,9 @@ import {
   blockUser,
   editUser,
   editUserDetails,
-  userCount,
+
+  
+  dashboardValuesCount,
   
 
   listSellers,
@@ -42,7 +44,7 @@ AdminRoute.post("/listSeller/edit", editSeller);
 AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
 //-------------------- Dashboard Values
-AdminRoute.post("/usersCount",userCount);
+AdminRoute.post("/usersCount",dashboardValuesCount);
 
 // // AdminRoute.post('/',)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
