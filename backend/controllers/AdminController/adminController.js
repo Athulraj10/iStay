@@ -242,6 +242,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
   // const formData = req.body.formData;
   // Parse the JSON string into an object
   const formDataObject = JSON.parse(req.body.formData);
+ console.log(formDataObject)
   // ---------save value to database--------
   try {
     if (formDataObject) {
