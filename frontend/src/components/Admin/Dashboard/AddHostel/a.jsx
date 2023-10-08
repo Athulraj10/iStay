@@ -5,16 +5,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const AddHostelAdmin = () => {
 
- try {
-      const response = await USERSAPI.post(
-        "admin/listHostels/addhostelDetails",
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+ try
 
       if (response.ok) {
         console.log("Form data submitted successfully");
