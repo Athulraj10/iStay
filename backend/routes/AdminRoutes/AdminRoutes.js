@@ -30,6 +30,22 @@ import {
 
 const AdminRoute = express.Router();
 
+// Define storage for your uploaded files
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // Specify the directory where uploaded files will be stored
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+    cb(null, uniqueSuffix + "-" + file.originalname); // Specify how to name the uploaded file
+  },
+});
+
+// Create a Multer instance with your storage configuration
+const upload = multer({ storage: storage });
+
+
+
 AdminRoute.post("/login", adminAuthentication);
 AdminRoute.post("/forget", adminForget);
 AdminRoute.post("/verifyOTP", adminVerifyOTP);
