@@ -11,11 +11,7 @@ const AddHostelAdmin = () => {
     const files = e.target.files;
     const primaryImage = files[0];
 
-    setFormData({
-      ...formData,
-      file: primaryImage, // Store the primary image in the file field
-    });
-
+    
     const primaryImageUrl = URL.createObjectURL(primaryImage);
     setImageUrl(primaryImageUrl);
   };
