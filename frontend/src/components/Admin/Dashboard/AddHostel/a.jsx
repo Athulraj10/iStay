@@ -6,17 +6,6 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 const AddHostelAdmin = () => {
 
   const [imageUrl, setImageUrl] = useState("");
-
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formDataToSend = new FormData();
-    formDataToSend.append("file", formData.file);
-    formDataToSend.append("category", formData.category);
-    formDataToSend.append("hostelName", formData.hostelName);
-    formDataToSend.append("mainLocation", formData.mainLocation);
-    formDataToSend.append("descriptions", formData.descriptions);
-    formDataToSend.append("fullDetails", formData.fullDetails);
     formDataToSend.append("contactNumber", formData.contactNumber);
     formDataToSend.append("mapLink", formData.mapLink);
     formDataToSend.append("additionalAboutHostel", formData.additionalAboutHostel);
