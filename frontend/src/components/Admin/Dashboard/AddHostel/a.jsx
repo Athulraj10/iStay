@@ -6,12 +6,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 const AddHostelAdmin = () => {
   const [formData, setFormData] = useState({
     
-    guestProfile: "",
-    price: "",
-    extraPrice: "",
-    totalBedInRoom: "",
-    bedAvailableNow: "",
-    Wifi: "",
+    
     food: "",
     parking: "",
     drinkingWater: "",
