@@ -245,29 +245,31 @@ const addHostelDetails = asyncHandler(async (req, res) => {
   // ---------save value to database--------
   try {
     if (formDataObject) {
-      const hostelData = new Seller({
+      const hostelData = new Hostel({
         primaryImage: formDataObject.primaryImage,
-        category: formDataObject.primaryImage,
-        hostelName: formDataObject.primaryImage,
-        mainLocation: formDataObject.primaryImage,
-        description: formDataObject.primaryImage,
-        fullDetails: formDataObject.primaryImage,
-        contactNumber:formDataObject.primaryImage,
-        mapLink: formDataObject.primaryImage,
-        additionalAboutHostel: formDataObject.primaryImage,
-        nearByLocation: formDataObject.primaryImage,
-        restrictions: formDataObject.primaryImage,
-        descriptionAboutHostel: formDataObject.primaryImage,
-        guestProfile: formDataObject.primaryImage,
-        price: formDataObject.primaryImage,
-        extraPrice: formDataObject.primaryImage,
-        totalBedInRoom: formDataObject.primaryImage,
-        bedAvailableNow: formDataObject.primaryImage,
-        Wifi: formDataObject.primaryImage,
-        food:formDataObject.primaryImage,
-        parking: formDataObject.primaryImage,
-        drinkingWater: formDataObject.primaryImage,
+        category: formDataObject.category,
+        hostelName: formDataObject.hostelName,
+        mainLocation: formDataObject.mainLocation,
+        description: formDataObject.descriptions,
+        fullDetails: formDataObject.fullDetails,
+        contactNumber:formDataObject.contactNumber,
+        mapLink: formDataObject.mapLink,
+        additionalAboutHostel: formDataObject.additionalAboutHostel,
+        nearByLocation: formDataObject.nearByLocation,
+        restrictions: formDataObject.restrictions,
+        descriptionAboutHostel: formDataObject.descriptionAboutHostel,
+        guestProfile: formDataObject.guestProfile,
+        price: formDataObject.price,
+        extraPrice: formDataObject.extraPrice,
+        totalBedInRoom: formDataObject.totalBedInRoom,
+        bedAvailableNow: formDataObject.bedAvailableNow,
+        Wifi: formDataObject.Wifi,
+        food:formDataObject.food,
+        parking: formDataObject.parking,
+        drinkingWater: formDataObject.drinkingWater,
       });
+      const hosteldetails = await hostelData.save();
+      console.log(hosteldetails)
     }
   } catch (error) {
     console.error(error);
