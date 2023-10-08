@@ -238,40 +238,40 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
 
 // ----------------------------Add Hostel------------------------------------
 const addHostelDetails = asyncHandler(async (req, res) => {
-  // Assuming the request body contains the JSON-encoded formData
-  // const formData = req.body.formData;
-  // Parse the JSON string into an object
-  const formDataObject = JSON.parse(req.body.formData);
- console.log(formDataObject)
+    // Assuming the request body contains the JSON-encoded formData
+    const formDataObject = JSON.parse(req.body.body);
+  // console.log(formDataObject)
+  console.log("data",formDataObject)
+
   // ---------save value to database--------
   try {
-    if (formDataObject) {
-      const hostelData = new Hostel({
-        primaryImage: formDataObject.primaryImage,
-        category: formDataObject.category,
-        hostelName: formDataObject.hostelName,
-        mainLocation: formDataObject.mainLocation,
-        description: formDataObject.descriptions,
-        fullDetails: formDataObject.fullDetails,
-        contactNumber:formDataObject.contactNumber,
-        mapLink: formDataObject.mapLink,
-        additionalAboutHostel: formDataObject.additionalAboutHostel,
-        nearByLocation: formDataObject.nearByLocation,
-        restrictions: formDataObject.restrictions,
-        descriptionAboutHostel: formDataObject.descriptionAboutHostel,
-        guestProfile: formDataObject.guestProfile,
-        price: formDataObject.price,
-        extraPrice: formDataObject.extraPrice,
-        totalBedInRoom: formDataObject.totalBedInRoom,
-        bedAvailableNow: formDataObject.bedAvailableNow,
-        Wifi: formDataObject.Wifi,
-        food:formDataObject.food,
-        parking: formDataObject.parking,
-        drinkingWater: formDataObject.drinkingWater,
-      });
-      const hosteldetails = await hostelData.save();
-      console.log(hosteldetails)
-    }
+    // if (formDataObject) {
+    //   const hostelData = new Hostel({
+    //     primaryImage: formDataObject.primaryImage,
+    //     category: formDataObject.category,
+    //     hostelName: formDataObject.hostelName,
+    //     mainLocation: formDataObject.mainLocation,
+    //     description: formDataObject.descriptions,
+    //     fullDetails: formDataObject.fullDetails,
+    //     contactNumber:formDataObject.contactNumber,
+    //     mapLink: formDataObject.mapLink,
+    //     additionalAboutHostel: formDataObject.additionalAboutHostel,
+    //     nearByLocation: formDataObject.nearByLocation,
+    //     restrictions: formDataObject.restrictions,
+    //     descriptionAboutHostel: formDataObject.descriptionAboutHostel,
+    //     guestProfile: formDataObject.guestProfile,
+    //     price: formDataObject.price,
+    //     extraPrice: formDataObject.extraPrice,
+    //     totalBedInRoom: formDataObject.totalBedInRoom,
+    //     bedAvailableNow: formDataObject.bedAvailableNow,
+    //     Wifi: formDataObject.Wifi,
+    //     food:formDataObject.food,
+    //     parking: formDataObject.parking,
+    //     drinkingWater: formDataObject.drinkingWater,
+    //   });
+    //   const hosteldetails = await hostelData.save();
+    //   console.log(hosteldetails)
+    // }
   } catch (error) {
     console.error(error);
   }

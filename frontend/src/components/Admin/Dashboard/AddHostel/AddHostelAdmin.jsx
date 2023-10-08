@@ -15,54 +15,76 @@ const AddHostelAdmin = () => {
   //   .catch(error=>console.error(error))
   // }
   const [formData, setFormData] = useState({
-    primaryImage: "",
+    // primaryImage: "",
     additionalImages: [], // Store additional images in an array
-    category: "",
-    hostelName: "",
-    mainLocation: "",
-    descriptions: "",
-    fullDetails: "",
-    contactNumber: "",
-    mapLink: "",
-    additionalAboutHostel: "",
-    nearByLocation: "",
-    restrictions: "",
-    descriptionAboutHostel: "",
-    guestProfile: "",
-    price: "",
-    extraPrice: "",
-    totalBedInRoom: "",
-    bedAvailableNow: "",
-    Wifi: "",
-    food: "",
-    parking: "",
-    drinkingWater: "",
+    // category: "",
+    // hostelName: "",
+    // mainLocation: "",
+    // descriptions: "",
+    // fullDetails: "",
+    // contactNumber: "",
+    // mapLink: "",
+    // additionalAboutHostel: "",
+    // nearByLocation: "",
+    // restrictions: "",
+    // descriptionAboutHostel: "",
+    // guestProfile: "",
+    // price: "",
+    // extraPrice: "",
+    // totalBedInRoom: "",
+    // bedAvailableNow: "",
+    // Wifi: "",
+    // food: "",
+    // parking: "",
+    // drinkingWater: "",
   });
 
-  const [imageUrl, setImageUrl] = useState(""); // State to store the image URL
+  const [primaryImage, setPrimaryImage] = useState(null);
+  const [additionalImages, setAdditionalImages] = useState([]);
+  const [imageUrl, setImageUrl] = useState("");
 
-  // Handle the file input change
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      primaryImage: file,
-    });
+  // const handleFileChange = (e) => {
+  //   const primaryImage = e.target.files[0];
+  //   const file = e.target.files;
 
-    // Create a URL for the selected image and set it in the state
-    const url = URL.createObjectURL(file);
-    setImageUrl(url);
-  };
+  //   // Create a File object from the selected file
+  //   const fileObject = new File([primaryImage], primaryImage.name, {
+  //     type: primaryImage.type,
+  //     lastModified: primaryImage.lastModified,
+  //   });
+
+  //   setFormData({
+  //     ...formData,
+  //     primaryImage: fileObject, // Set it as a File object
+  //   });
+
+  //   // Create a URL for the selected image and set it in the state
+  //   const url = URL.createObjectURL(file);
+  //   setImageUrl(url);
+  // };
 
   const handleAdditionalImagesChange = (e) => {
     const files = e.target.files;
-    // Create an array of selected files
-    const additionalImages = Array.from(files);
+    const primaryImage = files[0]; // Get the first file as the primary image
+    const additionalImages = Array.from(files); // Convert all files to an array
+  
+    // Set primary image and additional images separately
+    setPrimaryImage(primaryImage);
+  
+    // Create a URL for the primary image
+    const primaryImageUrl = URL.createObjectURL(primaryImage);
+    setImageUrl(primaryImageUrl);
+  
+    // Update the state with the additional images
     setFormData({
       ...formData,
       additionalImages: additionalImages,
     });
+  
+    console.log(primaryImage);
+    console.log(additionalImages[0]); // Check the first additional image
   };
+  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -81,9 +103,9 @@ const AddHostelAdmin = () => {
         {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type": "multipart/form-data",
           },
-          formData: JSON.stringify(formData),
+          body: JSON.stringify(formData),
         }
       );
 
@@ -112,12 +134,7 @@ const AddHostelAdmin = () => {
             }}
           >
             <Button className="primaryPhotoText primaryPhotoButton">
-              <input
-                required
-                type="file"
-                name="image"
-                onChange={handleFileChange}
-              />
+              Primary Image will Show here
             </Button>
           </Col>
         </Row>
@@ -134,11 +151,11 @@ const AddHostelAdmin = () => {
               style={{ height: "100px" }}
             >
               <input
-                required
                 type="file"
-                name="additionalImages"
+                name="additionalImages" // Make sure this matches what your backend expects
                 onChange={handleAdditionalImagesChange}
-                multiple // Allow multiple file selection
+                multiple
+                accept="image/*"
               />
               + Add Remaining Photos
             </Button>

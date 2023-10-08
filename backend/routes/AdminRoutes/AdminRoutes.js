@@ -1,4 +1,55 @@
 import express from "express";
+
+import multer from "multer";
+import path from "path";
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    // Specify the absolute path to the directory where you want to store the files
+    cb(null, path.join(__dirname, "uploads")); // Change "uploads" to your desired directory
+  },
+  filename: (req, file, cb) => {
+    // Keep the original filename
+    cb(null, file.originalname);
+  },
+});
+console.log(storage)
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype.startsWith("image/")) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only images are allowed!"), false);
+  }
+};
+
+const upload = multer({
+  storage: storage,
+  fileFilter: fileFilter,
+});
+
+// const storage = multer.diskStorage({
+//   destination:(req,file,cb) => {
+//     cb(null, 'backend')
+//   },
+//   filename:(req,file,cb) => {
+//     cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
+//   }
+// })
+// const fileFilter = (req, file, cb) => {
+//   if (file.mimetype.startsWith("image/")) {
+//     cb(null, true);
+//   } else {
+//     cb(new Error("Only images are allowed!"), false); 
+//   }
+// };
+
+// const upload = multer({ 
+//   storage: storage,
+//   fileFilter: fileFilter, 
+// });
+
+
 import {
   adminAuthentication,
   adminForget,
@@ -30,20 +81,6 @@ import {
 
 const AdminRoute = express.Router();
 
-// Define storage for your uploaded files
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "uploads/"); // Specify the directory where uploaded files will be stored
-  },
-  filename: (req, file, cb) => {
-    const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-    cb(null, uniqueSuffix + "-" + file.originalname); // Specify how to name the uploaded file
-  },
-});
-
-// Create a Multer instance with your storage configuration
-const upload = multer({ storage: storage });
-
 
 
 AdminRoute.post("/login", adminAuthentication);
@@ -61,7 +98,12 @@ AdminRoute.post("/listSellers", listSellers);
 AdminRoute.post("/listSeller/edit", editSeller);
 AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
-AdminRoute.post("/listHostels/addhostelDetails",addHostelDetails);
+AdminRoute.post(
+  '/listHostels/addhostelDetails',
+  upload.single('additionalImages'),
+  // upload.array('additionalImages', 5), // "additionalImages" is the field name, and 5 is the maximum number of files
+  addHostelDetails
+);
 
 
 //-------------------- Dashboard Values
