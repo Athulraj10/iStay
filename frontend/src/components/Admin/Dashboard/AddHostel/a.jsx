@@ -5,19 +5,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const AddHostelAdmin = () => {
   const [formData, setFormData] = useState({
-    file: null, // Store the primary image here
-    category: "",
-    hostelName: "",
-    hostelName: "",
-    mainLocation: "",
-    descriptions: "",
-    fullDetails: "",
-    contactNumber: "",
-    mapLink: "",
-    additionalAboutHostel: "",
-    nearByLocation: "",
-    restrictions: "",
-    descriptionAboutHostel: "",
+    
     guestProfile: "",
     price: "",
     extraPrice: "",
