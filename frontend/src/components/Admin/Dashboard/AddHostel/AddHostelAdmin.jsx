@@ -2,12 +2,10 @@ import React, { useState } from "react";
 import "./AddHostelAdmin.css";
 import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
-import axios from "axios";
 
 const AddHostelAdmin = () => {
   const [formData, setFormData] = useState({
-    primaryImage: "",
-    file: "", 
+    file: null, // Store the primary image here
     category: "",
     hostelName: "",
     mainLocation: "",
@@ -29,34 +27,22 @@ const AddHostelAdmin = () => {
     parking: "",
     drinkingWater: "",
   });
+;
 
-  const [primaryImage, setPrimaryImage] = useState(null);
   const [imageUrl, setImageUrl] = useState("");
 
   const handleAdditionalImagesChange = (e) => {
     const files = e.target.files;
     const primaryImage = files[0];
-    const additionalImages = Array.from(files);
-  
-    setPrimaryImage(primaryImage);
+
+    setFormData({
+      ...formData,
+      file: primaryImage, // Store the primary image in the file field
+    });
+
     const primaryImageUrl = URL.createObjectURL(primaryImage);
     setImageUrl(primaryImageUrl);
-  
-    // Create a new FormData object
-    const formDataObject = new FormData();
-  
-    // Append the primary image as "file"
-    formDataObject.append("file", primaryImage);
-  
-    // Append additional images (if any) with the same field name
-    additionalImages.forEach((image) => {
-      formDataObject.append("additionalImages", image); // Change "file" to "additionalImages"
-    });
-  
-    // Update the state with the FormData object
-    setFormData(formDataObject);
   };
-  
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,49 +52,43 @@ const AddHostelAdmin = () => {
     });
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-     
-  //     const formData = new FormData();
-  //     formData.append('file',file)
-  //     console.log(formData)
-
-  //     const response = await USERSAPI.post(
-  //       "admin/listHostels/addhostelDetails",
-  //       {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "multipart/form-data",
-  //         },
-  //         body: JSON.stringify(formData),
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       console.log("Form data submitted successfully");
-  //     } else {
-  //       console.error("Form data submission failed");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formDataToSend = new FormData();
+    formDataToSend.append("file", formData.file);
+    formDataToSend.append("category", formData.category);
+    formDataToSend.append("hostelName", formData.hostelName);
+    formDataToSend.append("mainLocation", formData.mainLocation);
+    formDataToSend.append("descriptions", formData.descriptions);
+    formDataToSend.append("fullDetails", formData.fullDetails);
+    formDataToSend.append("contactNumber", formData.contactNumber);
+    formDataToSend.append("mapLink", formData.mapLink);
+    formDataToSend.append("additionalAboutHostel", formData.additionalAboutHostel);
+    formDataToSend.append("nearByLocation", formData.nearByLocation);
+    formDataToSend.append("restrictions", formData.restrictions);
+    formDataToSend.append("descriptionAboutHostel", formData.descriptionAboutHostel);
+    formDataToSend.append("guestProfile", formData.guestProfile);
+    formDataToSend.append("price", formData.price);
+    formDataToSend.append("extraPrice", formData.extraPrice);
+    formDataToSend.append("totalBedInRoom", formData.totalBedInRoom);
+    formDataToSend.append("bedAvailableNow", formData.bedAvailableNow);
+    formDataToSend.append("Wifi", formData.Wifi);
+    formDataToSend.append("food", formData.food);
+    formDataToSend.append("parking", formData.parking);
+    formDataToSend.append("drinkingWater", formData.drinkingWater);
+    // ... append other fields
     console.log(formData)
     try {
       const response = await USERSAPI.post(
         "admin/listHostels/addhostelDetails",
-        formData,
+        formDataToSend,
         {
           headers: {
-            "Content-Type": "multipart/form-data", // Make sure to set the correct content type
+            "Content-Type": "multipart/form-data",
           },
         }
       );
-  
+
       if (response.ok) {
         console.log("Form data submitted successfully");
       } else {
@@ -118,19 +98,18 @@ const AddHostelAdmin = () => {
       console.error("Error:", error);
     }
   };
-  
+
   return (
     <Container style={{ color: "white" }}>
       <Form onSubmit={handleSubmit}>
         <Row className="photoAddContainer m-5">
-          {/* Your other form fields */}
           <Col
             lg={12}
             className="d-flex align-items-center justify-content-center"
             style={{
-              backgroundImage: `url(${imageUrl})`, // Set the background image using inline style
-              backgroundSize: "cover", // You can adjust background size as needed
-              backgroundPosition: "center", // You can adjust background position as needed
+              backgroundImage: `url(${imageUrl})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
           >
             <Button className="primaryPhotoText primaryPhotoButton">
@@ -138,8 +117,6 @@ const AddHostelAdmin = () => {
             </Button>
           </Col>
         </Row>
-        {/* <input type="file" name="image" onChange={(e)=>setFile(e.target.files[0])} /> */}
-        {/* <Button type="button">Upload</Button> */}
         <Row>
           <Col
             lg={3}
@@ -152,7 +129,7 @@ const AddHostelAdmin = () => {
             >
               <input
                 type="file"
-                name="file" // Make sure this matches what your backend expects
+                name="file"
                 onChange={handleAdditionalImagesChange}
                 multiple
                 accept="image/*"
@@ -160,7 +137,7 @@ const AddHostelAdmin = () => {
               + Add Remaining Photos
             </Button>
           </Col>
-
+    
           {/* ----------about hostel details */}
           <Col lg={4}>
             <Form.Group controlId="category">
@@ -445,6 +422,7 @@ const AddHostelAdmin = () => {
               />
             </Form.Group>
           </Col>
+
         </Row>
         <Row className="m-4">
           <Col
