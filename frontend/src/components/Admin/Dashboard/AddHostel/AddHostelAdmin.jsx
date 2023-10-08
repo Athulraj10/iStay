@@ -16,7 +16,7 @@ const AddHostelAdmin = () => {
   // }
   const [formData, setFormData] = useState({
     // primaryImage: "",
-    additionalImages: [], // Store additional images in an array
+    file: "", // Store additional images in an array
     // category: "",
     // hostelName: "",
     // mainLocation: "",
@@ -40,49 +40,26 @@ const AddHostelAdmin = () => {
   });
 
   const [primaryImage, setPrimaryImage] = useState(null);
-  const [additionalImages, setAdditionalImages] = useState([]);
+  const [file, setAdditionalImages] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
-
-  // const handleFileChange = (e) => {
-  //   const primaryImage = e.target.files[0];
-  //   const file = e.target.files;
-
-  //   // Create a File object from the selected file
-  //   const fileObject = new File([primaryImage], primaryImage.name, {
-  //     type: primaryImage.type,
-  //     lastModified: primaryImage.lastModified,
-  //   });
-
-  //   setFormData({
-  //     ...formData,
-  //     primaryImage: fileObject, // Set it as a File object
-  //   });
-
-  //   // Create a URL for the selected image and set it in the state
-  //   const url = URL.createObjectURL(file);
-  //   setImageUrl(url);
-  // };
 
   const handleAdditionalImagesChange = (e) => {
     const files = e.target.files;
-    const primaryImage = files[0]; // Get the first file as the primary image
-    const additionalImages = Array.from(files); // Convert all files to an array
+    const primaryImage = files[0];
+    const file = Array.from(files); 
   
     // Set primary image and additional images separately
     setPrimaryImage(primaryImage);
-  
-    // Create a URL for the primary image
     const primaryImageUrl = URL.createObjectURL(primaryImage);
     setImageUrl(primaryImageUrl);
-  
+    
+
     // Update the state with the additional images
     setFormData({
       ...formData,
-      additionalImages: additionalImages,
+      file: file,
     });
-  
-    console.log(primaryImage);
-    console.log(additionalImages[0]); // Check the first additional image
+    console.log(formData)
   };
   
 
@@ -92,12 +69,12 @@ const AddHostelAdmin = () => {
       ...formData,
       [name]: value,
     });
-    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(formData)
       const response = await USERSAPI.post(
         "admin/listHostels/addhostelDetails",
         {
@@ -152,7 +129,7 @@ const AddHostelAdmin = () => {
             >
               <input
                 type="file"
-                name="additionalImages" // Make sure this matches what your backend expects
+                name="file" // Make sure this matches what your backend expects
                 onChange={handleAdditionalImagesChange}
                 multiple
                 accept="image/*"

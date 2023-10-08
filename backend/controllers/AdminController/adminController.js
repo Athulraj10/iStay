@@ -238,10 +238,10 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
 
 // ----------------------------Add Hostel------------------------------------
 const addHostelDetails = asyncHandler(async (req, res) => {
-    // Assuming the request body contains the JSON-encoded formData
-    const formDataObject = JSON.parse(req.body.body);
-  // console.log(formDataObject)
-  console.log("data",formDataObject)
+  // Assuming the request body contains the JSON-encoded formData
+  const formDataObject = JSON.parse(req.body.body);
+  console.log("data", formDataObject.file);
+
 
   // ---------save value to database--------
   try {
