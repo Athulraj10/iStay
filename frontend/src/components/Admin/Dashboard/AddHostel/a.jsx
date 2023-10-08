@@ -7,14 +7,6 @@ const AddHostelAdmin = () => {
 
   const [imageUrl, setImageUrl] = useState("");
 
-  const handleAdditionalImagesChange = (e) => {
-    const files = e.target.files;
-    const primaryImage = files[0];
-
-    
-    const primaryImageUrl = URL.createObjectURL(primaryImage);
-    setImageUrl(primaryImageUrl);
-  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
