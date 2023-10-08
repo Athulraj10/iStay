@@ -5,17 +5,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const AddHostelAdmin = () => {
 
-  const [imageUrl, setImageUrl] = useState("");
-   formDataToSend.append("extraPrice", formData.extraPrice);
-    formDataToSend.append("totalBedInRoom", formData.totalBedInRoom);
-    formDataToSend.append("bedAvailableNow", formData.bedAvailableNow);
-    formDataToSend.append("Wifi", formData.Wifi);
-    formDataToSend.append("food", formData.food);
-    formDataToSend.append("parking", formData.parking);
-    formDataToSend.append("drinkingWater", formData.drinkingWater);
-    // ... append other fields
-
-    try {
+ try {
       const response = await USERSAPI.post(
         "admin/listHostels/addhostelDetails",
         formDataToSend,
