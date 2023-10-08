@@ -4,14 +4,6 @@ import { Container, Form, Row, Col, Button } from "react-bootstrap";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const AddHostelAdmin = () => {
-  const [formData, setFormData] = useState({
-    
-    
-    food: "",
-    parking: "",
-    drinkingWater: "",
-  });
-;
 
   const [imageUrl, setImageUrl] = useState("");
 
