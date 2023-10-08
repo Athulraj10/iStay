@@ -5,61 +5,56 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import axios from "axios";
 
 const AddHostelAdmin = () => {
-  // const [file,setFile] = useState()
-
-  // const upload =async () => {
-  //   const image = new FormData()
-  //   image.append('file',file)
-  //   const imagesneding = await USERSAPI.post("admin/listHostels/addhostelDetails",image)
-  //   .then(res => ({}))
-  //   .catch(error=>console.error(error))
-  // }
   const [formData, setFormData] = useState({
-    // primaryImage: "",
-    file: "", // Store additional images in an array
-    // category: "",
-    // hostelName: "",
-    // mainLocation: "",
-    // descriptions: "",
-    // fullDetails: "",
-    // contactNumber: "",
-    // mapLink: "",
-    // additionalAboutHostel: "",
-    // nearByLocation: "",
-    // restrictions: "",
-    // descriptionAboutHostel: "",
-    // guestProfile: "",
-    // price: "",
-    // extraPrice: "",
-    // totalBedInRoom: "",
-    // bedAvailableNow: "",
-    // Wifi: "",
-    // food: "",
-    // parking: "",
-    // drinkingWater: "",
+    primaryImage: "",
+    file: "", 
+    category: "",
+    hostelName: "",
+    mainLocation: "",
+    descriptions: "",
+    fullDetails: "",
+    contactNumber: "",
+    mapLink: "",
+    additionalAboutHostel: "",
+    nearByLocation: "",
+    restrictions: "",
+    descriptionAboutHostel: "",
+    guestProfile: "",
+    price: "",
+    extraPrice: "",
+    totalBedInRoom: "",
+    bedAvailableNow: "",
+    Wifi: "",
+    food: "",
+    parking: "",
+    drinkingWater: "",
   });
 
   const [primaryImage, setPrimaryImage] = useState(null);
-  const [file, setAdditionalImages] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
 
   const handleAdditionalImagesChange = (e) => {
     const files = e.target.files;
     const primaryImage = files[0];
-    const file = Array.from(files); 
+    const additionalImages = Array.from(files);
   
-    // Set primary image and additional images separately
     setPrimaryImage(primaryImage);
     const primaryImageUrl = URL.createObjectURL(primaryImage);
     setImageUrl(primaryImageUrl);
-    
-
-    // Update the state with the additional images
-    setFormData({
-      ...formData,
-      file: file,
+  
+    // Create a new FormData object
+    const formDataObject = new FormData();
+  
+    // Append the primary image as "file"
+    formDataObject.append("file", primaryImage);
+  
+    // Append additional images (if any) with the same field name
+    additionalImages.forEach((image) => {
+      formDataObject.append("additionalImages", image); // Change "file" to "additionalImages"
     });
-    console.log(formData)
+  
+    // Update the state with the FormData object
+    setFormData(formDataObject);
   };
   
 
@@ -71,21 +66,49 @@ const AddHostelAdmin = () => {
     });
   };
 
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+     
+  //     const formData = new FormData();
+  //     formData.append('file',file)
+  //     console.log(formData)
+
+  //     const response = await USERSAPI.post(
+  //       "admin/listHostels/addhostelDetails",
+  //       {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "multipart/form-data",
+  //         },
+  //         body: JSON.stringify(formData),
+  //       }
+  //     );
+
+  //     if (response.ok) {
+  //       console.log("Form data submitted successfully");
+  //     } else {
+  //       console.error("Form data submission failed");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
+ 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(formData)
     try {
-      console.log(formData)
       const response = await USERSAPI.post(
         "admin/listHostels/addhostelDetails",
+        formData,
         {
-          method: "POST",
           headers: {
-            "Content-Type": "multipart/form-data",
+            "Content-Type": "multipart/form-data", // Make sure to set the correct content type
           },
-          body: JSON.stringify(formData),
         }
       );
-
+  
       if (response.ok) {
         console.log("Form data submitted successfully");
       } else {
@@ -95,7 +118,7 @@ const AddHostelAdmin = () => {
       console.error("Error:", error);
     }
   };
-
+  
   return (
     <Container style={{ color: "white" }}>
       <Form onSubmit={handleSubmit}>
