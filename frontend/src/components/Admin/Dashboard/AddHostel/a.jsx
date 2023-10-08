@@ -6,15 +6,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 const AddHostelAdmin = () => {
 
   const [imageUrl, setImageUrl] = useState("");
-    formDataToSend.append("contactNumber", formData.contactNumber);
-    formDataToSend.append("mapLink", formData.mapLink);
-    formDataToSend.append("additionalAboutHostel", formData.additionalAboutHostel);
-    formDataToSend.append("nearByLocation", formData.nearByLocation);
-    formDataToSend.append("restrictions", formData.restrictions);
-    formDataToSend.append("descriptionAboutHostel", formData.descriptionAboutHostel);
-    formDataToSend.append("guestProfile", formData.guestProfile);
-    formDataToSend.append("price", formData.price);
-    formDataToSend.append("extraPrice", formData.extraPrice);
+   formDataToSend.append("extraPrice", formData.extraPrice);
     formDataToSend.append("totalBedInRoom", formData.totalBedInRoom);
     formDataToSend.append("bedAvailableNow", formData.bedAvailableNow);
     formDataToSend.append("Wifi", formData.Wifi);
