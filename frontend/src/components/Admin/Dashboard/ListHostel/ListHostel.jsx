@@ -47,11 +47,21 @@ function ListHostel({ data }) {
                     <thead>
                       <tr>
                         <th className="text-center" scope="col">
-                          Hostel Name
+                          Onwer 
                         </th>
-                        <th scope="col">Onwer</th>
-                        <th scope="col">Photos</th>
-                        <th scope="col">Rate</th>
+                        <th className="text-center" scope="col">
+                          Hostel Name 
+                        </th>
+                       
+                        <th className="text-center" scope="col">
+                         Photos 
+                        </th>
+                       
+                      
+                        <th className="text-center" scope="col">
+                          Price
+                        </th>
+                      
                         <th className="text-center" scope="col">
                           Status
                         </th>
@@ -63,13 +73,17 @@ function ListHostel({ data }) {
                           <tr className="inner-box" key={index}>
                             <td className="align-middle">
                               <div className="event-date text-center">
+                                <p className="date-month">{item.sellerDetails.name}</p>
+                              </div>
+                            </td>
+
+                            <td className="align-middle">
+                              <div className="event-date text-center">
                                 <p className="date-month">{item.hostelName}</p>
                               </div>
                             </td>
-                            <td className="align-middle">
-                              <div className="event-img">{item.email}</div>
-                            </td>
-
+           
+           
                             <td className="align-middle">
                               <div className="event-wrap">
                                 {item.images.map((image, index) => (
@@ -102,10 +116,11 @@ function ListHostel({ data }) {
 
                             {/* </div> */}
                             <td className="align-middle">
-                              <div className="r-no">
-                                <span>{item.price}</span>
+                              <div className="event-date text-center">
+                                <p className="date-month">{item.price}</p>
                               </div>
                             </td>
+           
                             <td className="align-middle text-center">
                               <div className={`primary-btn`}>
                                 <button
