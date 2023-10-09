@@ -1,19 +1,20 @@
 import { Navbar, Nav, Container, Alert } from "react-bootstrap";
-import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import { FaSignOutAlt, FaHotel, FaPhone, FaInfoCircle } from "react-icons/fa";
+
 import "./Header.css";
 import logoImage from "./iStays.png";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
 
   const handleLogout = async () => {
-    let res = await USERSAPI.post('users/logout')
-    if(res.status){
+    let res = await USERSAPI.post("users/logout");
+    if (res.status) {
       localStorage.removeItem("userInfo");
       setUserInfo(null);
       navigate("/login");
@@ -32,6 +33,13 @@ const Header = () => {
     // Call the asynchronous function
     fetchUserInfo();
   }, []); // Empty dependency array to run once on mount
+
+  const links = [
+    { name: "About" },
+    { name: "Find Accommodation" },
+    { name: "Contact" },
+    { name: "Logout" },
+  ];
 
   return (
     <>
@@ -55,8 +63,29 @@ const Header = () => {
               {userInfo ? (
                 // If user information is available, show Logout button
                 <>
+                  <Nav>
+                    <Link to="/user" className="nav-link">
+                    <FaHotel />
+                    &nbsp; About
+                    </Link>
+                  </Nav>
+
+                  <Nav>
+                    <Link to="/findAccommodation" className="nav-link">
+                      <FaPhone />
+                      &nbsp; Find Accommodation
+                    </Link>
+                  </Nav>
+
+                  <Nav>
+                    <Link to="/user" className="nav-link">
+                    <FaInfoCircle /> &nbsp;Contact
+                    </Link>
+                  </Nav>
+
+
                   <Nav.Link onClick={handleLogout}>
-                    <FaSignOutAlt /> Logout
+                    <FaSignOutAlt /> &nbsp;Logout
                   </Nav.Link>
                 </>
               ) : (

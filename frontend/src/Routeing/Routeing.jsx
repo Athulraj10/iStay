@@ -35,6 +35,7 @@ import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery
 import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
 import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
 import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
+import FindAccommodation from "../components/Users/Screens/FindAccommodation";
 
 
 
@@ -48,6 +49,7 @@ const Routeing = () => {
       <Route path="/forget" element={<ForgetScreenPassword />} />
       <Route path="/OTP" element={<OTPScreen />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
+      <Route path="/findAccommodation" element={<FindAccommodation />} />
 
       {/* -----------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />
