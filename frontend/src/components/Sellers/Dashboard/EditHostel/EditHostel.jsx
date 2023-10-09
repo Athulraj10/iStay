@@ -200,10 +200,10 @@ const EditHostel = () => {
               />
             </Form.Group>
 
-                <input type="hidden" 
+                {/* <input type="hidden" 
                 value={sellerIdStored}
                 onChange={()=>{}}
-                />
+                /> */}
 
             <Form.Group controlId="hostelName">
               {/* <Form.Label>Name</Form.Label> */}
