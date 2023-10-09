@@ -5,9 +5,15 @@ import {
   sellerForget,
   sellerVerifyOTP,
   sellersResetPassword,
+  
+  // ----------hostel management---------
+  listHostels,
+  editHostel,
+  editHostelDetails,
   addHostelDetails,
+
+
   logoutSeller,
-  listHostels
 } from "../../controllers/sellerController/SellerControllers.js";
 import { protect } from "../../middleware/authMiddleware.js";
 import multer from "multer";
@@ -35,6 +41,9 @@ sellerRoute.post("/resetPassword",sellersResetPassword);
 
 // -----------hostel Manageing-----------
 sellerRoute.post("/listHostels",listHostels);
+sellerRoute.post("/listHostels/editHostel",editHostel);
+sellerRoute.post("/listHostels/edithostelDetails",
+upload.array('files',10),editHostelDetails);
 sellerRoute.post(
   '/listHostels/addhostelDetails',
   upload.array('files', 10), 

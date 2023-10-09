@@ -34,6 +34,7 @@ import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
 import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
 import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
 import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
+import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
 
 
 
@@ -61,6 +62,7 @@ const Routeing = () => {
       <Route path="/seller/listEnquery" element={<SelllerListEnquery />} />
       <Route path="/seller/listHostels" element={<SellerHostelList />} />
       <Route path="/seller/listHostels/addhostel" element={<AddHostelSeller />} />
+      <Route path="/seller/listHostels/editHostelDetails" element={<SellerHostelEditScreen />} />
 
 
 

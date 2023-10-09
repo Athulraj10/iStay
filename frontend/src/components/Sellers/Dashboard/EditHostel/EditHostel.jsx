@@ -1,55 +1,52 @@
 import React, { useState, useEffect } from "react";
-import "./AddHostelSeller.css";
 import { Container, Form, Row, Col, Button, Toast } from "react-bootstrap";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
-const AddHostelSeller = () => {
-
+const EditHostel = () => {
+  const location = useLocation()
+  const navigate = useNavigate()
+  const receivedData = location.state.responseData;
+  
+  
   const [sellerInfo, setSellerInfo] = useState(null);
+  const [imageUrls, setImageUrls] = useState([]);
+  const [imageInitial, setImageInitial] = useState([]);
   const [sellerIdStored,setsellerId] = useState("");
-  useEffect(() => {
-    // Define an asynchronous function to fetch sellerInfo from localStorage
-    const fetchsellerInfo = async () => {
-      const storedsellerInfo = localStorage.getItem("sellerInfo");
-      if (storedsellerInfo) {
-        // You can add await here if needed
-        setSellerInfo(storedsellerInfo);
-        const seller = JSON.parse(storedsellerInfo);
-        setsellerId(seller._id)
-      }
-    }; 
-    // Call the asynchronous function
-    fetchsellerInfo();
-  }, []); // Empty dependency array to run once on mount
+  
 
-  const navigate = useNavigate();
+  useEffect(()=>{
+    setImageInitial(receivedData.images)
+  },[])
+
+
   const [formData, setFormData] = useState({
     sellerID:"",
+    id:receivedData._id,
     files: [], // Store the primary image here
-    category: "",
-    hostelName: "",
-    mainLocation: "",
-    descriptions: "",
-    fullDetails: "",
-    contactNumber: "",
-    mapLink: "",
-    additionalAboutHostel: "",
-    nearByLocation: "",
-    restrictions: "",
-    descriptionAboutHostel: "",
-    guestProfile: "",
-    price: "",
-    extraPrice: "",
-    totalBedInRoom: "",
-    bedAvailableNow: "",
-    Wifi: "",
-    food: "",
-    parking: "",
-    drinkingWater: "",
+    category: receivedData.category,
+    hostelName: receivedData.hostelName,
+    mainLocation: receivedData.mainLocation,
+    descriptions: receivedData.description,
+    fullDetails: receivedData.fullDetails,
+    contactNumber: receivedData.contactNumber,
+    mapLink: receivedData.mapLink,
+    additionalAboutHostel: receivedData.additionalAboutHostel,
+    nearByLocation: receivedData.nearByLocation,
+    restrictions: receivedData.restrictions,
+    descriptionAboutHostel: receivedData.descriptionAboutHostel,
+    guestProfile: receivedData.guestProfile,
+    price: receivedData.price,
+    extraPrice: receivedData.extraPrice,
+    totalBedInRoom: receivedData.totalBedInRoom,
+    bedAvailableNow: receivedData.bedAvailableNow,
+    Wifi: receivedData.Wifi,
+    food: receivedData.food,
+    parking: receivedData.parking,
+    drinkingWater: receivedData.drinkingWater,
   });
-  const [imageUrls, setImageUrls] = useState([]);
 
   const handleAdditionalImagesChange = (e) => {
     const files = e.target.files;
@@ -75,7 +72,7 @@ const AddHostelSeller = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
-    formDataToSend.append("sellerID",sellerIdStored);
+    formDataToSend.append("id",formData.id);
     formData.files.forEach((file) => formDataToSend.append("files", file));
     formDataToSend.append("category", formData.category);
     formDataToSend.append("hostelName", formData.hostelName);
@@ -107,7 +104,7 @@ const AddHostelSeller = () => {
     console.log(formData);
     try {
       const response = await USERSAPI.post(
-        "seller/listHostels/addhostelDetails",
+        "seller/listHostels/edithostelDetails",
         formDataToSend,
         {
           headers: {
@@ -117,7 +114,7 @@ const AddHostelSeller = () => {
       );
 
       if (response) {
-        if (response.data.hostelAdded) {
+        if (response.data.hostelUpdated) {
           navigate("/seller/listHostels");
         } else {
           toast.error("Something went wrong in Adding hostel");
@@ -128,7 +125,7 @@ const AddHostelSeller = () => {
     } catch (error) {
       console.error(error);
       // Display the error message as a toast notification
-      toast.error(error.response.data.message, {
+      toast.error(error.response.data.message || error, {
         position: "top-right", // You can customize the position if needed
         autoClose: 5000, // How long the toast will be displayed (in milliseconds)
       });
@@ -143,7 +140,7 @@ const AddHostelSeller = () => {
             lg={12}
             className="d-flex align-items-center justify-content-center"
             style={{
-              backgroundImage: `url(${imageUrls[0]})`,
+              backgroundImage: `url(${imageInitial[0]})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -155,10 +152,7 @@ const AddHostelSeller = () => {
         </Row>
 
         <Row>
-          {/* Display selected images */}
-          {imageUrls.length > 0 && (
-            <div className="mb-4 d-flex flex-nowrap overflow-auto">
-              {imageUrls.map((url, index) => (
+        {imageInitial.map((url, index) => (
                 <div key={index} className="me-2">
                   <img
                     src={url}
@@ -167,8 +161,6 @@ const AddHostelSeller = () => {
                   />
                 </div>
               ))}
-            </div>
-          )}
         </Row>
 
         <Row>
@@ -496,4 +488,4 @@ const AddHostelSeller = () => {
   );
 };
 
-export default AddHostelSeller;
+export default EditHostel;

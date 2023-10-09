@@ -205,8 +205,6 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
 
 const listHostels =  asyncHandler(async(req,res) =>{
   try {
-    console.log('////////////////////')
-    console.log(req.body)
     if(req.body.sellerId){
       const listHostels = await Hostel.find({sellerID:req.sellerId});
       console.log(listHostels)
@@ -219,6 +217,90 @@ const listHostels =  asyncHandler(async(req,res) =>{
     });
   }
 })
+
+const editHostel = asyncHandler(async(req,res) => {
+    const id = req.body._id
+    try {
+      const hostelDetails = await Hostel.findOne({_id:id})
+      res.status(200).json({data:hostelDetails})
+    } catch (error) {
+      console.log(error)
+    }
+})
+
+
+// ----------------------------editHostelDetails Hostel-------------
+const editHostelDetails = asyncHandler(async (req, res) => {
+  const formDataObject = req.body;
+  try {
+    if (!formDataObject) {
+      return res
+        .status(400)
+        .json({ message: "Bad request. Request body is empty." });
+    }
+
+    const hostel = await Hostel.findOne({ _id: formDataObject.id });
+
+    if (!hostel) {
+      return res.status(404).json({ message: "Hostel not found." });
+    }
+
+    const editedDetails = {
+      seller: formDataObject.sellerID,
+      category: formDataObject.category,
+      hostelName: formDataObject.hostelName,
+      mainLocation: formDataObject.mainLocation,
+      description: formDataObject.descriptions,
+      fullDetails: formDataObject.fullDetails,
+      contactNumber: formDataObject.contactNumber,
+      mapLink: formDataObject.mapLink,
+      additionalAboutHostel: formDataObject.additionalAboutHostel,
+      nearByLocation: formDataObject.nearByLocation,
+      restrictions: formDataObject.restrictions,
+      descriptionAboutHostel: formDataObject.descriptionAboutHostel,
+      guestProfile: formDataObject.guestProfile,
+      price: formDataObject.price,
+      extraPrice: formDataObject.extraPrice,
+      totalBedInRoom: formDataObject.totalBedInRoom,
+      bedAvailableNow: formDataObject.bedAvailableNow,
+      Wifi: formDataObject.Wifi,
+      food: formDataObject.food,
+      parking: formDataObject.parking,
+      drinkingWater: formDataObject.drinkingWater,
+    };
+
+    if (req.files && req.files.length > 0) {
+      const uploadedFiles = req.files;
+      let fileUrls = [];
+      for (let file of uploadedFiles) {
+        const filePath = file.filename;
+        fileUrls.push(filePath);
+      }
+      editedDetails.images = fileUrls;
+    }
+
+    // Update the hostel document with editedDetails
+    const updatedHostel = await Hostel.findOneAndUpdate(
+      { _id: formDataObject.id },
+      editedDetails,
+      { new: true } // Return the updated document
+    );
+
+    if (updatedHostel) {
+      return res.status(200).json({
+        hostelUpdated: true,
+        updatedHostel,
+      });
+    } else {
+      return res.status(500).json({ message: "Failed to update hostel." });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server error." });
+  }
+});
+
+
 // ----------------------------Seller Add Hostel-------------
 const addHostelDetails = asyncHandler(async (req, res) => {
   
@@ -286,6 +368,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Some Field Missing or Server Error" });
   }
 });
+
 
 
 
@@ -364,5 +447,7 @@ export {
 
   // LIST HOSTEL
   listHostels,
+  editHostel,
+  editHostelDetails,
   addHostelDetails
 };

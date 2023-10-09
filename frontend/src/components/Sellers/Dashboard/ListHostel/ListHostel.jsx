@@ -2,68 +2,70 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import './style.css'
 
 function ListHostel() {
+  const navigate = useNavigate()
   const [sellerInfo, setSellerInfo] = useState(null);
   const [sellerIdStored, setSellerId] = useState("");
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dataReceived, setDataReceived] = useState(false);
 
-  useEffect(()=>{
+  useEffect(() => {
     const storedSellerInfo = localStorage.getItem("sellerInfo");
     if (storedSellerInfo) {
       console.log(storedSellerInfo);
       setSellerInfo(storedSellerInfo);
       const seller = JSON.parse(storedSellerInfo);
       setSellerId(seller._id);
-      console.log(dataReceived)
-      setDataReceived(true)
-      console.log(dataReceived)
+      setDataReceived(true);
     }
-  })
-useEffect(()=>{
-  const fetchdata = async () =>{
-      const res = await USERSAPI.post("seller/listHostels",{
-        sellerId: sellerIdStored,
-      });
-      const responseData = res.data.data;
-      setData(responseData);
-      setLoading(false);
-  }
-  fetchdata()
-},[dataReceived])
+  }, [dataReceived]); 
 
-  const handleBlockButton = async (userId) => {
-    try {
-      let formData = {
-        id: userId,
+  useEffect(() => {
+    if (dataReceived) {
+      const fetchdata = async () => {
+        const res = await USERSAPI.post("seller/listHostels", {
+          sellerId: sellerIdStored,
+        });
+        const responseData = res.data.data;
+        setData(responseData);
+        setLoading(false);
       };
-      let res = await USERSAPI.post("admin/listUsers/block", formData);
-      if (res.data) {
-        // if data what will do
-      }
-    } catch (error) {
-      toast.error(error);
+      fetchdata();
     }
-  };
-  
+  }, [dataReceived, sellerIdStored]);
+
+  const handleEditButton = async (hostelId)=>{
+      if (hostelId) {
+          const res = await USERSAPI.post("seller/listHostels/editHostel", {
+            _id:hostelId,
+          });
+          const responseData = res.data.data;
+          if(responseData){
+            navigate('/seller/listHostels/editHostelDetails',{state:{responseData}})
+          }
+    }
+  }
+
   return (
     <div
-      style={{ background: "transparent" }}
       className="event-schedule-area-two p-4 rounded"
     >
       <Container>
         <Row>
           <Link to="/seller/listHostels/addhostel">
             <Col>
-              <Button className="mb-3 p-2 " variant="dark">
+              <Button className="mb-3 p-2" variant="dark">
                 Add New Hostels
               </Button>
             </Col>
           </Link>
         </Row>
+
+
         <Row>
           <Col lg={12}>
             <div className="tab-content" id="myTabContent">
@@ -72,14 +74,14 @@ useEffect(()=>{
                 id="home"
                 role="tabpanel"
               >
-                <div className="table-responsive">
-                  <table className="table table-bordered">
-                    <thead>
+                <div  className="table-responsive">
+                <table className="table table-bordered transparent-table">
+                    <thead >
                       <tr>
                         <th className="text-center" scope="col">
                           Hostel Name
                         </th>
-                        <th scope="col">Onwer</th>
+                        <th scope="col">Place</th>
                         <th scope="col">Photos</th>
                         <th scope="col">Rate</th>
                         <th className="text-center" scope="col">
@@ -97,7 +99,7 @@ useEffect(()=>{
                               </div>
                             </td>
                             <td className="align-middle">
-                              <div className="event-img">{item.email}</div>
+                              <div className="event-img">{item.mainLocation}</div>
                             </td>
 
                             <td className="align-middle">
@@ -115,22 +117,6 @@ useEffect(()=>{
                               </div>
                             </td>
 
-
-                            {/* <div className="meta">
-                                  <div className="categories">
-                                    <a style={{ textDecoration: "none" }}>
-                                      Mobile : {item.mobile}
-                                    </a>
-                                  </div> */}
-                            {/* <div className="time">
-                                    <span>
-                                      Account Created :{" "}
-                                      {item.createdAt.substring(0, 10)}
-                                    </span>
-                                  </div> */}
-                            {/* </div> */}
-
-                            {/* </div> */}
                             <td className="align-middle">
                               <div className="r-no">
                                 <span>{item.price}</span>
@@ -145,6 +131,12 @@ useEffect(()=>{
                                   }`}
                                 >
                                   {item.status ? "Block" : "Active"}
+                                </button>
+                                <button
+                                className="m-1 btn btn-primary"
+                                  onClick={() => handleEditButton(item._id)} // Pass item._id as a parameter
+                                 >
+                                  Edit
                                 </button>
                               </div>
                             </td>
