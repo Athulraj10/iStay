@@ -309,6 +309,8 @@ const listHostelsAdmin = asyncHandler(async (req, res) => {
     });
   }
 });
+
+
 // ----------------------------Add Hostel------------------------------------
 const addHostelDetails = asyncHandler(async (req, res) => {
   // .map((file) => file.path);
@@ -372,6 +374,31 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Some Field Missing or Server Error" });
   }
 });
+const BlockHostelsAdmin = asyncHandler(async (req, res) => {
+  const { id } = req.body; // Assuming you receive the hostel ID in the request body
+
+  try {
+    // Find the hostel by ID and update the isBlock field to true
+    const updatedHostel = await Hostel.findByIdAndUpdate(
+      id,
+      { isBlock: true },
+      { new: true } // This option returns the updated document
+    );
+
+    if (updatedHostel) {
+      return res.status(200).json({
+        message: 'Hostel blocked successfully',
+        data: "updated",
+      });
+    } else {
+      return res.status(404).json({ message: 'Hostel not found' });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
 
 // ----------------------------Block User------------------------------
 const blockUser = asyncHandler(async (req, res) => {
@@ -581,6 +608,7 @@ export {
   // ---------Hostel Management
   listHostelsAdmin,
   addHostelDetails,
+  BlockHostelsAdmin,
 
   // ----------Seller Management
   listSellers,

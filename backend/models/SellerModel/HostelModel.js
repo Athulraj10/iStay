@@ -8,10 +8,15 @@ const hostelModel = mongoose.Schema({
         required:true
         // 'Seller' should match the name of your seller model
       },
+      
     images:{
         type:[String],
         // type:[],
         required:true
+    },
+    isBlock:{
+        type:Boolean,
+        required:false
     },
     category:{
         type:String,

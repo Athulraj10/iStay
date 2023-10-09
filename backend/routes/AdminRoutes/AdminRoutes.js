@@ -17,6 +17,7 @@ import {
 
   listHostelsAdmin,
   addHostelDetails,
+  BlockHostelsAdmin,
   
 
   listSellers,
@@ -87,6 +88,7 @@ AdminRoute.post(
     addHostelDetails
 );
 AdminRoute.post('/listHostels',listHostelsAdmin);
+AdminRoute.post('/listHostel/block',BlockHostelsAdmin);
 
 
 //-------------------- Dashboard Values

@@ -5,12 +5,12 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { Link } from "react-router-dom";
 
 function ListHostel({ data }) {
-  const handleBlockButton = async (userId) => {
+  const handleBlockButton = async (hostelId) => {
     try {
       let formData = {
-        id: userId,
+        id: hostelId,
       };
-      let res = await USERSAPI.post("admin/listUsers/block", formData);
+      let res = await USERSAPI.post("admin/listHostel/block", formData);
       if (res.data) {
         // if data what will do
       }
