@@ -4,7 +4,37 @@ import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { Link } from "react-router-dom";
 
-function ListHostel({ data }) {
+function ListHostel() {
+  const [sellerInfo, setSellerInfo] = useState(null);
+  const [sellerIdStored, setSellerId] = useState("");
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [dataReceived, setDataReceived] = useState(false);
+
+  useEffect(()=>{
+    const storedSellerInfo = localStorage.getItem("sellerInfo");
+    if (storedSellerInfo) {
+      console.log(storedSellerInfo);
+      setSellerInfo(storedSellerInfo);
+      const seller = JSON.parse(storedSellerInfo);
+      setSellerId(seller._id);
+      console.log(dataReceived)
+      setDataReceived(true)
+      console.log(dataReceived)
+    }
+  })
+useEffect(()=>{
+  const fetchdata = async () =>{
+      const res = await USERSAPI.post("seller/listHostels",{
+        sellerId: sellerIdStored,
+      });
+      const responseData = res.data.data;
+      setData(responseData);
+      setLoading(false);
+  }
+  fetchdata()
+},[dataReceived])
+
   const handleBlockButton = async (userId) => {
     try {
       let formData = {
@@ -18,7 +48,7 @@ function ListHostel({ data }) {
       toast.error(error);
     }
   };
-  console.log(data[0]);
+  
   return (
     <div
       style={{ background: "transparent" }}

@@ -39,8 +39,6 @@ const SellerHeader = () => {
     // Call the asynchronous function
     fetchsellerInfo();
   }, []); // Empty dependency array to run once on mount
-
-  console.log(sellerInfo)
   return (
     <>
       <Navbar
@@ -82,10 +80,23 @@ const SellerHeader = () => {
               ) : (
                 <>
                   <LinkContainer to="/seller/login">
-                    <Nav.Link>
-                      <FaSignInAlt />
-                      &nbsp;
-                    </Nav.Link>
+                  <>
+                  <Link to="/seller/message" className="nav-link">
+                    <FaStore /> List Messge
+                  </Link>
+
+                  <Link to="/seller/listEnquery" className="nav-link">
+                    <FaUser/> List Enquery
+                  </Link>
+
+                  <Link to="/seller/listHostels" className="nav-link">
+                    <FaHome /> List Hostel
+                  </Link>
+
+                  <Nav.Link onClick={handleLogout}>
+                    <FaSignOutAlt /> Logout
+                  </Nav.Link>
+                </>
                   </LinkContainer>
                 </>
               )}

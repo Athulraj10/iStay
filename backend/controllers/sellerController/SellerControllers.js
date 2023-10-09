@@ -205,9 +205,14 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
 
 const listHostels =  asyncHandler(async(req,res) =>{
   try {
-    const listHostels = await Hostel.find();
-    res.status(200).json({data:listHostels})
-  } catch (error) {
+    console.log('////////////////////')
+    console.log(req.body)
+    if(req.body.sellerId){
+      const listHostels = await Hostel.find({sellerID:req.sellerId});
+      console.log(listHostels)
+      res.status(200).json({data:listHostels})
+    }
+      } catch (error) {
     console.log("listHostelAdmin");
     res.status(500).json({
       message: "Hostel List Error",
@@ -289,11 +294,16 @@ const addHostelDetails = asyncHandler(async (req, res) => {
 //access Public
 //route POST// /api/logout
 const logoutSeller = asyncHandler(async (req, res) => {
+  console.log("logout");
+  // Set the SameSite attribute to None and Secure to true for cross-site cookies
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
+    secure: false, // Set to true if you're using HTTPS
+    sameSite: "none", // Set to "none" for cross-site cookies
   });
-  res.status(200).json({ message: "Seller Logout" });
+
+  res.status(200).json({ status: "User Logout" });
 });
 
 
