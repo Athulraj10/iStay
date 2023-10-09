@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 import "./AddHostelAdmin.css";
-import { Container, Form, Row, Col, Button } from "react-bootstrap";
+import { Container, Form, Row, Col, Button, Toast } from "react-bootstrap";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const AddHostelAdmin = () => {
+  const navigate = useNavigate()
   const [formData, setFormData] = useState({
     files: [], // Store the primary image here
     category: "",
@@ -32,7 +35,7 @@ const AddHostelAdmin = () => {
   const handleAdditionalImagesChange = (e) => {
     const files = e.target.files;
     const selectedFiles = Array.from(files).slice(0, 10); // Limit to the first 10 selected files
-    
+
     const newFiles = Array.from(files);
     const newImageUrls = newFiles.map((file) => URL.createObjectURL(file));
 
@@ -64,10 +67,16 @@ const AddHostelAdmin = () => {
     formDataToSend.append("fullDetails", formData.fullDetails);
     formDataToSend.append("contactNumber", formData.contactNumber);
     formDataToSend.append("mapLink", formData.mapLink);
-    formDataToSend.append("additionalAboutHostel",formData.additionalAboutHostel);
+    formDataToSend.append(
+      "additionalAboutHostel",
+      formData.additionalAboutHostel
+    );
     formDataToSend.append("nearByLocation", formData.nearByLocation);
     formDataToSend.append("restrictions", formData.restrictions);
-    formDataToSend.append("descriptionAboutHostel",formData.descriptionAboutHostel);
+    formDataToSend.append(
+      "descriptionAboutHostel",
+      formData.descriptionAboutHostel
+    );
     formDataToSend.append("guestProfile", formData.guestProfile);
     formDataToSend.append("price", formData.price);
     formDataToSend.append("extraPrice", formData.extraPrice);
@@ -90,13 +99,22 @@ const AddHostelAdmin = () => {
         }
       );
 
-      if (response.ok) {
-        console.log("Form data submitted successfully");
+      if (response) {
+        if (response.data.hostelAdded) {
+          navigate("/admin/listHostels");
+        } else {
+          toast.error("Something went wrong in Adding hostel");
+        }
       } else {
-        console.error("Form data submission failed");
+        toast.error("Form data submission failed");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error(error);
+      // Display the error message as a toast notification
+      toast.error(error.response.data.message, {
+        position: "top-right", // You can customize the position if needed
+        autoClose: 5000, // How long the toast will be displayed (in milliseconds)
+      });
     }
   };
 

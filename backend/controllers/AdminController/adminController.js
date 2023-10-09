@@ -215,9 +215,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
   try {
     const userCount = await User.countDocuments();
     const sellerCount = await Seller.countDocuments();
-    // const hostelCount = await User.countDocuments();
-    // console.log(userCount)
-    // console.log(sellerCount)
+    const hostelCount = await Hostel.countDocuments();
     if (!userCount) {
       return res
         .status(404)
@@ -227,7 +225,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
       return res.status(200).json({
         userCount,
         sellerCount,
-        hostelCount: 1,
+        hostelCount,
       });
     }
   } catch (error) {
@@ -236,44 +234,79 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
   }
 });
 
+// ----------------------------list Hostel Admin------------------------------------
+const listHostelsAdmin = asyncHandler(async (req, res) => {
+  try {
+    const listHostels = await Hostel.find();
+    res.status(200).json({data:listHostels})
+  } catch (error) {
+    console.log("listHostelAdmin");
+    res.status(500).json({
+      message: "Hostel List Error",
+    });
+  }
+});
 // ----------------------------Add Hostel------------------------------------
 const addHostelDetails = asyncHandler(async (req, res) => {
-  // Assuming the request body contains the JSON-encoded formData
-  const formDataObject = JSON.parse(req.body.body);
-  console.log("data", formDataObject.file);
-
-
+  // .map((file) => file.path);
+  const formDataObject = req.body;
   // ---------save value to database--------
   try {
-    // if (formDataObject) {
-    //   const hostelData = new Hostel({
-    //     primaryImage: formDataObject.primaryImage,
-    //     category: formDataObject.category,
-    //     hostelName: formDataObject.hostelName,
-    //     mainLocation: formDataObject.mainLocation,
-    //     description: formDataObject.descriptions,
-    //     fullDetails: formDataObject.fullDetails,
-    //     contactNumber:formDataObject.contactNumber,
-    //     mapLink: formDataObject.mapLink,
-    //     additionalAboutHostel: formDataObject.additionalAboutHostel,
-    //     nearByLocation: formDataObject.nearByLocation,
-    //     restrictions: formDataObject.restrictions,
-    //     descriptionAboutHostel: formDataObject.descriptionAboutHostel,
-    //     guestProfile: formDataObject.guestProfile,
-    //     price: formDataObject.price,
-    //     extraPrice: formDataObject.extraPrice,
-    //     totalBedInRoom: formDataObject.totalBedInRoom,
-    //     bedAvailableNow: formDataObject.bedAvailableNow,
-    //     Wifi: formDataObject.Wifi,
-    //     food:formDataObject.food,
-    //     parking: formDataObject.parking,
-    //     drinkingWater: formDataObject.drinkingWater,
-    //   });
-    //   const hosteldetails = await hostelData.save();
-    //   console.log(hosteldetails)
-    // }
+    if (!formDataObject) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+
+    if (formDataObject) {
+      const hostelData = new Hostel({
+        // images: images,
+        category: formDataObject.category,
+        hostelName: formDataObject.hostelName,
+        mainLocation: formDataObject.mainLocation,
+        description: formDataObject.descriptions,
+        fullDetails: formDataObject.fullDetails,
+        contactNumber: formDataObject.contactNumber,
+        mapLink: formDataObject.mapLink,
+        additionalAboutHostel: formDataObject.additionalAboutHostel,
+        nearByLocation: formDataObject.nearByLocation,
+        restrictions: formDataObject.restrictions,
+        descriptionAboutHostel: formDataObject.descriptionAboutHostel,
+        guestProfile: formDataObject.guestProfile,
+        price: formDataObject.price,
+        extraPrice: formDataObject.extraPrice,
+        totalBedInRoom: formDataObject.totalBedInRoom,
+        bedAvailableNow: formDataObject.bedAvailableNow,
+        Wifi: formDataObject.Wifi,
+        food: formDataObject.food,
+        parking: formDataObject.parking,
+        drinkingWater: formDataObject.drinkingWater,
+      });
+      if (req.files) {
+        const uploadedFiles = req.files;
+        let fileUrls = [];
+        for (let file of uploadedFiles) {
+          const filePath = file.filename;
+          fileUrls.push(filePath);
+        }
+        hostelData.images = fileUrls;
+      }
+      const hosteldetails = await hostelData.save();
+  
+      if (hosteldetails) {
+        return res.status(201).json({
+          hostelAdded: true,
+        });
+      }
+      if (!hosteldetails) {
+        return res
+          .status(404)
+          .json({ message: "Something Wrong Please Try Again" });
+      }
+    }
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Some Field Missing or Server Error" });
   }
 });
 
@@ -483,6 +516,7 @@ export {
   dashboardValuesCount,
 
   // ---------Hostel Management
+  listHostelsAdmin,
   addHostelDetails,
 
   // ----------Seller Management

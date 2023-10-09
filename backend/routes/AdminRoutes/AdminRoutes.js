@@ -1,29 +1,6 @@
 import express from "express";
 import multer from "multer";
 import path from "path";
-
-const storage = multer.diskStorage({
-  destination:(req,file,cb) => {
-    cb(null, 'backend/public/images')
-  },
-  filename:(req,file,cb) => {
-    cb(null, file.fieldname + "_" + Date.now() + path.extname(file.originalname))
-  }
-})
-const fileFilter = (req, file, cb) => {
-  if (file.mimetype.startsWith("image/")) {
-    cb(null, true);
-  } else {
-    cb(new Error("Only images are allowed!"), false); 
-  }
-};
-
-const upload = multer({ 
-  storage: storage,
-  fileFilter: fileFilter, 
-});
-
-
 import {
   adminAuthentication,
   adminForget,
@@ -38,6 +15,7 @@ import {
   
   dashboardValuesCount,
 
+  listHostelsAdmin,
   addHostelDetails,
   
 
@@ -52,9 +30,40 @@ import {
   // forget,verifyOTP,resetPassword
 } from "../../controllers/AdminController/adminController.js";
 // import { protect } from "../middleware/authMiddleware.js";
-
 const AdminRoute = express.Router();
 
+
+
+// const storage = multer.diskStorage({
+//   destination: (req, file, cb) => {
+//     cb(null, 'backend/public/images');
+//   },
+//   filename: (req, file, cb) => {
+//     cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+//   },
+// });
+// const upload = multer({
+//   storage: storage,
+//   fileFilter: (req, file, cb) => {
+//     if (file.mimetype.startsWith('image/')) {
+//       cb(null, true);
+//     } else {
+//       cb(new Error('Only images are allowed!'), false);
+//     }
+//   },
+// });
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'backend/public/images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
 
 
 AdminRoute.post("/login", adminAuthentication);
@@ -74,9 +83,10 @@ AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
 AdminRoute.post(
   '/listHostels/addhostelDetails',
-  upload.array('files', 5), // "additionalImages" is the field name, and 5 is the maximum number of files
-  addHostelDetails
+  upload.array('files', 10), 
+    addHostelDetails
 );
+AdminRoute.post('/listHostels',listHostelsAdmin);
 
 
 //-------------------- Dashboard Values

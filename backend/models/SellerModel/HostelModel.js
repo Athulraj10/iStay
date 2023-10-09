@@ -2,8 +2,9 @@ import mongoose from "mongoose";
 
 //here time stamp was added with the mongoose inbuild function
 const hostelModel = mongoose.Schema({
-    primaryImage:{
-        type:String,
+    images:{
+        // type:[String],
+        type:[],
         required:true
     },
     category:{

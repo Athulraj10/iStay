@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Container,Button, Row, Col } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
-import { Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 function ListHostel({ data }) {
   const handleBlockButton = async (userId) => {
     try {
-      let formData={
-        id:userId
-      }
-      let res = await USERSAPI.post("admin/listUsers/block",formData);
+      let formData = {
+        id: userId,
+      };
+      let res = await USERSAPI.post("admin/listUsers/block", formData);
       if (res.data) {
         // if data what will do
       }
@@ -18,18 +18,24 @@ function ListHostel({ data }) {
       toast.error(error);
     }
   };
+  console.log(data[0]);
   return (
-    <div style={{background:'transparent'}}className="event-schedule-area-two p-4 rounded">
-      <Container >
-        <Row >
-          <Link to='/admin/listHostels/addhostel'>
-          <Col>
-          <Button className="mb-3 p-2 " variant="dark">Add New Hostels</Button>
-          </Col>
+    <div
+      style={{ background: "transparent" }}
+      className="event-schedule-area-two p-4 rounded"
+    >
+      <Container>
+        <Row>
+          <Link to="/admin/listHostels/addhostel">
+            <Col>
+              <Button className="mb-3 p-2 " variant="dark">
+                Add New Hostels
+              </Button>
+            </Col>
           </Link>
         </Row>
-        <Row >
-          <Col lg={12} >
+        <Row>
+          <Col lg={12}>
             <div className="tab-content" id="myTabContent">
               <div
                 className="tab-pane fade active show"
@@ -41,10 +47,10 @@ function ListHostel({ data }) {
                     <thead>
                       <tr>
                         <th className="text-center" scope="col">
-                         Hostel Name
+                          Hostel Name
                         </th>
                         <th scope="col">Onwer</th>
-                        <th scope="col">Location</th>
+                        <th scope="col">Photos</th>
                         <th scope="col">Rate</th>
                         <th className="text-center" scope="col">
                           Status
@@ -57,38 +63,47 @@ function ListHostel({ data }) {
                           <tr className="inner-box" key={index}>
                             <td className="align-middle">
                               <div className="event-date text-center">
-                                <p className="date-month">{item.name}</p>
+                                <p className="date-month">{item.hostelName}</p>
                               </div>
                             </td>
                             <td className="align-middle">
                               <div className="event-img">{item.email}</div>
                             </td>
+
                             <td className="align-middle">
                               <div className="event-wrap">
-                                <h6>
-                                  <a style={{ textDecoration: "none" }}>
-                                    {item.location ? item.location : "Kannur"}
-                                  </a>
-                                </h6>
+                                {item.images.map((image, index) => (
+                                 <img
+                                    key={index}
+                                    src={`http://localhost:5000/images/${image}`}
+                                    // src={`/public/${image}`} 
+                                    alt={`Image ${index}`}
+                                    className="event-image"
+                                    style={{height:'100px', width:'100px', margin:'10px'}}
+                                  />
+                                ))}
+                              </div>
+                            </td>
 
-                                <div className="meta">
+
+                            {/* <div className="meta">
                                   <div className="categories">
                                     <a style={{ textDecoration: "none" }}>
                                       Mobile : {item.mobile}
                                     </a>
-                                  </div>
-                                  <div className="time">
+                                  </div> */}
+                            {/* <div className="time">
                                     <span>
                                       Account Created :{" "}
                                       {item.createdAt.substring(0, 10)}
                                     </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
+                                  </div> */}
+                            {/* </div> */}
+
+                            {/* </div> */}
                             <td className="align-middle">
                               <div className="r-no">
-                                <span>{item.updatedAt.slice(0, 10)}</span>
+                                <span>{item.price}</span>
                               </div>
                             </td>
                             <td className="align-middle text-center">
@@ -101,7 +116,6 @@ function ListHostel({ data }) {
                                 >
                                   {item.status ? "Block" : "Active"}
                                 </button>
-                               
                               </div>
                             </td>
                           </tr>

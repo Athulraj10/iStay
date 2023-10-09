@@ -7,6 +7,8 @@ import connectDB from "./config/db.js";
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import path from 'path';
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+
 // import cors from 'cors'
 
 dotenv.config();
@@ -16,6 +18,8 @@ const app =express();
 
 
 app.use(express.static('backend/public'));
+// app.use('/images', express.static(path.join(__dirname, 'public/images')));
+
 
 app.use(cookieParser())
 app.use(express.json());
