@@ -50,7 +50,7 @@ function ListHostel({ data }) {
                           Onwer 
                         </th>
                         <th className="text-center" scope="col">
-                          Hostel Name 
+                          Hostel Details 
                         </th>
                        
                         <th className="text-center" scope="col">
@@ -78,9 +78,26 @@ function ListHostel({ data }) {
                             </td>
 
                             <td className="align-middle">
-                              <div className="event-date text-center">
-                                <p className="date-month">{item.hostelName}</p>
-                              </div>
+                               <div className="meta">
+                                  <div className="categories text-center">
+                                    <a style={{ textDecoration: "none" }}>
+                                      HostelName : {item.hostelName}
+                                    </a>
+                                  </div>
+                                  <div className="categories">
+                                    <a style={{ textDecoration: "none" }}>
+                                      Location : {item.mainLocation}
+                                    </a>
+                                  </div>
+                            <div className="time">
+                                    <span>
+                                      Seller Contact :
+                                      {item.contactNumber}
+                                    </span>
+                                  </div>
+                             </div>
+
+
                             </td>
            
            
@@ -100,21 +117,7 @@ function ListHostel({ data }) {
                             </td>
 
 
-                            {/* <div className="meta">
-                                  <div className="categories">
-                                    <a style={{ textDecoration: "none" }}>
-                                      Mobile : {item.mobile}
-                                    </a>
-                                  </div> */}
-                            {/* <div className="time">
-                                    <span>
-                                      Account Created :{" "}
-                                      {item.createdAt.substring(0, 10)}
-                                    </span>
-                                  </div> */}
-                            {/* </div> */}
-
-                            {/* </div> */}
+                           
                             <td className="align-middle">
                               <div className="event-date text-center">
                                 <p className="date-month">{item.price}</p>
