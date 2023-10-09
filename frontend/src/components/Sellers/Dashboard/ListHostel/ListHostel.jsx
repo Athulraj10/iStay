@@ -39,15 +39,15 @@ function ListHostel() {
   }, [dataReceived, sellerIdStored]);
 
   const handleEditButton = async (hostelId)=>{
-      if (hostelId) {
-          const res = await USERSAPI.post("seller/listHostels/editHostel", {
-            _id:hostelId,
-          });
-          const responseData = res.data.data;
-          if(responseData){
-            navigate('/seller/listHostels/editHostelDetails',{state:{responseData}})
-          }
-    }
+    //   if (hostelId) {
+    //       const res = await USERSAPI.post("seller/listHostels/editHostel", {
+    //         _id:hostelId,
+    //       });
+    //       const responseData = res.data.data;
+    //       if(responseData){
+    //         navigate('/seller/listHostels/editHostelDetails',{state:{responseData}})
+    //       }
+    // }
   }
 
   return (
@@ -127,10 +127,10 @@ function ListHostel() {
                                 <button
                                   onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
                                   className={`btn ${
-                                    item.status ? "btn-primary" : "btn-danger"
+                                    item.isBlock ? "btn-primary" : "btn-danger"
                                   }`}
                                 >
-                                  {item.status ? "Block" : "Active"}
+                                  {item.isBlock ? "Block" : "Active"}
                                 </button>
                                 <button
                                 className="m-1 btn btn-primary"

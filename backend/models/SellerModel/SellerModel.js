@@ -8,6 +8,11 @@ const sellerSchema = mongoose.Schema({
         type:String,
         required:true
     },
+    isBlock:{
+        type:Boolean,
+        default:false,
+        required:false
+    },
     email:{
         type:String,
         required:true,
