@@ -1,5 +1,5 @@
 import { Navbar, Nav, Container, Alert } from "react-bootstrap";
-import { FaSignOutAlt, FaHotel, FaPhone, FaInfoCircle } from "react-icons/fa";
+import { FaSignOutAlt, FaHotel, FaPhone, FaInfoCircle ,FaSignInAlt} from "react-icons/fa";
 
 import "./Header.css";
 import logoImage from "./iStays.png";
