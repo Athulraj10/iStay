@@ -1,19 +1,30 @@
 import { Navbar, Nav, Container, Alert } from "react-bootstrap";
-import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
+import {
+  FaSignInAlt,
+  FaSignOutAlt,
+  FaUser,
+  FaStore,
+  FaHome,
+} from "react-icons/fa";
 import "./SellerHeader.css";
 import logoImage from "./iStays.png";
 import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const SellerHeader = () => {
-  const location = useNavigate()
+  const location = useNavigate();
   const [sellerInfo, setsellerInfo] = useState(null);
 
-  const handleLogout = () => {
-    localStorage.removeItem("sellerInfo");
-    setsellerInfo(null);
-    location('/seller/login')
+
+  const handleLogout = async () => {
+    let res = await USERSAPI.post("/seller/logout");
+    if (res.status) {
+      localStorage.removeItem("sellerInfo");
+      setsellerInfo(null);
+      location("/seller/login");
+    }
   };
 
   useEffect(() => {
@@ -25,11 +36,11 @@ const SellerHeader = () => {
         setsellerInfo(storedsellerInfo);
       }
     };
-
     // Call the asynchronous function
     fetchsellerInfo();
   }, []); // Empty dependency array to run once on mount
 
+  console.log(sellerInfo)
   return (
     <>
       <Navbar
@@ -52,6 +63,18 @@ const SellerHeader = () => {
               {sellerInfo ? (
                 // If user information is available, show Logout button
                 <>
+                  <Link to="/seller/message" className="nav-link">
+                    <FaStore /> List Messge
+                  </Link>
+
+                  <Link to="/seller/listEnquery" className="nav-link">
+                    <FaUser/> List Enquery
+                  </Link>
+
+                  <Link to="/seller/listHostels" className="nav-link">
+                    <FaHome /> List Hostel
+                  </Link>
+
                   <Nav.Link onClick={handleLogout}>
                     <FaSignOutAlt /> Logout
                   </Nav.Link>
@@ -60,7 +83,8 @@ const SellerHeader = () => {
                 <>
                   <LinkContainer to="/seller/login">
                     <Nav.Link>
-                      <FaSignInAlt />&nbsp;
+                      <FaSignInAlt />
+                      &nbsp;
                     </Nav.Link>
                   </LinkContainer>
                 </>
@@ -73,4 +97,4 @@ const SellerHeader = () => {
   );
 };
 
-export default SellerHeader
+export default SellerHeader;

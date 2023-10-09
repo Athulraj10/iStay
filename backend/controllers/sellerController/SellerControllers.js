@@ -4,6 +4,8 @@ import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js
 import Seller from '../../models/SellerModel/SellerModel.js'
 import OTP from '../../models/OTPModel.js'
 import generateToken from "../../utils/generateToken.js";
+import Hostel from "../../models/SellerModel/HostelModel.js";
+
 
 //@desc forgetOTP
 //access Public
@@ -201,18 +203,98 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
 });
 
 
+const listHostels =  asyncHandler(async(req,res) =>{
+  try {
+    const listHostels = await Hostel.find();
+    res.status(200).json({data:listHostels})
+  } catch (error) {
+    console.log("listHostelAdmin");
+    res.status(500).json({
+      message: "Hostel List Error",
+    });
+  }
+})
+// ----------------------------Seller Add Hostel-------------
+const addHostelDetails = asyncHandler(async (req, res) => {
+  
+  console.log("sellerHostelAddingfucntion")
+  console.log(req.body)
+  // .map((file) => file.path);
+  console.log('seller Add Hostel')
+  const formDataObject = req.body;
+  // ---------save value to database--------
+  try {
+    if (!formDataObject) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+
+    if (formDataObject) {
+      const hostelData = new Hostel({
+        seller:formDataObject.sellerID,
+        category: formDataObject.category,
+        hostelName: formDataObject.hostelName,
+        mainLocation: formDataObject.mainLocation,
+        description: formDataObject.descriptions,
+        fullDetails: formDataObject.fullDetails,
+        contactNumber: formDataObject.contactNumber,
+        mapLink: formDataObject.mapLink,
+        additionalAboutHostel: formDataObject.additionalAboutHostel,
+        nearByLocation: formDataObject.nearByLocation,
+        restrictions: formDataObject.restrictions,
+        descriptionAboutHostel: formDataObject.descriptionAboutHostel,
+        guestProfile: formDataObject.guestProfile,
+        price: formDataObject.price,
+        extraPrice: formDataObject.extraPrice,
+        totalBedInRoom: formDataObject.totalBedInRoom,
+        bedAvailableNow: formDataObject.bedAvailableNow,
+        Wifi: formDataObject.Wifi,
+        food: formDataObject.food,
+        parking: formDataObject.parking,
+        drinkingWater: formDataObject.drinkingWater,
+      });
+      if (req.files) {
+        const uploadedFiles = req.files;
+        let fileUrls = [];
+        for (let file of uploadedFiles) {
+          const filePath = file.filename;
+          fileUrls.push(filePath);
+        }
+        hostelData.images = fileUrls;
+      }
+      const hosteldetails = await hostelData.save();
+  
+      if (hosteldetails) {
+        return res.status(201).json({
+          hostelAdded: true,
+        });
+      }
+      if (!hosteldetails) {
+        return res
+          .status(404)
+          .json({ message: "Something Wrong Please Try Again" });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Some Field Missing or Server Error" });
+  }
+});
+
+
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
 //access Public
 //route POST// /api/logout
-// const logoutUser = asyncHandler(async (req, res) => {
-//   res.cookie("jwt", "", {
-//     httpOnly: true,
-//     expires: new Date(0),
-//   });
-//   res.status(200).json({ message: "User Logout" });
-// });
+const logoutSeller = asyncHandler(async (req, res) => {
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+  });
+  res.status(200).json({ message: "Seller Logout" });
+});
 
 
 
@@ -262,10 +344,15 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
 export {
   authSeller,
   registerSeller,
-  // logoutUser,
+  logoutSeller,
   sellerForget,
   // getUserProfile,
   // updateUserProfile,
   sellerVerifyOTP,
   sellersResetPassword,
+
+
+  // LIST HOSTEL
+  listHostels,
+  addHostelDetails
 };

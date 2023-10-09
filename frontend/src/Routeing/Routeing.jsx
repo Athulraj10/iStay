@@ -30,6 +30,10 @@ import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 import AdminAddHostelScreen from "../components/Admin/Screens/AdminAddHostel";
 
 import AdminEditSellerScreen from "../components/Admin/Screens/AdminEditSellerScreen";
+import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
+import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
+import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
+import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
 
 
 
@@ -52,6 +56,15 @@ const Routeing = () => {
       <Route path="/seller/forget" element={<SellerForgetScreenPassword />} />
       <Route path="/seller/verifyOTP" element={<SellerOTPScreen />} />
       <Route path="/seller/resetPassword" element={<SellerResetPassword />} />
+     
+      <Route path="/seller/message" element={<SellerMessageList />} />
+      <Route path="/seller/listEnquery" element={<SelllerListEnquery />} />
+      <Route path="/seller/listHostels" element={<SellerHostelList />} />
+      <Route path="/seller/listHostels/addhostel" element={<AddHostelSeller />} />
+
+
+
+
 
       {/* ------------Admin Panel--------- */}
       <Route path="/admin" element={<AdminLoginScreen />} />

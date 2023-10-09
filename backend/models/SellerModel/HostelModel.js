@@ -2,9 +2,15 @@ import mongoose from "mongoose";
 
 //here time stamp was added with the mongoose inbuild function
 const hostelModel = mongoose.Schema({
+    seller: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Seller', 
+        required:true
+        // 'Seller' should match the name of your seller model
+      },
     images:{
-        // type:[String],
-        type:[],
+        type:[String],
+        // type:[],
         required:true
     },
     category:{
