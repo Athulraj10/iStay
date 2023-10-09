@@ -1,5 +1,4 @@
 import express from "express";
-
 import multer from "multer";
 import path from "path";
 
@@ -75,7 +74,7 @@ AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
 AdminRoute.post(
   '/listHostels/addhostelDetails',
-  upload.array('additionalImages', 5), // "additionalImages" is the field name, and 5 is the maximum number of files
+  upload.array('files', 10), // "additionalImages" is the field name, and 5 is the maximum number of files
   addHostelDetails
 );
 

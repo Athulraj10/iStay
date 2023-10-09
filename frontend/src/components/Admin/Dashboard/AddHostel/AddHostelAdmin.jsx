@@ -5,7 +5,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 const AddHostelAdmin = () => {
   const [formData, setFormData] = useState({
-    file: null, // Store the primary image here
+    files: [], // Store the primary image here
     category: "",
     hostelName: "",
     mainLocation: "",
@@ -27,21 +27,21 @@ const AddHostelAdmin = () => {
     parking: "",
     drinkingWater: "",
   });
-;
-
-  const [imageUrl, setImageUrl] = useState("");
+  const [imageUrls, setImageUrls] = useState([]);
 
   const handleAdditionalImagesChange = (e) => {
     const files = e.target.files;
-    const primaryImage = files[0];
+    const selectedFiles = Array.from(files).slice(0, 10); // Limit to the first 10 selected files
+    
+    const newFiles = Array.from(files);
+    const newImageUrls = newFiles.map((file) => URL.createObjectURL(file));
 
     setFormData({
       ...formData,
-      file: primaryImage, // Store the primary image in the file field
+      files: [...formData.files, ...newFiles],
     });
 
-    const primaryImageUrl = URL.createObjectURL(primaryImage);
-    setImageUrl(primaryImageUrl);
+    setImageUrls([...imageUrls, ...newImageUrls]);
   };
 
   const handleChange = (e) => {
@@ -55,7 +55,8 @@ const AddHostelAdmin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
-    formDataToSend.append("file", formData.file);
+    formData.files.forEach((file) => formDataToSend.append("files", file));
+    // formDataToSend.append("file", formData.file);
     formDataToSend.append("category", formData.category);
     formDataToSend.append("hostelName", formData.hostelName);
     formDataToSend.append("mainLocation", formData.mainLocation);
@@ -63,10 +64,10 @@ const AddHostelAdmin = () => {
     formDataToSend.append("fullDetails", formData.fullDetails);
     formDataToSend.append("contactNumber", formData.contactNumber);
     formDataToSend.append("mapLink", formData.mapLink);
-    formDataToSend.append("additionalAboutHostel", formData.additionalAboutHostel);
+    formDataToSend.append("additionalAboutHostel",formData.additionalAboutHostel);
     formDataToSend.append("nearByLocation", formData.nearByLocation);
     formDataToSend.append("restrictions", formData.restrictions);
-    formDataToSend.append("descriptionAboutHostel", formData.descriptionAboutHostel);
+    formDataToSend.append("descriptionAboutHostel",formData.descriptionAboutHostel);
     formDataToSend.append("guestProfile", formData.guestProfile);
     formDataToSend.append("price", formData.price);
     formDataToSend.append("extraPrice", formData.extraPrice);
@@ -77,7 +78,7 @@ const AddHostelAdmin = () => {
     formDataToSend.append("parking", formData.parking);
     formDataToSend.append("drinkingWater", formData.drinkingWater);
     // ... append other fields
-    console.log(formData)
+    console.log(formData);
     try {
       const response = await USERSAPI.post(
         "admin/listHostels/addhostelDetails",
@@ -107,7 +108,7 @@ const AddHostelAdmin = () => {
             lg={12}
             className="d-flex align-items-center justify-content-center"
             style={{
-              backgroundImage: `url(${imageUrl})`,
+              backgroundImage: `url(${imageUrls[0]})`,
               backgroundSize: "cover",
               backgroundPosition: "center",
             }}
@@ -117,13 +118,31 @@ const AddHostelAdmin = () => {
             </Button>
           </Col>
         </Row>
+
+        <Row>
+          {/* Display selected images */}
+          {imageUrls.length > 0 && (
+            <div className="mb-4 d-flex flex-nowrap overflow-auto">
+              {imageUrls.map((url, index) => (
+                <div key={index} className="me-2">
+                  <img
+                    src={url}
+                    alt={`Image ${index}`}
+                    style={{ height: "200px", width: "200px" }}
+                  />
+                </div>
+              ))}
+            </div>
+          )}
+        </Row>
+
         <Row>
           <Col
             lg={3}
             className="d-flex align-items-center justify-content-center"
           >
             <Button
-              className="primaryPhotoText"
+              className="primaryPhotoText "
               type="submit"
               style={{ height: "100px" }}
             >
@@ -134,10 +153,10 @@ const AddHostelAdmin = () => {
                 multiple
                 accept="image/*"
               />
-              + Add Remaining Photos
+              + Add Remaining Photos Max-10
             </Button>
           </Col>
-    
+
           {/* ----------about hostel details */}
           <Col lg={4}>
             <Form.Group controlId="category">
@@ -422,7 +441,6 @@ const AddHostelAdmin = () => {
               />
             </Form.Group>
           </Col>
-
         </Row>
         <Row className="m-4">
           <Col
