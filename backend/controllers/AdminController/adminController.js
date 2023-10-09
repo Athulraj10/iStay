@@ -269,6 +269,7 @@ const aggregateAllHostels = async () => {
           // descriptionAboutHostel: 1,
           // guestProfile: 1,
           price: 1,
+          isBlock:1,
           // extraPrice: 1,
           // totalBedInRoom: 1,
           // bedAvailableNow: 1,
@@ -300,7 +301,6 @@ const listHostelsAdmin = asyncHandler(async (req, res) => {
   try {
     // const listHostels = await Hostel.findOne().populate("seller");
     const listHostels = await aggregateAllHostels();
-    console.log(listHostels)
     res.status(200).json({data:listHostels})
   } catch (error) {
     console.log("listHostelAdmin");
@@ -374,21 +374,29 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Some Field Missing or Server Error" });
   }
 });
+
+// ----------------------------Block Hostel------------------------------------
 const BlockHostelsAdmin = asyncHandler(async (req, res) => {
   const { id } = req.body; // Assuming you receive the hostel ID in the request body
-
   try {
-    // Find the hostel by ID and update the isBlock field to true
-    const updatedHostel = await Hostel.findByIdAndUpdate(
-      id,
-      { isBlock: true },
-      { new: true } // This option returns the updated document
-    );
+    // Find the hostel by ID
+    const hostel = await Hostel.findById(id);
+
+    if (!hostel) {
+      return res.status(404).json({ message: 'Hostel not found' });
+    }
+
+    // Toggle the isBlock status
+    hostel.isBlock = !hostel.isBlock;
+
+    // Save the updated hostel
+    const updatedHostel = await hostel.save();
 
     if (updatedHostel) {
+      const statusMessage = updatedHostel.isBlock ? 'blocked' : 'unblocked';
       return res.status(200).json({
-        message: 'Hostel blocked successfully',
-        data: "updated",
+        message: `Hostel ${statusMessage} successfully`,
+        data: updatedHostel,
       });
     } else {
       return res.status(404).json({ message: 'Hostel not found' });
@@ -398,6 +406,7 @@ const BlockHostelsAdmin = asyncHandler(async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 });
+
 
 
 // ----------------------------Block User------------------------------

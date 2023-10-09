@@ -88,7 +88,7 @@ AdminRoute.post(
     addHostelDetails
 );
 AdminRoute.post('/listHostels',listHostelsAdmin);
-AdminRoute.post('/listHostel/block',BlockHostelsAdmin);
+AdminRoute.patch('/listHostel/block',BlockHostelsAdmin);
 
 
 //-------------------- Dashboard Values

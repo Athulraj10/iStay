@@ -5,20 +5,23 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { Link } from "react-router-dom";
 
 function ListHostel({ data }) {
+  const [hostelStatus, setHostelStatus] = useState({});
+
   const handleBlockButton = async (hostelId) => {
     try {
       let formData = {
         id: hostelId,
       };
-      let res = await USERSAPI.post("admin/listHostel/block", formData);
-      if (res.data) {
-        // if data what will do
-      }
+      let res = await USERSAPI.patch("admin/listHostel/block", formData);
+      // Update the hostelStatus for the specific hostel
+      setHostelStatus((prevStatus) => ({
+        ...prevStatus,
+        [hostelId]: !prevStatus[hostelId], // Toggle the status for the clicked hostel
+      }));
     } catch (error) {
       toast.error(error);
     }
   };
-  console.log(data[0]);
   return (
     <div
       style={{ background: "transparent" }}
@@ -47,21 +50,20 @@ function ListHostel({ data }) {
                     <thead>
                       <tr>
                         <th className="text-center" scope="col">
-                          Onwer 
+                          Onwer
                         </th>
                         <th className="text-center" scope="col">
-                          Hostel Details 
+                          Hostel Details
                         </th>
-                       
+
                         <th className="text-center" scope="col">
-                         Photos 
+                          Photos
                         </th>
-                       
-                      
+
                         <th className="text-center" scope="col">
                           Price
                         </th>
-                      
+
                         <th className="text-center" scope="col">
                           Status
                         </th>
@@ -73,66 +75,72 @@ function ListHostel({ data }) {
                           <tr className="inner-box" key={index}>
                             <td className="align-middle">
                               <div className="event-date text-center">
-                                <p className="date-month">{item.sellerDetails.name}</p>
+                                <p className="date-month">
+                                  {item.sellerDetails.name}
+                                </p>
                               </div>
                             </td>
 
                             <td className="align-middle">
-                               <div className="meta">
-                                  <div className="categories text-center">
-                                    <a style={{ textDecoration: "none" }}>
-                                      HostelName : {item.hostelName}
-                                    </a>
-                                  </div>
-                                  <div className="categories">
-                                    <a style={{ textDecoration: "none" }}>
-                                      Location : {item.mainLocation}
-                                    </a>
-                                  </div>
-                            <div className="time">
-                                    <span>
-                                      Seller Contact :
-                                      {item.contactNumber}
-                                    </span>
-                                  </div>
-                             </div>
-
-
+                              <div className="meta">
+                                <div className="categories">
+                                  <a style={{ textDecoration: "none" }}>
+                                    HostelName : {item.hostelName}
+                                  </a>
+                                </div>
+                                <div className="categories">
+                                  <a style={{ textDecoration: "none" }}>
+                                    Location : {item.mainLocation}
+                                  </a>
+                                </div>
+                                <div className="time">
+                                  <span>
+                                    Seller Contact :{item.contactNumber}
+                                  </span>
+                                </div>
+                              </div>
                             </td>
-           
-           
+
                             <td className="align-middle">
                               <div className="event-wrap">
                                 {item.images.map((image, index) => (
-                                 <img
+                                  <img
                                     key={index}
                                     src={`http://localhost:5000/images/${image}`}
-                                    // src={`/public/${image}`} 
+                                    // src={`/public/${image}`}
                                     alt={`Image ${index}`}
                                     className="event-image"
-                                    style={{height:'100px', width:'100px', margin:'10px'}}
+                                    style={{
+                                      height: "100px",
+                                      width: "100px",
+                                      margin: "10px",
+                                    }}
                                   />
                                 ))}
                               </div>
                             </td>
 
 
-                           
                             <td className="align-middle">
                               <div className="event-date text-center">
-                                <p className="date-month">{item.price}</p>
+                                <p className="date-month">
+                                  {item.price}
+                                </p>
                               </div>
                             </td>
-           
+
+
                             <td className="align-middle text-center">
                               <div className={`primary-btn`}>
                                 <button
-                                  onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
+                                  onClick={() => handleBlockButton(item._id)}
                                   className={`btn ${
-                                    item.status ? "btn-primary" : "btn-danger"
+                                    hostelStatus[item._id]
+                                      ? "btn-primary"
+                                      : "btn-danger"
                                   }`}
                                 >
-                                  {item.status ? "Block" : "Active"}
+                                  {hostelStatus[item._id] ? "Active" : "Block"}
                                 </button>
                               </div>
                             </td>
