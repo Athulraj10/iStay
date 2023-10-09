@@ -74,7 +74,9 @@ AdminRoute.post("/listSeller/edit", editSeller);
 AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
 AdminRoute.post(
-  '/listHostels/addhostelDetails',upload.single('file'),addHostelDetails
+  '/listHostels/addhostelDetails',
+  upload.array('additionalImages', 5), // "additionalImages" is the field name, and 5 is the maximum number of files
+  addHostelDetails
 );
 
 
