@@ -355,10 +355,10 @@ const SingleViewHostel = () => {
         </Card>
       </Row>
 
-      <Row >
-        <Card style={{background:"transparent" , color:'white'}}>
-          <Card.Body>4.1 Very Good</Card.Body>
-          <Card.Body>Total review Details</Card.Body>
+      <Row className="justify-content-center" style={{border:'1px solid gray'}}>
+        <Card style={{ background: "transparent", color: "white"}}>
+          <Card.Body className="text-center" style={{border:'1px solid gray'}}>4.1 Very Good</Card.Body>
+          <Card.Body className="text-center" style={{border:'1px solid gray'}}>Total Review Details</Card.Body>
         </Card>
       </Row>
     </div>
