@@ -190,7 +190,7 @@ const SingleViewHostel = () => {
       </Container>
       {/* Hostel Details */}
 
-      <Row>
+      <Row style={{marginTop:'80px'}}>
         <Col md={12}>
           <div
             className="btn-info"
