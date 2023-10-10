@@ -41,27 +41,36 @@ const FindAccommodation = () => {
           </div>
 
           {/* Right Side: Card Content */}
-          <div style={{ flex: 2, display: "flex",background:'transparent' }}>
+          <div style={{ flex: 2, display: "flex",background:'transparent',textAlign:'left' }}>
             {/* Left Partition */}
             <div style={{ flex: 1 }} >
-              <Card style={{margin:'20px', background:'transparent',  width: "100%",height:"300px" }}>
+              <Card style={{margin:'20px', background:'transparent', borderLeft:'1px solid gray', width: "100%",height:"300px" }}>
                 <Card.Body>
-                  <Card.Title>{hostel.hostelName}</Card.Title>
-                  <Card.Subtitle className="mb-2 text-white">
-                    {hostel.mainLocation}
+                  <Card.Title className="mb-2 text-primary font-weight-bold text-capitalize"><h3>{hostel.hostelName}</h3></Card.Title>
+                  <Card.Subtitle className="mb-2 text-primary text-capitalize"><h4>Category : {hostel.category}</h4></Card.Subtitle>
+                  <Card.Subtitle className="mb-2 text-danger text-capitalize">
+                    Location : {hostel.mainLocation} <br/>
+                     {hostel.nearByLocation}
                   </Card.Subtitle>
-                  <Card.Text>
+    
+                  <Card.Text className="mb-2 text-primary">
                     {hostel.description}
                   </Card.Text>
+                  
                 </Card.Body>
               </Card>
             </div>
 
             {/* Right Partition */}
             <div style={{ flex: 1 }}>
-              <Card style={{ margin:'20px',  width: "auto",height:"300px"  }}>
-                <Card.Body>
-                 dfasdfkasdf;laksdjflks
+              <Card style={{ margin:'20px',background:'transparent',borderRight:'1px solid gray',  width: "auto",height:"auto"  }}>
+              <Card.Body style={{border:'1px solid gray'}}>
+                  <Card.Title className="mb-3 text-primary font-weight-bold text-capitalize"><h6>WIFI Avalable : {hostel.Wifi}</h6></Card.Title>
+                  <Card.Subtitle className="mb-3 text-primary text-capitalize"><h6>Food : {hostel.food}</h6></Card.Subtitle>
+                  <Card.Subtitle className="mb-3 text-primary text-capitalize"><h6>Parking : {hostel.parking}</h6></Card.Subtitle>
+                  <Card.Subtitle className="mb-3 text-primary text-capitalize"><h6>Drinking Water : {hostel.drinkingWater}</h6></Card.Subtitle>
+                  <Card.Subtitle className="mb-3 text-primary text-capitalize"><h6>Price : {hostel.price}</h6></Card.Subtitle>
+                  <Card.Subtitle className="mb-3 text-primary text-capitalize"><h6>Extra Price : {hostel.extraPrice}</h6></Card.Subtitle>
                 </Card.Body>
               </Card>
             </div>
