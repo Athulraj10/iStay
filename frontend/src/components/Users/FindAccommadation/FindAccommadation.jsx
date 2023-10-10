@@ -1,55 +1,96 @@
-import React from 'react'
-import { Container,Row,Col,Button} from 'react-bootstrap'
+import React, { useState, useEffect } from "react";
+import { Container, Row, Col, Button } from "react-bootstrap";
+import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
+import { toast } from "react-toastify";
 
 const FindAccommadation = () => {
-  return (
+  const [hostelInfo, setHostelInfo] = useState([]);
 
+  useEffect(() => {
+    const fetchdata = async () => {
+      try {
+        const res = await USERSAPI.post("users/findAccommodation");
+        setHostelInfo(res.data.data); // Access the response data using res.data
+      } catch (error) {
+        toast.error(error);
+      }
+    };
+
+    fetchdata();
+  }, []); // Empty dependency array to run the effect only once on mount
+
+  return (
     <>
-    
-    <Container fluid style={{color:'white'}}>
-    <Row>
+      <Container style={{ color: "white" }}>
+        <Row>
           <Col
             xs={12}
             md={12}
             style={{ height: "100px", backgroundColor: "transparent" }}
           >
             <div className="ms-5 me-5 d-flex justify-content-between align-items-center h-100">
-              <Button style={{ color: "white" , width:'200px',height:'70px'}}>Search Area property</Button>
-              <Button style={{ color: "white" , width:'200px',height:'70px' }}>Review</Button>
-              <Button style={{ color: "white" , width:'200px',height:'70px' }}>Filer</Button>
-              <Button style={{ color: "white" , width:'200px',height:'70px' }}>Search</Button>
+              
+              <input type="text"
+              placeholder="Type here"
+              style={{width:"300px",height:"50px"}} />
+
+              <Button
+                style={{ color: "white", width: "200px", height: "70px" }}
+              >
+                Search
+              </Button>
             </div>
           </Col>
         </Row>
-    
-        <Row>
-      {hostels.map((hostel, index) => (
-        <Col key={index}>
-          <Col style={{ height: '400px', width: '700px', backgroundColor: 'green', marginLeft: '50px' }}>
-            {hostel.something} {/* Replace with the actual property from your data */}
-          </Col>
-          <Col>
-            <h4 className="mb-2">Hostel Name: {hostel.hostelName}</h4>
-            <h6 className="mb-2">Hostel Name: {hostel.hostelName}</h6>
-            <Button className="mb-2">Hostel Name: {hostel.hostelName}</Button>
-            <p className="mb-2">Hostel Name: {hostel.hostelName}</p>
-            <p className="mb-2">Hostel Name: {hostel.hostelName}</p>
-            <p className="mb-2">Hostel Name: {hostel.hostelName}</p>
-            <h6 className="mb-2">Hostel Name: {hostel.hostelName}</h6>
-            <p className="mb-2">Hostel Name: {hostel.hostelName}</p>
-          </Col>
-          <Col>
-            <p className="mb-2">Hostel Name: {hostel.hostelName}</p>
-            <h6 className="mb-2">Hostel Name: {hostel.hostelName}</h6>
-            <p className="mb-2">Hostel Name: {hostel.hostelName}</p>
-            <p className="mb-2">Hostel Name: {hostel.hostelName}</p>
-          </Col>
-        </Col>
-      ))}
-    </Row>
-    </Container>
-    </>
-  )
-}
 
-export default FindAccommadation
+        {hostelInfo.map((hostel, index) => (
+            <Button className="m-3">
+
+           
+          <Row key={index} style={{width:'100px !important;'}}>
+            {/* Image */}
+            <div className="event-wrap">
+              {hostel.images.slice(0, 4).map((image, index) => (
+                <img
+                  key={index}
+                  src={`http://localhost:5000/images/${image}`}
+                  alt={`Image ${index}`}
+                  className="event-image"
+                  style={{ height: "200px", width: "250px", margin: "10px" }}
+                />
+              ))}
+            </div>
+
+            <Col>
+              <h4 className="mb-2 text-primary">{hostel.hostelName}</h4>
+              <h6 className="mb-2 text-danger">{hostel.mainLocation}</h6>
+              <p className="mb-2 text-primary">{hostel.nearByLocation}</p>
+              <Button className="mb-2">{hostel.category}</Button>
+              {/* <p className="mb-2 text-danger">Wifi: {hostel.Wifi}</p>
+              <p className="mb-2 text-danger">Food: {hostel.food}</p>
+              <h6 className="mb-2 text-danger">Parking: {hostel.parking}</h6> */}
+              <p className="mb-2 text-primary">{hostel.description}</p>
+            </Col>
+
+            {/* Additional Details */}
+            <Col>
+              <p className="mb-2 text-primary">
+                Drinking Water: {hostel.drinkingWater}
+              </p>
+              <h6 className="mb-2 text-primary">Price: {hostel.price}</h6>
+              <p className="mb-2 text-primary">
+                Extra Price: {hostel.extraPrice}
+              </p>
+              <p className="mb-2 text-primary">
+                Guest Profile: {hostel.guestProfile}
+              </p>
+            </Col>
+          </Row>
+          </Button>
+        ))}
+      </Container>
+    </>
+  );
+};
+
+export default FindAccommadation;

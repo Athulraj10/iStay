@@ -4,6 +4,7 @@ import OTP from "../../models/OTPModel.js";
 import genereateToken from "../../utils/generateToken.js";
 import nodemailer from "nodemailer";
 import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js";
+import Hostel from "../../models/SellerModel/HostelModel.js";
 
 
 //@desc forgetOTP
@@ -195,6 +196,25 @@ const resetPassword = asyncHnadler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
+// ----------------------------Reset Password-------------
+const findAccommodation = asyncHnadler(async (req, res) => {
+  try {
+    const hostels = await Hostel.find({ isBlock: { $ne: true } });
+
+    if (!hostels) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (hostels) {
+      console.log(hostels)
+      res.status(200).json({ data:hostels });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
 
 
 
@@ -268,4 +288,7 @@ export {
   updateUserProfile,
   verifyOTP,
   resetPassword,
+
+
+  findAccommodation
 };

@@ -5,7 +5,9 @@ import {
     logoutUser,
     getUserProfile,
     updateUserProfile,
-    forget,verifyOTP,resetPassword
+    forget,verifyOTP,resetPassword,
+
+    findAccommodation
 }
     from "../../controllers/UserControllers/userControllers.js";
 // import { protect } from "../../middleware/authMiddleware.js";
@@ -17,6 +19,11 @@ router.post('/login',authUser)
 router.post('/forget',forget)
 router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
+
+
+router.post('/findAccommodation',findAccommodation)
+
+
 // router.post('/',)
 router.post('/logout',logoutUser)
 // router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)

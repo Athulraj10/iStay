@@ -39,15 +39,15 @@ function ListHostel() {
   }, [dataReceived, sellerIdStored]);
 
   const handleEditButton = async (hostelId)=>{
-    //   if (hostelId) {
-    //       const res = await USERSAPI.post("seller/listHostels/editHostel", {
-    //         _id:hostelId,
-    //       });
-    //       const responseData = res.data.data;
-    //       if(responseData){
-    //         navigate('/seller/listHostels/editHostelDetails',{state:{responseData}})
-    //       }
-    // }
+      if (hostelId) {
+          const res = await USERSAPI.post("seller/listHostels/editHostel", {
+            _id:hostelId,
+          });
+          const responseData = res.data.data;
+          if(responseData){
+            navigate('/seller/listHostels/editHostelDetails',{state:{responseData}})
+          }
+    }
   }
 
   return (
