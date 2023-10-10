@@ -1,96 +1,75 @@
 import React, { useState, useEffect } from "react";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { Container, Button, Card, Row, Col } from "react-bootstrap";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 
-const FindAccommadation = () => {
+const FindAccommodation = () => {
   const [hostelInfo, setHostelInfo] = useState([]);
 
   useEffect(() => {
     const fetchdata = async () => {
       try {
         const res = await USERSAPI.post("users/findAccommodation");
-        setHostelInfo(res.data.data); // Access the response data using res.data
+        setHostelInfo(res.data.data);
       } catch (error) {
         toast.error(error);
       }
     };
 
     fetchdata();
-  }, []); // Empty dependency array to run the effect only once on mount
+  }, []);
 
   return (
-    <>
-      <Container style={{ color: "white" }}>
-        <Row>
-          <Col
-            xs={12}
-            md={12}
-            style={{ height: "100px", backgroundColor: "transparent" }}
-          >
-            <div className="ms-5 me-5 d-flex justify-content-between align-items-center h-100">
-              
-              <input type="text"
-              placeholder="Type here"
-              style={{width:"300px",height:"50px"}} />
+    <Container>
+      {hostelInfo.map((hostel, index) => (
+        <Button
+          key={index}
+          className="m-3 btn-danger"
+          style={{ width: "100%", display: "flex", alignItems: "center" }}
+        >
+          {/* Left Side: Image */}
+          <div className="event-wrap "  style={{ flex: 1 }}>
+            {hostel.images.slice(0, 1).map((image, index) => (
+              <img
+                key={index}
+                src={`http://localhost:5000/images/${image}`}
+                alt={`Image ${index}`}
+                className="event-image rounded-4"
+                style={{ height: "300px", width: "100%" }}
+              />
+            ))}
+          </div>
 
-              <Button
-                style={{ color: "white", width: "200px", height: "70px" }}
-              >
-                Search
-              </Button>
-            </div>
-          </Col>
-        </Row>
-
-        {hostelInfo.map((hostel, index) => (
-            <Button className="m-3">
-
-           
-          <Row key={index} style={{width:'100px !important;'}}>
-            {/* Image */}
-            <div className="event-wrap">
-              {hostel.images.slice(0, 4).map((image, index) => (
-                <img
-                  key={index}
-                  src={`http://localhost:5000/images/${image}`}
-                  alt={`Image ${index}`}
-                  className="event-image"
-                  style={{ height: "200px", width: "250px", margin: "10px" }}
-                />
-              ))}
+          {/* Right Side: Card Content */}
+          <div style={{ flex: 2, display: "flex",background:'transparent' }}>
+            {/* Left Partition */}
+            <div style={{ flex: 1 }} >
+              <Card style={{margin:'20px', background:'transparent',  width: "100%",height:"300px" }}>
+                <Card.Body>
+                  <Card.Title>{hostel.hostelName}</Card.Title>
+                  <Card.Subtitle className="mb-2 text-white">
+                    {hostel.mainLocation}
+                  </Card.Subtitle>
+                  <Card.Text>
+                    {hostel.description}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </div>
 
-            <Col>
-              <h4 className="mb-2 text-primary">{hostel.hostelName}</h4>
-              <h6 className="mb-2 text-danger">{hostel.mainLocation}</h6>
-              <p className="mb-2 text-primary">{hostel.nearByLocation}</p>
-              <Button className="mb-2">{hostel.category}</Button>
-              {/* <p className="mb-2 text-danger">Wifi: {hostel.Wifi}</p>
-              <p className="mb-2 text-danger">Food: {hostel.food}</p>
-              <h6 className="mb-2 text-danger">Parking: {hostel.parking}</h6> */}
-              <p className="mb-2 text-primary">{hostel.description}</p>
-            </Col>
-
-            {/* Additional Details */}
-            <Col>
-              <p className="mb-2 text-primary">
-                Drinking Water: {hostel.drinkingWater}
-              </p>
-              <h6 className="mb-2 text-primary">Price: {hostel.price}</h6>
-              <p className="mb-2 text-primary">
-                Extra Price: {hostel.extraPrice}
-              </p>
-              <p className="mb-2 text-primary">
-                Guest Profile: {hostel.guestProfile}
-              </p>
-            </Col>
-          </Row>
-          </Button>
-        ))}
-      </Container>
-    </>
+            {/* Right Partition */}
+            <div style={{ flex: 1 }}>
+              <Card style={{ margin:'20px',  width: "auto",height:"300px"  }}>
+                <Card.Body>
+                 dfasdfkasdf;laksdjflks
+                </Card.Body>
+              </Card>
+            </div>
+          </div>
+        </Button>
+      ))}
+    </Container>
   );
 };
 
-export default FindAccommadation;
+export default FindAccommodation;
