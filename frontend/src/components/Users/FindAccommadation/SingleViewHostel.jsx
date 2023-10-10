@@ -148,6 +148,7 @@ const SingleViewHostel = () => {
                       </a>
                     </div>
                   </Col>
+                  <Button style={{width:'300px',marginLeft:'100px',marginTop:'10px'}} variant="primary">Book Now</Button>
                 </Row>
               </Card>
             </div>
