@@ -101,28 +101,28 @@ function Dashboard() {
           <Col xs lg="3" style={style}>
             <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
               <h3 className="text-center" style={{ color: "white" }}>
-                Total Users
+                Messages
               </h3>
               <h4 style={{ color: "white" }}>Total count : {totalUsers}</h4>
-              <h4 style={{ color: "white" }}>Blocked : 0</h4>
+              {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
           <Col xs lg="3" style={style}>
             <Link to="/admin/listSellers" style={{ textDecoration: "none" }}>
               <h3 className="text-center" style={{ color: "white" }}>
-                Total Sellers
+                Enquery
               </h3>
               <h4 style={{ color: "white" }}>Total count : {totalSeller}</h4>
-              <h4 style={{ color: "white" }}>Blocked : 0</h4>
+              {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
           <Col xs lg="3" style={style}>
             <Link to="/admin/listHostels" style={{ textDecoration: "none" }}>
               <h3 className="text-center" style={{ color: "white" }}>
-                Total Hostels
+                Total Sale
               </h3>
               <h4 style={{ color: "white" }}>Total count : {totalHostel}</h4>
-              <h4 style={{ color: "white" }}>Blocked : 0</h4>
+              {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
         </Row>
