@@ -36,6 +36,7 @@ import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
 import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
 import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
 import FindAccommodationScreen from "../components/Users/Screens/FindAccommodationScreen";
+import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
 
 
 
@@ -50,6 +51,7 @@ const Routeing = () => {
       <Route path="/OTP" element={<OTPScreen />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route path="/findAccommodation" element={<FindAccommodationScreen />} />
+      <Route path="/findAccommodation/singlePageView" element={<SinglePageView />} />
 
       {/* -----------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />

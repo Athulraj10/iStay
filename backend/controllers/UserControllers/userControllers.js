@@ -196,7 +196,7 @@ const resetPassword = asyncHnadler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-// ----------------------------Reset Password-------------
+// ----------------------------FindAccommodation-------------
 const findAccommodation = asyncHnadler(async (req, res) => {
   try {
     const hostels = await Hostel.find({ isBlock: { $ne: true } });
@@ -209,6 +209,24 @@ const findAccommodation = asyncHnadler(async (req, res) => {
     if (hostels) {
       console.log(hostels)
       res.status(200).json({ data:hostels });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+// ----------------------------singlePageView hostel-------------
+const singlePageView = asyncHnadler(async (req, res) => {
+  try {
+    const hostel = await Hostel.find({ _id:req.body.id });
+    if (!hostel) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (hostel) {
+      console.log(hostel)
+      res.status(200).json({ data:hostel });
     }
   } catch (error) {
     console.error(error);
@@ -290,5 +308,6 @@ export {
   resetPassword,
 
 
-  findAccommodation
+  findAccommodation,
+  singlePageView,
 };

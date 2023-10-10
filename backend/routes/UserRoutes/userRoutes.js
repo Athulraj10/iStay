@@ -6,7 +6,8 @@ import {
     getUserProfile,
     updateUserProfile,
     forget,verifyOTP,resetPassword,
-
+    
+    singlePageView,
     findAccommodation
 }
     from "../../controllers/UserControllers/userControllers.js";
@@ -22,6 +23,7 @@ router.post('/resetPassword',resetPassword)
 
 
 router.post('/findAccommodation',findAccommodation)
+router.post('/findAccommodation/singlePageView',singlePageView)
 
 
 // router.post('/',)

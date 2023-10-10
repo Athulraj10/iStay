@@ -2,8 +2,10 @@ import React, { useState, useEffect } from "react";
 import { Container, Button, Card, Row, Col } from "react-bootstrap";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const FindAccommodation = () => {
+  const navigate = useNavigate();
   const [hostelInfo, setHostelInfo] = useState([]);
 
   useEffect(() => {
@@ -19,12 +21,17 @@ const FindAccommodation = () => {
     fetchdata();
   }, []);
 
-  const handleClick = await 
+  const handleClick = (hostelId) =>{
+      if(hostelId){
+        navigate("/findAccommodation/singlePageView",{state:{hostelId}})
+      }
+  }
 
   return (
     <Container>
       {hostelInfo.map((hostel, index) => (
         <Button
+          onClick={()=>{handleClick(hostel._id)}}
           key={index}
           className="m-3 btn-danger"
           style={{ width: "100%", display: "flex", alignItems: "center" }}
