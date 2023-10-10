@@ -203,10 +203,13 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
 });
 
 
+// ----------------------------List seller Hostels-------------
 const listHostels =  asyncHandler(async(req,res) =>{
   try {
-    if(req.body.sellerId){
-      const listHostels = await Hostel.find({sellerID:req.sellerId});
+    const sellerID = req.body.sellerId;
+    if(sellerID){
+      console.log(sellerID)
+      const listHostels = await Hostel.find({seller:sellerID});
       console.log(listHostels)
       res.status(200).json({data:listHostels})
     }
@@ -218,6 +221,7 @@ const listHostels =  asyncHandler(async(req,res) =>{
   }
 })
 
+// ----------------------------Edit Hostels Data senting Part-------------
 const editHostel = asyncHandler(async(req,res) => {
     const id = req.body._id
     try {
@@ -228,8 +232,7 @@ const editHostel = asyncHandler(async(req,res) => {
     }
 })
 
-
-// ----------------------------editHostelDetails Hostel-------------
+// ----------------------------editHostel Details Hostel data receiving part-------------
 const editHostelDetails = asyncHandler(async (req, res) => {
   const formDataObject = req.body;
   try {
