@@ -19,6 +19,8 @@ const FindAccommodation = () => {
     fetchdata();
   }, []);
 
+  const handleClick = await 
+
   return (
     <Container>
       {hostelInfo.map((hostel, index) => (
