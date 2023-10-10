@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { Container, Button, Card, ListGroup, Col, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
+import "./style.css";
 
 const SingleViewHostel = () => {
   const location = useLocation();
@@ -148,7 +149,16 @@ const SingleViewHostel = () => {
                       </a>
                     </div>
                   </Col>
-                  <Button style={{width:'300px',marginLeft:'100px',marginTop:'10px'}} variant="primary">Book Now</Button>
+                  <Button
+                    style={{
+                      width: "300px",
+                      marginLeft: "100px",
+                      marginTop: "10px",
+                    }}
+                    variant="primary"
+                  >
+                    Book Now
+                  </Button>
                 </Row>
               </Card>
             </div>
@@ -170,7 +180,7 @@ const SingleViewHostel = () => {
                 key={index}
                 src={`http://localhost:5000/images/${image}`}
                 alt={`Image ${index}`}
-                className={`m-1  thumbnail-image ${
+                className={`m-3  thumbnail-image ${
                   selectedImageIndex === index ? "selected" : ""
                 }`}
                 onClick={() => handleThumbnailClick(index)}
@@ -178,27 +188,179 @@ const SingleViewHostel = () => {
             ))}
         </div>
       </Container>
+      {/* Hostel Details */}
 
-      {/* <div>
-        <Col style={{ height: "625px", width: "100%", backgroundColor: "rgba(0, 0, 0, 0)" }}>
-          <Card style={{ width: "100%", minHeight: "380px" }}>
+      <Row>
+        <Col md={12}>
+          <div
+            className="btn-info"
+            style={{
+              margin: "100px",
+              marginTop: "0",
+              height: "50vh",
+              background: "#10172e",
+            }}
+          >
+            {hostelData.length > 0 ? (
+              <Card
+                style={{
+                  width: "100%",
+                  minHeight: "380px",
+                  background: "transparent",
+                  border: "1px solid #0db3d7",
+                  padding: "20px",
+                  borderRadius: "5px",
+                }}
+              >
+                <h4
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "#0084FF",
+                  }}
+                >
+                  {hostelData[0].hostelName}
+                </h4>
+                <Button
+                  style={{
+                    width: "150px",
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "#fff",
+                  }}
+                >
+                  Category {hostelData[0].category}
+                </Button>
+                <h5
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "#fff",
+                  }}
+                >
+                  {hostelData[0].mainLocation}
+                </h5>
+                <h5
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "gray",
+                  }}
+                >
+                  {hostelData[0].fullDetails}
+                </h5>
+                <h5
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "gray",
+                  }}
+                >
+                  {hostelData[0].description}
+                </h5>
+                {/* <h5 style={{ marginBottom:'13px',textTransform:'capitalize',color:'gray'}}>{hostelData[0].additionalAboutHostel}</h5> */}
+                <h5
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "gray",
+                  }}
+                >
+                  Restrictions : {hostelData[0].restrictions}
+                </h5>
+                <h5
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "gray",
+                  }}
+                >
+                  Guest Profile : {hostelData[0].guestProfile}
+                </h5>
+                <h5
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "gray",
+                  }}
+                >
+                  Total Bed In Room : {hostelData[0].totalBedInRoom}
+                </h5>
+                <h5
+                  style={{
+                    marginBottom: "13px",
+                    textTransform: "capitalize",
+                    color: "gray",
+                  }}
+                >
+                  Bed Available Now : {hostelData[0].bedAvailableNow}
+                </h5>
+              </Card>
+            ) : (
+              <p>Loading hostel data...</p>
+            )}
+          </div>
+        </Col>
+      </Row>
+      <Row style={{ marginLeft: "100px", marginTop: "20px" }}>
+        <Col md={2}>
+          <Card>
             <Card.Body>
-              <Card.Title className="text-capitalize text-primary">
-                {hostelData[0].hostelName}
-              </Card.Title>
-              <Card.Subtitle className="mb-2 text-danger text-capitalize">
-                Location: {hostelData[0].mainLocation}
-              </Card.Subtitle>
-              <Card.Subtitle className="mb-2 text-danger text-capitalize">
-                Category: {hostelData[0].category}
-              </Card.Subtitle>
-              <Card.Text>{hostelData[0].description}</Card.Text>
+              <strong>MainLOcation</strong>
             </Card.Body>
           </Card>
         </Col>
-      </div> */}
+        <Col md={2}>
+          <Card>
+            <Card.Body>
+              <strong>Review</strong>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={2}>
+          <Card>
+            <Card.Body>
+              <strong>Rules</strong>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={2}>
+          <Card>
+            <Card.Body>
+              <strong>Contact Details</strong>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col md={2}>
+          <Card>
+            <Card.Body>
+              <strong>Similar Property</strong>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
 
-      {/* Hostel Details */}
+      {/* ------------Loop total review */}
+      <Row style={{ margin: "100px", marginTop: "30px" }}>
+        <Card style={{ width: "18rem" }}>
+          <Card.Img variant="top" src="holder.js/100px180" />
+          <Card.Body>
+            <Card.Title>User Review</Card.Title>
+            <Card.Text>
+              Some quick example text to build on the card title and make up the
+              bulk of the card's content.
+            </Card.Text>
+            <Button variant="primary">Review</Button>
+          </Card.Body>
+        </Card>
+      </Row>
+
+      <Row >
+        <Card style={{background:"transparent" , color:'white'}}>
+          <Card.Body>4.1 Very Good</Card.Body>
+          <Card.Body>Total review Details</Card.Body>
+        </Card>
+      </Row>
     </div>
   );
 };
