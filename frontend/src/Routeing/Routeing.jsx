@@ -37,6 +37,7 @@ import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostel
 import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
 import FindAccommodationScreen from "../components/Users/Screens/FindAccommodationScreen";
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
+import AboutPageScreen from "../components/Users/Screens/AboutPageScreen";
 
 
 
@@ -46,6 +47,7 @@ const Routeing = () => {
     <Routes>
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
+      <Route path="/about" element={<AboutPageScreen />} />
       <Route path="/" element={<HomeScreen />} />
       <Route path="/forget" element={<ForgetScreenPassword />} />
       <Route path="/OTP" element={<OTPScreen />} />

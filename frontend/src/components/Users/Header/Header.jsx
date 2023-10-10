@@ -64,7 +64,7 @@ const Header = () => {
                 // If user information is available, show Logout button
                 <>
                   <Nav>
-                    <Link to="/user" className="nav-link">
+                    <Link to="/about" className="nav-link">
                     <FaHotel />
                     &nbsp; About
                     </Link>

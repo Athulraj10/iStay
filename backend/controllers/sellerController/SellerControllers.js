@@ -208,9 +208,7 @@ const listHostels =  asyncHandler(async(req,res) =>{
   try {
     const sellerID = req.body.sellerId;
     if(sellerID){
-      console.log(sellerID)
       const listHostels = await Hostel.find({seller:sellerID});
-      console.log(listHostels)
       res.status(200).json({data:listHostels})
     }
       } catch (error) {
