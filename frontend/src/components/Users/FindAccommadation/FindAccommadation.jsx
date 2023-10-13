@@ -33,7 +33,7 @@ const FindAccommodation = () => {
         <Button
           onClick={()=>{handleClick(hostel._id)}}
           key={index}
-          className="m-3 btn-danger"
+          className="m-3 btn-info"
           style={{ width: "100%", display: "flex", alignItems: "center" }}
         >
           {/* Left Side: Image */}
