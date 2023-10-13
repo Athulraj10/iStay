@@ -57,6 +57,7 @@ const OTPsaveFunction = async (email, otp) => {
     console.log(error.message);
   }
 };
+
 // -------------------seller Authentication---------------------------
 // @desc Auth user/set token
 // access Public
