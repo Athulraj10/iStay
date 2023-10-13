@@ -254,7 +254,6 @@ const logoutUser = asyncHnadler(async (req, res) => {
 });
 
 
-
 // ---------------------------Get User Profile---------------------------
 //@desc get user profile
 //access Private
