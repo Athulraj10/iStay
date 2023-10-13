@@ -6,7 +6,6 @@ import OTP from '../../models/OTPModel.js'
 import generateToken from "../../utils/generateToken.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 
-
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
