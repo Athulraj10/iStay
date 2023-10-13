@@ -236,6 +236,7 @@ const singlePageView = asyncHnadler(async (req, res) => {
 
 
 
+
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
 //access Public
