@@ -39,6 +39,7 @@ const sendForgetPassword = async (name, email, OTP) => {
     console.log(error.message);
   }
 };
+
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
   try {
