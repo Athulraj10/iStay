@@ -40,8 +40,6 @@ const sendForgetPassword = async (name, email, OTP) => {
     console.log(error.message);
   }
 };
-
-
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
   try {
@@ -59,8 +57,6 @@ const OTPsaveFunction = async (email, otp) => {
     console.log(error.message);
   }
 };
-
-
 // -------------------seller Authentication---------------------------
 // @desc Auth user/set token
 // access Public
@@ -152,8 +148,6 @@ const sellerForget = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 // -----------------------------Verify OTP ---------------------------
 const sellerVerifyOTP = asyncHandler(async (req, res) => {
   const { email } = req.body;
@@ -178,8 +172,6 @@ const sellerVerifyOTP = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 // ----------------------------Reset Password-------------
 const sellersResetPassword = asyncHandler(async (req, res) => {
   const { userId, password } = req.body;
@@ -201,7 +193,6 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-
 
 // ----------------------------List seller Hostels-------------
 const listHostels =  asyncHandler(async(req,res) =>{
@@ -301,7 +292,6 @@ const editHostelDetails = asyncHandler(async (req, res) => {
   }
 });
 
-
 // ----------------------------Seller Add Hostel-------------
 const addHostelDetails = asyncHandler(async (req, res) => {
   
@@ -369,9 +359,6 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Some Field Missing or Server Error" });
   }
 });
-
-
-
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
