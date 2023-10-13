@@ -270,6 +270,7 @@ const getUserProfile = asyncHnadler(async (req, res) => {
 });
 
 
+
 // ---------------------------Update User Profile---------------------------
 //@desc get update user profile
 //access Private
