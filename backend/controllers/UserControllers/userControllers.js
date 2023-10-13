@@ -285,6 +285,7 @@ const updateUserProfile = asyncHnadler(async (req, res) => {
     if (req.body.password) {
       user.password = req.body.password;
     }
+    
     const updatedUser = await user.save();
     res.status(200).json({
       _id: updatedUser._id,
