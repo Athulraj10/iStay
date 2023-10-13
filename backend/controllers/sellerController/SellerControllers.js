@@ -122,6 +122,7 @@ const registerSeller = asyncHandler(async (req, res) => {
 
 
 
+
 // -------------------Forget Password Seller Verification---------------------------
 //@desc Auth user/set token
 //access Public
