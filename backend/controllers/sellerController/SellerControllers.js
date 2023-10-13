@@ -81,7 +81,6 @@ const authSeller = asyncHandler(async (req, res) => {
       token, // Send the token back to the client
     });
   }
-
   // If the password doesn't match
   return res.status(401).json({
     message: "Invalid Email or Password",
