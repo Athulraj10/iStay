@@ -70,7 +70,6 @@ const authSeller = asyncHandler(async (req, res) => {
       message: "Invalid Email or Password",
     });
   }
-
   if (seller && (await seller.matchPassword(password))) {
     // Assuming generateToken is a valid function
     const token = generateToken(res, seller._id); // Pass res as the first argument
