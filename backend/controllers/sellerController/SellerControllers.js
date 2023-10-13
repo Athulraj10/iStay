@@ -65,7 +65,6 @@ const OTPsaveFunction = async (email, otp) => {
 const authSeller = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const seller = await Seller.findOne({ email });
-
   if (!seller) {
     return res.status(401).json({
       message: "Invalid Email or Password",
