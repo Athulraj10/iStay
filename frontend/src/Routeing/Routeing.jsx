@@ -26,8 +26,6 @@ import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordSc
 import AdminUserList from "../components/Admin/Screens/AdminUserList";
 import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
 import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
-import AdminAddHostelScreen from "../components/Admin/Screens/AdminAddHostel";
-
 
 import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
 import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
@@ -38,12 +36,10 @@ import FindAccommodationScreen from "../components/Users/Screens/FindAccommodati
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
 import AboutPageScreen from "../components/Users/Screens/AboutPageScreen";
 
-
-
-
 const Routeing = () => {
   return (
     <Routes>
+      {/* ------------------------------UserScreen */}
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/about" element={<AboutPageScreen />} />
@@ -52,9 +48,12 @@ const Routeing = () => {
       <Route path="/OTP" element={<OTPScreen />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route path="/findAccommodation" element={<FindAccommodationScreen />} />
-      <Route path="/findAccommodation/singlePageView" element={<SinglePageView />} />
+      <Route
+        path="/findAccommodation/singlePageView"
+        element={<SinglePageView />}
+      />
 
-      {/* -----------Seller Routes---------- */}
+      {/* ----------------------------------------------------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />
       <Route path="/seller/login" element={<SellerLoginScreen />} />
       <Route path="/seller" element={<SellerLoginScreen />} />
@@ -62,35 +61,29 @@ const Routeing = () => {
       <Route path="/seller/forget" element={<SellerForgetScreenPassword />} />
       <Route path="/seller/verifyOTP" element={<SellerOTPScreen />} />
       <Route path="/seller/resetPassword" element={<SellerResetPassword />} />
-     
+
       <Route path="/seller/message" element={<SellerMessageList />} />
       <Route path="/seller/listEnquery" element={<SelllerListEnquery />} />
       <Route path="/seller/listHostels" element={<SellerHostelList />} />
-      <Route path="/seller/listHostels/addhostel" element={<AddHostelSeller />} />
-      <Route path="/seller/listHostels/editHostelDetails" element={<SellerHostelEditScreen />} />
+      <Route
+        path="/seller/listHostels/addhostel"
+        element={<AddHostelSeller />}
+      />
+      <Route
+        path="/seller/listHostels/editHostelDetails"
+        element={<SellerHostelEditScreen />}
+      />
 
-
-
-
-
-      {/* ------------Admin Panel--------- */}
+      {/* ----------------------------------------------------Admin Panel--------- */}
       <Route path="/admin" element={<AdminLoginScreen />} />
       <Route path="/admin/dashboard" element={<AdminDashboardScreen />} />
       <Route path="/admin/forget" element={<AdminForgetScreenPassword />} />
       <Route path="/admin/verifyOTP" element={<AdminOTPScreen />} />
       <Route path="/admin/resetPassword" element={<AdminResetPassword />} />
-
       <Route path="/admin/listUsers" element={<AdminUserList />} />
-      {/* <Route path="/admin/listUser/editUser" element={<AdminEditUserScreen />} /> */}
-
       <Route path="/admin/listSellers" element={<AdminSellerList />} />
-      {/* <Route path="/admin/listSeller/editSeller" element={<AdminEditSellerScreen />} /> */}
-    
-
       <Route path="/admin/listHostels" element={<AdminHostelList />} />
-      <Route path="/admin/listHostels/addhostel" element={<AdminAddHostelScreen />} />
-
-      </Routes>
+    </Routes>
   );
 };
 
