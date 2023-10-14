@@ -83,7 +83,7 @@ function dashboardValues() {
     // Create the chart on component mount
     const ctx = chartRef.current.getContext("2d");
     let myChart = new Chart(ctx, {
-      type: "bar",
+      type: "doughnut",
       data: data,
       options: options,
     });
@@ -124,6 +124,7 @@ function dashboardValues() {
 
       </Row>
       <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'right',marginLeft:'150px', height: '500px', width: '1000px' }}>
+ 
   <canvas ref={chartRef}></canvas>
 </div>
 

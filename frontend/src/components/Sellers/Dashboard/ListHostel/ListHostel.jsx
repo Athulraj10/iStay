@@ -125,12 +125,11 @@ function ListHostel() {
                             <td className="align-middle text-center">
                               <div className={`primary-btn`}>
                                 <button
-                                  onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
                                   className={`btn ${
-                                    item.isBlock ? "btn-primary" : "btn-danger"
+                                    item.isBlock ? "btn-danger" : "btn-success"
                                   }`}
                                 >
-                                  {item.isBlock ? "Block" : "Active"}
+                                  {item.isBlock ? "Admin Blocked" : "Live"}
                                 </button>
                                 <button
                                 className="m-1 btn btn-primary"
