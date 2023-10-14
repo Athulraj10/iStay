@@ -9,10 +9,7 @@ function UserList() {
   const handleBlockButton = async (userId) => {
     console.log(userId)
     try {
-      let formData={
-        id:userId
-      }
-      let res = await USERSAPI.post("admin/listUser/block",formData);
+      let res = await USERSAPI.post("admin/listUser/block",userId);
       if (res.data) {
         // if data what will do
       }
