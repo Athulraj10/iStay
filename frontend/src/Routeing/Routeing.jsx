@@ -61,10 +61,9 @@ const Routeing = () => {
       <Route path="/seller/forget" element={<SellerForgetScreenPassword />} />
       <Route path="/seller/verifyOTP" element={<SellerOTPScreen />} />
       <Route path="/seller/resetPassword" element={<SellerResetPassword />} />
-
-      <Route path="/seller/message" element={<SellerMessageList />} />
       <Route path="/seller/listEnquery" element={<SelllerListEnquery />} />
       <Route path="/seller/listHostels" element={<SellerHostelList />} />
+      <Route path="/seller/message" element={<SellerMessageList />} />
       <Route
         path="/seller/listHostels/addhostel"
         element={<AddHostelSeller />}
