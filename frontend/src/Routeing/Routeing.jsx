@@ -25,11 +25,10 @@ import AdminForgetScreenPassword from "../components/Admin/Screens/AdminForgetSc
 import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordScreen";
 import AdminUserList from "../components/Admin/Screens/AdminUserList";
 import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
-import AdminEditUserScreen from "../components/Admin/Screens/AdminEditUserScreen";
 import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 import AdminAddHostelScreen from "../components/Admin/Screens/AdminAddHostel";
 
-import AdminEditSellerScreen from "../components/Admin/Screens/AdminEditSellerScreen";
+
 import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
 import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
 import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
