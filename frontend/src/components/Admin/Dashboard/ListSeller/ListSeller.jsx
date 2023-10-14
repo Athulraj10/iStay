@@ -8,7 +8,7 @@ function ListSeller({ data }) {
   const location = useNavigate()
   const handleBlockButton = async (sellerId) => {
     try {
-      let res = await USERSAPI.patch(`admin/listSeller/block/id:${sellerId}`);
+      let res = await USERSAPI.patch(`admin/listSeller/block/${sellerId}`);
       if (res.data) {
         // Handle success
       }

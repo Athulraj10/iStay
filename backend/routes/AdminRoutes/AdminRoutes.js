@@ -79,7 +79,7 @@ AdminRoute.post("/listUser/block", blockUser);
 
 
 AdminRoute.post("/listSellers", listSellers);
-AdminRoute.patch("/listSeller/block/:sellerId", blockSeller);
+AdminRoute.patch("/listSeller/block/:id", blockSeller);
 AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
 AdminRoute.post(

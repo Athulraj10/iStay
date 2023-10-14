@@ -497,9 +497,7 @@ const listSellers = asyncHandler(async (req, res) => {
 // --------------------------Edit Seller Get User details---------------------------
 const blockSeller = asyncHandler(async (req, res) => {
   try {
-    const id = req.params.sellerId;
-    console.log(id)
-    return 
+    const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid user ID" });
     }
