@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container,Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
-function UserList({ data }) {
+function UserList() {
   const location = useNavigate()
   const handleBlockButton = async (userId) => {
     console.log(userId)
@@ -20,22 +20,27 @@ function UserList({ data }) {
       toast.error(error);
     }
   };
-  const handleEditButton = async (userId) => {
-    try {
-      let formData = {
-        id:userId
+
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await USERSAPI.post("admin/listUser");
+        const responseData = res.data.data; // Access the data property
+        setData(responseData);
+        setLoading(false);
+        console.log(data)
+      } catch (error) {
+        toast.error(error.message);
+        setLoading(false);
       }
-      let res = await USERSAPI.post("admin/listUsers/edit", formData);
-      if (res.data.userData) {
-        const userData = res.data.userData
-        location('/admin/listUser/editUser',{state:{userData}})
-      }else{
-        toast.error('Cannot Retrive UserData')
-      }
-    } catch (error) {
-      toast.error(error);
-    }
-  };
+    };
+
+    fetchData();
+  },[]);
+
   return (
     <div className="event-schedule-area-two p-4 rounded">
       <Container>
@@ -104,20 +109,16 @@ function UserList({ data }) {
                             </td>
                             <td className="align-middle text-center">
                               <div className={`primary-btn`}>
-                                <button
-                                 style={{margin:'10px'}}
+                              <Button
+                            type="button"
                                   onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
-                                  className={`btn ${
-                                    item.status ? "btn-primary" : "btn-danger"
-                                  }`}
+                                  className={`btn ${ item.isBlock ? "btn-outline-danger" : "btn-outline-success"}`}
                                 >
-                                  {item.status ? "Block" : "Active"}
-                                </button>
+                               {item.isBlock ? 'Blocked' : 'Block' }
+                                </Button>
 
-                                <button style={{margin:'10px'}}
-                                  onClick={() => handleEditButton(item._id)} // Pass item._id as a parameter
-                                  className="btn btn-primary">Edit
-                                   </button>
+
+                    
                               </div>
                             </td>
                           </tr>
