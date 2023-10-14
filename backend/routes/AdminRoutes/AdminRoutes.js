@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import {
-  // -------admin verification
+  // --------------------Admin verification
   adminAuthentication,
   adminForget,
   adminVerifyOTP,
@@ -10,16 +10,16 @@ import {
   logoutAdmin,
 
 
-  // --------User Management
+  // -----------------------User Management
   listUser,
   blockUser,
 
 
-  // ----------dashboard values
+  // -----------------------Dashboard values
   dashboardValuesCount,
 
 
-  // -------------Hostel Management
+  // ------------------------Hostel Management
   listHostelsAdmin,
   BlockHostelsAdmin,
   
