@@ -6,21 +6,25 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 
 function UserList() {
   const location = useNavigate()
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
   const handleBlockButton = async (userId) => {
-    console.log(userId)
     try {
-      let res = await USERSAPI.post("admin/listUser/block",userId);
+      let res = await USERSAPI.patch(`admin/listUser/block/${userId}`);
       if (res.data) {
-        // if data what will do
+        if(res.data.status){
+          toast.error(res.data.message)
+        }else{
+          toast.success(res.data.message)
+        }
       }
     } catch (error) {
       toast.error(error);
     }
   };
 
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,15 +32,13 @@ function UserList() {
         const responseData = res.data.data; // Access the data property
         setData(responseData);
         setLoading(false);
-        console.log(data)
       } catch (error) {
         toast.error(error.message);
         setLoading(false);
       }
     };
-
     fetchData();
-  },[]);
+  },[handleBlockButton]);
 
   return (
     <div className="event-schedule-area-two p-4 rounded">

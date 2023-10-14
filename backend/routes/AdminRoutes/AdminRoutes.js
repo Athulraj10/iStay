@@ -2,29 +2,33 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import {
+  // -------admin verification
   adminAuthentication,
   adminForget,
   adminVerifyOTP,
   adminResetPassword,
+  logoutAdmin,
 
+
+  // --------User Management
   listUser,
   blockUser,
-  editUser,
-  editUserDetails,
 
-  
+
+  // ----------dashboard values
   dashboardValuesCount,
 
+
+  // -------------Hostel Management
   listHostelsAdmin,
-  addHostelDetails,
   BlockHostelsAdmin,
   
 
+  // -----------Seller Management
   listSellers,
   blockSeller,
   
-  logoutUser,
-  // logoutUser,
+  // logoutAdmin,
   // getUserProfile,
   // updateUserProfile,
   // forget,verifyOTP,resetPassword
@@ -65,26 +69,21 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-
+// -----------------Admin ManageMent
 AdminRoute.post("/login", adminAuthentication);
 AdminRoute.post("/forget", adminForget);
 AdminRoute.post("/verifyOTP", adminVerifyOTP);
 AdminRoute.post("/resetPassword", adminResetPassword);
 
+// -------------User Management
 AdminRoute.post("/listUser", listUser);
-AdminRoute.post("/listUsers/edit", editUser);
-AdminRoute.post("/listUsers/editUserDetails",editUserDetails);
-AdminRoute.post("/listUser/block", blockUser);
+AdminRoute.patch("/listUser/block/:id", blockUser);
 
-
+// ----------------Seller Management
 AdminRoute.post("/listSellers", listSellers);
-AdminRoute.patch("/listSeller/block/:id", blockSeller);
+AdminRoute.patch("/listSeller/block/:id",blockSeller);
 
-AdminRoute.post(
-  '/listHostels/addhostelDetails',
-  upload.array('files', 10), 
-    addHostelDetails
-);
+// --------------HostelManagement
 AdminRoute.post('/listHostels',listHostelsAdmin);
 AdminRoute.patch('/listHostel/block',BlockHostelsAdmin);
 
@@ -94,6 +93,6 @@ AdminRoute.post("/usersCount",dashboardValuesCount);
 
 // // AdminRoute.post('/',)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
-AdminRoute.post('/logout',logoutUser)
+AdminRoute.post('/logout',logoutAdmin)
 
 export default AdminRoute;
