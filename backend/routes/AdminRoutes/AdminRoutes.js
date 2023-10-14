@@ -21,7 +21,7 @@ import {
   
 
   listSellers,
-  editSeller,
+  blockSeller,
   editSellerDetails,
   
   logoutUser,
@@ -79,7 +79,7 @@ AdminRoute.post("/listUser/block", blockUser);
 
 
 AdminRoute.post("/listSellers", listSellers);
-AdminRoute.post("/listSeller/edit", editSeller);
+AdminRoute.patch("/listSeller/block/:sellerId", blockSeller);
 AdminRoute.post("/listSeller/editSellerDetails",editSellerDetails);
 
 AdminRoute.post(

@@ -164,9 +164,6 @@ const adminForget = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
 // -----------------------------Verify OTP ---------------------------
 const adminVerifyOTP = asyncHandler(async (req, res) => {
   const { email } = req.body;
@@ -309,8 +306,6 @@ const listHostelsAdmin = asyncHandler(async (req, res) => {
     });
   }
 });
-
-
 // ----------------------------Add Hostel------------------------------------
 const addHostelDetails = asyncHandler(async (req, res) => {
   // .map((file) => file.path);
@@ -374,7 +369,6 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Some Field Missing or Server Error" });
   }
 });
-
 // ----------------------------Block Hostel------------------------------------
 const BlockHostelsAdmin = asyncHandler(async (req, res) => {
   const { id } = req.body; // Assuming you receive the hostel ID in the request body
@@ -409,15 +403,7 @@ const BlockHostelsAdmin = asyncHandler(async (req, res) => {
 
 
 
-// ----------------------------Block User------------------------------
-const blockUser = asyncHandler(async (req, res) => {
-  try {
-    console.log(req.body);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
-  }
-});
+
 // ----------------------------List User------------------------------
 const listUser = asyncHandler(async (req, res) => {
   try {
@@ -432,6 +418,15 @@ const listUser = asyncHandler(async (req, res) => {
         data: AllUser,
       });
     }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+// ----------------------------Block User------------------------------
+const blockUser = asyncHandler(async (req, res) => {
+  try {
+    console.log(req.body);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
@@ -479,6 +474,7 @@ const editUser = asyncHandler(async (req, res) => {
   }
 });
 
+
 // ----------------------------List Sellers------------------------------
 const listSellers = asyncHandler(async (req, res) => {
   try {
@@ -499,9 +495,11 @@ const listSellers = asyncHandler(async (req, res) => {
   }
 });
 // --------------------------Edit Seller Get User details---------------------------
-const editSeller = asyncHandler(async (req, res) => {
+const blockSeller = asyncHandler(async (req, res) => {
   try {
-    const { id } = req.body;
+    const id = req.params.sellerId;
+    console.log(id)
+    return 
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: "Invalid user ID" });
     }
@@ -621,7 +619,7 @@ export {
 
   // ----------Seller Management
   listSellers,
-  editSeller,
+  blockSeller,
   editSellerDetails,
   logoutUser,
 };

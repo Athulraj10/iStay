@@ -6,31 +6,17 @@ import { useNavigate } from "react-router-dom";
 
 function ListSeller({ data }) {
   const location = useNavigate()
-  const handleBlockButton = async (userId) => {
-    console.log(userId);
+  const handleBlockButton = async (sellerId) => {
     try {
-      let res = await USERSAPI.post("admin/listSeller/block", userId);
+      let res = await USERSAPI.patch(`admin/listSeller/block/id:${sellerId}`);
       if (res.data) {
+        // Handle success
       }
     } catch (error) {
       toast.error(error);
     }
   };
-  const handleEditButton = async (sellerId) => {
-    let formData = {
-      id: sellerId,
-    };
-    try {
-      let res = await USERSAPI.post("admin/listSeller/edit", formData);
-      if (res.data.sellerData) {
-        const sellerData = res.data.sellerData;
-        console.log(sellerData)
-        location("/admin/listSeller/editSeller", { state: { sellerData } });
-      }
-    } catch (error) {
-      toast.error(error || 'Error in ListSeller React');
-    }
-  };
+  
   return (
     <div className="event-schedule-area-two p-4 rounded">
       <Container>
@@ -106,12 +92,6 @@ function ListSeller({ data }) {
                                   }`}
                                 >
                                   {item.status ? "Block" : "Active"}
-                                </button>
-                                <button
-                                  className="btn btn-primary mx-2"
-                                  onClick={() => handleEditButton(item._id)}
-                                >
-                                  Edit
                                 </button>
                               </div>
                             </td>
