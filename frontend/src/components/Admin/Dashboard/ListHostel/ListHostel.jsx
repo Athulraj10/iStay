@@ -4,24 +4,34 @@ import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { Link } from "react-router-dom";
 
-function ListHostel({ data }) {
-  const [hostelStatus, setHostelStatus] = useState({});
+function ListHostel() {
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleBlockButton = async (hostelId) => {
     try {
-      let formData = {
-        id: hostelId,
-      };
-      let res = await USERSAPI.patch("admin/listHostel/block", formData);
-      // Update the hostelStatus for the specific hostel
-      setHostelStatus((prevStatus) => ({
-        ...prevStatus,
-        [hostelId]: !prevStatus[hostelId], // Toggle the status for the clicked hostel
-      }));
+      let res = await USERSAPI.patch(`admin/listHostel/block/:id${hostelId}`);
+      
     } catch (error) {
       toast.error(error);
     }
   };
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const res = await USERSAPI.post("admin/listHostels");
+        const responseData = res.data.data;
+        setData(responseData);
+        setLoading(false);
+      } catch (error) {
+        toast.error(error.message);
+        setLoading(false);
+      }
+    };
+    fetchData();
+  },[handleBlockButton]);
   return (
     <div
       style={{ background: "transparent" }}
