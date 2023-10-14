@@ -494,41 +494,22 @@ const listSellers = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-// --------------------------Edit Seller Get User details---------------------------
+// --------------------------Block Seller---------------------------
 const blockSeller = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid user ID" });
+      return res.status(400).json({ message: "Invalid Seller ID" });
     }
     const seller = await Seller.findOne({ _id: id }).select("-password");
     if (!seller) {
-      return res.status(404).json({ message: "User not found" });
+      return res.status(404).json({ message: "Seller Not found" });
     }
-    if (seller) {
-      return res.status(200).json({ sellerData: seller });
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
-  }
-});
-// ----------------------------Edit Seller New Details Updating------------------------------
-const editSellerDetails = asyncHandler(async (req, res) => {
-  try {
-    const { sellerName, email, mobile, locations, sellerId } = req.body;
-    const seller = await Seller.findOne({ _id: sellerId }).select("-password");
-    if (!seller) {
-      return res.status(404).json({ message: "Seller not found" });
-    }
-    if (seller) {
-      seller.name = sellerName;
-      seller.email = email;
-      seller.mobile = mobile;
-      seller.location = locations;
-      await seller.save();
-      return res.json({ sellerData: true });
-    }
+    seller.isBlock = !seller.isBlock;
+    await seller.save();
+    const message = `Seller ${seller.name} is ${seller.isBlock ? "blocked" : 'UnBlock SuccessFully'}`
+    const status = seller.isBlock;
+    return res.status(200).json({message,status})
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
@@ -618,6 +599,5 @@ export {
   // ----------Seller Management
   listSellers,
   blockSeller,
-  editSellerDetails,
   logoutUser,
 };
