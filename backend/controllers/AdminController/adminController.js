@@ -295,7 +295,6 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
 // ----------------------------list Hostel Admin------------------------------------
 const listHostelsAdmin = asyncHandler(async (req, res) => {
   try {
-    // const listHostels = await Hostel.findOne().populate("seller");
     const listHostels = await aggregateAllHostels();
     res.status(200).json({data:listHostels})
   } catch (error) {
@@ -305,92 +304,22 @@ const listHostelsAdmin = asyncHandler(async (req, res) => {
     });
   }
 });
-// ----------------------------Add Hostel------------------------------------
-const addHostelDetails = asyncHandler(async (req, res) => {
-  // .map((file) => file.path);
-  const formDataObject = req.body;
-  // ---------save value to database--------
-  try {
-    if (!formDataObject) {
-      return res
-        .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
-    }
 
-    if (formDataObject) {
-      const hostelData = new Hostel({
-        // images: images,
-        category: formDataObject.category,
-        hostelName: formDataObject.hostelName,
-        mainLocation: formDataObject.mainLocation,
-        description: formDataObject.descriptions,
-        fullDetails: formDataObject.fullDetails,
-        contactNumber: formDataObject.contactNumber,
-        mapLink: formDataObject.mapLink,
-        additionalAboutHostel: formDataObject.additionalAboutHostel,
-        nearByLocation: formDataObject.nearByLocation,
-        restrictions: formDataObject.restrictions,
-        descriptionAboutHostel: formDataObject.descriptionAboutHostel,
-        guestProfile: formDataObject.guestProfile,
-        price: formDataObject.price,
-        extraPrice: formDataObject.extraPrice,
-        totalBedInRoom: formDataObject.totalBedInRoom,
-        bedAvailableNow: formDataObject.bedAvailableNow,
-        Wifi: formDataObject.Wifi,
-        food: formDataObject.food,
-        parking: formDataObject.parking,
-        drinkingWater: formDataObject.drinkingWater,
-      });
-      if (req.files) {
-        const uploadedFiles = req.files;
-        let fileUrls = [];
-        for (let file of uploadedFiles) {
-          const filePath = file.filename;
-          fileUrls.push(filePath);
-        }
-        hostelData.images = fileUrls;
-      }
-      const hosteldetails = await hostelData.save();
-  
-      if (hosteldetails) {
-        return res.status(201).json({
-          hostelAdded: true,
-        });
-      }
-      if (!hosteldetails) {
-        return res
-          .status(404)
-          .json({ message: "Something Wrong Please Try Again" });
-      }
-    }
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Some Field Missing or Server Error" });
-  }
-});
 // ----------------------------Block Hostel------------------------------------
 const BlockHostelsAdmin = asyncHandler(async (req, res) => {
-  const { id } = req.body; // Assuming you receive the hostel ID in the request body
+  const id = req.params.id; // Assuming you receive the hostel ID in the request body
   try {
     // Find the hostel by ID
     const hostel = await Hostel.findById(id);
-
     if (!hostel) {
       return res.status(404).json({ message: 'Hostel not found' });
     }
-
-    // Toggle the isBlock status
-    hostel.isBlock = !hostel.isBlock;
-
-    // Save the updated hostel
-    const updatedHostel = await hostel.save();
-
+    hostel.isBlock = !hostel.isBlock;  // Toggle the isBlock status
+    const updatedHostel = await hostel.save(); // Save the updated hostel
     if (updatedHostel) {
-      const statusMessage = updatedHostel.isBlock ? 'blocked' : 'unblocked';
-      return res.status(200).json({
-        message: `Hostel ${statusMessage} successfully`,
-        data: updatedHostel,
-      });
+      const message = `Hostel ${hostel.hostelName} is ${hostel.isBlock ? "blocked" : 'UnBlock SuccessFully'}`
+      const status = hostel.isBlock;
+      return res.status(200).json({message,status})
     } else {
       return res.status(404).json({ message: 'Hostel not found' });
     }
@@ -499,6 +428,7 @@ const blockSeller = asyncHandler(async (req, res) => {
 /////////////////////////////// Seller Management Completed ///////////////
 
 
+
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
 //access Public
@@ -571,7 +501,6 @@ export {
   dashboardValuesCount,
   // --------------------------------Hostel Management
   listHostelsAdmin,
-  addHostelDetails,
   BlockHostelsAdmin,
   // ---------------------------------Seller Management
   listSellers,

@@ -10,8 +10,14 @@ function ListHostel() {
 
   const handleBlockButton = async (hostelId) => {
     try {
-      let res = await USERSAPI.patch(`admin/listHostel/block/:id${hostelId}`);
-      
+      let res = await USERSAPI.patch(`admin/listHostel/block/${hostelId}`);
+      if (res.data) {
+        if(res.data.status){
+          toast.error(res.data.message)
+        }else{
+          toast.success(res.data.message)
+        }
+      }
     } catch (error) {
       toast.error(error);
     }
@@ -145,12 +151,12 @@ function ListHostel() {
                                 <button
                                   onClick={() => handleBlockButton(item._id)}
                                   className={`btn ${
-                                    hostelStatus[item._id]
-                                      ? "btn-primary"
-                                      : "btn-danger"
+                                    item.isBlock
+                                      ? "btn-danger"
+                                      : "btn-Success"
                                   }`}
                                 >
-                                  {hostelStatus[item._id] ? "Active" : "Block"}
+                                  {item.isBlock ? "Blocked" : "Block"}
                                 </button>
                               </div>
                             </td>

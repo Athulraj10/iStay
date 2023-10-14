@@ -85,7 +85,7 @@ AdminRoute.patch("/listSeller/block/:id",blockSeller);
 
 // --------------HostelManagement
 AdminRoute.post('/listHostels',listHostelsAdmin);
-AdminRoute.patch('/listHostel/block',BlockHostelsAdmin);
+AdminRoute.patch('/listHostel/block/:id',BlockHostelsAdmin);
 
 
 //-------------------- Dashboard Values
