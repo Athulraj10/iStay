@@ -83,7 +83,7 @@ function dashboardValues() {
     // Create the chart on component mount
     const ctx = chartRef.current.getContext("2d");
     let myChart = new Chart(ctx, {
-      type: "doughnut",
+      type: "line",
       data: data,
       options: options,
     });
