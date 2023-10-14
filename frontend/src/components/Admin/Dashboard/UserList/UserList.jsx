@@ -107,7 +107,6 @@ function UserList() {
                               </div>
                             </td>
                             <td className="align-middle text-center">
-                              <div className={`primary-btn`}>
                               <Button
                             type="button"
                                   onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
@@ -115,10 +114,6 @@ function UserList() {
                                 >
                                {item.isBlock ? 'Blocked' : 'Block' }
                                 </Button>
-
-
-                    
-                              </div>
                             </td>
                           </tr>
                         ))

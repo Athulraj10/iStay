@@ -45,15 +45,6 @@ function ListHostel() {
     >
       <Container>
         <Row>
-          <Link to="/admin/listHostels/addhostel">
-            <Col>
-              <Button className="mb-3 p-2 " variant="dark">
-                Add New Hostels
-              </Button>
-            </Col>
-          </Link>
-        </Row>
-        <Row>
           <Col lg={12}>
             <div className="tab-content" id="myTabContent">
               <div
