@@ -5,8 +5,7 @@ import genereateToken from "../../utils/generateToken.js";
 import nodemailer from "nodemailer";
 import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
-
-
+import { Stripe } from 'stripe'
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
@@ -230,7 +229,8 @@ const singlePageView = asyncHnadler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 const bookHostel = asyncHnadler(async (req, res) => {
   try {
-    console.log(req.body)
+    const {userId,hostelId} = req.body;
+
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
