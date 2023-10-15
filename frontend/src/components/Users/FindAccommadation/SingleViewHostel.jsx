@@ -21,7 +21,7 @@ const SingleViewHostel = () => {
     const stripe =  await loadStripe("pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu")
     const body = {
       userDetails:userInfo,
-      hostelId:hostelId
+      // hostelId:hostelId
     }
     const headers = {
       'Content-Type':'application/json'
