@@ -230,7 +230,7 @@ const singlePageView = asyncHnadler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 const bookHostel = asyncHnadler(async (req, res) => {
   try {
-    console.log('idfda')
+    console.log(req.body)
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
