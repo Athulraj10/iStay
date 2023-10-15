@@ -247,6 +247,8 @@ const bookHostel = asyncHnadler(async (req, res) => {
             quantity: 1,
         },
     ],
+    success_url: `https://medicarez.online/successpayment/${user}/${doctor}/${date}`,
+    cancel_url: `https://medicarez.online/doctor-details/${doctor}`
     })
   } catch (error) {
     console.error(error);
