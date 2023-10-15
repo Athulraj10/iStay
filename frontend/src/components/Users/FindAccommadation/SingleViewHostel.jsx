@@ -12,15 +12,16 @@ const SingleViewHostel = () => {
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);  
   // Define state variables to store keys and values
-  const [keys, setKeys] = useState([]);
-  const [values, setValues] = useState([]);
+  // const [keys, setKeys] = useState([]);
+  const [userInfo, setUserInfo] = useState([]);
 
 
 
   const handlePayment = async () =>{
     const stripe =  await loadStripe("pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu")
     const body = {
-      products:'no products'
+      userDetails:userInfo,
+      hostelId:hostelId
     }
     const headers = {
       'Content-Type':'application/json'
@@ -51,18 +52,11 @@ const SingleViewHostel = () => {
   useEffect(() => {
     // Get the JSON string from local storage
     const storedUserInfo = localStorage.getItem('userInfo');
-
-    // Parse the JSON string into a JavaScript object
     const userInfo = JSON.parse(storedUserInfo);
 
     if (userInfo) {
-      // Extract keys and values from the object
-      const userInfoKeys = Object.keys(userInfo);
-      const userInfoValues = Object.values(userInfo);
-
       // Update state with keys and values
-      setKeys(userInfoKeys);
-      setValues(userInfoValues);
+      setUserInfo(userInfo);
     }
   }, []);
   useEffect(() => {
