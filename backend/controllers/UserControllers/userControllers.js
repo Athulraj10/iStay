@@ -230,7 +230,7 @@ const singlePageView = asyncHnadler(async (req, res) => {
 const bookHostel = asyncHnadler(async (req, res) => {
   try {
     const {userId,hostelId} = req.body;
-
+    const session = await Stripe.ch
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
