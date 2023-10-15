@@ -227,6 +227,25 @@ const singlePageView = asyncHnadler(async (req, res) => {
   }
 });
 
+// ----------------------------singlePageView hostel-------------
+const bookHostel = asyncHnadler(async (req, res) => {
+  try {
+    const hostel = await Hostel.find({ _id:req.body.id });
+    if (!hostel) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (hostel) {
+      res.status(200).json({ data:hostel });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+
+
 
 
 
@@ -301,4 +320,5 @@ export {
 
   findAccommodation,
   singlePageView,
+  bookHostel
 };
