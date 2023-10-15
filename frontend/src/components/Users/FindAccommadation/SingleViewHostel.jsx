@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { Container, Button, Card, ListGroup, Col, Row } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { loadStripe } from "@stripe/stripe-js";
 import "./style.css";
 
 const SingleViewHostel = () => {
@@ -10,6 +11,28 @@ const SingleViewHostel = () => {
   const hostelId = location.state.hostelId;
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+
+  const handlePayment = async () =>{
+    const stripe =  await loadStripe("pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu")
+    const body = {
+      products:'no products'
+    }
+    const headers = {
+      'Content-Type':'application/json'
+    }
+    const response = await fetch(`${USERSAPI}users/bookingHostel`,{
+      method:'POST',
+      headers:headers,
+      body:JSON.stringify(body)
+    });
+    const session = await response.json()
+    const result = stripe.redirectToCheckout({
+      sessionId:session.id
+    })
+    if(result.error){
+      toast.error(result.error)
+    }
+  }
 
   useEffect(() => {
     const fetchData = async (id) => {
@@ -150,6 +173,7 @@ const SingleViewHostel = () => {
                     </div>
                   </Col>
                   <Button
+                  onClick={handlePayment}
                     style={{
                       width: "300px",
                       marginLeft: "100px",

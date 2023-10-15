@@ -8,7 +8,8 @@ import {
     forget,verifyOTP,resetPassword,
     
     singlePageView,
-    findAccommodation
+    findAccommodation,
+    bookHostel
 }
     from "../../controllers/UserControllers/userControllers.js";
 // import { protect } from "../../middleware/authMiddleware.js";
@@ -24,6 +25,7 @@ router.post('/resetPassword',resetPassword)
 
 router.post('/findAccommodation',findAccommodation)
 router.post('/findAccommodation/singlePageView',singlePageView)
+router.post('/bookingHostel',bookHostel)
 
 
 // router.post('/',)
