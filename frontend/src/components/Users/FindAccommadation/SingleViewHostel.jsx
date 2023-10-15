@@ -10,7 +10,12 @@ const SingleViewHostel = () => {
   const location = useLocation();
   const hostelId = location.state.hostelId;
   const [hostelData, setHostelData] = useState([]);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);
+  const [selectedImageIndex, setSelectedImageIndex] = useState(0);  
+  // Define state variables to store keys and values
+  const [keys, setKeys] = useState([]);
+  const [values, setValues] = useState([]);
+
+
 
   const handlePayment = async () =>{
     const stripe =  await loadStripe("pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu")
@@ -34,6 +39,32 @@ const SingleViewHostel = () => {
     }
   }
 
+  // useEffect(() => {
+  //   // Define an asynchronous function to fetch userInfo from localStorage
+  //   const fetchUserInfo = async () => {
+  //     const storedUserInfo = localStorage.getItem("userInfo");
+  //   };
+  //   // Call the asynchronous function
+  //   fetchUserInfo();
+  // }, []); // Empty dependency array to run once on mount
+
+  useEffect(() => {
+    // Get the JSON string from local storage
+    const storedUserInfo = localStorage.getItem('userInfo');
+
+    // Parse the JSON string into a JavaScript object
+    const userInfo = JSON.parse(storedUserInfo);
+
+    if (userInfo) {
+      // Extract keys and values from the object
+      const userInfoKeys = Object.keys(userInfo);
+      const userInfoValues = Object.values(userInfo);
+
+      // Update state with keys and values
+      setKeys(userInfoKeys);
+      setValues(userInfoValues);
+    }
+  }, []);
   useEffect(() => {
     const fetchData = async (id) => {
       const response = await USERSAPI.post(
@@ -54,7 +85,7 @@ const SingleViewHostel = () => {
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
   };
-
+console.log(userId)
   return (
     <div>
       <Container style={{ color: "white", height: "100vh" }}>

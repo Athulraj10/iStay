@@ -25,6 +25,7 @@ const Header = () => {
     const fetchUserInfo = async () => {
       const storedUserInfo = localStorage.getItem("userInfo");
       if (storedUserInfo) {
+        console.log(storedUserInfo , 'in header of user')
         // You can add await here if needed
         setUserInfo(storedUserInfo);
       }
