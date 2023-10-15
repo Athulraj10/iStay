@@ -31,13 +31,13 @@ const sendForgetPassword = async (name, email, OTP) => {
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
-        console.log("email successfully", info.response);
+        console.error("email successfully", info.response);
       }
     });
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 };
 
@@ -56,7 +56,7 @@ const OTPsaveFunction = async (email, otp) => {
     const OTPsaved = await saveOTP.save();
     return;
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 };
 
@@ -95,7 +95,6 @@ const authUser = asyncHnadler(async (req, res) => {
 //access Public
 //route POST// /api/register
 const registerUser = asyncHnadler(async (req, res) => {
-  console.log(req.body)
   const { userName, email, password, mobile } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -108,7 +107,6 @@ const registerUser = asyncHnadler(async (req, res) => {
     password,
     mobile,
   });
-  console.log(userRegister);
 
   if (userRegister) {
     genereateToken(res, userRegister._id);
@@ -127,9 +125,6 @@ const registerUser = asyncHnadler(async (req, res) => {
 //access Public
 //route POST// /api/users
 const forget = asyncHnadler(async (req, res) => {
-  console.log(req.body)
-  const all = await User.find({})
-  console.log(all)
   const { email } = req.body;
   const user = await User.findOne({email: email });
   if (!user) {
@@ -207,7 +202,6 @@ const findAccommodation = asyncHnadler(async (req, res) => {
         .json({ message: "Something Wrong Please Try Again" });
     }
     if (hostels) {
-      console.log(hostels)
       res.status(200).json({ data:hostels });
     }
   } catch (error) {
@@ -225,7 +219,6 @@ const singlePageView = asyncHnadler(async (req, res) => {
         .json({ message: "Something Wrong Please Try Again" });
     }
     if (hostel) {
-      console.log(hostel)
       res.status(200).json({ data:hostel });
     }
   } catch (error) {
@@ -242,7 +235,6 @@ const singlePageView = asyncHnadler(async (req, res) => {
 //access Public
 //route POST// /api/logout
 const logoutUser = asyncHnadler(async (req, res) => {
-  console.log('logout')
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
@@ -259,13 +251,11 @@ const logoutUser = asyncHnadler(async (req, res) => {
 //access Private
 //route POST// /api/users/profile
 const getUserProfile = asyncHnadler(async (req, res) => {
-  // console.log(req.user)
   const userDetails = {
     name: req.user.name,
     email: req.user.email,
     user_id: req.user._id,
   };
-  // console.log(userDetails)
   res.status(200).json({ message: "User profile" });
 });
 
@@ -277,9 +267,7 @@ const getUserProfile = asyncHnadler(async (req, res) => {
 //route PUT// /api/users/profile
 const updateUserProfile = asyncHnadler(async (req, res) => {
   const user = await User.findById(req.user._id);
-  // console.log(user)
   if (user) {
-    // console.log(req.body)
     user.name = req.body.name || user.name;
     user.email = req.body.email || user.email;
     if (req.body.password) {
