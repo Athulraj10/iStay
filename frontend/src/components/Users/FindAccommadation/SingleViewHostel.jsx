@@ -26,7 +26,7 @@ const SingleViewHostel = () => {
     const headers = {
       'Content-Type':'application/json'
     }
-    const response = await fetch(`${USERSAPI}users/bookingHostel`,{
+    const response = await fetch("http://localhost:3000/api/users/bookingHostel",{
       method:'POST',
       headers:headers,
       body:JSON.stringify(body)
