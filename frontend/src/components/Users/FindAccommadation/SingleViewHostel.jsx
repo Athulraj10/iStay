@@ -85,7 +85,10 @@ const SingleViewHostel = () => {
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
   };
-console.log(userId)
+
+
+
+
   return (
     <div>
       <Container style={{ color: "white", height: "100vh" }}>
@@ -204,8 +207,8 @@ console.log(userId)
                     </div>
                   </Col>
                   <Button
-                  onClick={handlePayment}
-                    style={{
+                     onClick={handlePayment}
+                     style={{
                       width: "300px",
                       marginLeft: "100px",
                       marginTop: "10px",
