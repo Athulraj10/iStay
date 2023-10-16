@@ -22,7 +22,6 @@ const FindAccommodation = () => {
   }, []);
 
   const handleClick = (hostel) =>{
-   console.log(hostel)
     if(hostel){
         navigate("/findAccommodation/singlePageView",{state:{hostel}})
       }

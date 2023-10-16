@@ -35,6 +35,7 @@ import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEd
 import FindAccommodationScreen from "../components/Users/Screens/FindAccommodationScreen";
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
 import AboutPageScreen from "../components/Users/Screens/AboutPageScreen";
+import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
 
 const Routeing = () => {
   return (
@@ -49,6 +50,7 @@ const Routeing = () => {
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route path="/findAccommodation" element={<FindAccommodationScreen />} />
       <Route path="/findAccommodation/singlePageView" element={<SinglePageView />}/>
+      <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
 
       {/* ----------------------------------------------------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />
