@@ -41,6 +41,20 @@ const sendForgetPassword = async (name, email, OTP) => {
   }
 };
 
+const singleHostelFinding = async (hostelId) =>{
+  try{
+    const findHostel = await Hostel.findById({_id:hostelId})
+    console.log(findHostel)
+    if(findHostel){
+      return findHostel
+    }else{
+      return false
+    }
+  }catch(error){
+    console.error(error)
+  }
+}
+
 
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
@@ -268,8 +282,14 @@ const bookingConfirmation = asyncHnadler(async(req,res)=>{
           user:userId,
           hostel:hostelId
         })
-        const booked = await conformBooking.save()
-        console.log(booked)
+        const booked = await conformBooking.save();
+        if(booked){
+          // const hostel = await singleHostelFinding(hostelId)
+          const hostel = await singleHostelFinding(hostelId)
+          res.status(200).json({bookingCompleted:true,hostelData:hostel})
+        }else{
+          res.status(404).json({bookingCompleted:false})
+        }
       }
     } catch (error) {
       console.error(error)
