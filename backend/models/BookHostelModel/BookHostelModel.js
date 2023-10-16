@@ -6,13 +6,11 @@ const bookingModel = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', 
         required:true
-        // 'Seller' should match the name of your seller model
       },
     hostel: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Hostel', 
         required:true
-        // 'Seller' should match the name of your seller model
       },
       paymentMethod:{
         type:String,

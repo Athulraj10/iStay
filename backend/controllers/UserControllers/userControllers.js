@@ -60,21 +60,12 @@ const singleHostelFinding = async (hostelId) => {
   }
 };
 
-const aggregateData = async (userId) {
+const aggregateBookingWithHostel = async (userId) => {
+  console.log(userId)
   try {
-    const aggregateData = await Booking.aggregate([
+    const result = await Booking.aggregate([
       {
-        $match: {
-          user: mongoose.Types.ObjectId(userId)
-        }
-      },
-      {
-        $lookup: {
-          from: 'users', // Name of the User collection
-          localField: 'user',
-          foreignField: '_id',
-          as: 'userDetails'
-        }
+        $match: { user: new mongoose.Types.ObjectId(userId) }
       },
       {
         $lookup: {
@@ -84,15 +75,15 @@ const aggregateData = async (userId) {
           as: 'hostelDetails'
         }
       }
-      // Add additional aggregation stages if needed
     ]);
 
-    return aggregateData;
+    return result;
+
   } catch (error) {
-    throw error;
+    console.log(error)
+
   }
 }
-
 
 // async function getUserBookings(userId) {
 //   return new Promise((resolve, reject) => {
@@ -370,7 +361,7 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
 
 const myBookings = asyncHnadler(async(req,res)=>{
   const userId = req.query.token;
-  const response =await aggregateData(userId)
+  const response =await aggregateBookingWithHostel(userId)
   console.log(response);
 } )
 
