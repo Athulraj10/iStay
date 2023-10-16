@@ -234,7 +234,6 @@ const bookHostel = asyncHnadler(async (req, res) => {
       userId,hostel
     }
     const key = process.env.STRIPE_KEY
-    console.log(key)
     const stripe = new Stripe(key)
     const session = await stripe.checkout.sessions.create({
       payment_method_types:['card'],
@@ -244,14 +243,15 @@ const bookHostel = asyncHnadler(async (req, res) => {
             price_data:{
                 currency: 'inr',
             product_data: {
-                name: hostel.name,
+                name: hostel.hostelName,
             },
-            unit_amount: hostel.price * 100,
+            // unit_amount: hostel.price * 100,
+            unit_amount: 10 * 100,
             },
             quantity: 1,
         },
     ],
-    success_url: `http://localhost:3000/bookingConfirmation/details:${details}`,
+    success_url: `http://localhost:3000/bookingConfirmation?details=${details}`,
     cancel_url: `http://localhost:3000/login`  
     })
     res.json({id:session.id})
@@ -261,7 +261,11 @@ const bookHostel = asyncHnadler(async (req, res) => {
   }
 });
 
-
+const bookingConfirmation = asyncHnadler(async(req,res)=>{
+  const {details} = req.params
+  console.log(details)
+  // const id = req.params.id;
+})
 
 
 
@@ -336,5 +340,6 @@ export {
 
   findAccommodation,
   singlePageView,
-  bookHostel
+  bookHostel,
+  bookingConfirmation
 };
