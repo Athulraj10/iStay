@@ -53,9 +53,7 @@ const SingleViewHostel = () => {
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
     const userInfo = JSON.parse(storedUserInfo);
-
     if (userInfo) {
-      // Update state with keys and values
       setUserInfo(userInfo);
     }
   }, []);
@@ -239,6 +237,8 @@ const SingleViewHostel = () => {
             ))}
         </div>
       </Container>
+
+      
       {/* Hostel Details */}
 
       <Row style={{marginTop:'80px'}}>
