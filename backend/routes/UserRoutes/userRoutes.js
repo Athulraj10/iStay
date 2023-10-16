@@ -26,7 +26,7 @@ router.post('/resetPassword',resetPassword)
 router.post('/findAccommodation',findAccommodation)
 router.post('/findAccommodation/singlePageView',singlePageView)
 router.post('/bookingHostel',bookHostel)
-router.post('/bookingConfirmation/',bookingConfirmation)
+router.get('/bookingConfirmation/',bookingConfirmation)
 
 
 // router.post('/',)

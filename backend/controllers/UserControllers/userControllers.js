@@ -260,9 +260,9 @@ const bookHostel = asyncHnadler(async (req, res) => {
 });
 
 const bookingConfirmation = asyncHnadler(async(req,res)=>{
-  const {details} = req.params
-  console.log(details)
-  // const id = req.params.id;
+   const {userId,hostelId} = req.query
+  
+  
 })
 
 
