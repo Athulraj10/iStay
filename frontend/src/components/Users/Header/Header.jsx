@@ -1,5 +1,5 @@
 import { Navbar, Nav, Container, Alert } from "react-bootstrap";
-import { FaSignOutAlt, FaHotel, FaPhone, FaInfoCircle ,FaSignInAlt} from "react-icons/fa";
+import { FaSignOutAlt, FaHotel, FaPhone, FaInfoCircle ,FaSignInAlt, FaUserAltSlash, FaUser, FaBook} from "react-icons/fa";
 
 import "./Header.css";
 import logoImage from "./iStays.png";
@@ -65,9 +65,9 @@ const Header = () => {
                 // If user information is available, show Logout button
                 <>
                   <Nav>
-                    <Link to="/about" className="nav-link">
-                    <FaHotel />
-                    &nbsp; About
+                    <Link to="/profile" className="nav-link">
+                    <FaUser />
+                    &nbsp; Profile
                     </Link>
                   </Nav>
 
@@ -79,8 +79,8 @@ const Header = () => {
                   </Nav>
 
                   <Nav>
-                    <Link to="/user" className="nav-link">
-                    <FaInfoCircle /> &nbsp;Contact
+                    <Link to="/myBookings" className="nav-link">
+                    <FaBook /> &nbsp;My Bookings
                     </Link>
                   </Nav>
 

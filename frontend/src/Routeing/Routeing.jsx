@@ -36,6 +36,7 @@ import FindAccommodationScreen from "../components/Users/Screens/FindAccommodati
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
 import AboutPageScreen from "../components/Users/Screens/AboutPageScreen";
 import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
+import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
 const Routeing = () => {
   return (
@@ -43,7 +44,7 @@ const Routeing = () => {
       {/* ------------------------------UserScreen */}
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
-      <Route path="/about" element={<AboutPageScreen />} />
+      <Route path="/profile" element={<AboutPageScreen />} />
       <Route path="/" element={<HomeScreen />} />
       <Route path="/forget" element={<ForgetScreenPassword />} />
       <Route path="/OTP" element={<OTPScreen />} />
@@ -51,6 +52,7 @@ const Routeing = () => {
       <Route path="/findAccommodation" element={<FindAccommodationScreen />} />
       <Route path="/findAccommodation/singlePageView" element={<SinglePageView />}/>
       <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
+      <Route path="/myBookings" element={<MyBookingScreen />} />
 
       {/* ----------------------------------------------------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />
