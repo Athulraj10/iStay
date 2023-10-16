@@ -1,11 +1,15 @@
 import asyncHnadler from "express-async-handler";
-import User from '../../models/UserModels/userModel.js'
+import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import genereateToken from "../../utils/generateToken.js";
 import nodemailer from "nodemailer";
-import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js";
+import {
+  sessionSecret,
+  emailUser,
+  NewAppPassword,
+} from "../../config/config.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
-import { Stripe } from 'stripe'
+import { Stripe } from "stripe";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 //@desc forgetOTP
 //access Public
@@ -41,20 +45,18 @@ const sendForgetPassword = async (name, email, OTP) => {
   }
 };
 
-const singleHostelFinding = async (hostelId) =>{
-  try{
-    const findHostel = await Hostel.findById({_id:hostelId})
-    console.log(findHostel)
-    if(findHostel){
-      return findHostel
-    }else{
-      return false
+const singleHostelFinding = async (hostelId) => {
+  try {
+    const findHostel = await Hostel.findById({ _id: hostelId });
+    if (findHostel) {
+      return findHostel;
+    } else {
+      return false;
     }
-  }catch(error){
-    console.error(error)
+  } catch (error) {
+    console.error(error);
   }
-}
-
+};
 
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
@@ -73,8 +75,6 @@ const OTPsaveFunction = async (email, otp) => {
     console.error(error.message);
   }
 };
-
-
 
 // -------------------User Authentication---------------------------
 //@desc Auth user/set token
@@ -102,8 +102,6 @@ const authUser = asyncHnadler(async (req, res) => {
   }
 });
 
-
-
 // -------------------Register New User---------------------------
 //@desc createing new  user
 //access Public
@@ -115,7 +113,7 @@ const registerUser = asyncHnadler(async (req, res) => {
     res.status(400);
     throw new Error(" User already Exists");
   }
-  const userRegister = await User.create({ 
+  const userRegister = await User.create({
     name: userName,
     email,
     password,
@@ -132,15 +130,13 @@ const registerUser = asyncHnadler(async (req, res) => {
   }
 });
 
-
-
 // -------------------Forget Password User Verification---------------------------
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
 const forget = asyncHnadler(async (req, res) => {
   const { email } = req.body;
-  const user = await User.findOne({email: email });
+  const user = await User.findOne({ email: email });
   if (!user) {
     return res.status(401).json({
       message: "Invalid Email",
@@ -156,8 +152,6 @@ const forget = asyncHnadler(async (req, res) => {
     });
   }
 });
-
-
 
 // -----------------------------Verify OTP ---------------------------
 const verifyOTP = asyncHnadler(async (req, res) => {
@@ -182,8 +176,6 @@ const verifyOTP = asyncHnadler(async (req, res) => {
     console.log(error.message);
   }
 });
-
-
 
 // ----------------------------Reset Password-------------
 const resetPassword = asyncHnadler(async (req, res) => {
@@ -216,7 +208,7 @@ const findAccommodation = asyncHnadler(async (req, res) => {
         .json({ message: "Something Wrong Please Try Again" });
     }
     if (hostels) {
-      res.status(200).json({ data:hostels });
+      res.status(200).json({ data: hostels });
     }
   } catch (error) {
     console.error(error);
@@ -226,14 +218,14 @@ const findAccommodation = asyncHnadler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 const singlePageView = asyncHnadler(async (req, res) => {
   try {
-    const hostel = await Hostel.find({ _id:req.body.id });
+    const hostel = await Hostel.find({ _id: req.body.id });
     if (!hostel) {
       return res
         .status(404)
         .json({ message: "Something Wrong Please Try Again" });
     }
     if (hostel) {
-      res.status(200).json({ data:hostel });
+      res.status(200).json({ data: hostel });
     }
   } catch (error) {
     console.error(error);
@@ -244,60 +236,66 @@ const singlePageView = asyncHnadler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 const bookHostel = asyncHnadler(async (req, res) => {
   try {
-    const {userId,hostel} = req.body;
-    const key = process.env.STRIPE_KEY
-    const stripe = new Stripe(key)
+    const { userId, hostel } = req.body;
+    const key = process.env.STRIPE_KEY;
+    const stripe = new Stripe(key);
     const session = await stripe.checkout.sessions.create({
-      payment_method_types:['card'],
-      mode:'payment',
-      line_items:[
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: [
         {
-            price_data:{
-                currency: 'inr',
+          price_data: {
+            currency: "inr",
             product_data: {
-                name: hostel.hostelName,
+              name: hostel.hostelName,
             },
             // unit_amount: hostel.price * 100,
             unit_amount: 10 * 100,
-            },
-            quantity: 1,
+          },
+          quantity: 1,
         },
-    ],
-    // success_url: `http://localhost:3000/bookingConfirmation?details=${details}`,
-    success_url: `http://localhost:3000/bookingConfirmation?userId=${userId}&hostel=${hostel._id}`,
-    cancel_url: `http://localhost:3000/login`  
-    })
-    res.json({id:session.id})
+      ],
+      // success_url: `http://localhost:3000/bookingConfirmation?details=${details}`,
+      success_url: `http://localhost:3000/bookingConfirmation?userId=${userId}&hostel=${hostel._id}`,
+      cancel_url: `http://localhost:3000/login`,
+    });
+    res.json({ id: session.id });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
   }
 });
 
-const bookingConfirmation = asyncHnadler(async(req,res)=>{
-   const {userId,hostelId} = req.query
-    try {
-      if(userId && hostelId){
-        const conformBooking = new Booking({
-          user:userId,
-          hostel:hostelId
-        })
-        const booked = await conformBooking.save();
-        if(booked){
-          // const hostel = await singleHostelFinding(hostelId)
-          const hostel = await singleHostelFinding(hostelId)
-          res.status(200).json({bookingCompleted:true,hostelData:hostel})
-        }else{
-          res.status(404).json({bookingCompleted:false})
-        }
+const bookingConfirmation = asyncHnadler(async (req, res) => {
+  const { userId, hostelId } = req.query;
+  try {
+    const hostelDatas = await singleHostelFinding(hostelId);
+    let price = parseFloat(hostelDatas.price);
+    let extraPrice = parseFloat(hostelDatas.extraPrice);
+    let totalAmount = price + extraPrice;
+
+    if (userId && hostelId) {
+      const conformBooking = new Booking({
+        user: userId,
+        hostel: hostelId,
+        totalAmount: totalAmount,
+        paymentMothod: "Card",
+        paymentVia: "Stripe",
+      });
+      const booked = await conformBooking.save();
+      console.log(booked);
+      if (booked) {
+        res
+          .status(200)
+          .json({ bookingCompleted: true, hostelData: hostelDatas,bookingDetails:booked });
+      } else {
+        res.status(404).json({ bookingCompleted: false });
       }
-    } catch (error) {
-      console.error(error)
     }
-  
-})
-
-
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
@@ -314,7 +312,6 @@ const logoutUser = asyncHnadler(async (req, res) => {
   res.status(200).json({ message: "User Logout" });
 });
 
-
 // ---------------------------Get User Profile---------------------------
 //@desc get user profile
 //access Private
@@ -327,8 +324,6 @@ const getUserProfile = asyncHnadler(async (req, res) => {
   };
   res.status(200).json({ message: "User profile" });
 });
-
-
 
 // ---------------------------Update User Profile---------------------------
 //@desc get update user profile
@@ -355,7 +350,6 @@ const updateUserProfile = asyncHnadler(async (req, res) => {
   }
 });
 
-
 export {
   authUser,
   registerUser,
@@ -365,11 +359,8 @@ export {
   updateUserProfile,
   verifyOTP,
   resetPassword,
-
-  
-
   findAccommodation,
   singlePageView,
   bookHostel,
-  bookingConfirmation
+  bookingConfirmation,
 };

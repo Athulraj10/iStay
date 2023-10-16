@@ -68,11 +68,11 @@ const hostelModel = mongoose.Schema({
         required:true
     },
     price:{
-        type:String,
+        type:Number,
         required:true
     },
     extraPrice:{
-        type:String,
+        type:Number,
         required:true
     },
     totalBedInRoom:{

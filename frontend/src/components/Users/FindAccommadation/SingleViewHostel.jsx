@@ -11,9 +11,9 @@ const SingleViewHostel = () => {
   const hostel = location.state.hostel;
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);  
-  // Define state variables to store keys and values
-  // const [keys, setKeys] = useState([]);
   const [userInfo, setUserInfo] = useState([]);
+  
+
 
 
 

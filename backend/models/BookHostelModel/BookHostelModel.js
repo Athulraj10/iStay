@@ -14,9 +14,17 @@ const bookingModel = mongoose.Schema({
         required:true
         // 'Seller' should match the name of your seller model
       },
-    payment:{
-        type:'String',
-        required:false
+      paymentMethod:{
+        type:String,
+        required:true
+    },
+      paymentVia:{
+        type:String,
+        required:true
+    },
+    totalAmount:{
+        type:Number,
+        required:true
     }
 },{ 
     timestamps:true
