@@ -10,18 +10,41 @@ import React from "react";
 
 
 function dashboardValues() {
-  const [totalUsers, settotalUsers] = useState([]);
-  const [totalSeller, setTotalSeller] = useState([]);
-  const [totalHostel, setTotalHostel] = useState([]);
+  const [totalUsers, settotalUsers] = useState(0);
+  const [totalBlockUsers, settotalBlockUsers] = useState(0);
+  const [totalSeller, setTotalSeller] = useState(0);
+  const [totalBlockSeller, setTotalBlockSeller] = useState(0);
+  const [totalHostel, setTotalHostel] = useState(0);
+  const [totalBlockHostel, setTotalBlockHostel] = useState(0);
+  
+  
+  const [totalBookingCount, setBookingCount] = useState(0);
+  const [totalRevenue, setRevenue] = useState(0);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const res = await USERSAPI.post("admin/usersCount");
-        const {userCount,sellerCount,hostelCount} = res.data // Access the data property
+        const {userCount,
+          userBlockCount,
+          sellerCount,
+          sellerBlockCount,
+          hostelCount,
+          hostelBlockCount,
+          bookingCount,
+          totalRevenue
+        }
+           = res.data // Access the data property
         setTotalSeller(sellerCount)
+        setTotalBlockSeller(sellerBlockCount)
         setTotalHostel(hostelCount)
+        setTotalBlockHostel(hostelBlockCount)
         settotalUsers(userCount)
+        settotalBlockUsers(userBlockCount)
+        
+        setBookingCount(bookingCount)
+        setRevenue(totalRevenue)
+
         setLoading(false);
       } catch (error) {
         toast.error(error.message);
@@ -100,25 +123,39 @@ function dashboardValues() {
     <Container style={{height:'100vh'}}>
       <Row className="justify-content-md-center">
         
-        <Col xs lg="3" style={style}>
+        <Col xs lg="2" style={style}>
           <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
-            <h3 className="text-center" style={{color:'white'}}>Total Users</h3>
-            <h4 style={{color:'white'}}>Total count : {totalUsers}</h4>
-            <h4 style={{color:'white'}}>Blocked : 0</h4>
+            <h4 className="text-center" style={{color:'white'}}>Total Booking</h4>
+            <h4 style={{color:'white'}}>Count : {totalBookingCount}</h4>
+            {/* <h4 style={{color:'white'}}>Blocked : {totalBlockUsers}</h4> */}
           </Link>
         </Col>
-        <Col xs lg="3" style={style}>
+        <Col xs lg="2" style={style}>
+          <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
+            <h4 className="text-center" style={{color:'white'}}>Total Revenue</h4>
+            <h4 style={{color:'white'}}>₹ : {totalRevenue}</h4>
+            {/* <h4 style={{color:'white'}}>Blocked : {totalBlockUsers}</h4> */}
+          </Link>
+        </Col>
+        <Col xs lg="2" style={style}>
+          <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
+            <h4 className="text-center" style={{color:'white'}}>Total Users</h4>
+            <h4 style={{color:'white'}}>Count : {totalUsers}</h4>
+            <h4 style={{color:'white'}}>Blocked : {totalBlockUsers}</h4>
+          </Link>
+        </Col>
+        <Col xs lg="2" style={style}>
           <Link to="/admin/listSellers" style={{ textDecoration: "none" }}>
-            <h3 className="text-center" style={{color:'white'}}>Total Sellers</h3>
-            <h4 style={{color:'white'}}>Total count : {totalSeller}</h4>
-            <h4 style={{color:'white'}}>Blocked : 0</h4>
+            <h4 className="text-center" style={{color:'white'}}>Total Sellers</h4>
+            <h4 style={{color:'white'}}>Count : {totalSeller}</h4>
+            <h4 style={{color:'white'}}>Blocked : {totalBlockSeller}</h4>
           </Link>
         </Col>
-        <Col xs lg="3" style={style}>
+        <Col xs lg="2" style={style}>
           <Link to="/admin/listHostels" style={{ textDecoration: "none" }}>
-            <h3 className="text-center" style={{color:'white'}}>Total Hostels</h3>
-            <h4 style={{color:'white'}}>Total count : {totalHostel}</h4>
-            <h4 style={{color:'white'}}>Blocked : 0</h4>
+            <h4 className="text-center" style={{color:'white'}}>Total Hostels</h4>
+            <h4 style={{color:'white'}}>Count : {totalHostel}</h4>
+            <h4 style={{color:'white'}}>Blocked : {totalBlockHostel}</h4>
           </Link>
         </Col>
 

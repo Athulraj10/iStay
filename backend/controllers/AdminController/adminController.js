@@ -12,6 +12,7 @@ import OTP from "../../models/OTPModel.js";
 import generateToken from "../../utils/generateToken.js";
 import Seller from "../../models/SellerModel/SellerModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
+import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 
 // // -------------------Register New admin---------------------------
 // //@desc createing new  user
@@ -265,9 +266,19 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const userCount = await User.countDocuments();
     const sellerCount = await Seller.countDocuments();
     const hostelCount = await Hostel.countDocuments();
+    const bookingCount = await Booking.countDocuments();
     const userBlockCount = await User.countDocuments({isBlock:true});
     const sellerBlockCount = await Seller.countDocuments({isBlock:true});
     const hostelBlockCount = await Hostel.countDocuments({isBlock:true});
+    const revenue = await Booking.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalValue: { $sum: "$totalValue" }
+        }
+      }
+    ]);
+    
     if (!userCount) {
       return res
         .status(404)
@@ -281,6 +292,9 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
         sellerBlockCount,
         hostelCount,
         hostelBlockCount,
+
+        bookingCount,
+        revenue
         
       });
     }
