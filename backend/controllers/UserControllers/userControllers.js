@@ -73,14 +73,36 @@ const aggregateBookingWithHostel = async (userId) => {
           foreignField: '_id',
           as: 'hostelDetails'
         }
+      },
+      {
+        $unwind: '$hostelDetails'
+      },
+      {
+        $lookup: {
+          from: 'sellers', // Name of the Sellers collection
+          localField: 'hostelDetails.seller',
+          foreignField: '_id',
+          as: 'sellerDetails'
+        }
+      },
+      {
+        $group: {
+          _id: '$_id',
+          user: { $first: '$user' },
+          hostel: { $first: '$hostel' },
+          paymentMethod: { $first: '$paymentMethod' },
+          paymentVia: { $first: '$paymentVia' },
+          totalAmount: { $first: '$totalAmount' },
+          hostelDetails: { $first: '$hostelDetails' },
+          sellerDetails: { $first: '$sellerDetails' }
+        }
       }
     ]);
 
     return result;
 
   } catch (error) {
-    console.log(error)
-
+    console.log(error);
   }
 }
 
@@ -361,7 +383,16 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
 const myBookings = asyncHnadler(async(req,res)=>{
   const userId = req.query.token;
   const response =await aggregateBookingWithHostel(userId)
-  console.log(response[0].hostelDetails);
+  try {
+    if(response){
+      console.log(response)
+     return res.status(200).json({
+        allDetails:response
+      })
+    }
+  } catch (error) {
+    console.error(error)
+  }
 } )
 
 

@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Container,Row,Col,Button } from "react-bootstrap";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
+import { toast } from "react-toastify";
 
 const MyBookings = () => {
-  const [hostelData,setHostelData]=useState(null)
+  const [hostelData,setHostelData]=useState([])
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem('userInfo');
@@ -11,11 +12,11 @@ const MyBookings = () => {
     const fetchData = async () => {
       try {
         const response = await USERSAPI.get(`users/myBookings?token=${userInfo._id}`);
-        // Process the response data
-        // ...
+        if (response.data.allDetails) {
+          setHostelData(response.data.allDetails);
+        }
       } catch (error) {
-        // Handle errors
-        // ...
+        toast.error(error)
       }
     }
   
