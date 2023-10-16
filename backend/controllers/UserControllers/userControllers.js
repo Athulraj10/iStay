@@ -234,6 +234,7 @@ const bookHostel = asyncHnadler(async (req, res) => {
       userId,hostelId
     }
     const key = process.env.STRIPE_KEY
+    console.log(key)
     const stripe = new Stripe(key)
     const session = await stripe.checkout.sessions.create({
       payment_method_types:['card'],
@@ -243,16 +244,17 @@ const bookHostel = asyncHnadler(async (req, res) => {
             price_data:{
                 currency: 'inr',
             product_data: {
-                name: date,
+                name: "athulraj",
             },
-            unit_amount: amount * 100,
+            unit_amount: 100 * 100,
             },
             quantity: 1,
         },
     ],
-    success_url: `localhost:3000/successpayment/${details}`,
-    cancel_url: `localhost:3000//doctor-details/${details}`
+    success_url: `http://localhost:3000/`,
+    cancel_url: `http://localhost:3000/login`  
     })
+    res.json({id:session.id})
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
