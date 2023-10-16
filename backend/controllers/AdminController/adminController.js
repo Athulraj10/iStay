@@ -274,10 +274,11 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
       {
         $group: {
           _id: null,
-          totalValue: { $sum: "$totalValue" }
+          totalAmount: { $sum: "$totalAmount" }
         }
       }
     ]);
+
     
     if (!userCount) {
       return res
@@ -294,7 +295,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
         hostelBlockCount,
 
         bookingCount,
-        revenue
+        revenue:revenue[0].totalAmount
         
       });
     }

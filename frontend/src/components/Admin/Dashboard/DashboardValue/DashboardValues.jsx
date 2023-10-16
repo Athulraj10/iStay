@@ -32,7 +32,7 @@ function dashboardValues() {
           hostelCount,
           hostelBlockCount,
           bookingCount,
-          totalRevenue
+          revenue
         }
            = res.data // Access the data property
         setTotalSeller(sellerCount)
@@ -43,7 +43,7 @@ function dashboardValues() {
         settotalBlockUsers(userBlockCount)
         
         setBookingCount(bookingCount)
-        setRevenue(totalRevenue)
+        setRevenue(revenue)
 
         setLoading(false);
       } catch (error) {
@@ -69,11 +69,11 @@ function dashboardValues() {
 
   // Sample data for the chart
   const data = {
-    labels: ["Item 1", "Item 2", "Item 2", "Item 2", "Item 3", "Item 4"],
+    labels: ["Item 1", "TotalRevenue", "Item 2", "Item 2", "Item 3", "Item 4"],
     datasets: [
       {
-        label: "Sample Data",
-        data: [12, 19, 3, 5, 3, 5],
+        label: "Revenue Graph",
+        data: [totalRevenue, 19, 3, 5, 3, 5],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -133,7 +133,7 @@ function dashboardValues() {
         <Col xs lg="2" style={style}>
           <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
             <h4 className="text-center" style={{color:'white'}}>Total Revenue</h4>
-            <h4 style={{color:'white'}}>₹ : {totalRevenue}</h4>
+            <h4 style={{color:'white'}}>₹{totalRevenue}</h4>
             {/* <h4 style={{color:'white'}}>Blocked : {totalBlockUsers}</h4> */}
           </Link>
         </Col>
