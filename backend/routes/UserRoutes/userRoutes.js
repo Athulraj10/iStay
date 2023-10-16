@@ -9,7 +9,7 @@ import {
     
     singlePageView,
     findAccommodation,
-    bookHostel,bookingConfirmation
+    bookHostel,bookingConfirmation,myBookings
 }
     from "../../controllers/UserControllers/userControllers.js";
 // import { protect } from "../../middleware/authMiddleware.js";
@@ -27,6 +27,7 @@ router.post('/findAccommodation',findAccommodation)
 router.post('/findAccommodation/singlePageView',singlePageView)
 router.post('/bookingHostel',bookHostel)
 router.get('/bookingConfirmation/',bookingConfirmation)
+router.get('/myBookings',myBookings)
 
 
 // router.post('/',)

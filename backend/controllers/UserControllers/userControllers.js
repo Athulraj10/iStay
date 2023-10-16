@@ -1,3 +1,5 @@
+import mongoose from 'mongoose'; // Import mongoose
+
 import asyncHnadler from "express-async-handler";
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
@@ -57,6 +59,75 @@ const singleHostelFinding = async (hostelId) => {
     console.error(error);
   }
 };
+
+const aggregateData = async (userId) {
+  try {
+    const aggregateData = await Booking.aggregate([
+      {
+        $match: {
+          user: mongoose.Types.ObjectId(userId)
+        }
+      },
+      {
+        $lookup: {
+          from: 'users', // Name of the User collection
+          localField: 'user',
+          foreignField: '_id',
+          as: 'userDetails'
+        }
+      },
+      {
+        $lookup: {
+          from: 'hostels', // Name of the Hostel collection
+          localField: 'hostel',
+          foreignField: '_id',
+          as: 'hostelDetails'
+        }
+      }
+      // Add additional aggregation stages if needed
+    ]);
+
+    return aggregateData;
+  } catch (error) {
+    throw error;
+  }
+}
+
+
+// async function getUserBookings(userId) {
+//   return new Promise((resolve, reject) => {
+//     Booking.aggregate([
+//       {
+//         $match: {
+//           user: new ObjectId(userId)
+//         }
+//       },
+//       {
+//         $lookup: {
+//           from: 'User', // Replace with the actual collection name for users
+//           localField: 'user',
+//           foreignField: '_id',
+//           as: 'user'
+//         }
+//       },
+//       {
+//         $lookup: {
+//           from: 'Hostel', // Replace with the actual collection name for hostels
+//           localField: 'hostel',
+//           foreignField: '_id',
+//           as: 'hostel'
+//         }
+//       }
+//     ]).exec((err, result) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         resolve(result);
+//       }
+//     });
+//   });
+// }
+
 
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
@@ -297,6 +368,23 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
   }
 });
 
+const myBookings = asyncHnadler(async(req,res)=>{
+  const userId = req.query.token;
+  const response =await aggregateData(userId)
+  console.log(response);
+} )
+
+
+
+
+
+
+
+
+
+
+
+
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
 //access Public
@@ -363,4 +451,5 @@ export {
   singlePageView,
   bookHostel,
   bookingConfirmation,
+  myBookings
 };
