@@ -61,7 +61,6 @@ const singleHostelFinding = async (hostelId) => {
 };
 
 const aggregateBookingWithHostel = async (userId) => {
-  console.log(userId)
   try {
     const result = await Booking.aggregate([
       {
@@ -362,7 +361,7 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
 const myBookings = asyncHnadler(async(req,res)=>{
   const userId = req.query.token;
   const response =await aggregateBookingWithHostel(userId)
-  console.log(response);
+  console.log(response[0].hostelDetails);
 } )
 
 
