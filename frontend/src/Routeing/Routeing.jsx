@@ -48,10 +48,7 @@ const Routeing = () => {
       <Route path="/OTP" element={<OTPScreen />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
       <Route path="/findAccommodation" element={<FindAccommodationScreen />} />
-      <Route
-        path="/findAccommodation/singlePageView"
-        element={<SinglePageView />}
-      />
+      <Route path="/findAccommodation/singlePageView" element={<SinglePageView />}/>
 
       {/* ----------------------------------------------------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />
@@ -64,14 +61,8 @@ const Routeing = () => {
       <Route path="/seller/listEnquery" element={<SelllerListEnquery />} />
       <Route path="/seller/listHostels" element={<SellerHostelList />} />
       <Route path="/seller/message" element={<SellerMessageList />} />
-      <Route
-        path="/seller/listHostels/addhostel"
-        element={<AddHostelSeller />}
-      />
-      <Route
-        path="/seller/listHostels/editHostelDetails"
-        element={<SellerHostelEditScreen />}
-      />
+      <Route path="/seller/listHostels/addhostel" element={<AddHostelSeller />}/>
+      <Route path="/seller/listHostels/editHostelDetails" element={<SellerHostelEditScreen />}/>
 
       {/* ----------------------------------------------------Admin Panel--------- */}
       <Route path="/admin" element={<AdminLoginScreen />} />
