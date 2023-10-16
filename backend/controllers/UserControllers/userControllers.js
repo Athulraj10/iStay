@@ -279,7 +279,7 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
         user: userId,
         hostel: hostelId,
         totalAmount: totalAmount,
-        paymentMothod: "Card",
+        paymentMethod: "Card",
         paymentVia: "Stripe",
       });
       const booked = await conformBooking.save();
@@ -287,7 +287,7 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
       if (booked) {
         res
           .status(200)
-          .json({ bookingCompleted: true, hostelData: hostelDatas,bookingDetails:booked });
+          .json({ bookingCompleted: true, hostelData: hostelDatas,bookedDetails:booked });
       } else {
         res.status(404).json({ bookingCompleted: false });
       }

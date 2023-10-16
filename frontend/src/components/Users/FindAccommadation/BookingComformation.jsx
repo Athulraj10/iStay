@@ -9,18 +9,17 @@ import { Container,Button,Card,Row,Col } from 'react-bootstrap';
 const BookingComformation = () => {
   const location = useLocation();
   const [hostelData, setHostelData] = useState(null);
-  const [selectedImageIndex, setSelectedImageIndex] = useState(0);   
+  const [bookedDetail, setBookedDetails] = useState(null);   
   const searchParams = new URLSearchParams(location.search);
   
 
   const userId = searchParams.get('userId');
   const hostelId = searchParams.get('hostel');
 
-  useEffect(() => {
-    if (hostelData !== null) {
-      console.log('hostelData has been updated:', hostelData);
-    }
-  }, [hostelData]);
+  // useEffect(() => {
+  //   if (hostelData !== null) {
+  //   }
+  // }, [hostelData]);
   
   useEffect(() => {
     const fetchData = async () => {
@@ -34,7 +33,9 @@ const BookingComformation = () => {
 
           if (response.data.bookingCompleted ) {
             const responseData = response.data.hostelData;
+            const bookedDetails = response.data.bookedDetails;
             setHostelData(responseData);
+            setBookedDetails(bookedDetails);
             toast.success('Booking Completed');
           } else {
             toast.error('Booking Not Completed');
@@ -84,7 +85,7 @@ const BookingComformation = () => {
                     <Row style={{ border: "1px solid gray" }}>
                       <Col>
                         <h6 style={{ margin: "20px", color: "#408B88" }}>
-                          ₹ {hostelData.price} Per
+                          ₹ {bookedDetail?bookedDetail.totalAmount:null} Per
                         </h6>
                         <h6 style={{ margin: "20px", color: "#408B88" }}>
                           Category : {hostelData.category}

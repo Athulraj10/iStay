@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
 const MyBookings = () => {
+    useEffect(()=>{
+
+    },[])
   return (
-    <div>MyBookings</div>
+    <>
+        
+    </>
   )
 }
 
