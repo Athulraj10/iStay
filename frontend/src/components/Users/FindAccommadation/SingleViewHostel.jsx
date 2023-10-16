@@ -18,6 +18,7 @@ const SingleViewHostel = () => {
 
 
   const handlePayment = async () =>{
+    localStorage.setItem('bookingStarted',userInfo._id)
     const stripe =  await loadStripe("pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu")
     const body = {
       userId:userInfo._id,
@@ -50,7 +51,6 @@ const SingleViewHostel = () => {
   // }, []); // Empty dependency array to run once on mount
 
   useEffect(() => {
-    // Get the JSON string from local storage
     const storedUserInfo = localStorage.getItem('userInfo');
     const userInfo = JSON.parse(storedUserInfo);
 
@@ -70,7 +70,7 @@ const SingleViewHostel = () => {
           setHostelData(response.data.data);
         }
       } catch (error) {
-        console.log(error);
+        console.error(error);
       }
     };
     fetchData(hostel._id);
@@ -129,7 +129,6 @@ const SingleViewHostel = () => {
 
                   <Col>
                     <h5 style={{ margin: "20px", color: "#408B88" }}>
-                      {" "}
                       WiFI Available: {hostel.Wifi}
                     </h5>
                     <h5 style={{ margin: "20px", color: "#408B88" }}>

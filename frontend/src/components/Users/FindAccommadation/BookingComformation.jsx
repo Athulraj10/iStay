@@ -2,6 +2,7 @@ import React,{useEffect} from 'react'
 
 import { useLocation } from 'react-router-dom';
 import { USERSAPI } from '../../AxiosAPI/AxiosInstance';
+import { toast } from 'react-toastify';
 
 
 const BookingComformation = () => {
@@ -14,20 +15,18 @@ const BookingComformation = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // Use userId and hostelId in your API call
-      if (userId && hostelId) {
+      const verificationLocalStorage = localStorage.getItem('bookingStarted');
+      if (userId && hostelId && verificationLocalStorage === userId) {
         try {
-          // Make your API call using userId and hostelId
-          // Example: const response = await fetch(`/api/someEndpoint?userId=${userId}&hostelId=${hostelId}`);
-          // Process the response
-          // const response =  await USERSAPI.get(`users/bookingConfirmation?userId=${userId}&hostelId=${hostelId}`,)
+          localStorage.removeItem("bookingStarted");
           const response = await USERSAPI.get('/users/bookingConfirmation', {
             params: { userId, hostelId },
           });          
-          console.log(response)
         } catch (error) {
-          // Handle errors
+          toast.error(error)
         }
+      }else{
+        toast.error("Booking AlreadyCompleted")
       }
     };
 

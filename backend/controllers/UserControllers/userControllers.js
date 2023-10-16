@@ -6,6 +6,7 @@ import nodemailer from "nodemailer";
 import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import { Stripe } from 'stripe'
+import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
@@ -261,7 +262,18 @@ const bookHostel = asyncHnadler(async (req, res) => {
 
 const bookingConfirmation = asyncHnadler(async(req,res)=>{
    const {userId,hostelId} = req.query
-  
+    try {
+      if(userId && hostelId){
+        const conformBooking = new Booking({
+          user:userId,
+          hostel:hostelId
+        })
+        const booked = await conformBooking.save()
+        console.log(booked)
+      }
+    } catch (error) {
+      console.error(error)
+    }
   
 })
 
