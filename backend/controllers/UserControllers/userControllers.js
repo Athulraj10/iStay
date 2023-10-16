@@ -230,6 +230,9 @@ const singlePageView = asyncHnadler(async (req, res) => {
 const bookHostel = asyncHnadler(async (req, res) => {
   try {
     const {userId,hostelId} = req.body;
+    const details = {
+      userId,hostelId
+    }
     const key = process.env.STRIPE_KEY
     const stripe = new Stripe(key)
     const session = await stripe.checkout.sessions.create({
@@ -247,8 +250,8 @@ const bookHostel = asyncHnadler(async (req, res) => {
             quantity: 1,
         },
     ],
-    success_url: `https://medicarez.online/successpayment/${user}/${doctor}/${date}`,
-    cancel_url: `https://medicarez.online/doctor-details/${doctor}`
+    success_url: `localhost:3000/successpayment/${details}`,
+    cancel_url: `localhost:3000//doctor-details/${details}`
     })
   } catch (error) {
     console.error(error);
