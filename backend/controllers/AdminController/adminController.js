@@ -265,6 +265,9 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const userCount = await User.countDocuments();
     const sellerCount = await Seller.countDocuments();
     const hostelCount = await Hostel.countDocuments();
+    const userBlockCount = await User.countDocuments({isBlock:true});
+    const sellerBlockCount = await Seller.countDocuments({isBlock:true});
+    const hostelBlockCount = await Hostel.countDocuments({isBlock:true});
     if (!userCount) {
       return res
         .status(404)
@@ -273,8 +276,12 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     if (userCount) {
       return res.status(200).json({
         userCount,
+        userBlockCount,
         sellerCount,
+        sellerBlockCount,
         hostelCount,
+        hostelBlockCount,
+        
       });
     }
   } catch (error) {
