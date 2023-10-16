@@ -8,7 +8,7 @@ import "./style.css";
 
 const SingleViewHostel = () => {
   const location = useLocation();
-  const hostelId = location.state.hostelId;
+  const hostel = location.state.hostel;
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);  
   // Define state variables to store keys and values
@@ -21,7 +21,7 @@ const SingleViewHostel = () => {
     const stripe =  await loadStripe("pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu")
     const body = {
       userId:userInfo._id,
-      hostelId:hostelId
+      hostel:hostel,
     }
     const headers = {
       'Content-Type':'application/json'
@@ -73,7 +73,7 @@ const SingleViewHostel = () => {
         console.log(error);
       }
     };
-    fetchData(hostelId);
+    fetchData(hostel._id);
   }, []);
 
   const handleThumbnailClick = (index) => {

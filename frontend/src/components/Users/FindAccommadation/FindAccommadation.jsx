@@ -21,9 +21,10 @@ const FindAccommodation = () => {
     fetchdata();
   }, []);
 
-  const handleClick = (hostelId) =>{
-      if(hostelId){
-        navigate("/findAccommodation/singlePageView",{state:{hostelId}})
+  const handleClick = (hostel) =>{
+   console.log(hostel)
+    if(hostel){
+        navigate("/findAccommodation/singlePageView",{state:{hostel}})
       }
   }
 
@@ -31,7 +32,7 @@ const FindAccommodation = () => {
     <Container>
       {hostelInfo.map((hostel, index) => (
         <Button
-          onClick={()=>{handleClick(hostel._id)}}
+          onClick={()=>{handleClick(hostel)}}
           key={index}
           className="m-3 btn-info"
           style={{ width: "100%", display: "flex", alignItems: "center" }}

@@ -229,9 +229,9 @@ const singlePageView = asyncHnadler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 const bookHostel = asyncHnadler(async (req, res) => {
   try {
-    const {userId,hostelId} = req.body;
+    const {userId,hostel} = req.body;
     const details = {
-      userId,hostelId
+      userId,hostel
     }
     const key = process.env.STRIPE_KEY
     console.log(key)
@@ -244,14 +244,14 @@ const bookHostel = asyncHnadler(async (req, res) => {
             price_data:{
                 currency: 'inr',
             product_data: {
-                name: "athulraj",
+                name: hostel.name,
             },
-            unit_amount: 100 * 100,
+            unit_amount: hostel.price * 100,
             },
             quantity: 1,
         },
     ],
-    success_url: `http://localhost:3000/`,
+    success_url: `http://localhost:3000/bookingConfirmation/details:${details}`,
     cancel_url: `http://localhost:3000/login`  
     })
     res.json({id:session.id})
