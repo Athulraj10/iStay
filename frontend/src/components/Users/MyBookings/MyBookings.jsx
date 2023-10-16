@@ -41,7 +41,7 @@ const MyBookings = () => {
                 src={`http://localhost:5000/images/${hostel.hostelDetails.images[0]}`}
                 alt={`Image`}
                 className="event-image rounded-3"
-                style={{ height: "300px", width: "100%" }}
+                style={{ height: "300px", width: "600px" }}
               />
             </div>
 
@@ -50,7 +50,7 @@ const MyBookings = () => {
               <Card
                 style={{
                   width: "100%",
-                  height: "300px",
+                  height: "auto",
                   minHeight: "300px",
                   background: "transparent",
                 }}
@@ -58,34 +58,57 @@ const MyBookings = () => {
                 <Row style={{ border: "1px solid gray" }}>
                   <Col>
                     {/* Display the total amount */}
+                  
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      ₹ {hostel.totalAmount} Per
-                    </h6>
-                    <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      Category: {hostel.hostelDetails.category}
-                    </h6>
-                    <h6 style={{ margin: "20px", color: "gray" }}>
-                      Bed Available: {hostel.hostelDetails.bedAvailableNow}
-                    </h6>
-                  </Col>
-
-                  <Col>
-                    <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      <span style={{ color: "gray" }}>Address</span>{" "}
+                      <h6 style={{ color: "gray" }}>HostelName & Address</h6>
                       {hostel.hostelDetails.fullDetails}
                       <h6 style={{ color: "gray" }}>
                         {hostel.hostelDetails.mainLocation}
                       </h6>
                     </h6>
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      <span style={{ color: "gray" }}>Booked</span>{" "}
+                      Category: {hostel.hostelDetails.category}
+                    </h6>
+                    <h6 style={{ margin: "20px", color: "#408B88" }}>
+                      Total Price ₹{hostel.totalAmount}
+                    </h6>
+                    {/* <h6 style={{ margin: "20px", color: "gray" }}>
+                      Bed Available: {hostel.hostelDetails.bedAvailableNow}
+                    </h6> */}
+                    <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+                      WIFI: {hostel.hostelDetails.Wifi}
+                    </h6>
+                    <h6 style={{ margin: "20px", color: "gray" ,textTransform:'capitalize'}}>
+                      Restrictions: {hostel.hostelDetails.restrictions}
+                    </h6>
+                    {/* <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+                      Food: {hostel.hostelDetails.food}
+                    </h6> */}
+                  </Col>
+
+                  <Col>
+                  <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+                      OnwerName: {hostel.sellerDetails[0].name}
+                    </h6>
+                   
+                  <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+                      OnwerName: {hostel.sellerDetails[0].email}
+                    </h6>
+                   
+                   
+                  <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+                      OnwerName: {hostel.sellerDetails[0].mobile}
+                    </h6>
+                   
+                    <h6 style={{ margin: "20px", color: "#408B88" }}>
+                      <span style={{ color: "gray" }}>Booked : </span>
                       {new Date(
                         hostel.hostelDetails.updatedAt
                       ).toLocaleDateString()}
                     </h6>
                   </Col>
                 </Row>
-                <Row className="mt-4">
+                {/* <Row className="mt-4">
                   <Button
                     style={{
                       width: "300px",
@@ -96,7 +119,7 @@ const MyBookings = () => {
                   >
                     Cancel Now
                   </Button>
-                </Row>
+                </Row> */}
               </Card>
             </div>
           </Button>
