@@ -8,7 +8,6 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 const EditHostel = () => {
   const location = useLocation()
   const navigate = useNavigate()
-  const receivedData = location.state.responseData;
   
   
   const [sellerInfo, setSellerInfo] = useState(null);
@@ -115,7 +114,7 @@ const EditHostel = () => {
 
       if (response) {
         if (response.data.hostelUpdated) {
-          navigate("/seller/listHostels");
+          navigate("/seller/listHostels",{state:{responseData:"HostelUpdated"}});
         } else {
           toast.error("Something went wrong in Adding hostel");
         }

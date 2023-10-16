@@ -2,11 +2,13 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import './style.css'
 
 function ListHostel() {
   const navigate = useNavigate()
+  const location = useLocation()
+
   const [sellerInfo, setSellerInfo] = useState(null);
   const [sellerIdStored, setSellerId] = useState("");
   const [data, setData] = useState([]);
