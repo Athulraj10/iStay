@@ -11,33 +11,34 @@ import React from "react";
 function Dashboard() {
   const [sellerInfo, setSellerInfo] = useState([]);
 
-  const [bookingCount,setBookingCount] = useState(0)
-  const [revenue,setRevenue] = useState(0)
-  const [enquery,setEnquery] = useState(0)
-  const [dailyRevenue,setDailyRevenue] = useState([0])
-  const [monthlyRevenue,setMonthlyRevenue] = useState([0])
-  const [messages,setMessages] = useState(0)
+  const [bookingCount, setBookingCount] = useState(0);
+  const [revenue, setRevenue] = useState(0);
+  const [enquery, setEnquery] = useState(0);
+  const [dailyRevenue, setDailyRevenue] = useState([0]);
+  const [monthlyRevenue, setMonthlyRevenue] = useState([0]);
+  const [messages, setMessages] = useState(0);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const storedSellerInfo = localStorage.getItem('sellerInfo');
+        const storedSellerInfo = localStorage.getItem("sellerInfo");
         const sellerInfo = JSON.parse(storedSellerInfo);
         if (sellerInfo) {
           setSellerInfo(sellerInfo);
         }
-        if(sellerInfo){
-          console.log(sellerInfo)
-          const response = await USERSAPI.get("/seller/dashboard",{
-            params:sellerInfo 
+        if (sellerInfo) {
+          console.log(sellerInfo);
+          const response = await USERSAPI.get("/seller/dashboard", {
+            params: sellerInfo,
           });
-          if(response){
-            console.log(response)
-            const { bookingCount,revenue,dailyRevenue,monthlyRevenue } = response.data;
-            setBookingCount(bookingCount)
-            setRevenue(revenue)
-            setMonthlyRevenue(monthlyRevenue)
-            setDailyRevenue(dailyRevenue)
+          if (response) {
+            console.log(response);
+            const { bookingCount, revenue, dailyRevenue, monthlyRevenue } =
+              response.data;
+            setBookingCount(bookingCount);
+            setRevenue(revenue);
+            setMonthlyRevenue(monthlyRevenue);
+            setDailyRevenue(dailyRevenue);
           }
         }
       } catch (error) {
@@ -49,16 +50,42 @@ function Dashboard() {
   }, []);
 
   const chartRef = React.createRef();
-  
-  const firstLabel = dailyRevenue.length && dailyRevenue[0]._id ? `${dailyRevenue[0]._id.day}/${dailyRevenue[0]._id.month}/${dailyRevenue[0]._id.year} Daily Revenue` : "No Revenue";
-  const secondLabel = monthlyRevenue.length && monthlyRevenue[0]._id ? `${monthlyRevenue[0]._id.month}/${monthlyRevenue[0]._id.year} Monthly Revenue` : "No Revenue";
-  
-  const firstData = dailyRevenue.length && dailyRevenue[0] ? `${dailyRevenue[0].totalAmount}` : 0.1;
-  const secondData = monthlyRevenue.length && monthlyRevenue[0] ? `${monthlyRevenue[0].totalAmount}` : 0.1;
-  
-  
+
+  const firstLabel =
+    dailyRevenue.length && dailyRevenue[0]._id
+      ? `${dailyRevenue[0]._id.day}/${dailyRevenue[0]._id.month}/${dailyRevenue[0]._id.year} Daily Revenue`
+      : "No Revenue";
+  const secondLabel =
+    monthlyRevenue.length && monthlyRevenue[0]._id
+      ? `${monthlyRevenue[0]._id.month}/${monthlyRevenue[0]._id.year} Monthly Revenue`
+      : "No Revenue";
+
+  const firstData =
+    dailyRevenue.length && dailyRevenue[0]
+      ? `${dailyRevenue[0].totalAmount}`
+      : 0.1;
+  const secondData =
+    monthlyRevenue.length && monthlyRevenue[0]
+      ? `${monthlyRevenue[0].totalAmount}`
+      : 0.1;
+
+  const today = new Date();
+  const labels = [today];
+  for (let i = 1; i < 4; i++) {
+    const date = new Date(today);
+    date.setDate(today.getDate() - i);
+    labels.push(date);
+  }
+  const formattedLabels = labels.map((date) => {
+    const day = date.getDate();
+    const month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  });
+
+
   const data = {
-    labels: [firstLabel, secondLabel, "Item 2", "Item 3", "Item 4"],
+    labels: formattedLabels,
     datasets: [
       {
         label: "Revenue",
@@ -106,7 +133,7 @@ function Dashboard() {
         myChart.destroy();
       }
     };
-  }, [dailyRevenue,monthlyRevenue]);
+  }, [dailyRevenue, monthlyRevenue]);
 
   const style = {
     margin: "10px", // Adjust margin as needed
@@ -127,14 +154,21 @@ function Dashboard() {
               <h4 className="text-center" style={{ color: "white" }}>
                 Messages
               </h4>
-              <h4 style={{ color: "green" }}>{messages !==null? messages:0} </h4>
+              <h4 style={{ color: "green" }}>
+                {messages !== null ? messages : 0}{" "}
+              </h4>
               {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
           <Col xs lg="2" style={style}>
             <Link to="/admin/listSellers" style={{ textDecoration: "none" }}>
-              <h4 className="text-center" style={{ color: "white" }}> Enquery</h4>
-              <h4 style={{ color: "green" }}>{enquery !== null ? enquery : 0 }</h4>
+              <h4 className="text-center" style={{ color: "white" }}>
+                {" "}
+                Enquery
+              </h4>
+              <h4 style={{ color: "green" }}>
+                {enquery !== null ? enquery : 0}
+              </h4>
               {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
@@ -155,10 +189,18 @@ function Dashboard() {
             </Link>
           </Col>
         </Row>
-        <div style={{ display: 'flex', justifyContent: 'right', alignItems: 'right',marginLeft:'150px', height: '500px', width: '1000px' }}>
-  <canvas ref={chartRef}></canvas>
-</div>
-
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "right",
+            alignItems: "right",
+            marginLeft: "150px",
+            height: "500px",
+            width: "1000px",
+          }}
+        >
+          <canvas ref={chartRef}></canvas>
+        </div>
       </Container>
     </div>
   );

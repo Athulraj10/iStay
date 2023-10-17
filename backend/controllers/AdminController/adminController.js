@@ -260,6 +260,23 @@ const adminResetPassword = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
+
+const revenueFunction = asyncHandler(async(req,res)=>{
+  try {
+    const totalRevenueGenerate = await Booking.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$totalAmount" }
+        }
+      }
+    ]);
+    return totalRevenueGenerate
+  } catch (error) {
+    console.error(error)
+  }
+})
+
 // ----------------------------Dashboard Values------------------------------
 const dashboardValuesCount = asyncHandler(async (req, res) => {
   try {
@@ -270,14 +287,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const userBlockCount = await User.countDocuments({isBlock:true});
     const sellerBlockCount = await Seller.countDocuments({isBlock:true});
     const hostelBlockCount = await Hostel.countDocuments({isBlock:true});
-    const revenue = await Booking.aggregate([
-      {
-        $group: {
-          _id: null,
-          totalAmount: { $sum: "$totalAmount" }
-        }
-      }
-    ]);
+    const revenue = await revenueFunction();
 
     
     if (!userCount) {

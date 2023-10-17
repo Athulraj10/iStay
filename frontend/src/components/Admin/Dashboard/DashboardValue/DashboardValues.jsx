@@ -20,6 +20,8 @@ function dashboardValues() {
   
   const [totalBookingCount, setBookingCount] = useState(0);
   const [totalRevenue, setRevenue] = useState(0);
+
+
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -33,8 +35,7 @@ function dashboardValues() {
           hostelBlockCount,
           bookingCount,
           revenue
-        }
-           = res.data // Access the data property
+        } = res.data
         setTotalSeller(sellerCount)
         setTotalBlockSeller(sellerBlockCount)
         setTotalHostel(hostelCount)
@@ -66,14 +67,19 @@ function dashboardValues() {
   };
 
   const chartRef = React.createRef();
+  
+  // const firstLabel = totalRevenue.length && totalRevenue[0]._id ? `${totalRevenue[0]._id.day}/${totalRevenue[0]._id.month}/${totalRevenue[0]._id.year} Daily Revenue` : "No Revenue";
+  // const secondLabel = monthlyRevenue.length && monthlyRevenue[0]._id ? `${monthlyRevenue[0]._id.month}/${monthlyRevenue[0]._id.year} Monthly Revenue` : "No Revenue";
+  const firstData = totalRevenue ? totalRevenue : 0.1;
+  // const secondData = monthlyRevenue.length && monthlyRevenue[0] ? `${monthlyRevenue[0].totalAmount}` : 0.1;
 
-  // Sample data for the chart
+  
   const data = {
-    labels: ["Item 1", "TotalRevenue", "Item 2", "Item 2", "Item 3", "Item 4"],
+    labels: ['October',' November', 'December'],
     datasets: [
       {
-        label: "Revenue Graph",
-        data: [totalRevenue, 19, 3, 5, 3, 5],
+        label: "Revenue",
+        data: [firstData,0.1, 0.1],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -117,7 +123,8 @@ function dashboardValues() {
         myChart.destroy();
       }
     };
-  }, []);
+  }, [totalRevenue]);
+
 
   return (
     <Container style={{height:'100vh'}}>
