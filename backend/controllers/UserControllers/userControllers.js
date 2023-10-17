@@ -303,13 +303,17 @@ const findAccommodation = asyncHnadler(async (req, res) => {
 const singlePageView = asyncHnadler(async (req, res) => {
   try {
     const hostel = await Hostel.find({ _id: req.body.id });
+    const review = await HostelReview.find({ hostel: req.body.id });
     if (!hostel) {
-      return res
-        .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+      return res.status(404).json({ message: "Something Wrong Please Try Again" });
     }
+  
     if (hostel) {
-      res.status(200).json({ data: hostel });
+      const responseData = {
+        data: hostel,
+        review: review || null, // Send review data if available, or null if not
+      };
+      res.status(200).json(responseData);
     }
   } catch (error) {
     console.error(error);
@@ -418,10 +422,10 @@ const addReview=asyncHnadler(async(req,res)=>{
     }
     const hostelReviewAdded = await review.save();
     if(!hostelReviewAdded){
-      return res.status(404).json({message:'Internal Error'})
+      return res.status(404).json({review:false,message:'Internal Error'})
     }
     if(hostelReviewAdded){
-      return res.status(200).json({message:'Review Added Successfully'})
+      return res.status(200).json({review:true,message:'Review Added Successfully'})
     }
   } catch (error) {
     console.error(error)

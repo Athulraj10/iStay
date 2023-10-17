@@ -20,6 +20,7 @@ const SingleViewHostel = () => {
   const hostel = location.state.hostel;
   const [showModal, setShowModal] = useState(false);
 
+  const [added, setAdded] = useState(false)
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userInfo, setUserInfo] = useState([]);
@@ -97,16 +98,23 @@ const SingleViewHostel = () => {
           },
         }
       );
-
-      // if (response) {
-      //   if (response.data.hostelAdded) {
-      //     navigate("/seller/listHostels");
-      //   } else {
-      //     toast.error("Something went wrong in Adding hostel");
-      //   }
-      // } else {
-      //   toast.error("Form data submission failed");
-      // }
+      if (response) {
+        if (response.data.review) {
+          setFormData({
+            sellerId: "",
+            hostelId: "",
+            hostelReview: "",
+            files: [],
+          });
+          setShowModal(false);
+          setAdded(true);
+          toast.success(response.data.message);
+        } else {
+          toast.error("Something went wrong in Hostel Review");
+        }
+      } else {
+        toast.error("Form data submission failed");
+      }
     } catch (error) {
       console.error(error);
       // Display the error message as a toast notification
@@ -119,9 +127,7 @@ const SingleViewHostel = () => {
   // if (res.data.message) {
   //   toast.success("Successfully added");
   // }
-  // setNewCategory("");
-  // setShowModal(false);
-  // setAdded(true);
+  
 
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
@@ -154,8 +160,7 @@ const SingleViewHostel = () => {
       }
     };
     fetchData(hostel._id);
-  }, []);
-
+  }, [added]);
   return (
     <div>
       <Container style={{ color: "white", height: "100vh" }}>
