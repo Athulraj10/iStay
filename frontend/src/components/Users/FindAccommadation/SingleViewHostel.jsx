@@ -20,9 +20,6 @@ const SingleViewHostel = () => {
   const hostel = location.state.hostel;
   const [showModal, setShowModal] = useState(false);
 
-
-
-
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userInfo, setUserInfo] = useState([]);
@@ -57,59 +54,75 @@ const SingleViewHostel = () => {
     }
   };
   const [formData, setFormData] = useState({
-    userId:"", // Make sure you set userId and hostelId as needed
+    userId: "", // Make sure you set userId and hostelId as needed
     hostelId: "",
     hostelReview: "",
     files: [], // Store the primary image here
   });
-  
+
   const [imageUrls, setImageUrls] = useState([]);
-  
+
   const handleAddPhoto = (e) => {
     const files = e.target.files;
     const selectedFiles = Array.from(files).slice(0, 10);
     const newFiles = Array.from(files);
     const newImageUrls = newFiles.map((file) => URL.createObjectURL(file));
-  
+
     setFormData({
       ...formData,
       files: [...formData.files, ...newFiles],
     });
     setImageUrls([...imageUrls, ...newImageUrls]);
   };
-  
+
   const addReview = async (e) => {
     e.preventDefault();
+    const storedUserInfo = localStorage.getItem("userInfo");
+    const userInfo = JSON.parse(storedUserInfo);
     const formDataToSend = new FormData();
-    formDataToSend.append("userId", formData.userId);
+    formDataToSend.append("userId", userInfo._id);
     formDataToSend.append("hostelId", formData.hostelId);
     formDataToSend.append("description", formData.hostelReview);
-  
+
     formData.files.forEach((file) => {
       formDataToSend.append("files", file);
     });
-    
-    console.log(formData)
+    try {  
+    const response = await USERSAPI.post(
+        "users/addreview",
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
 
-    // Now you can send formDataToSend to your server for further processing.
-    // You might use an Axios POST request or any other suitable method.
-    // try {
-      //   let res = await USERSAPI.post("admin/adminCategory", {
-        //     categoryName: newCategory,
-        //   });
-    //   console.log(res);
-    //   if (res.data.message) {
-      //     toast.success("Successfully added");
+      // if (response) {
+      //   if (response.data.hostelAdded) {
+      //     navigate("/seller/listHostels");
+      //   } else {
+      //     toast.error("Something went wrong in Adding hostel");
       //   }
-      //   setNewCategory("");
-      //   setShowModal(false);
-      //   setAdded(true);
-      // } catch (error) {
-        //   return toast.error(error.response.data.message);
-        // }
-    };
-      
-      
+      // } else {
+      //   toast.error("Form data submission failed");
+      // }
+    } catch (error) {
+      console.error(error);
+      // Display the error message as a toast notification
+      toast.error(error.response.data.message, {
+        position: "top-right", // You can customize the position if needed
+        autoClose: 5000, // How long the toast will be displayed (in milliseconds)
+      });
+    }
+  };
+  // if (res.data.message) {
+  //   toast.success("Successfully added");
+  // }
+  // setNewCategory("");
+  // setShowModal(false);
+  // setAdded(true);
+
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
   };
@@ -119,10 +132,6 @@ const SingleViewHostel = () => {
     const userInfo = JSON.parse(storedUserInfo);
     if (userInfo) {
       setUserInfo(userInfo);
-      setFormData({
-        ...formData,
-        userId: userInfo._id 
-      });
     }
   }, []);
 
@@ -136,15 +145,16 @@ const SingleViewHostel = () => {
         if (response.data) {
           setHostelData(response.data.data);
           setFormData({
-            ...formData,hostelId:response.data.data[0]._id
-          })
+            ...formData,
+            hostelId: response.data.data[0]._id,
+          });
         }
       } catch (error) {
         console.error(error);
       }
     };
     fetchData(hostel._id);
-  },[]);
+  }, []);
 
   return (
     <div>
@@ -493,20 +503,21 @@ const SingleViewHostel = () => {
                 <Modal.Title>Add Review</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-              <Form.Group>
-  <input
-    type="file"
-    accept="image/*"
-    multiple
-    onChange={handleAddPhoto}
-  />
-  <textarea
-    value={formData.hostelReview}
-    onChange={(e) => setFormData({ ...formData, hostelReview: e.target.value })}
-    placeholder="Enter your review description"
-  />
-</Form.Group>
-
+                <Form.Group>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleAddPhoto}
+                  />
+                  <textarea
+                    value={formData.hostelReview}
+                    onChange={(e) =>
+                      setFormData({ ...formData, hostelReview: e.target.value })
+                    }
+                    placeholder="Enter your review description"
+                  />
+                </Form.Group>
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => setShowModal(false)}>

@@ -13,6 +13,7 @@ import {
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import { Stripe } from "stripe";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
+import HostelReview from '../../models/SellerModel/Review.js';
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
@@ -398,7 +399,34 @@ const myBookings = asyncHnadler(async(req,res)=>{
     console.error(error)
   }
 } )
-
+const addReview=asyncHnadler(async(req,res)=>{
+  const {userId,hostelId,description}= req.body
+  try {
+    const review = new HostelReview({
+      user:userId,
+      hostel:hostelId,
+      content:description
+    })
+    if (req.files) {
+      const uploadedFiles = req.files;
+      let fileUrls = [];
+      for (let file of uploadedFiles) {
+        const filePath = file.filename;
+        fileUrls.push(filePath);
+      }
+      review.images = fileUrls;
+    }
+    const hostelReviewAdded = await review.save();
+    if(!hostelReviewAdded){
+      return res.status(404).json({message:'Internal Error'})
+    }
+    if(hostelReviewAdded){
+      return res.status(200).json({message:'Review Added Successfully'})
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 
 
@@ -476,5 +504,5 @@ export {
   singlePageView,
   bookHostel,
   bookingConfirmation,
-  myBookings
+  myBookings,addReview
 };

@@ -441,7 +441,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
           const filePath = file.filename;
           fileUrls.push(filePath);
         }
-        hostelData.images = fileUrls;
+        re.images = fileUrls;
       }
       const hosteldetails = await hostelData.save();
 

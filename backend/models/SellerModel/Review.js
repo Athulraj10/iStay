@@ -14,7 +14,6 @@ const reviewModel = mongoose.Schema(
       ref: "Hostel",
       required: true,
     },
-
     images: {
       type: [String],
       required: false,
