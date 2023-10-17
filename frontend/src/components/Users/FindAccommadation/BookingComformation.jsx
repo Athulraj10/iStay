@@ -14,11 +14,6 @@ const BookingComformation = () => {
   const userId = searchParams.get("userId");
   const hostelId = searchParams.get("hostel");
 
-  // useEffect(() => {
-  //   if (hostelData !== null) {
-  //   }
-  // }, [hostelData]);
-
   useEffect(() => {
     const fetchData = async () => {
       const verificationLocalStorage = localStorage.getItem("bookingStarted");

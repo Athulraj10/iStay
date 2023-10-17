@@ -317,7 +317,7 @@ const SingleViewHostel = () => {
       <Container>
         {/* Hostel Details */}
 
-        <Row style={{ marginTop: "10px" }}>
+        <Row style={{ marginTop: "50px" }}>
           <Col md={12}>
             <div
               className="btn-info"
@@ -509,11 +509,40 @@ const SingleViewHostel = () => {
         >
           <Button onClick={() => setShowModal(true)}>Add review</Button>
         </div>
-      </Container>
-      {reviews && reviews.length > 0 ? (
+
+        <div style={{ display: "flex" }}>
+        {reviews && reviews.length > 0 ? (
           reviews.map((review, index) => (
-            <div className="containerss">
-              <div className="boxx">Box 1</div>
+            <div
+              style={{ display: "flex", background: "white", marginLeft: "100px" ,borderRadius:'10px'}}
+            >
+              <div
+                key={index}
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  margin: "10px",
+                  height:'110px'
+                }}
+              >
+                <div >
+                  {review.images && review.images.length > 0
+                    ? review.images.map((image, imageIndex) => (
+                        <img
+                          key={imageIndex}
+                          src={`http://localhost:5000/image/${image}`}
+                          alt={`Image`}
+                          className="event-image rounded-3"
+                          style={{ height: "100px", width: "100px",margin:'5px' }}
+                        />
+                      ))
+                    : null}
+                </div>
+                <div style={{ flex: 1 ,width:'200px',maxWidth:"300"}}>
+                {review.content.substring(0, 100)}
+                </div>
+              </div>
             </div>
           ))
         ) : (
@@ -536,6 +565,12 @@ const SingleViewHostel = () => {
             </h1>
           </div>
         )}
+      </div>
+
+
+      </Container>
+
+   
     </div>
   );
 };

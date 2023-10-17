@@ -41,7 +41,7 @@ router.post('/findAccommodation',findAccommodation)
 router.post('/findAccommodation/singlePageView',singlePageView)
 router.post('/bookingHostel',bookHostel)
 router.get('/bookingConfirmation/',bookingConfirmation)
-router.post('/addReview',upload.array('files',5),addReview)
+router.post('/addReview',upload.array('files',3),addReview)
 
 router.get('/myBookings',myBookings)
 
