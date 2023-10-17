@@ -1,5 +1,5 @@
 import asyncHandler from "express-async-handler";
-import  mongoose from 'mongoose';
+import mongoose from "mongoose";
 import nodemailer from "nodemailer";
 import {
   sessionSecret,
@@ -93,39 +93,64 @@ const authSeller = asyncHandler(async (req, res) => {
   });
 });
 
-
-const dateViseSort = async (sellerId) => {
-  const today = new Date(); // Current date
-  const dayBeforeYesterday = new Date(today);
-  dayBeforeYesterday.setDate(today.getDate() - 2);
-  const startOfDay = new Date(dayBeforeYesterday);
-  const endOfDay = new Date(today);
-
-  try {
-    const result = await Booking.aggregate([
-      {
-        $match: {
-          // sellerId: mongoose.Types.ObjectId(sellerId), // Use 'new' with ObjectId
-          sellerId:sellerId, // Use 'new' with ObjectId
-          date: {
-            $gte: startOfDay,
-            $lte: endOfDay,
-          },
+// Aggregate daily sales for a specific seller
+const aggregateDailySales = async (sellerId, startDate, endDate) => {
+  console.log(sellerId);
+  
+  // Ensure that sellerId is a valid ObjectId
+  const sellerObjectId = mongoose.Types.ObjectId(sellerId);
+  
+  const result = await Booking.aggregate([
+    {
+      $match: {
+        seller: sellerObjectId, // Use the ObjectId
+        date: {
+          $gte: startDate, // Start date
+          $lte: endDate, // End date
         },
       },
-      {
-        $group: {
-          _id: "$date",
-          totalAmount: { $sum: "$amount" },
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$date" },
+          month: { $month: "$date" },
+          day: { $dayOfMonth: "$date" },
+        },
+        totalAmount: { $sum: "$totalAmount" },
+      },
+    },
+  ]);
+
+  return result;
+};
+
+
+// Aggregate monthly sales for a specific seller
+const aggregateMonthlySales = async (sellerId, startDate, endDate) => {
+  const result = await Booking.aggregate([
+    {
+      $match: {
+        // seller: mongoose.Types.ObjectId(sellerId), // Filter by sellerId
+        seller: sellerId, // Filter by sellerId
+        date: {
+          $gte: startDate, // Start date
+          $lte: endDate, // End date
         },
       },
-    ]);
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$date" },
+          month: { $month: "$date" },
+        },
+        totalAmount: { $sum: "$totalAmount" },
+      },
+    },
+  ]);
 
-    return result;
-  } catch (error) {
-    console.error('Error in dateViseSort:', error);
-    throw error;
-  }
+  return result;
 };
 
 // -------------------Register New seller---------------------------
@@ -247,8 +272,13 @@ const dashboardValues = asyncHandler(async (req, res) => {
       },
     ]);
 
-    const dateSort =await dateViseSort(sellerId)
-    console.log(dateSort)
+    const today = new Date(); // Current date
+    const dayBeforeYesterday = new Date(today);
+    dayBeforeYesterday.setDate(today.getDate() - 2);
+    const startOfDay = new Date(dayBeforeYesterday);
+    const endOfDay = new Date(today);
+    const dateSort = await aggregateDailySales(sellerId,startOfDay,endOfDay);
+    console.log(dateSort);
 
     return res.status(200).json({
       bookingCount: bookingCount || 0,

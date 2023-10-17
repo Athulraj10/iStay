@@ -25,7 +25,7 @@ const BookingComformation = () => {
       if (userId && hostelId && verificationLocalStorage) {
         try {
           localStorage.removeItem("bookingStarted");
-          const response = await USERSAPI.get("/users/bookingConfirmation", {
+          const response = await USERSAPI.get("/users/bookingConfirmation",{
             params: { userId, hostelId },
           });
 
