@@ -355,12 +355,14 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
     const hostelDatas = await singleHostelFinding(hostelId);
     let price = parseFloat(hostelDatas.price);
     let extraPrice = parseFloat(hostelDatas.extraPrice);
+    let sellerId = hostelDatas.seller
     let totalAmount = price + extraPrice;
 
     if (userId && hostelId) {
       const conformBooking = new Booking({
         user: userId,
         hostel: hostelId,
+        seller: sellerId,
         totalAmount: totalAmount,
         paymentMethod: "Card",
         paymentVia: "Stripe",

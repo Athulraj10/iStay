@@ -12,16 +12,28 @@ function Dashboard() {
   const [totalUsers, settotalUsers] = useState([]);
   const [totalSeller, setTotalSeller] = useState([]);
   const [totalHostel, setTotalHostel] = useState([]);
+  const [sellerInfo, setSellerInfo] = useState([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await USERSAPI.post("admin/usersCount");
-        const { userCount, sellerCount, hostelCount } = res.data; // Access the data property
-        setTotalSeller(sellerCount);
-        setTotalHostel(hostelCount);
-        settotalUsers(userCount);
-        setLoading(false);
+        const storedSellerInfo = localStorage.getItem('sellerInfo');
+        const sellerInfo = JSON.parse(storedSellerInfo);
+        if (sellerInfo) {
+          setSellerInfo(sellerInfo);
+        }
+        if(sellerInfo){
+          console.log(sellerInfo)
+          const response = await USERSAPI.get("/seller/dashboard",{
+            params:sellerInfo 
+          });
+
+        // const { userCount, sellerCount, hostelCount } = res.data; // Access the data property
+        // setTotalSeller(sellerCount);
+        // setTotalHostel(hostelCount);
+        // settotalUsers(userCount);
+        // setLoading(false);
+        }
       } catch (error) {
         toast.error(error.message);
         setLoading(false);

@@ -12,6 +12,11 @@ const bookingModel = mongoose.Schema({
         ref: 'Hostel', 
         required:true
       },
+    seller: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Seller', 
+        required:true
+      },
       paymentMethod:{
         type:String,
         required:true

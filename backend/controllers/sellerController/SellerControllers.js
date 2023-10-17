@@ -5,6 +5,7 @@ import Seller from '../../models/SellerModel/SellerModel.js'
 import OTP from '../../models/OTPModel.js'
 import generateToken from "../../utils/generateToken.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
+import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 
 //@desc forgetOTP
 //access Public
@@ -190,6 +191,45 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
+
+
+const dashboardValues = asyncHandler(async(req,res)=>{
+  try {
+    const sellerId = req.query._id
+    const bookingCount = await Booking.countDocuments({seller:sellerId});
+    const revenue = await Booking.aggregate([
+      {
+        $unwind: '$seller'
+      },
+      {
+        $group: {
+          _id: '$seller',
+          totalAmount: { $sum: '$totalAmount' }
+        }
+      }
+    ]);
+    
+
+    
+    // if (!das) {
+    //   return res
+    //     .status(404)
+    //     .json({ message: "Something Wrong Please Try Again" });
+    // }
+    // if (das) {
+    //   return res.status(200).json({
+
+    //     bookingCount,
+    //     revenue:revenue[0].totalAmount
+        
+    //   });
+    // }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+})
+
 
 // ----------------------------List seller Hostels-------------
 const listHostels =  asyncHandler(async(req,res) =>{
@@ -429,6 +469,8 @@ export {
   sellerVerifyOTP,
   sellersResetPassword,
 
+  //Dashboard Values
+  dashboardValues,
 
   // LIST HOSTEL
   listHostels,

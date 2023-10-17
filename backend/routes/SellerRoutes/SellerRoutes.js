@@ -11,7 +11,8 @@ import {
   editHostel,
   editHostelDetails,
   addHostelDetails,
-
+  // ----------dashboard management---------
+  dashboardValues,
 
   logoutSeller,
 } from "../../controllers/sellerController/SellerControllers.js";
@@ -37,6 +38,10 @@ sellerRoute.post("/login", authSeller);
 sellerRoute.post("/forget", sellerForget);
 sellerRoute.post("/verifyOTP", sellerVerifyOTP);
 sellerRoute.post("/resetPassword",sellersResetPassword);
+
+
+// -----------Dashboard Manageing-----------
+sellerRoute.get("/dashboard",dashboardValues)
 
 
 // -----------hostel Manageing-----------
