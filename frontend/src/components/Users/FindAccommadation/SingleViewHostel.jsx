@@ -236,12 +236,13 @@ const SingleViewHostel = () => {
               />
             ))}
         </div>
+        
       </Container>
-
-      
+<Container>
+   
       {/* Hostel Details */}
 
-      <Row style={{marginTop:'80px'}}>
+      <Row style={{marginTop:'10px'}}>
         <Col md={12}>
           <div
             className="btn-info"
@@ -392,26 +393,33 @@ const SingleViewHostel = () => {
       </Row>
 
       {/* ------------Loop total review */}
-      <Row style={{ margin: "100px", marginTop: "30px" }}>
-        <Card style={{ width: "18rem" }}>
-          <Card.Img variant="top" src="holder.js/100px180" />
-          <Card.Body>
-            <Card.Title>User Review</Card.Title>
-            <Card.Text>
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <Button variant="primary">Review</Button>
-          </Card.Body>
-        </Card>
-      </Row>
+  
+  
+      <Row xs={1} md={3} className="g-5 m-1">
+      {Array.from({ length: 3 }).map((_, idx) => (
+        <Col key={idx}>
+          <Card>
+            <div style={{display:'flex'}}>
+            <Card.Img variant="top" src="holder.js/100px160" />
+            <Card.Img variant="top" src="holder.js/100px160" />
+            <Card.Img variant="top" src="holder.js/100px160" />
+            <Card.Img variant="top" src="holder.js/100px160" />
+            </div>
+            <Card.Body>
+              <Card.Title>Card title</Card.Title>
+              <Card.Text>
+                This is a longer card with supporting text below as a natural
+                lead-in to additional content. This content is a little bit
+                longer.
+              </Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      ))}
+    </Row>
 
-      <Row className="justify-content-center" style={{border:'1px solid gray'}}>
-        <Card style={{ background: "transparent", color: "white"}}>
-          <Card.Body className="text-center" style={{border:'1px solid gray'}}>4.1 Very Good</Card.Body>
-          <Card.Body className="text-center" style={{border:'1px solid gray'}}>Total Review Details</Card.Body>
-        </Card>
-      </Row>
+</Container>
+     
     </div>
   );
 };
