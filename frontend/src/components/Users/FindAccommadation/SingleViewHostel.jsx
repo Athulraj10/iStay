@@ -468,35 +468,35 @@ const SingleViewHostel = () => {
         </Row>
 
         <Modal show={showModal} onHide={() => setShowModal(false)}>
-              <Modal.Header closeButton>
-                <Modal.Title>Add Review</Modal.Title>
-              </Modal.Header>
-              <Modal.Body>
-                <Form.Group>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleAddPhoto}
-                  />
-                  <textarea
-                    value={formData.hostelReview}
-                    onChange={(e) =>
-                      setFormData({ ...formData, hostelReview: e.target.value })
-                    }
-                    placeholder="Enter your review description"
-                  />
-                </Form.Group>
-              </Modal.Body>
-              <Modal.Footer>
-                <Button variant="secondary" onClick={() => setShowModal(false)}>
-                  Close
-                </Button>
-                <Button variant="primary" onClick={addReview}>
-                  Save
-                </Button>
-              </Modal.Footer>
-            </Modal>
+          <Modal.Header closeButton>
+            <Modal.Title>Add Review</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form.Group>
+              <input
+                type="file"
+                accept="image/*"
+                multiple
+                onChange={handleAddPhoto}
+              />
+              <textarea
+                value={formData.hostelReview}
+                onChange={(e) =>
+                  setFormData({ ...formData, hostelReview: e.target.value })
+                }
+                placeholder="Enter your review description"
+              />
+            </Form.Group>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowModal(false)}>
+              Close
+            </Button>
+            <Button variant="primary" onClick={addReview}>
+              Save
+            </Button>
+          </Modal.Footer>
+        </Modal>
 
         <div
           style={{
@@ -504,23 +504,32 @@ const SingleViewHostel = () => {
             flexDirection: "row",
             alignItems: "center",
             justifyContent: "center",
-            margin:'20px'
+            margin: "20px",
           }}
         >
           <Button onClick={() => setShowModal(true)}>Add review</Button>
         </div>
 
         {reviews && reviews.length > 0 ? (
+          
           reviews.map((review, index) => (
             <div
               style={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
+                display: "flex"
               }}
             >
-              <Card key={index} style={{ width: "18rem", margin: "20px" }}>
-                <Card.Img variant="top" src={review.imageSrc} />
+              <Card style={{ width: "18rem", margin: "20px" }}>
+                {review.images && review.images.length > 0
+                  ? review.images.map((image, imageIndex) => (
+                      <img
+                        key={imageIndex}
+                        src={`http://localhost:5000/image/${image}`}
+                        alt={`Image`}
+                        className="event-image rounded-3"
+                        style={{ height: "100px", width: "100px" }}
+                      />
+                    ))
+                  : null}
                 <Card.Body>
                   {/* <Card.Title>{review.title}</Card.Title> */}
                   <Card.Text>{review.content}</Card.Text>
@@ -530,27 +539,23 @@ const SingleViewHostel = () => {
             </div>
           ))
         ) : (
-          <div>
-            <div
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <h1
               style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
+                textAlign: "center",
+                marginTop: "20px",
+                color: "white",
               }}
             >
-              <h1
-                style={{
-                  textAlign: "center",
-                  marginTop: "20px",
-                  color: "white",
-                }}
-              >
-                No reviews available
-              </h1>
-              </div>
-
-        
+              No reviews available
+            </h1>
           </div>
         )}
       </Container>
