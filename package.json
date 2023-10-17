@@ -24,6 +24,7 @@
     "mongoose": "^7.5.2",
     "multer": "^1.4.5-lts.1",
     "nodemailer": "^6.9.5",
+    "react-modal": "^3.16.1",
     "stripe": "^13.10.0",
     "tw-elements-react": "^1.0.0-alpha1"
   },

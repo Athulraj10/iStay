@@ -1,14 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
-import { Container, Button, Card, ListGroup, Col, Row } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Card,
+  ListGroup,
+  Col,
+  Row,
+} from "react-bootstrap";
 import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
+import { Modal } from "react-bootstrap";
 import "./style.css";
 
 const SingleViewHostel = () => {
   const location = useLocation();
   const hostel = location.state.hostel;
+
+  const [added, setAdded] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [newCategory, setNewCategory] = useState("");
+  const [allCategories, setAllCategories] = useState([]);
+  const [editCategoryModalVisible, setEditCategoryModalVisible] =
+    useState(false);
+  const [editedCategory, setEditedCategory] = useState({ id: "", name: "" });
+  const addCategory = async () => {
+    try {
+      let res = await USERSAPI.post("admin/adminCategory", {
+        categoryName: newCategory,
+      });
+      console.log(res);
+      if (res.data.message) {
+        toast.success("Successfully added");
+      }
+      setNewCategory("");
+      setShowModal(false);
+      setAdded(true);
+    } catch (error) {
+      return toast.error(error.response.data.message);
+    }
+  };
+
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userInfo, setUserInfo] = useState([]);
@@ -45,6 +79,7 @@ const SingleViewHostel = () => {
   const handleReview = () => {
     const response = USERSAPI.get("");
   };
+
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
@@ -394,20 +429,51 @@ const SingleViewHostel = () => {
             </Card>
           ))
         ) : (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1
-              style={{ textAlign: "center", marginTop: "20px", color: "white" }}
+          <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
             >
-              No reviews available
-            </h1>
-            <Button onClick={handleReview}>Add review</Button>
+              <h1
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  color: "white",
+                }}
+              >
+                No reviews available
+              </h1>
+              <Button onClick={() => setShowModal(true)}>Add review</Button>
+            </div>
+
+            <Modal show={showModal} onHide={() => setShowModal(false)}>
+              <Modal.Header closeButton>
+                <Modal.Title>Add Category</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <Form.Group>
+                  <Form.Label>Category Name</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Enter category name"
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value)}
+                  />
+                </Form.Group>
+              </Modal.Body>
+              <Modal.Footer>
+                <Button variant="secondary" onClick={() => setShowModal(false)}>
+                  Close
+                </Button>
+                <Button variant="primary" onClick={addCategory}>
+                  Save
+                </Button>
+              </Modal.Footer>
+            </Modal>
           </div>
         )}
       </Container>

@@ -131,7 +131,30 @@ const Category = () => {
         </Table>
       </div>
       {/* Modal for adding a new category */}
-     
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Add Category</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group>
+            <Form.Label>Category Name</Form.Label>
+            <Form.Control
+              type='text'
+              placeholder='Enter category name'
+              value={newCategory}
+              onChange={(e) => setNewCategory(e.target.value)}
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant='secondary' onClick={() => setShowModal(false)}>
+            Close
+          </Button>
+          <Button variant='primary' onClick={addCategory}>
+            Save
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
       {/* Modal for editing a category */}
       <Modal show={editCategoryModalVisible} onHide={() => setEditCategoryModalVisible(false)}>
