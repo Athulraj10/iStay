@@ -1,8 +1,13 @@
-import asyncHandler from "express-async-handler";;
+import asyncHandler from "express-async-handler";
+import  mongoose from 'mongoose';
 import nodemailer from "nodemailer";
-import { sessionSecret, emailUser, NewAppPassword } from "../../config/config.js";
-import Seller from '../../models/SellerModel/SellerModel.js'
-import OTP from '../../models/OTPModel.js'
+import {
+  sessionSecret,
+  emailUser,
+  NewAppPassword,
+} from "../../config/config.js";
+import Seller from "../../models/SellerModel/SellerModel.js";
+import OTP from "../../models/OTPModel.js";
 import generateToken from "../../utils/generateToken.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
@@ -74,7 +79,7 @@ const authSeller = asyncHandler(async (req, res) => {
   if (seller && (await seller.matchPassword(password))) {
     // Assuming generateToken is a valid function
     const token = generateToken(res, seller._id); // Pass res as the first argument
-    
+
     return res.status(201).json({
       _id: seller._id,
       name: seller.name,
@@ -87,6 +92,41 @@ const authSeller = asyncHandler(async (req, res) => {
     message: "Invalid Email or Password",
   });
 });
+
+
+const dateViseSort = async (sellerId) => {
+  const today = new Date(); // Current date
+  const dayBeforeYesterday = new Date(today);
+  dayBeforeYesterday.setDate(today.getDate() - 2);
+  const startOfDay = new Date(dayBeforeYesterday);
+  const endOfDay = new Date(today);
+
+  try {
+    const result = await Booking.aggregate([
+      {
+        $match: {
+          // sellerId: mongoose.Types.ObjectId(sellerId), // Use 'new' with ObjectId
+          sellerId:sellerId, // Use 'new' with ObjectId
+          date: {
+            $gte: startOfDay,
+            $lte: endOfDay,
+          },
+        },
+      },
+      {
+        $group: {
+          _id: "$date",
+          totalAmount: { $sum: "$amount" },
+        },
+      },
+    ]);
+
+    return result;
+  } catch (error) {
+    console.error('Error in dateViseSort:', error);
+    throw error;
+  }
+};
 
 // -------------------Register New seller---------------------------
 //@desc createing new  user
@@ -111,16 +151,15 @@ const registerSeller = asyncHandler(async (req, res) => {
     mobile,
   });
 
-  if(sellerRegister){
-    generateToken(res,sellerRegister._id);
+  if (sellerRegister) {
+    generateToken(res, sellerRegister._id);
     res.status(201).json({
-      _id:sellerRegister._id,
-      name:sellerRegister.name,
-      email:sellerRegister.email
-    })
+      _id: sellerRegister._id,
+      name: sellerRegister.name,
+      email: sellerRegister.email,
+    });
   }
 });
-
 
 // -------------------Forget Password Seller Verification---------------------------
 //@desc Auth user/set token
@@ -128,11 +167,11 @@ const registerSeller = asyncHandler(async (req, res) => {
 //route POST// /api/users
 const sellerForget = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  console.log(req.body)
+  console.log(req.body);
   const seller = await Seller.findOne({ email });
   if (!seller) {
     return res.status(401).json({
-      message: "Invalid Email"
+      message: "Invalid Email",
     });
   }
   if (seller) {
@@ -141,7 +180,7 @@ const sellerForget = asyncHandler(async (req, res) => {
     console.log(OTPgenerated);
     const saveOrNot = await OTPsaveFunction(seller.email, OTPgenerated);
     return res.json({
-      email
+      email,
     });
   }
 });
@@ -173,7 +212,7 @@ const sellerVerifyOTP = asyncHandler(async (req, res) => {
 // ----------------------------Reset Password-------------
 const sellersResetPassword = asyncHandler(async (req, res) => {
   const { userId, password } = req.body;
-  console.log(req.body)
+  console.log(req.body);
   try {
     const seller = await Seller.findOne({ email: userId });
     if (!seller) {
@@ -192,61 +231,61 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
   }
 });
 
-
-const dashboardValues = asyncHandler(async(req,res)=>{
+const dashboardValues = asyncHandler(async (req, res) => {
   try {
-    const sellerId = req.query._id
-    const bookingCount = await Booking.countDocuments({seller:sellerId});
+    const sellerId = req.query._id;
+    const bookingCount = await Booking.countDocuments({ seller: sellerId });
     const revenue = await Booking.aggregate([
       {
-        $unwind: '$seller'
+        $unwind: "$seller",
       },
       {
         $group: {
-          _id: '$seller',
-          totalAmount: { $sum: '$totalAmount' }
-        }
-      }
+          _id: "$seller",
+          totalAmount: { $sum: "$totalAmount" },
+        },
+      },
     ]);
 
+    const dateSort =await dateViseSort(sellerId)
+    console.log(dateSort)
+
     return res.status(200).json({
-          bookingCount:bookingCount||0,
-          revenue:revenue[0].totalAmount||0
-    })
-    
+      bookingCount: bookingCount || 0,
+      revenue: revenue[0].totalAmount || 0,
+    });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
   }
-})
-
+});
 
 // ----------------------------List seller Hostels-------------
-const listHostels =  asyncHandler(async(req,res) =>{
+const listHostels = asyncHandler(async (req, res) => {
   try {
     const sellerID = req.body.sellerId;
-    if(sellerID){
-      const listHostels = await Hostel.find({seller:sellerID});
-      res.status(200).json({data:listHostels})
+    if (sellerID) {
+      const listHostels = await Hostel.find({ seller: sellerID });
+      res.status(200).json({ data: listHostels });
     }
-      } catch (error) {
+  } catch (error) {
     console.log("listHostelAdmin");
     res.status(500).json({
       message: "Hostel List Error",
     });
   }
-})
+});
 
 // ----------------------------Edit Hostels Data senting Part-------------
-const editHostel = asyncHandler(async(req,res) => {
-    const id = req.body._id
-    try {
-      const hostelDetails = await Hostel.findOne({_id:id})
-      res.status(200).json({data:hostelDetails})
-    } catch (error) {
-      console.log(error)
-    }
-})
+const editHostel = asyncHandler(async (req, res) => {
+  const id = req.body._id;
+  try {
+    const hostelDetails = await Hostel.findOne({ _id: id });
+    res.status(200).json({ data: hostelDetails });
+  } catch (error) {
+    console.log(error);
+  }
+});
 
 // ----------------------------editHostel Details Hostel data receiving part-------------
 const editHostelDetails = asyncHandler(async (req, res) => {
@@ -321,11 +360,6 @@ const editHostelDetails = asyncHandler(async (req, res) => {
 
 // ----------------------------Seller Add Hostel-------------
 const addHostelDetails = asyncHandler(async (req, res) => {
-  
-  console.log("sellerHostelAddingfucntion")
-  console.log(req.body)
-  // .map((file) => file.path);
-  console.log('seller Add Hostel')
   const formDataObject = req.body;
   // ---------save value to database--------
   try {
@@ -337,7 +371,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
 
     if (formDataObject) {
       const hostelData = new Hostel({
-        seller:formDataObject.sellerID,
+        seller: formDataObject.sellerID,
         category: formDataObject.category,
         hostelName: formDataObject.hostelName,
         mainLocation: formDataObject.mainLocation,
@@ -369,7 +403,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
         hostelData.images = fileUrls;
       }
       const hosteldetails = await hostelData.save();
-  
+
       if (hosteldetails) {
         return res.status(201).json({
           hostelAdded: true,
@@ -404,8 +438,6 @@ const logoutSeller = asyncHandler(async (req, res) => {
   res.status(200).json({ status: "User Logout" });
 });
 
-
-
 // ---------------------------Get User Profile---------------------------
 //@desc get user profile
 //access Private
@@ -420,8 +452,6 @@ const logoutSeller = asyncHandler(async (req, res) => {
 //   // console.log(userDetails)
 //   res.status(200).json({ message: "User profile" });
 // });
-
-
 
 // ---------------------------Update User Profile---------------------------
 //@desc get update user profile
@@ -466,5 +496,5 @@ export {
   listHostels,
   editHostel,
   editHostelDetails,
-  addHostelDetails
+  addHostelDetails,
 };
