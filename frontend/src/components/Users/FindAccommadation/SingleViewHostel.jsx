@@ -25,6 +25,7 @@ const SingleViewHostel = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userInfo, setUserInfo] = useState([]);
   const [reviews, setReviews] = useState([]);
+  const [clickedImage, setClickedImage] = useState(null);
 
   const handlePayment = async () => {
     localStorage.setItem("bookingStarted", userInfo._id);
@@ -511,66 +512,98 @@ const SingleViewHostel = () => {
         </div>
 
         <div style={{ display: "flex" }}>
-        {reviews && reviews.length > 0 ? (
-          reviews.map((review, index) => (
-            <div
-              style={{ display: "flex", background: "white", marginLeft: "100px" ,borderRadius:'10px'}}
-            >
+          {reviews && reviews.length > 0 ? (
+            reviews.map((review, index) => (
               <div
-                key={index}
                 style={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  margin: "10px",
-                  height:'110px'
+                  background: "white",
+                  marginLeft: "100px",
+                  borderRadius: "10px",
                 }}
               >
-                <div >
-                  {review.images && review.images.length > 0
-                    ? review.images.map((image, imageIndex) => (
-                        <img
-                          key={imageIndex}
-                          src={`http://localhost:5000/image/${image}`}
-                          alt={`Image`}
-                          className="event-image rounded-3"
-                          style={{ height: "100px", width: "100px",margin:'5px' }}
-                        />
-                      ))
-                    : null}
-                </div>
-                <div style={{ flex: 1 ,width:'200px',maxWidth:"300"}}>
-                {review.content.substring(0, 100)}
+                <div
+                  key={index}
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    margin: "10px",
+                    height: "110px",
+                  }}
+                >
+                  <div>
+                    {review.images && review.images.length > 0
+                      ? review.images.map((image, imageIndex) => (
+                          <img
+                            key={imageIndex}
+                            src={`http://localhost:5000/image/${image}`}
+                            alt={`Image`}
+                            className="event-image rounded-3"
+                            style={{
+                              height: "100px",
+                              width: "100px",
+                              margin: "5px",
+                              cursor: "pointer",
+                            }}
+                            onClick={() => setClickedImage(image)}
+                          />
+                        ))
+                      : null}
+                  </div>
+                  <div style={{ flex: 1, width: "200px", maxWidth: "300" }}>
+                    {review.content.substring(0, 100)}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))
-        ) : (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <h1
+            ))
+          ) : (
+            <div
               style={{
-                textAlign: "center",
-                marginTop: "20px",
-                color: "white",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
               }}
             >
-              No reviews available
-            </h1>
+              <h1
+                style={{
+                  marginLeft:"100px",
+                  textAlign: "center",
+                  color: "white",
+                }}
+              >
+                No reviews available
+              </h1>
+            </div>
+          )}
+        </div>
+
+        {/* Display full-size image in a modal */}
+        {clickedImage && (
+          <div
+            className="modal"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              position: "fixed",
+              top: 0,
+              left: 0,
+              width: "100%",
+              height: "100%",
+              background: "rgba(0, 0, 0, 0.7)",
+            }}
+            onClick={() => setClickedImage(null)}
+          >
+            <img
+              src={`http://localhost:5000/image/${clickedImage}`}
+              alt="Full Size Image"
+              style={{ maxHeight: "90%", maxWidth: "90%", height: "100vh" }}
+            />
           </div>
         )}
-      </div>
-
-
       </Container>
-
-   
     </div>
   );
 };
