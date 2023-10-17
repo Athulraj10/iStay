@@ -299,6 +299,76 @@ const findAccommodation = asyncHnadler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
+// ----------------------------FindAccommodation-------------
+const high = asyncHnadler(async (req, res) => {
+  try {
+    const hostels = await Hostel
+    .find({ isBlock: { $ne: true } })
+    .sort({ price: -1 }); 
+
+    if (!hostels) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (hostels) {
+      res.status(200).json({ data: hostels });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+const low = asyncHnadler(async (req, res) => {
+  try {
+    const hostels = await Hostel
+    .find({ isBlock: { $ne: true } })
+    .sort({ price: 1 }); 
+
+    if (!hostels) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (hostels) {
+      res.status(200).json({ data: hostels });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
+const search = asyncHnadler(async (req, res) => {
+  try {
+    const searchValue = req.query.search;
+    let hostels = await Hostel.find({
+      $and: [
+        { isBlock: { $ne: true } }, // Exclude blocked hostels
+        {
+          $or: [
+            { hostelName: { $regex: new RegExp(searchValue, "i") } }, 
+            { hostelName: { $regex: new RegExp(searchValue, "i") } },
+            { category: { $regex: new RegExp(searchValue, "i") } }, 
+            { category: { $regex: new RegExp(searchValue, "i") } },
+            { fullDetails: { $regex: new RegExp(searchValue, "i") } }, 
+            { fullDetails: { $regex: new RegExp(searchValue, "i") } },
+          ],
+        },
+      ],
+    });
+    if (!hostels) {
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
+    }
+    if (hostels) {
+      res.status(200).json({ data: hostels });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal server Error" });
+  }
+});
 // ----------------------------singlePageView hostel-------------
 const singlePageView = asyncHnadler(async (req, res) => {
   try {
@@ -505,6 +575,7 @@ export {
   verifyOTP,
   resetPassword,
   findAccommodation,
+  high,low,search,
   singlePageView,
   bookHostel,
   bookingConfirmation,

@@ -9,7 +9,7 @@ import {
     forget,verifyOTP,resetPassword,
     
     singlePageView,
-    findAccommodation,
+    findAccommodation,high,low,search,
     bookHostel,bookingConfirmation,myBookings,addReview
 }
     from "../../controllers/UserControllers/userControllers.js";
@@ -39,6 +39,9 @@ router.post('/resetPassword',resetPassword)
 
 router.post('/findAccommodation',findAccommodation)
 router.post('/findAccommodation/singlePageView',singlePageView)
+router.get('/findAccommodation/high',high)
+router.get('/findAccommodation/low',low)
+router.get('/findAccommodation/search',search)
 router.post('/bookingHostel',bookHostel)
 router.get('/bookingConfirmation/',bookingConfirmation)
 router.post('/addReview',upload.array('files',3),addReview)

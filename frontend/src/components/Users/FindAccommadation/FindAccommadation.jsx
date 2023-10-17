@@ -14,13 +14,33 @@ import {
 } from "react-bootstrap";
 const FindAccommodation = () => {
   // Placeholder function for handling sort and filter options
-  const handleSortFilter = (option) => {
-    // Implement your sorting and filtering logic here
+  const handleSortFilter = async (option) => {
+    let response;
+    switch (option) {
+      case "high-low":
+        response = await USERSAPI.get("users/findAccommodation/high");
+        setHostelInfo(response.data.data);
+        break;
+      case "low-high":
+      response = await USERSAPI.get("users/findAccommodation/low");
+      setHostelInfo(response.data.data);
+        break;
+
+      default:
+        break;
+    }
   };
 
   // Placeholder function for handling search
-  const handleSearch = (searchValue) => {
-    // Implement your search logic here
+  const handleSearch = async (searchValue) => {
+    try {
+      const response = await USERSAPI.get("users/findAccommodation/search", {
+        params: { search: searchValue },
+      });
+      setHostelInfo(response.data.data);
+    } catch (error) {
+      toast.error(error)
+    }
   };
   const navigate = useNavigate();
   const [showBasic, setShowBasic] = useState(false);
@@ -48,22 +68,18 @@ const FindAccommodation = () => {
   return (
     <Container>
       <div>
-        <Navbar bg="light" expand="lg">
+        <Navbar style={{background:"white"}} className="rounded-2" expand="lg">
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="mr-auto">
-              <NavDropdown title="Price" id="basic-nav-dropdown">
-                <NavDropdown.Item
-                  onClick={() => handleSortFilter("sortOption1")}
-                >
+              <NavDropdown title="Price" style={{ color: "blue" }}  id="basic-nav-dropdown">
+                <NavDropdown.Item   onClick={() => handleSortFilter("low-high")}>
                   Low-High
                 </NavDropdown.Item>
-                <NavDropdown.Item
-                  onClick={() => handleSortFilter("sortOption2")}
-                >
+                <NavDropdown.Item onClick={() => handleSortFilter("high-low")}>
                   High-Low
                 </NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Filter" id="basic-nav-dropdown">
+              {/* <NavDropdown title="Filter" id="basic-nav-dropdown">
                 <NavDropdown.Item
                   onClick={() => handleSortFilter("filterOption1")}
                 >
@@ -74,13 +90,14 @@ const FindAccommodation = () => {
                 >
                   Food
                 </NavDropdown.Item>
-              </NavDropdown>
+              </NavDropdown> */}
             </Nav>
             <Form inline>
               <FormControl
                 type="text"
                 placeholder="Search"
-                className="mr-sm-2"
+                style={{background:'dark'}}
+                className="mr-sm-2 border-dark"
                 onChange={(e) => handleSearch(e.target.value)}
               />
 
