@@ -42,7 +42,7 @@
     top: 69px;
     transform: rotate(45deg);
     border-radius: 6px;
-    animation: pulse 1.3s ease infinite;
+    animation: pulse 1.3s ease 3;
   }
   
   .cssload-loading {
@@ -68,12 +68,12 @@
   
   .cssload-loading:after {
     right: 0;
-    animation: square-tr 2.6s ease infinite;
+    animation: square-tr 2.6s ease 3;
     animation-delay: .162.5s;
   }
   
   .cssload-loading:before {
-    animation: square-tl 2.6s ease infinite;
+    animation: square-tl 2.6s ease 3;
     animation-delay: .162.5s;
   }
   
@@ -88,12 +88,12 @@
   }
   
   .cssload-loading.cssload-two:after {
-    animation: square-br 2.6s ease infinite;
+    animation: square-br 2.6s ease 3;
     animation-direction: reverse;
   }
   
   .cssload-loading.cssload-two:before {
-    animation: square-bl 2.6s ease infinite;
+    animation: square-bl 2.6s ease 3;
     animation-direction: reverse;
   }
   

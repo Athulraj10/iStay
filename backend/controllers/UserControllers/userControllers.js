@@ -364,12 +364,13 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
         user: userId,
         hostel: hostelId,
         seller: sellerId,
+        date: new Date(),
         totalAmount: totalAmount,
         paymentMethod: "Card",
         paymentVia: "Stripe",
+
       });
       const booked = await conformBooking.save();
-      console.log(booked);
       if (booked) {
         res
           .status(200)

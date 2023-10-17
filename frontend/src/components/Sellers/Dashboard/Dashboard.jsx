@@ -123,9 +123,7 @@ function Dashboard() {
           </Col>
           <Col xs lg="2" style={style}>
             <Link to="/admin/listSellers" style={{ textDecoration: "none" }}>
-              <h4 className="text-center" style={{ color: "white" }}>
-                Enquery
-              </h4>
+              <h4 className="text-center" style={{ color: "white" }}> Enquery</h4>
               <h4 style={{ color: "green" }}>{enquery !== null ? enquery : 0 }</h4>
               {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>

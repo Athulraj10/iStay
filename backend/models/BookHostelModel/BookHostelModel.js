@@ -12,6 +12,10 @@ const bookingModel = mongoose.Schema({
         ref: 'Hostel', 
         required:true
       },
+      date: {
+        type: Date,
+        required: true
+      },
     seller: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Seller', 
