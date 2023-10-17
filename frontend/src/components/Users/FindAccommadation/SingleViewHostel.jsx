@@ -18,30 +18,12 @@ import "./style.css";
 const SingleViewHostel = () => {
   const location = useLocation();
   const hostel = location.state.hostel;
-
-  const [added, setAdded] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [newCategory, setNewCategory] = useState("");
-  const [allCategories, setAllCategories] = useState([]);
-  const [editCategoryModalVisible, setEditCategoryModalVisible] =
-    useState(false);
-  const [editedCategory, setEditedCategory] = useState({ id: "", name: "" });
-  const addCategory = async () => {
-    try {
-      let res = await USERSAPI.post("admin/adminCategory", {
-        categoryName: newCategory,
-      });
-      console.log(res);
-      if (res.data.message) {
-        toast.success("Successfully added");
-      }
-      setNewCategory("");
-      setShowModal(false);
-      setAdded(true);
-    } catch (error) {
-      return toast.error(error.response.data.message);
-    }
-  };
+
+
+
+  const [photos, setPhotos] = useState([]);
+  const [description, setDescription] = useState("");
 
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -76,8 +58,26 @@ const SingleViewHostel = () => {
       toast.error(result.error);
     }
   };
-  const handleReview = () => {
-    const response = USERSAPI.get("");
+  const handleAddPhoto = (e) => {
+  };
+  const addReview = async () => {
+    try {
+      let res = await USERSAPI.post("admin/adminCategory", {
+        categoryName: newCategory,
+      });
+      console.log(res);
+      if (res.data.message) {
+        toast.success("Successfully added");
+      }
+      setNewCategory("");
+      setShowModal(false);
+      setAdded(true);
+    } catch (error) {
+      return toast.error(error.response.data.message);
+    }
+  };
+  const handleThumbnailClick = (index) => {
+    setSelectedImageIndex(index);
   };
 
   useEffect(() => {
@@ -103,11 +103,6 @@ const SingleViewHostel = () => {
     };
     fetchData(hostel._id);
   }, []);
-
-  const handleThumbnailClick = (index) => {
-    setSelectedImageIndex(index);
-  };
-
   return (
     <div>
       <Container style={{ color: "white", height: "100vh" }}>
@@ -452,16 +447,20 @@ const SingleViewHostel = () => {
 
             <Modal show={showModal} onHide={() => setShowModal(false)}>
               <Modal.Header closeButton>
-                <Modal.Title>Add Category</Modal.Title>
+                <Modal.Title>Add Review</Modal.Title>
               </Modal.Header>
               <Modal.Body>
                 <Form.Group>
-                  <Form.Label>Category Name</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter category name"
-                    value={newCategory}
-                    onChange={(e) => setNewCategory(e.target.value)}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handleAddPhoto}
+                  />
+                  <textarea
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    placeholder="Enter your review description"
                   />
                 </Form.Group>
               </Modal.Body>
@@ -469,7 +468,7 @@ const SingleViewHostel = () => {
                 <Button variant="secondary" onClick={() => setShowModal(false)}>
                   Close
                 </Button>
-                <Button variant="primary" onClick={addCategory}>
+                <Button variant="primary" onClick={addReview}>
                   Save
                 </Button>
               </Modal.Footer>
