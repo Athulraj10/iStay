@@ -22,8 +22,6 @@ const SingleViewHostel = () => {
 
 
 
-  const [photos, setPhotos] = useState([]);
-  const [description, setDescription] = useState("");
 
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
@@ -58,24 +56,60 @@ const SingleViewHostel = () => {
       toast.error(result.error);
     }
   };
+  const [formData, setFormData] = useState({
+    userId:"", // Make sure you set userId and hostelId as needed
+    hostelId: "",
+    hostelReview: "",
+    files: [], // Store the primary image here
+  });
+  
+  const [imageUrls, setImageUrls] = useState([]);
+  
   const handleAddPhoto = (e) => {
+    const files = e.target.files;
+    const selectedFiles = Array.from(files).slice(0, 10);
+    const newFiles = Array.from(files);
+    const newImageUrls = newFiles.map((file) => URL.createObjectURL(file));
+  
+    setFormData({
+      ...formData,
+      files: [...formData.files, ...newFiles],
+    });
+    setImageUrls([...imageUrls, ...newImageUrls]);
   };
-  const addReview = async () => {
-    try {
-      let res = await USERSAPI.post("admin/adminCategory", {
-        categoryName: newCategory,
-      });
-      console.log(res);
-      if (res.data.message) {
-        toast.success("Successfully added");
-      }
-      setNewCategory("");
-      setShowModal(false);
-      setAdded(true);
-    } catch (error) {
-      return toast.error(error.response.data.message);
-    }
-  };
+  
+  const addReview = async (e) => {
+    e.preventDefault();
+    const formDataToSend = new FormData();
+    formDataToSend.append("userId", formData.userId);
+    formDataToSend.append("hostelId", formData.hostelId);
+    formDataToSend.append("description", formData.hostelReview);
+  
+    formData.files.forEach((file) => {
+      formDataToSend.append("files", file);
+    });
+    
+    console.log(formData)
+
+    // Now you can send formDataToSend to your server for further processing.
+    // You might use an Axios POST request or any other suitable method.
+    // try {
+      //   let res = await USERSAPI.post("admin/adminCategory", {
+        //     categoryName: newCategory,
+        //   });
+    //   console.log(res);
+    //   if (res.data.message) {
+      //     toast.success("Successfully added");
+      //   }
+      //   setNewCategory("");
+      //   setShowModal(false);
+      //   setAdded(true);
+      // } catch (error) {
+        //   return toast.error(error.response.data.message);
+        // }
+    };
+      
+      
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
   };
@@ -85,8 +119,13 @@ const SingleViewHostel = () => {
     const userInfo = JSON.parse(storedUserInfo);
     if (userInfo) {
       setUserInfo(userInfo);
+      setFormData({
+        ...formData,
+        userId: userInfo._id 
+      });
     }
   }, []);
+
   useEffect(() => {
     const fetchData = async (id) => {
       const response = await USERSAPI.post(
@@ -96,13 +135,17 @@ const SingleViewHostel = () => {
       try {
         if (response.data) {
           setHostelData(response.data.data);
+          setFormData({
+            ...formData,hostelId:response.data.data[0]._id
+          })
         }
       } catch (error) {
         console.error(error);
       }
     };
     fetchData(hostel._id);
-  }, []);
+  },[]);
+
   return (
     <div>
       <Container style={{ color: "white", height: "100vh" }}>
@@ -450,19 +493,20 @@ const SingleViewHostel = () => {
                 <Modal.Title>Add Review</Modal.Title>
               </Modal.Header>
               <Modal.Body>
-                <Form.Group>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    multiple
-                    onChange={handleAddPhoto}
-                  />
-                  <textarea
-                    value={description}
-                    onChange={(e) => setDescription(e.target.value)}
-                    placeholder="Enter your review description"
-                  />
-                </Form.Group>
+              <Form.Group>
+  <input
+    type="file"
+    accept="image/*"
+    multiple
+    onChange={handleAddPhoto}
+  />
+  <textarea
+    value={formData.hostelReview}
+    onChange={(e) => setFormData({ ...formData, hostelReview: e.target.value })}
+    placeholder="Enter your review description"
+  />
+</Form.Group>
+
               </Modal.Body>
               <Modal.Footer>
                 <Button variant="secondary" onClick={() => setShowModal(false)}>
