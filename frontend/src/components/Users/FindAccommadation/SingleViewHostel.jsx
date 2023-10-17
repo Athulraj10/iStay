@@ -20,7 +20,7 @@ const SingleViewHostel = () => {
   const hostel = location.state.hostel;
   const [showModal, setShowModal] = useState(false);
 
-  const [added, setAdded] = useState(false)
+  const [added, setAdded] = useState(false);
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userInfo, setUserInfo] = useState([]);
@@ -88,16 +88,12 @@ const SingleViewHostel = () => {
     formData.files.forEach((file) => {
       formDataToSend.append("files", file);
     });
-    try {  
-    const response = await USERSAPI.post(
-        "users/addreview",
-        formDataToSend,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
+    try {
+      const response = await USERSAPI.post("users/addreview", formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
       if (response) {
         if (response.data.review) {
           setFormData({
@@ -127,7 +123,6 @@ const SingleViewHostel = () => {
   // if (res.data.message) {
   //   toast.success("Successfully added");
   // }
-  
 
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
@@ -149,7 +144,9 @@ const SingleViewHostel = () => {
       );
       try {
         if (response.data) {
+          console.log(response.data);
           setHostelData(response.data.data);
+          setReviews(response.data.review);
           setFormData({
             ...formData,
             hostelId: response.data.data[0]._id,
@@ -470,40 +467,7 @@ const SingleViewHostel = () => {
           </Col>
         </Row>
 
-        {reviews && reviews.length > 0 ? (
-          Array.from({ length: 3 }).map((review, index) => (
-            <Card key={index} style={{ width: "18rem" }}>
-              <Card.Img variant="top" src={review.imageSrc} />
-              <Card.Body>
-                <Card.Title>{review.title}</Card.Title>
-                <Card.Text>{review.content}</Card.Text>
-                <Button variant="primary">Review</Button>
-              </Card.Body>
-            </Card>
-          ))
-        ) : (
-          <div>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <h1
-                style={{
-                  textAlign: "center",
-                  marginTop: "20px",
-                  color: "white",
-                }}
-              >
-                No reviews available
-              </h1>
-              <Button onClick={() => setShowModal(true)}>Add review</Button>
-            </div>
-
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal show={showModal} onHide={() => setShowModal(false)}>
               <Modal.Header closeButton>
                 <Modal.Title>Add Review</Modal.Title>
               </Modal.Header>
@@ -533,6 +497,60 @@ const SingleViewHostel = () => {
                 </Button>
               </Modal.Footer>
             </Modal>
+
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+            margin:'20px'
+          }}
+        >
+          <Button onClick={() => setShowModal(true)}>Add review</Button>
+        </div>
+
+        {reviews && reviews.length > 0 ? (
+          reviews.map((review, index) => (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Card key={index} style={{ width: "18rem", margin: "20px" }}>
+                <Card.Img variant="top" src={review.imageSrc} />
+                <Card.Body>
+                  {/* <Card.Title>{review.title}</Card.Title> */}
+                  <Card.Text>{review.content}</Card.Text>
+                  <Button variant="primary">Review</Button>
+                </Card.Body>
+              </Card>
+            </div>
+          ))
+        ) : (
+          <div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <h1
+                style={{
+                  textAlign: "center",
+                  marginTop: "20px",
+                  color: "white",
+                }}
+              >
+                No reviews available
+              </h1>
+              </div>
+
+        
           </div>
         )}
       </Container>

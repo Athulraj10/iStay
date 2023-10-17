@@ -304,10 +304,10 @@ const singlePageView = asyncHnadler(async (req, res) => {
   try {
     const hostel = await Hostel.find({ _id: req.body.id });
     const review = await HostelReview.find({ hostel: req.body.id });
+    console.log(review)
     if (!hostel) {
       return res.status(404).json({ message: "Something Wrong Please Try Again" });
     }
-  
     if (hostel) {
       const responseData = {
         data: hostel,
@@ -403,7 +403,7 @@ const myBookings = asyncHnadler(async(req,res)=>{
     console.error(error)
   }
 } )
-const addReview=asyncHnadler(async(req,res)=>{
+const addReview = asyncHnadler(async(req,res)=>{
   const {userId,hostelId,description}= req.body
   try {
     const review = new HostelReview({
