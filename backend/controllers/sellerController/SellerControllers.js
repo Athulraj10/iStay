@@ -94,63 +94,67 @@ const authSeller = asyncHandler(async (req, res) => {
 });
 
 // Aggregate daily sales for a specific seller
-const aggregateDailySales = async (sellerId, startDate, endDate) => {
-  console.log(sellerId);
+// const aggregateDailySales = async (sellerId, startDate, endDate) => {
+//   console.log(sellerId);
   
-  // Ensure that sellerId is a valid ObjectId
-  const sellerObjectId = mongoose.Types.ObjectId(sellerId);
-  
-  const result = await Booking.aggregate([
-    {
-      $match: {
-        seller: sellerObjectId, // Use the ObjectId
-        date: {
-          $gte: startDate, // Start date
-          $lte: endDate, // End date
-        },
-      },
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$date" },
-          month: { $month: "$date" },
-          day: { $dayOfMonth: "$date" },
-        },
-        totalAmount: { $sum: "$totalAmount" },
-      },
-    },
-  ]);
+//   // Ensure that sellerId is a valid ObjectId
+//   const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
+//   console.log(sellerObjectId)
+//   const result = await Booking.aggregate([
+//     {
+//       $match: {
+//         // seller:sellerObjectId,
+//         date: {
+//           $gte: startDate,
+//           $lte: endDate,
+//         },
+//       },
+//     },
+//     {
+//       $group: {
+//         _id: {
+//           year: { $year: "$date" },
+//           month: { $month: "$date" },
+//           day: { $dayOfMonth: "$date" },
+//         },
+//         totalAmount: { $sum: "$totalAmount" },
+//       },
+//     },
+//   ]);
 
-  return result;
-};
+//   return result;
+// };
 
 
 // Aggregate monthly sales for a specific seller
 const aggregateMonthlySales = async (sellerId, startDate, endDate) => {
-  const result = await Booking.aggregate([
-    {
-      $match: {
-        // seller: mongoose.Types.ObjectId(sellerId), // Filter by sellerId
-        seller: sellerId, // Filter by sellerId
-        date: {
-          $gte: startDate, // Start date
-          $lte: endDate, // End date
+  try {
+    const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
+     const result = await Booking.aggregate([
+      {
+        $match: {
+          seller: sellerObjectId,
+          date: {
+            $gte: startDate,
+            $lte: endDate,
+          },
         },
       },
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$date" },
-          month: { $month: "$date" },
+      {
+        $group: {
+          _id: {
+            year: { $year: "$date" },
+            month: { $month: "$date" },
+          },
+          totalAmount: { $sum: "$totalAmount" },
         },
-        totalAmount: { $sum: "$totalAmount" },
       },
-    },
-  ]);
-
-  return result;
+    ]);
+    return result;
+  } catch (error) {
+    console.error('Error in aggregateMonthlySales:', error);
+    throw error;
+  }
 };
 
 // -------------------Register New seller---------------------------
@@ -277,8 +281,10 @@ const dashboardValues = asyncHandler(async (req, res) => {
     dayBeforeYesterday.setDate(today.getDate() - 2);
     const startOfDay = new Date(dayBeforeYesterday);
     const endOfDay = new Date(today);
-    const dateSort = await aggregateDailySales(sellerId,startOfDay,endOfDay);
-    console.log(dateSort);
+    // const dateSort = await aggregateDailySales(sellerId,startOfDay,endOfDay);
+    const monthly = await aggregateMonthlySales(sellerId,startOfDay,endOfDay);
+    // console.log(dateSort);
+    console.log(monthly);
 
     return res.status(200).json({
       bookingCount: bookingCount || 0,
