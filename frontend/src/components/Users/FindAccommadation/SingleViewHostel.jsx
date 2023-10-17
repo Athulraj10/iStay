@@ -509,33 +509,11 @@ const SingleViewHostel = () => {
         >
           <Button onClick={() => setShowModal(true)}>Add review</Button>
         </div>
-
-        {reviews && reviews.length > 0 ? (
-          
+      </Container>
+      {reviews && reviews.length > 0 ? (
           reviews.map((review, index) => (
-            <div
-              style={{
-                display: "flex"
-              }}
-            >
-              <Card style={{ width: "18rem", margin: "20px" }}>
-                {review.images && review.images.length > 0
-                  ? review.images.map((image, imageIndex) => (
-                      <img
-                        key={imageIndex}
-                        src={`http://localhost:5000/image/${image}`}
-                        alt={`Image`}
-                        className="event-image rounded-3"
-                        style={{ height: "100px", width: "100px" }}
-                      />
-                    ))
-                  : null}
-                <Card.Body>
-                  {/* <Card.Title>{review.title}</Card.Title> */}
-                  <Card.Text>{review.content}</Card.Text>
-                  <Button variant="primary">Review</Button>
-                </Card.Body>
-              </Card>
+            <div className="containerss">
+              <div className="boxx">Box 1</div>
             </div>
           ))
         ) : (
@@ -558,7 +536,6 @@ const SingleViewHostel = () => {
             </h1>
           </div>
         )}
-      </Container>
     </div>
   );
 };

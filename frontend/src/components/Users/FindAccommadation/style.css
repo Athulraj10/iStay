@@ -783,3 +783,18 @@
     }
   }
     
+
+  .containerss {
+    display: flex;  /* Use flexbox to arrange items horizontally */
+}
+
+.boxx {
+    width: 100px;   /* Adjust the width as needed */
+    height: 100px;  /* Adjust the height as needed */
+    margin: 10px;   /* Add margin to separate the boxes */
+    border: 1px solid #ffffff;  /* Add borders for visual separation */
+    text-align: center;
+    line-height: 100px;
+    color:'white';
+    background-color: #ffffff;
+}
