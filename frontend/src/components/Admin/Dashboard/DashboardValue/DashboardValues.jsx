@@ -75,11 +75,11 @@ function dashboardValues() {
 
   
   const data = {
-    labels: ['October',' November', 'December'],
+    labels: ['September','Octobar', 'November'],
     datasets: [
       {
         label: "Revenue",
-        data: [firstData,0.1, 0.1],
+        data: [0.1,firstData, firstData],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",

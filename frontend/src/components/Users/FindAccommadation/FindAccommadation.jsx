@@ -29,6 +29,15 @@ const FindAccommodation = () => {
 
   return (
     <Container>
+      <div className="table-container">
+        <table>
+          <tr>
+            <th><span>A-Z</span></th>
+            <th><span>Price</span></th>
+            <th><span>Location</span></th>
+            </tr>
+        </table>
+      </div>
       {hostelInfo.map((hostel, index) => (
         <Button
           onClick={()=>{handleClick(hostel)}}

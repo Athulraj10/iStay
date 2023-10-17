@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
 // --------------User Panel-----------
@@ -32,7 +32,8 @@ import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery
 import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
 import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
 import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
-import FindAccommodationScreen from "../components/Users/Screens/FindAccommodationScreen";
+
+const LazyFindAccommodation = React.lazy(() => import("../components/Users/Screens/FindAccommodationScreen"));
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
 import AboutPageScreen from "../components/Users/Screens/AboutPageScreen";
 import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
@@ -49,7 +50,8 @@ const Routeing = () => {
       <Route path="/forget" element={<ForgetScreenPassword />} />
       <Route path="/OTP" element={<OTPScreen />} />
       <Route path="/resetPassword" element={<ResetPassword />} />
-      <Route path="/findAccommodation" element={<FindAccommodationScreen />} />
+      {/* <Route path="/findAccommodation" element={<FindAccommodationScreen />} /> */}
+      <Route path="/findAccommodation" element={<Suspense fallback={<div>Loading...</div>}><LazyFindAccommodation /></Suspense>} />
       <Route path="/findAccommodation/singlePageView" element={<SinglePageView />}/>
       <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
       <Route path="/myBookings" element={<MyBookingScreen />} />
