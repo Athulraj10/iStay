@@ -94,36 +94,35 @@ const authSeller = asyncHandler(async (req, res) => {
 });
 
 // Aggregate daily sales for a specific seller
-// const aggregateDailySales = async (sellerId, startDate, endDate) => {
-//   console.log(sellerId);
+const aggregateDailySales = async (sellerId, startDate, endDate) => {
+  console.log(sellerId);
   
-//   // Ensure that sellerId is a valid ObjectId
-//   const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
-//   console.log(sellerObjectId)
-//   const result = await Booking.aggregate([
-//     {
-//       $match: {
-//         // seller:sellerObjectId,
-//         date: {
-//           $gte: startDate,
-//           $lte: endDate,
-//         },
-//       },
-//     },
-//     {
-//       $group: {
-//         _id: {
-//           year: { $year: "$date" },
-//           month: { $month: "$date" },
-//           day: { $dayOfMonth: "$date" },
-//         },
-//         totalAmount: { $sum: "$totalAmount" },
-//       },
-//     },
-//   ]);
+  // Ensure that sellerId is a valid ObjectId
+  const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
+  const result = await Booking.aggregate([
+    {
+      $match: {
+        seller:sellerObjectId,
+        date: {
+          $gte: startDate,
+          $lte: endDate,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$date" },
+          month: { $month: "$date" },
+          day: { $dayOfMonth: "$date" },
+        },
+        totalAmount: { $sum: "$totalAmount" },
+      },
+    },
+  ]);
 
-//   return result;
-// };
+  return result;
+};
 
 
 // Aggregate monthly sales for a specific seller
@@ -278,17 +277,23 @@ const dashboardValues = asyncHandler(async (req, res) => {
 
     const today = new Date(); // Current date
     const dayBeforeYesterday = new Date(today);
-    dayBeforeYesterday.setDate(today.getDate() - 2);
+    dayBeforeYesterday.setDate(today.getDate() - 1);
     const startOfDay = new Date(dayBeforeYesterday);
+    
+    const lastMonth = new Date(today);
+    lastMonth.setDate(today.getDate() - 20);
+    const last20days = new Date(lastMonth);
+
+
     const endOfDay = new Date(today);
-    // const dateSort = await aggregateDailySales(sellerId,startOfDay,endOfDay);
-    const monthly = await aggregateMonthlySales(sellerId,startOfDay,endOfDay);
-    // console.log(dateSort);
-    console.log(monthly);
+    const dailyRevenue = await aggregateDailySales(sellerId,startOfDay,endOfDay);
+    const monthlyRevenue = await aggregateMonthlySales(sellerId,last20days,endOfDay);
 
     return res.status(200).json({
       bookingCount: bookingCount || 0,
       revenue: revenue[0].totalAmount || 0,
+      dailyRevenue: dailyRevenue || 0,
+      monthlyRevenue: monthlyRevenue || 0,
     });
   } catch (error) {
     console.error(error);

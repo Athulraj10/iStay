@@ -14,6 +14,8 @@ function Dashboard() {
   const [bookingCount,setBookingCount] = useState(0)
   const [revenue,setRevenue] = useState(0)
   const [enquery,setEnquery] = useState(0)
+  const [dailyRevenue,setDailyRevenue] = useState([0])
+  const [monthlyRevenue,setMonthlyRevenue] = useState([0])
   const [messages,setMessages] = useState(0)
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -31,9 +33,11 @@ function Dashboard() {
           });
           if(response){
             console.log(response)
-            const { bookingCount,revenue } = response.data;
+            const { bookingCount,revenue,dailyRevenue,monthlyRevenue } = response.data;
             setBookingCount(bookingCount)
             setRevenue(revenue)
+            setMonthlyRevenue(monthlyRevenue)
+            setDailyRevenue(dailyRevenue)
           }
         }
       } catch (error) {
@@ -45,14 +49,20 @@ function Dashboard() {
   }, []);
 
   const chartRef = React.createRef();
-
-  // Sample data for the chart
+  
+  const firstLabel = dailyRevenue.length && dailyRevenue[0]._id ? `${dailyRevenue[0]._id.day}/${dailyRevenue[0]._id.month}/${dailyRevenue[0]._id.year} Daily Revenue` : "No Revenue";
+  const secondLabel = monthlyRevenue.length && monthlyRevenue[0]._id ? `${monthlyRevenue[0]._id.month}/${monthlyRevenue[0]._id.year} Monthly Revenue` : "No Revenue";
+  
+  const firstData = dailyRevenue.length && dailyRevenue[0] ? `${dailyRevenue[0].totalAmount}` : 0.1;
+  const secondData = monthlyRevenue.length && monthlyRevenue[0] ? `${monthlyRevenue[0].totalAmount}` : 0.1;
+  
+  
   const data = {
-    labels: ["Item 1", "Item 2", "Item 2", "Item 2", "Item 3", "Item 4"],
+    labels: [firstLabel, secondLabel, "Item 2", "Item 3", "Item 4"],
     datasets: [
       {
-        label: "Sample Data",
-        data: [12, 19, 3, 5, 3, 5],
+        label: "Revenue",
+        data: [firstData, secondData, 3, 5, 3, 5],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -96,7 +106,7 @@ function Dashboard() {
         myChart.destroy();
       }
     };
-  }, []);
+  }, [dailyRevenue,monthlyRevenue]);
 
   const style = {
     margin: "10px", // Adjust margin as needed
