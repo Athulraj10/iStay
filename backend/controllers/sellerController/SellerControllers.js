@@ -208,22 +208,12 @@ const dashboardValues = asyncHandler(async(req,res)=>{
         }
       }
     ]);
-    
 
+    return res.status(200).json({
+          bookingCount:bookingCount||0,
+          revenue:revenue[0].totalAmount||0
+    })
     
-    // if (!das) {
-    //   return res
-    //     .status(404)
-    //     .json({ message: "Something Wrong Please Try Again" });
-    // }
-    // if (das) {
-    //   return res.status(200).json({
-
-    //     bookingCount,
-    //     revenue:revenue[0].totalAmount
-        
-    //   });
-    // }
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });

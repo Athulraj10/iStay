@@ -349,6 +349,7 @@ const bookHostel = asyncHnadler(async (req, res) => {
   }
 });
 
+// ----------------------------Stripe Booking -------------
 const bookingConfirmation = asyncHnadler(async (req, res) => {
   const { userId, hostelId } = req.query;
   try {
@@ -382,12 +383,12 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
   }
 });
 
+// ----------------------------user mY booking-------------
 const myBookings = asyncHnadler(async(req,res)=>{
   const userId = req.query.token;
   const response =await aggregateBookingWithHostel(userId)
   try {
     if(response){
-      console.log(response)
      return res.status(200).json({
         allDetails:response
       })

@@ -97,7 +97,7 @@ const MyBookings = () => {
                    
                    
                   <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
-                      OnwerName: {hostel.sellerDetails[0].mobile}
+                      Onwer Number: {hostel.sellerDetails[0].mobile}
                     </h6>
                    
                     <h6 style={{ margin: "20px", color: "#408B88" }}>

@@ -9,10 +9,12 @@ import Chart from "chart.js/auto";
 import React from "react";
 
 function Dashboard() {
-  const [totalUsers, settotalUsers] = useState([]);
-  const [totalSeller, setTotalSeller] = useState([]);
-  const [totalHostel, setTotalHostel] = useState([]);
   const [sellerInfo, setSellerInfo] = useState([]);
+
+  const [bookingCount,setBookingCount] = useState(0)
+  const [revenue,setRevenue] = useState(0)
+  const [enquery,setEnquery] = useState(0)
+  const [messages,setMessages] = useState(0)
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
@@ -27,12 +29,12 @@ function Dashboard() {
           const response = await USERSAPI.get("/seller/dashboard",{
             params:sellerInfo 
           });
-
-        // const { userCount, sellerCount, hostelCount } = res.data; // Access the data property
-        // setTotalSeller(sellerCount);
-        // setTotalHostel(hostelCount);
-        // settotalUsers(userCount);
-        // setLoading(false);
+          if(response){
+            console.log(response)
+            const { bookingCount,revenue } = response.data;
+            setBookingCount(bookingCount)
+            setRevenue(revenue)
+          }
         }
       } catch (error) {
         toast.error(error.message);
@@ -110,31 +112,38 @@ function Dashboard() {
     <div>
       <Container style={{ height: "auto" }}>
         <Row className="justify-content-md-center">
-          <Col xs lg="3" style={style}>
+          <Col xs lg="2" style={style}>
             <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
-              <h3 className="text-center" style={{ color: "white" }}>
+              <h4 className="text-center" style={{ color: "white" }}>
                 Messages
-              </h3>
-              <h4 style={{ color: "white" }}>Total count : {totalUsers}</h4>
+              </h4>
+              <h4 style={{ color: "green" }}>{messages !==null? messages:0} </h4>
               {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
-          <Col xs lg="3" style={style}>
+          <Col xs lg="2" style={style}>
             <Link to="/admin/listSellers" style={{ textDecoration: "none" }}>
-              <h3 className="text-center" style={{ color: "white" }}>
+              <h4 className="text-center" style={{ color: "white" }}>
                 Enquery
-              </h3>
-              <h4 style={{ color: "white" }}>Total count : {totalSeller}</h4>
+              </h4>
+              <h4 style={{ color: "green" }}>{enquery !== null ? enquery : 0 }</h4>
               {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
-          <Col xs lg="3" style={style}>
+          <Col xs lg="2" style={style}>
             <Link to="/admin/listHostels" style={{ textDecoration: "none" }}>
-              <h3 className="text-center" style={{ color: "white" }}>
-                Total Sale
-              </h3>
-              <h4 style={{ color: "white" }}>Total count : {totalHostel}</h4>
-              {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
+              <h4 className="text-center" style={{ color: "white" }}>
+                Revenue
+              </h4>
+              <h4 style={{ color: "green" }}> {revenue}</h4>
+            </Link>
+          </Col>
+          <Col xs lg="2" style={style}>
+            <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
+              <h4 className="text-center" style={{ color: "white" }}>
+                Booking
+              </h4>
+              <h4 style={{ color: "green" }}>{bookingCount}</h4>
             </Link>
           </Col>
         </Row>
