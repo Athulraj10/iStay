@@ -33,7 +33,7 @@ const HeaderRightSection = () => {
       };
       let res = await USERSAPI.post("users/login", formData);
       if (res.data) {
-        localStorage.setItem("userInfo", JSON.stringify(res.data));
+        localStorage.setItem("userInfo",JSON.stringify(res.data));
         return navigate("/");
       } else {
         return navigate("/login");

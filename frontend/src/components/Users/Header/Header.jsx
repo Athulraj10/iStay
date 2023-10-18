@@ -20,31 +20,23 @@ import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
-  const [userInfoloaded, setUserInfoloading] = useState(false);
+ 
+useEffect(()=>{
+    const storedUserInfo = localStorage.getItem("userInfo");
+  if(storedUserInfo){
+    setUserInfo(JSON.parse(storedUserInfo))
+  }
+},[])
 
-  const handleLogout = async () => {
+    const handleLogout = async () => {
     let res = await USERSAPI.post("users/logout");
     if (res.status) {
       localStorage.removeItem("userInfo");
       setUserInfo(null);
-      setUserInfoloading(false)
       navigate("/login");
     }
   };
-  useEffect(() => {
-    const storedUserInfo = localStorage.getItem("userInfo");
-    const fetchUserInfo = async (storedUserInfo) => {
-      if (storedUserInfo) {
-        console.log(storedUserInfo, "in header of user");
-        setUserInfoloading(true);
-        setUserInfo(JSON.parse(storedUserInfo)); // Parse the JSON string into an object
-      } else {
-        setUserInfoloading(false);
-      }
-    };
-    fetchUserInfo(storedUserInfo);
-  }, [userInfoloaded]); 
-  
+ 
 
   return (
     <>
@@ -115,7 +107,8 @@ const Header = () => {
         </Container>
       </Navbar>
     </>
-  );
+
+      );
 };
 
 export default Header;
