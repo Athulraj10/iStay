@@ -48,8 +48,8 @@ function ListSeller() {
 
 
   return (
-    <div className="event-schedule-area-two p-4 rounded">
-      <Container>
+    <div style={{minHeight:'100vh'}} className="event-schedule-area-two p-4 rounded">
+      <Container >
         <Row>
           <Col lg={12}>
             <div className="tab-content" id="myTabContent">

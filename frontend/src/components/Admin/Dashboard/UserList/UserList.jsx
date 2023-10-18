@@ -41,7 +41,7 @@ function UserList() {
   },[handleBlockButton]);
 
   return (
-    <div className="event-schedule-area-two p-4 rounded">
+    <div className="event-schedule-area-two p-4 rounded" style={{minHeight:'100vh'}}>
       <Container>
         <Row>
           <Col lg={12}>

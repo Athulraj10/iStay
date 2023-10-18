@@ -40,7 +40,7 @@ function ListHostel() {
   },[handleBlockButton]);
   return (
     <div
-      style={{ background: "transparent" }}
+      style={{ background: "transparent",minHeight:'100vh' }}
       className="event-schedule-area-two p-4 rounded"
     >
       <Container>
