@@ -3,11 +3,24 @@ import { Container, Row,Button, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
+import ReactPaginate from "react-paginate";
 
 function ListSeller() {
   const location = useNavigate()
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0); // Add currentPage state
+  const itemsPerPage = 10; // Number of items to display per page
+
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+
 
   const handleBlockButton = async (sellerId) => {
     try {
@@ -138,6 +151,20 @@ function ListSeller() {
             </div>
           </Col>
         </Row>
+       <Row>
+       <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          breakLabel={"..."}
+          pageCount={Math.ceil(data.length / itemsPerPage)}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
+       </Row>
       </Container>
     </div>
   );

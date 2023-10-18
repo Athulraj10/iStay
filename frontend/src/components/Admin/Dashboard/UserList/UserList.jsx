@@ -1,22 +1,33 @@
 import React, { useEffect, useState } from "react";
-import { Container,Button, Row, Col } from "react-bootstrap";
+import { Container, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
+import ReactPaginate from "react-paginate";
 
 function UserList() {
-  const location = useNavigate()
+  const location = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0); // Add currentPage state
+  const itemsPerPage = 10; // Number of items to display per page
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const indexOfLastItem = (currentPage + 1) * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
 
   const handleBlockButton = async (userId) => {
     try {
       let res = await USERSAPI.patch(`admin/listUser/block/${userId}`);
       if (res.data) {
-        if(res.data.status){
-          toast.error(res.data.message)
-        }else{
-          toast.success(res.data.message)
+        if (res.data.status) {
+          toast.error(res.data.message);
+        } else {
+          toast.success(res.data.message);
         }
       }
     } catch (error) {
@@ -24,7 +35,6 @@ function UserList() {
     }
   };
 
-  
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,10 +48,13 @@ function UserList() {
       }
     };
     fetchData();
-  },[handleBlockButton]);
+  }, [handleBlockButton]);
 
   return (
-    <div className="event-schedule-area-two p-4 rounded" style={{minHeight:'100vh'}}>
+    <div
+      className="event-schedule-area-two p-4 rounded"
+      style={{ minHeight: "100vh" }}
+    >
       <Container>
         <Row>
           <Col lg={12}>
@@ -108,12 +121,16 @@ function UserList() {
                             </td>
                             <td className="align-middle text-center">
                               <Button
-                            type="button"
-                                  onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
-                                  className={`btn ${ item.isBlock ? "btn-outline-danger" : "btn-outline-success"}`}
-                                >
-                               {item.isBlock ? 'Blocked' : 'Block' }
-                                </Button>
+                                type="button"
+                                onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
+                                className={`btn ${
+                                  item.isBlock
+                                    ? "btn-outline-danger"
+                                    : "btn-outline-success"
+                                }`}
+                              >
+                                {item.isBlock ? "Blocked" : "Block"}
+                              </Button>
                             </td>
                           </tr>
                         ))
@@ -129,6 +146,18 @@ function UserList() {
             </div>
           </Col>
         </Row>
+        <ReactPaginate
+          previousLabel={"Previous"}
+          nextLabel={"Next"}
+          breakLabel={"..."}
+          pageCount={Math.ceil(data.length / itemsPerPage)}
+          marginPagesDisplayed={2}
+          pageRangeDisplayed={5}
+          onPageChange={handlePageChange}
+          containerClassName={"pagination"}
+          subContainerClassName={"pages pagination"}
+          activeClassName={"active"}
+        />
       </Container>
     </div>
   );
