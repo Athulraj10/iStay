@@ -261,7 +261,7 @@ const adminResetPassword = asyncHandler(async (req, res) => {
   }
 });
 
-const revenueFunction = asyncHandler(async(req,res)=>{
+const revenueFunction = asyncHandler(async()=>{
   try {
     const totalRevenueGenerate = await Booking.aggregate([
       {
@@ -271,7 +271,7 @@ const revenueFunction = asyncHandler(async(req,res)=>{
         }
       }
     ]);
-    return totalRevenueGenerate
+    return totalRevenueGenerate !==null ? totalRevenueGenerate : 0
   } catch (error) {
     console.error(error)
   }
@@ -288,7 +288,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const sellerBlockCount = await Seller.countDocuments({isBlock:true});
     const hostelBlockCount = await Hostel.countDocuments({isBlock:true});
     const revenue = await revenueFunction();
-
+    console.log(revenue)
     
     if (!userCount) {
       return res
@@ -305,7 +305,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
         hostelBlockCount,
 
         bookingCount,
-        revenue:revenue[0].totalAmount
+        revenue:revenue[0].totalAmount || 0
         
       });
     }
