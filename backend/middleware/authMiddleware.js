@@ -2,29 +2,24 @@ import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
 import User from "../models/UserModels/userModel.js";
 
-const protect = asyncHandler(async (req,res,next) => {
-    let token ; 
-    console.log(req)
-    token = req.cookies.jwt;
-    console.log(token)
-    if(token){
-        try {
-            // console.log('token is ', token)
-            const decodedToken = jwt.verify(token,process.env.JWT_SECRET);
-            // console.log( decodedToken)
-            let userFinded = await User.findById(decodedToken.userId).select('-password');
-            // console.log(userFinded)
-            req.user=userFinded
-            next();
-        } catch (error) {
-            res.status(401);
-            throw new Error('Invalid Token ')
-        }
-    }else{
-        res.status(401);
-        console.log("error")
-        throw new Error('Not authorized, No token')
+const protect = asyncHandler(async (req, res, next) => {
+  let token;
+  token = req.cookies.jwt;
+  if (token) {
+    try {
+      const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+      let userFound = await User.findById(decodedToken.userId).select('-password');
+      if (!userFound) {
+        return res.status(401).json({ message: 'User not found' });
+      }
+      req.user = userFound;
+      next();
+    } catch (error) {
+      return res.status(401).json({ message: 'Invalid Token' });
     }
-})
+  } else {
+    return res.status(401).json({ message: 'Not authorized, No token' });
+  }
+});
 
-export {protect}
+export { protect };

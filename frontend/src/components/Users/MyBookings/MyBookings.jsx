@@ -3,25 +3,32 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 import "./Style.css";
+import {useNavigate } from "react-router-dom";
 
 const MyBookings = () => {
+  const navigate = useNavigate()
   const [hostelData, setHostelData] = useState([]);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
     const fetchData = async () => {
-      try {
-        const response = await USERSAPI.get(
-          `users/myBookings?token=${userInfo._id}`
-        );
-        if (response.data.allDetails) {
-          setHostelData(response.data.allDetails);
+      if(userInfo){
+        console.log("userInfo" + userInfo)
+        try {
+          const response = await USERSAPI.get(
+            `users/myBookings?token=${userInfo._id}`
+          );
+          if (response.data.allDetails) {
+            setHostelData(response.data.allDetails);
+          }
+        } catch (error) {
+          toast.error(error);
         }
-      } catch (error) {
-        toast.error(error);
+      }else{
+        navigate('/login')
       }
-    };
+      }
 
     fetchData();
   }, []);
