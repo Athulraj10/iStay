@@ -124,7 +124,13 @@ const SingleViewHostel = () => {
   // if (res.data.message) {
   //   toast.success("Successfully added");
   // }
-
+  const scrollToReviews = () => {
+    const element = document.getElementById("reviewsContainer");
+    if (element) {
+      element.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+  
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
   };
@@ -261,7 +267,7 @@ const SingleViewHostel = () => {
                       >
                         (31 Ratings)
                       </p>
-                      <a
+                      <span
                         href="#"
                         style={{
                           padding: "5px",
@@ -269,10 +275,12 @@ const SingleViewHostel = () => {
                           fontSize: "1.2rem",
                           fontWeight: "900",
                           color: "#007bff",
+                          cursor: "pointer",
                         }}
+                        onClick={scrollToReviews}
                       >
                         READ ALL REVIEWS
-                      </a>
+                      </span>
                     </div>
                   </Col>
                   <Button
@@ -511,7 +519,7 @@ const SingleViewHostel = () => {
           <Button onClick={() => setShowModal(true)}>Add review</Button>
         </div>
 
-        <div style={{ display: "flex" }}>
+        <div id="reviewsContainer" style={{ display: "flex" }}>
           {reviews && reviews.length > 0 ? (
             reviews.map((review, index) => (
               <div
@@ -568,7 +576,7 @@ const SingleViewHostel = () => {
             >
               <h1
                 style={{
-                  marginLeft:"100px",
+                  marginLeft: "100px",
                   textAlign: "center",
                   color: "white",
                 }}

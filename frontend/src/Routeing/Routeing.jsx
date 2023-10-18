@@ -39,9 +39,14 @@ import AboutPageScreen from "../components/Users/Screens/AboutPageScreen";
 import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
 import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
+
+import NotFoundScreen from "../components/ErrorPage";
+
+
 const Routeing = () => {
   return (
     <Routes>
+
       {/* ------------------------------UserScreen */}
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
@@ -79,6 +84,7 @@ const Routeing = () => {
       <Route path="/admin/listUsers" element={<AdminUserList />} />
       <Route path="/admin/listSellers" element={<AdminSellerList />} />
       <Route path="/admin/listHostels" element={<AdminHostelList />} />
+      <Route path="*" element={<NotFoundScreen/>} />
     </Routes>
   );
 };
