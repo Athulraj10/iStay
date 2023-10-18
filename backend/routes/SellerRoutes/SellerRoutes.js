@@ -13,6 +13,8 @@ import {
   addHostelDetails,
   // ----------dashboard management---------
   dashboardValues,
+  sellerNotification,
+  sellerNotificationDetails,
 
   logoutSeller,
 } from "../../controllers/sellerController/SellerControllers.js";
@@ -42,6 +44,8 @@ sellerRoute.post("/resetPassword",sellersResetPassword);
 
 // -----------Dashboard Manageing-----------
 sellerRoute.get("/dashboard",dashboardValues)
+sellerRoute.get("/notification",sellerNotification)
+sellerRoute.get("/notificationDetails",sellerNotificationDetails)
 
 
 // -----------hostel Manageing-----------

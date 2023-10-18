@@ -21,14 +21,7 @@ const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
  
-useEffect(()=>{
-    const storedUserInfo = localStorage.getItem("userInfo");
-  if(storedUserInfo){
-    setUserInfo(JSON.parse(storedUserInfo))
-  }
-},[])
-
-    const handleLogout = async () => {
+  const handleLogout = async () => {
     let res = await USERSAPI.post("users/logout");
     if (res.status) {
       localStorage.removeItem("userInfo");
@@ -38,6 +31,18 @@ useEffect(()=>{
   };
  
 
+  useEffect(() => {
+    // Define an asynchronous function to fetch sellerInfo from localStorage
+    const fetchUserInfo = async () => {
+      const userInfo = localStorage.getItem("userInfo");
+      if (userInfo) {
+        // You can add await here if needed
+        setUserInfo(userInfo);
+      }
+    };
+    // Call the asynchronous function
+    fetchUserInfo();
+  }, []); // Empty dependency array to run once on mount
   return (
     <>
       <Navbar

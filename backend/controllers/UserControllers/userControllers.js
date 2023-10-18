@@ -198,6 +198,9 @@ const authUser = asyncHandler(async (req, res) => {
     });
     throw new Error("Invalid Email or Password");
   }
+  if(user.isBlock){
+    return res.status(401).json({message:'User Is Blocked'})
+  }
   if (user && (await user.matchPassword(password))) {
     genereateToken(res, user._id);
     res.status(201).json({

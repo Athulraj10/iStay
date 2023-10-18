@@ -64,6 +64,57 @@ const OTPsaveFunction = async (email, otp) => {
   }
 };
 
+// -------------------Aggrigate Booking---------------------------
+const aggregateBookingWithHostel = async (sellerId) => {
+  try {
+    const result = await Booking.aggregate([
+      {
+        $match: { seller: new mongoose.Types.ObjectId(sellerId) }
+      },
+      {
+        $lookup: {
+          from: 'hostels', // Name of the Hostel collection
+          localField: 'hostel',
+          foreignField: '_id',
+          as: 'hostelDetails'
+        }
+      },
+      {
+        $unwind: '$hostelDetails'
+      },
+      {
+        $lookup: {
+          from: 'users', // Name of the Sellers collection
+          localField: 'user',
+          foreignField: '_id',
+          as: 'userDetails'
+        }
+      },
+      {
+        $unwind: '$userDetails'
+      },
+      {
+        $group: {
+          _id: '$_id',
+          // user: { $first: '$user' },
+          // hostel: { $first: '$hostel' },
+          paymentMethod: { $first: '$paymentMethod' },
+          paymentVia: { $first: '$paymentVia' },
+          createdAt: { $first: '$createdAt' },
+          totalAmount: { $first: '$totalAmount' },
+          hostelDetails: { $first: '$hostelDetails' },
+          userDetails: { $first: '$userDetails' }
+        }
+      }
+    ]);
+
+    return result;
+
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // -------------------seller Authentication---------------------------
 // @desc Auth user/set token
 // access Public
@@ -74,6 +125,11 @@ const authSeller = asyncHandler(async (req, res) => {
   if (!seller) {
     return res.status(401).json({
       message: "Invalid Email or Password",
+    });
+  }
+  if (seller.isBlock) {
+    return res.status(401).json({
+      message: "Seller Is blocked",
     });
   }
   if (seller && (await seller.matchPassword(password))) {
@@ -96,13 +152,13 @@ const authSeller = asyncHandler(async (req, res) => {
 // Aggregate daily sales for a specific seller
 const aggregateDailySales = async (sellerId, startDate, endDate) => {
   console.log(sellerId);
-  
+
   // Ensure that sellerId is a valid ObjectId
   const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
   const result = await Booking.aggregate([
     {
       $match: {
-        seller:sellerObjectId,
+        seller: sellerObjectId,
         date: {
           $gte: startDate,
           $lte: endDate,
@@ -124,12 +180,11 @@ const aggregateDailySales = async (sellerId, startDate, endDate) => {
   return result;
 };
 
-
 // Aggregate monthly sales for a specific seller
 const aggregateMonthlySales = async (sellerId, startDate, endDate) => {
   try {
     const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
-     const result = await Booking.aggregate([
+    const result = await Booking.aggregate([
       {
         $match: {
           seller: sellerObjectId,
@@ -151,7 +206,7 @@ const aggregateMonthlySales = async (sellerId, startDate, endDate) => {
     ]);
     return result;
   } catch (error) {
-    console.error('Error in aggregateMonthlySales:', error);
+    console.error("Error in aggregateMonthlySales:", error);
     throw error;
   }
 };
@@ -258,14 +313,14 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-
+// -------------------Dashboard Values page---------------------------
 const dashboardValues = asyncHandler(async (req, res) => {
   try {
     const sellerId = req.query._id;
     const bookingCount = await Booking.countDocuments({ seller: sellerId });
     const revenue = await Booking.aggregate([
       {
-        $unwind: "$seller",
+        $match: { seller: new mongoose.Types.ObjectId(sellerId) }
       },
       {
         $group: {
@@ -273,31 +328,72 @@ const dashboardValues = asyncHandler(async (req, res) => {
           totalAmount: { $sum: "$totalAmount" },
         },
       },
+      {
+        $unwind: "$seller",
+      },
     ]);
 
     const today = new Date(); // Current date
     const dayBeforeYesterday = new Date(today);
     dayBeforeYesterday.setDate(today.getDate() - 1);
     const startOfDay = new Date(dayBeforeYesterday);
-    
+
     const lastMonth = new Date(today);
     lastMonth.setDate(today.getDate() - 20);
     const last20days = new Date(lastMonth);
 
-
     const endOfDay = new Date(today);
-    const dailyRevenue = await aggregateDailySales(sellerId,startOfDay,endOfDay);
-    const monthlyRevenue = await aggregateMonthlySales(sellerId,last20days,endOfDay);
+    const dailyRevenue = await aggregateDailySales(
+      sellerId,
+      startOfDay,
+      endOfDay
+    );
+    const monthlyRevenue = await aggregateMonthlySales(
+      sellerId,
+      last20days,
+      endOfDay
+    );
 
     return res.status(200).json({
-      bookingCount: bookingCount || 0,
-      revenue: revenue[0].totalAmount || 0,
-      dailyRevenue: dailyRevenue || 0,
-      monthlyRevenue: monthlyRevenue || 0,
+      bookingCount: bookingCount ? bookingCount:0,
+      revenue: revenue[0]?.totalAmount?revenue[0].totalAmount : 0,
+      dailyRevenue: dailyRevenue ? dailyRevenue : 0,
+      monthlyRevenue: monthlyRevenue ? monthlyRevenue : 0,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Internal server Error" });
+  }
+});
+// -------------------Seller Notificaition Count Page---------------------------
+const sellerNotification = asyncHandler(async (req, res) => {
+  try {
+    const sellerInfo = req.query.sellerInfo;
+    const sellerBookings = await Booking.countDocuments({seller:sellerInfo});
+    if(sellerBookings){
+      return res.json({sellerBookings})
+    }
+    if(!sellerBookings){
+      return res.status(502).json(null)
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+// -------------------Seller notificaiton detail page---------------------------
+const sellerNotificationDetails = asyncHandler(async (req, res) => {
+  try {
+    const sellerId = req.query.sellerId;
+    const sellerBookings = await aggregateBookingWithHostel(sellerId)
+    if(sellerBookings){
+      console.log(sellerBookings)
+      return res.json({sellerBookings})
+    }
+    if(!sellerBookings){
+      return res.status(502).json(null)
+    }
+  } catch (error) {
+    console.error(error);
   }
 });
 
@@ -532,6 +628,8 @@ export {
 
   //Dashboard Values
   dashboardValues,
+  sellerNotification,
+  sellerNotificationDetails,
 
   // LIST HOSTEL
   listHostels,

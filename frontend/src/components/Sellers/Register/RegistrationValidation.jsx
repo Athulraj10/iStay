@@ -20,7 +20,7 @@ const FormValidation = ({ onSubmit }) => {
     const hasNumber = /\d/;
     // Validate user name
     if (name.trim() === "") {
-      setnameError("User Name is required.");
+      setnameError("Seller Name is required.");
       isValid = false;
     } else if (hasNumber.test(name)) {
       setnameError("Number Not Allowed");
@@ -97,13 +97,13 @@ const FormValidation = ({ onSubmit }) => {
         </Col>
 
         <Col xs={12} md={5} style={rightSection} className="card p-5 ms-5">
-          <h1>Register New User</h1>
+          <h1>Register New Seller</h1>
           <Form onSubmit={handleSubmit}>
             <Form.Group controlId="name" className="mt-2 mb-3">
-              <Form.Label>User Name</Form.Label>
+              <Form.Label>Seller Name</Form.Label>
               <Form.Control
                 type="text"
-                placeholder="Enter User Name"
+                placeholder="Enter Seller Name"
                 value={name}
                 onChange={(e) => setname(e.target.value)}
               />

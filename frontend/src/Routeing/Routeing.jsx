@@ -9,6 +9,8 @@ import OTPScreen from "../components/Users/Screens/OTPScreen";
 import ForgetScreenPassword from "../components/Users/Screens/ForgetScreenPassword";
 import ResetPassword from "../components/Users/Screens/ResetPasswordScreen";
 
+
+
 // --------------Sellers Panel-----------
 import SellerRegisterScreen from "../components/Sellers/Screens/SellerRegisterScreen";
 import SellerLoginScreen from "../components/Sellers/Screens/SellerLoginScreen";
@@ -16,6 +18,13 @@ import SellerDashboardScreen from "../components/Sellers/Screens/SellerDashboard
 import SellerOTPScreen from "../components/Sellers/Screens/SellerOTPScreen";
 import SellerForgetScreenPassword from "../components/Sellers/Screens/SellerForgetScreenPassword";
 import SellerResetPassword from "../components/Sellers/Screens/SellerResetPasswordScreen";
+import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
+import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
+import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
+import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
+import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
+
+
 
 // --------------Admin  Panel-----------
 import AdminLoginScreen from "../components/Admin/Screens/AdminLoginScreen";
@@ -27,11 +36,9 @@ import AdminUserList from "../components/Admin/Screens/AdminUserList";
 import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
 import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 
-import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
-import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
-import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
-import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
-import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
+
+
+
 
 const LazyFindAccommodation = React.lazy(() => import("../components/Users/Screens/FindAccommodationScreen"));
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
@@ -40,7 +47,9 @@ import BookingConformationScreen from "../components/Users/Screens/BookingConfor
 import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
 
+
 import NotFoundScreen from "../components/ErrorPage/ErrorPage";
+import SellerNotificationScreen from "../components/Sellers/Screens/SellerNotificationScreen";
 
 
 const Routeing = () => {
@@ -61,11 +70,14 @@ const Routeing = () => {
       <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
       <Route path="/myBookings" element={<MyBookingScreen />} />
 
+
+
       {/* ----------------------------------------------------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />
       <Route path="/seller/login" element={<SellerLoginScreen />} />
       <Route path="/seller" element={<SellerLoginScreen />} />
       <Route path="/seller/dashboard" element={<SellerDashboardScreen />} />
+      <Route path="/seller/notification" element={<SellerNotificationScreen />} />
       <Route path="/seller/forget" element={<SellerForgetScreenPassword />} />
       <Route path="/seller/verifyOTP" element={<SellerOTPScreen />} />
       <Route path="/seller/resetPassword" element={<SellerResetPassword />} />
