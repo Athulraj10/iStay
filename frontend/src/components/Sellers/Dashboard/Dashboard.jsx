@@ -32,7 +32,6 @@ function Dashboard() {
             params: sellerInfo,
           });
           if (response) {
-            console.log(response);
             const { bookingCount, revenue, dailyRevenue, monthlyRevenue } =
               response.data;
             setBookingCount(bookingCount);

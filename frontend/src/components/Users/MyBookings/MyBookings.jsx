@@ -27,7 +27,7 @@ const MyBookings = () => {
   }, []);
 
   return (
-    <Container style={{ color: "white", height: "90vh" }}>
+    <Container style={{ color: "white", minHeight: "100vh",height:'auto' }}>
       {hostelData.length > 0 ? ( // Check if hostelData has data
         hostelData.map((hostel, index) => (
           <Button
