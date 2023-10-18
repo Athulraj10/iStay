@@ -88,7 +88,7 @@ function Dashboard() {
     datasets: [
       {
         label: "Revenue",
-        data: [firstData, secondData, 3, 5, 3, 5],
+        data: [firstData, secondData, 0.1, 0.1, 0.1, 0.1],
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -162,7 +162,6 @@ function Dashboard() {
           <Col xs lg="2" style={style}>
             <Link to="/admin/listSellers" style={{ textDecoration: "none" }}>
               <h4 className="text-center" style={{ color: "white" }}>
-                {" "}
                 Enquery
               </h4>
               <h4 style={{ color: "green" }}>

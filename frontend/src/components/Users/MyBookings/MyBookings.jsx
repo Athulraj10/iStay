@@ -41,7 +41,7 @@ const MyBookings = () => {
                 src={`http://localhost:5000/images/${hostel.hostelDetails.images[0]}`}
                 alt={`Image`}
                 className="event-image rounded-3"
-                style={{ height: "300px", width: "600px" }}
+                style={{ height: "300px", width: "500px" }}
               />
             </div>
 
@@ -102,9 +102,8 @@ const MyBookings = () => {
                    
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
                       <span style={{ color: "gray" }}>Booked : </span>
-                      {new Date(
-                        hostel.hostelDetails.updatedAt
-                      ).toLocaleDateString()}
+                      {
+                        hostel.hostelDetails.updatedAt.split('T')[0]}
                     </h6>
                   </Col>
                 </Row>
