@@ -40,7 +40,7 @@ import BookingConformationScreen from "../components/Users/Screens/BookingConfor
 import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
 
-import NotFoundScreen from "../components/ErrorPage";
+import NotFoundScreen from "../components/ErrorPage/ErrorPage";
 
 
 const Routeing = () => {
