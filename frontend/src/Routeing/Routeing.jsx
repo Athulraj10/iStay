@@ -35,7 +35,7 @@ import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEd
 
 const LazyFindAccommodation = React.lazy(() => import("../components/Users/Screens/FindAccommodationScreen"));
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
-import AboutPageScreen from "../components/Users/Screens/AboutPageScreen";
+import AboutPageScreen from "../components/Users/Screens/UserProfileScreen";
 import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
 import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 

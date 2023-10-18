@@ -1,8 +1,35 @@
 import React from 'react';
 import './style.css'
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
+import { USERSAPI } from '../../AxiosAPI/AxiosInstance';
 
 export default function AboutPage() {
+  useEffect(() => {
+    const storedUserInfo = localStorage.getItem("userInfo");
+    const userInfo = JSON.parse(storedUserInfo);
+  
+    const fetchUserDetails = async () => {
+      try {
+        const response = await USERSAPI.get('users/profile', {
+          headers: {
+            Authorization: `Bearer ${userInfo.token}`, // Add the user's token to the request headers
+          },
+        });
+  
+        // Handle the response here, e.g., set user details in state
+        console.log(response.data); // Assuming your data is in response.data
+      } catch (error) {
+        // Handle any errors here
+        console.error(error);
+      }
+    }
+  
+    if (userInfo) {
+      fetchUserDetails(userInfo);
+    }
+  }, []);
+  
+  
   return (
     <div className="gradient-custom-2" style={{ backgroundColor: '#9de2ff' }}>
       <MDBContainer className="py-5 h-100">

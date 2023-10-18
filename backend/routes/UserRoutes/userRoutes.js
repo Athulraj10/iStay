@@ -6,7 +6,7 @@ import {
     logoutUser,
     getUserProfile,
     updateUserProfile,
-    forget,verifyOTP,resetPassword,
+    forget,verifyOTP,resetPassword,userProfile,
     
     singlePageView,
     findAccommodation,high,low,search,
@@ -35,6 +35,7 @@ router.post('/login',authUser)
 router.post('/forget',forget)
 router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
+router.get('/profile',userProfile)
 
 
 router.post('/findAccommodation',findAccommodation)

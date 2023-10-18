@@ -1,17 +1,17 @@
 import mongoose from 'mongoose'; // Import mongoose
 
-import asyncHnadler from "express-async-handler";
+import asyncHandler from "express-async-handler";
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import genereateToken from "../../utils/generateToken.js";
 import nodemailer from "nodemailer";
+import { Stripe } from "stripe";
 import {
   sessionSecret,
   emailUser,
   NewAppPassword,
 } from "../../config/config.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
-import { Stripe } from "stripe";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import HostelReview from '../../models/SellerModel/Review.js';
 //@desc forgetOTP
@@ -106,6 +106,31 @@ const aggregateBookingWithHostel = async (userId) => {
     console.log(error);
   }
 }
+const userProfile = asyncHandler(async(req,res)=>{
+  try {
+    const token = req.headers.authorization; // Get the token from the request header
+
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  // Verify the token
+  jwt.verify(token.replace('Bearer ', ''), secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Token is invalid' });
+    }
+
+    // Token is valid, you can access the user data from decoded
+    const userData = decoded;
+
+    // Do something with userData, e.g., retrieve the user profile
+    res.json({ message: 'User profile retrieved', user: userData });
+  });
+
+  } catch (error) {
+    console.log(error)
+  }
+})
 
 // async function getUserBookings(userId) {
 //   return new Promise((resolve, reject) => {
@@ -164,7 +189,7 @@ const OTPsaveFunction = async (email, otp) => {
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
-const authUser = asyncHnadler(async (req, res) => {
+const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
   if (!user) {
@@ -190,7 +215,7 @@ const authUser = asyncHnadler(async (req, res) => {
 //@desc createing new  user
 //access Public
 //route POST// /api/register
-const registerUser = asyncHnadler(async (req, res) => {
+const registerUser = asyncHandler(async (req, res) => {
   const { userName, email, password, mobile } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
@@ -218,7 +243,7 @@ const registerUser = asyncHnadler(async (req, res) => {
 //@desc Auth user/set token
 //access Public
 //route POST// /api/users
-const forget = asyncHnadler(async (req, res) => {
+const forget = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const user = await User.findOne({ email: email });
   if (!user) {
@@ -238,7 +263,7 @@ const forget = asyncHnadler(async (req, res) => {
 });
 
 // -----------------------------Verify OTP ---------------------------
-const verifyOTP = asyncHnadler(async (req, res) => {
+const verifyOTP = asyncHandler(async (req, res) => {
   const { email } = req.body;
   const otp = req.body.enteredOTP;
   try {
@@ -260,9 +285,8 @@ const verifyOTP = asyncHnadler(async (req, res) => {
     console.log(error.message);
   }
 });
-
 // ----------------------------Reset Password-------------
-const resetPassword = asyncHnadler(async (req, res) => {
+const resetPassword = asyncHandler(async (req, res) => {
   const { userId, password } = req.body;
   try {
     const user = await User.findOne({ email: userId });
@@ -282,7 +306,7 @@ const resetPassword = asyncHnadler(async (req, res) => {
   }
 });
 // ----------------------------FindAccommodation-------------
-const findAccommodation = asyncHnadler(async (req, res) => {
+const findAccommodation = asyncHandler(async (req, res) => {
   try {
     const hostels = await Hostel.find({ isBlock: { $ne: true } });
 
@@ -300,7 +324,7 @@ const findAccommodation = asyncHnadler(async (req, res) => {
   }
 });
 // ----------------------------FindAccommodation-------------
-const high = asyncHnadler(async (req, res) => {
+const high = asyncHandler(async (req, res) => {
   try {
     const hostels = await Hostel
     .find({ isBlock: { $ne: true } })
@@ -319,7 +343,7 @@ const high = asyncHnadler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-const low = asyncHnadler(async (req, res) => {
+const low = asyncHandler(async (req, res) => {
   try {
     const hostels = await Hostel
     .find({ isBlock: { $ne: true } })
@@ -338,7 +362,7 @@ const low = asyncHnadler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-const search = asyncHnadler(async (req, res) => {
+const search = asyncHandler(async (req, res) => {
   try {
     const searchValue = req.query.search;
     let hostels = await Hostel.find({
@@ -370,7 +394,7 @@ const search = asyncHnadler(async (req, res) => {
   }
 });
 // ----------------------------singlePageView hostel-------------
-const singlePageView = asyncHnadler(async (req, res) => {
+const singlePageView = asyncHandler(async (req, res) => {
   try {
     const hostel = await Hostel.find({ _id: req.body.id });
     const review = await HostelReview.find({ hostel: req.body.id });
@@ -392,7 +416,7 @@ const singlePageView = asyncHnadler(async (req, res) => {
 });
 
 // ----------------------------singlePageView hostel-------------
-const bookHostel = asyncHnadler(async (req, res) => {
+const bookHostel = asyncHandler(async (req, res) => {
   try {
     const { userId, hostel } = req.body;
     const key = process.env.STRIPE_KEY;
@@ -425,7 +449,7 @@ const bookHostel = asyncHnadler(async (req, res) => {
 });
 
 // ----------------------------Stripe Booking -------------
-const bookingConfirmation = asyncHnadler(async (req, res) => {
+const bookingConfirmation = asyncHandler(async (req, res) => {
   const { userId, hostelId } = req.query;
   try {
     const hostelDatas = await singleHostelFinding(hostelId);
@@ -460,7 +484,7 @@ const bookingConfirmation = asyncHnadler(async (req, res) => {
 });
 
 // ----------------------------user mY booking-------------
-const myBookings = asyncHnadler(async(req,res)=>{
+const myBookings = asyncHandler(async(req,res)=>{
   const userId = req.query.token;
   const response =await aggregateBookingWithHostel(userId)
   try {
@@ -473,7 +497,7 @@ const myBookings = asyncHnadler(async(req,res)=>{
     console.error(error)
   }
 } )
-const addReview = asyncHnadler(async(req,res)=>{
+const addReview = asyncHandler(async(req,res)=>{
   const {userId,hostelId,description}= req.body
   try {
     const review = new HostelReview({
@@ -516,7 +540,7 @@ const addReview = asyncHnadler(async(req,res)=>{
 //@desc logout USer
 //access Public
 //route POST// /api/logout
-const logoutUser = asyncHnadler(async (req, res) => {
+const logoutUser = asyncHandler(async (req, res) => {
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
@@ -531,7 +555,7 @@ const logoutUser = asyncHnadler(async (req, res) => {
 //@desc get user profile
 //access Private
 //route POST// /api/users/profile
-const getUserProfile = asyncHnadler(async (req, res) => {
+const getUserProfile = asyncHandler(async (req, res) => {
   const userDetails = {
     name: req.user.name,
     email: req.user.email,
@@ -544,7 +568,7 @@ const getUserProfile = asyncHnadler(async (req, res) => {
 //@desc get update user profile
 //access Private
 //route PUT// /api/users/profile
-const updateUserProfile = asyncHnadler(async (req, res) => {
+const updateUserProfile = asyncHandler(async (req, res) => {
   const user = await User.findById(req.user._id);
   if (user) {
     user.name = req.body.name || user.name;
@@ -568,10 +592,12 @@ const updateUserProfile = asyncHnadler(async (req, res) => {
 export {
   authUser,
   registerUser,
+  userProfile,
   logoutUser,
   forget,
   getUserProfile,
   updateUserProfile,
+
   verifyOTP,
   resetPassword,
   findAccommodation,
