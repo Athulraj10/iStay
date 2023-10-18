@@ -6,14 +6,14 @@ import {
     logoutUser,
     getUserProfile,
     updateUserProfile,
-    forget,verifyOTP,resetPassword,userProfile,
+    forget,verifyOTP,resetPassword,
     
     singlePageView,
     findAccommodation,high,low,search,
     bookHostel,bookingConfirmation,myBookings,addReview
 }
     from "../../controllers/UserControllers/userControllers.js";
-// import { protect } from "../../middleware/authMiddleware.js";
+import { protect } from "../../middleware/authMiddleware.js";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
@@ -35,7 +35,7 @@ router.post('/login',authUser)
 router.post('/forget',forget)
 router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
-router.get('/profile',userProfile)
+router.get('/profile',protect,getUserProfile)
 
 
 router.post('/findAccommodation',findAccommodation)

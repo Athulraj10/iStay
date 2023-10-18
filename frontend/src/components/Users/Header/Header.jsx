@@ -1,5 +1,14 @@
 import { Navbar, Nav, Container, Alert } from "react-bootstrap";
-import { FaSignOutAlt, FaHotel, FaPhone, FaInfoCircle ,FaSignInAlt, FaUserAltSlash, FaUser, FaBook} from "react-icons/fa";
+import {
+  FaSignOutAlt,
+  FaHotel,
+  FaPhone,
+  FaInfoCircle,
+  FaSignInAlt,
+  FaUserAltSlash,
+  FaUser,
+  FaBook,
+} from "react-icons/fa";
 
 import "./Header.css";
 import logoImage from "./iStays.png";
@@ -11,36 +20,31 @@ import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
+  const [userInfoloaded, setUserInfoloading] = useState(false);
 
   const handleLogout = async () => {
     let res = await USERSAPI.post("users/logout");
     if (res.status) {
       localStorage.removeItem("userInfo");
       setUserInfo(null);
+      setUserInfoloading(false)
       navigate("/login");
     }
   };
   useEffect(() => {
-    // Define an asynchronous function to fetch userInfo from localStorage
-    const fetchUserInfo = async () => {
-      const storedUserInfo = localStorage.getItem("userInfo");
+    const storedUserInfo = localStorage.getItem("userInfo");
+    const fetchUserInfo = async (storedUserInfo) => {
       if (storedUserInfo) {
-        console.log(storedUserInfo , 'in header of user')
-        // You can add await here if needed
-        setUserInfo(storedUserInfo);
+        console.log(storedUserInfo, "in header of user");
+        setUserInfoloading(true);
+        setUserInfo(JSON.parse(storedUserInfo)); // Parse the JSON string into an object
+      } else {
+        setUserInfoloading(false);
       }
     };
-
-    // Call the asynchronous function
-    fetchUserInfo();
-  }, []); // Empty dependency array to run once on mount
-
-  const links = [
-    { name: "About" },
-    { name: "Find Accommodation" },
-    { name: "Contact" },
-    { name: "Logout" },
-  ];
+    fetchUserInfo(storedUserInfo);
+  }, [userInfoloaded]); 
+  
 
   return (
     <>
@@ -60,14 +64,12 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {/* Conditionally render Login/Logout button */}
               {userInfo ? (
-                // If user information is available, show Logout button
                 <>
                   <Nav>
                     <Link to="/profile" className="nav-link">
-                    <FaUser />
-                    &nbsp; Profile
+                      <FaUser />
+                      &nbsp; Profile
                     </Link>
                   </Nav>
 
@@ -80,10 +82,9 @@ const Header = () => {
 
                   <Nav>
                     <Link to="/myBookings" className="nav-link">
-                    <FaBook /> &nbsp;My Bookings
+                      <FaBook /> &nbsp;My Bookings
                     </Link>
                   </Nav>
-
 
                   <Nav.Link onClick={handleLogout}>
                     <FaSignOutAlt /> &nbsp;Logout
@@ -91,6 +92,12 @@ const Header = () => {
                 </>
               ) : (
                 <>
+                 <Nav>
+                    <Link to="/findAccommodation" className="nav-link">
+                      <FaPhone />
+                      &nbsp; Find Accommodation
+                    </Link>
+                  </Nav>
                   <LinkContainer to="/login">
                     <Nav.Link>
                       <FaSignInAlt /> Login In

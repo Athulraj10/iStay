@@ -1,9 +1,14 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import {useNavigate} from "react-router-dom"
+// import { Link } from "react-router-dom";
 import './style.css'
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import { USERSAPI } from '../../AxiosAPI/AxiosInstance';
 
-export default function AboutPage() {
+
+
+export default function UserProfile() {
+  const navigate = useNavigate()
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
@@ -15,8 +20,7 @@ export default function AboutPage() {
             Authorization: `Bearer ${userInfo.token}`, // Add the user's token to the request headers
           },
         });
-  
-        // Handle the response here, e.g., set user details in state
+        console.log(response)
         console.log(response.data); // Assuming your data is in response.data
       } catch (error) {
         // Handle any errors here

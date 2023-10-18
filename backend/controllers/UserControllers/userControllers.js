@@ -106,31 +106,31 @@ const aggregateBookingWithHostel = async (userId) => {
     console.log(error);
   }
 }
-const userProfile = asyncHandler(async(req,res)=>{
-  try {
-    const token = req.headers.authorization; // Get the token from the request header
+// const userProfile = asyncHandler(async(req,res)=>{
+//   try {
+//     const token = req.headers.authorization; // Get the token from the request header
 
-  if (!token) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
+//   if (!token) {
+//     return res.status(401).json({ message: 'Unauthorized' });
+//   }
 
-  // Verify the token
-  jwt.verify(token.replace('Bearer ', ''), secretKey, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: 'Token is invalid' });
-    }
+//   // Verify the token
+//   jwt.verify(token.replace('Bearer ', ''), secretKey, (err, decoded) => {
+//     if (err) {
+//       return res.status(401).json({ message: 'Token is invalid' });
+//     }
 
-    // Token is valid, you can access the user data from decoded
-    const userData = decoded;
+//     // Token is valid, you can access the user data from decoded
+//     const userData = decoded;
 
-    // Do something with userData, e.g., retrieve the user profile
-    res.json({ message: 'User profile retrieved', user: userData });
-  });
+//     // Do something with userData, e.g., retrieve the user profile
+//     res.json({ message: 'User profile retrieved', user: userData });
+//   });
 
-  } catch (error) {
-    console.log(error)
-  }
-})
+//   } catch (error) {
+//     console.log(error)
+//   }
+// })
 
 // async function getUserBookings(userId) {
 //   return new Promise((resolve, reject) => {
@@ -541,6 +541,7 @@ const addReview = asyncHandler(async(req,res)=>{
 //access Public
 //route POST// /api/logout
 const logoutUser = asyncHandler(async (req, res) => {
+  // console.log("logout")
   res.cookie("jwt", "", {
     httpOnly: true,
     expires: new Date(0),
@@ -592,7 +593,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 export {
   authUser,
   registerUser,
-  userProfile,
+  // userProfile,
   logoutUser,
   forget,
   getUserProfile,
