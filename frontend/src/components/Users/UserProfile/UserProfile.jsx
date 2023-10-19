@@ -41,16 +41,16 @@ export default function UserProfile() {
           error.response.data.message
         ) {
           toast.error(error.response.data.message);
-
           if (error.response.data.redirect) {
             setTimeout(() => {
-              navigate(`/${error.response.data.redirect}`);
+              // if no token this will work 
+              navigate(`${error.response.data.redirect}`);
             }, 3000);
           }
         } else {
           toast.error("Please Login");
           setTimeout(() => {
-            navigate('/login');
+            navigate('users/login');
           }, 8000);
         }
       }
