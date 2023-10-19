@@ -15,10 +15,10 @@ const protect = asyncHandler(async (req, res, next) => {
       req.user = userFound;
       next();
     } catch (error) {
-      return res.status(401).json({ message: 'Invalid Token' });
+      return res.status(401).json({ message: 'Invalid Token' ,redirect:'/login'});
     }
   } else {
-    return res.status(401).json({ message: 'Not authorized, No token' });
+    return res.status(401).json({ message: 'Not authorized, Please login',redirect:'/login' });
   }
 });
 

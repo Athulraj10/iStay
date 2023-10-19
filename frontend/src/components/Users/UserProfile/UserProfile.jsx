@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom"
 import './style.css'
 import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBBtn, MDBTypography } from 'mdb-react-ui-kit';
 import { USERSAPI } from '../../AxiosAPI/AxiosInstance';
-
+import {toast} from 'react-toastify'
 
 
 export default function UserProfile() {
@@ -20,11 +20,16 @@ export default function UserProfile() {
             Authorization: `Bearer ${userInfo.token}`, // Add the user's token to the request headers
           },
         });
-        console.log(response)
-        console.log(response.data); // Assuming your data is in response.data
+        if(response.data){
+          console.log(response)
+        }  
       } catch (error) {
-        // Handle any errors here
-        console.error(error);
+        toast.error(error.response.data.message);
+        if (error.response.data.redirect) {
+          setTimeout(() => {
+            navigate(`${error.response.data.redirect}`)
+          }, 3000);
+        }
       }
     }
   
