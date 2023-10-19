@@ -354,6 +354,8 @@ const dashboardValues = asyncHandler(async (req, res) => {
       endOfDay
     );
 
+    // console.log(revenue)
+
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount:0,
       revenue: revenue[0]?.totalAmount?revenue[0].totalAmount : 0,

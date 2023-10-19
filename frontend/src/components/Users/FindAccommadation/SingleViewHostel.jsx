@@ -28,7 +28,8 @@ const SingleViewHostel = () => {
   const [clickedImage, setClickedImage] = useState(null);
 
   const handlePayment = async () => {
-    localStorage.setItem("bookingStarted", userInfo._id);
+    try {
+      localStorage.setItem("bookingStarted", userInfo._id);
     const stripe = await loadStripe(
       "pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu"
     );
@@ -53,6 +54,9 @@ const SingleViewHostel = () => {
     });
     if (result.error) {
       toast.error(result.error);
+    }
+    } catch (error) {
+     toast.error('Please Login')
     }
   };
   const [formData, setFormData] = useState({
