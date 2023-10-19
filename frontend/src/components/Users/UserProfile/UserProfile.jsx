@@ -1,22 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./style.css";
-import {
-  MDBCol,
-  MDBContainer,
-  MDBRow,
-  MDBCard,
-  MDBCardText,
-  MDBCardBody,
-  MDBCardImage,
-  MDBBtn,
-  MDBTypography,
-} from "mdb-react-ui-kit";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 
 export default function UserProfile() {
   const navigate = useNavigate();
+  const [userData,setUserData]=useState()
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -25,11 +15,7 @@ export default function UserProfile() {
     const fetchUserDetails = async () => {
       try {
         const response = await USERSAPI.get("/users/profile");
-        // ,{
-        //   headers: {
-        //     Authorization: `Bearer ${userInfo.token}`, // Add the user's token to the request headers
-        //   },
-        // });
+        
         if (response.data) {
           console.log(response);
         }
@@ -49,7 +35,7 @@ export default function UserProfile() {
         } else {
           toast.error("Please Login");
           setTimeout(() => {
-            navigate("/users/login");
+            navigate("/login");
           }, 3000);
         }
       }

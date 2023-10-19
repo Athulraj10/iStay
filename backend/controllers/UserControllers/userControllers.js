@@ -561,16 +561,15 @@ const logoutUser = asyncHandler(async (req, res) => {
 //route POST// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
  try {
-  
+   const userDetails = {
+     name: req.user.name,
+     email: req.user.email,
+     user_id: req.user._id,
+   };
+   res.status(200).json({ message: "User profile",userDetails});
  } catch (error) {
   console.log(error)
  }
-  // const userDetails = {
-  //   name: req.user.name,
-  //   email: req.user.email,
-  //   user_id: req.user._id,
-  // };
-  // res.status(200).json({ message: "User profile" });
 });
 
 // ---------------------------Update User Profile---------------------------
