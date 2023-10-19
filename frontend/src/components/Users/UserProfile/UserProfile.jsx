@@ -35,25 +35,24 @@ export default function UserProfile() {
           console.log(response);
         }
       } catch (error) {
-        // if (
-        //   error.response &&
-        //   error.response.data &&
-        //   error.response.data.message
-        // ) {
-        //   toast.error('catch block first error')
-        //   toast.error(error.response.data.message);
+        if (
+          error.response &&
+          error.response.data &&
+          error.response.data.message
+        ) {
+          toast.error(error.response.data.message);
 
-        //   if (error.response.data.redirect) {
-        //     setTimeout(() => {
-        //       navigate(`/${error.response.data.redirect}`);
-        //     }, 3000);
-        //   }
-        // } else {
+          if (error.response.data.redirect) {
+            setTimeout(() => {
+              navigate(`/${error.response.data.redirect}`);
+            }, 3000);
+          }
+        } else {
           toast.error("Please Login");
-          // setTimeout(() => {
-          //   navigate('/login');
-          // }, 8000);
-        // }
+          setTimeout(() => {
+            navigate('/login');
+          }, 8000);
+        }
       }
     };
     fetchUserDetails();
