@@ -42,6 +42,7 @@ export default function UserProfile() {
     fetchUserDetails();
   }, []);
 
+   console.log(userData)
   return (
     <div className="gradient-custom-2" style={{ backgroundColor: "#9de2ff" }}>
       <div className="bg-blue-300">
