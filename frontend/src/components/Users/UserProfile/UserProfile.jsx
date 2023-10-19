@@ -31,6 +31,7 @@ export default function UserProfile() {
               navigate(`${error.response.data.redirect}`);
             }, 3000);
           }
+          
         } else {
           toast.error("Please Login");
           setTimeout(() => {
