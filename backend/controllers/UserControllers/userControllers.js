@@ -561,12 +561,11 @@ const logoutUser = asyncHandler(async (req, res) => {
 //route POST// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
  try {
-   const userDetails = await findOne({_id:req.user._id})
-   console.log(userDetails)
+   const userDetails = await User.findOne({_id:req.user._id})
   if(userDetails){
-   res.status(200).json({ message: "User profile",userDetails});
+   return res.status(200).json({ message: "User profile",userDetails});
   }else{
-    res.status(404).json({message:'No User Found'})
+   return res.status(404).json({message:'No User Found'})
   }
   } catch (error) {
   console.log(error)

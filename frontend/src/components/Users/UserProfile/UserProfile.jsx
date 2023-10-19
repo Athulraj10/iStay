@@ -15,9 +15,8 @@ export default function UserProfile() {
     const fetchUserDetails = async () => {
       try {
         const response = await USERSAPI.get("/users/profile");
-        
-        if (response.data) {
-          console.log(response);
+        if (response.data.userDetails) {
+          setUserData(response.data.userDetails)
         }
       } catch (error) {
         if (
