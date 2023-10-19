@@ -15,6 +15,7 @@ const protect = asyncHandler(async (req, res, next) => {
       }
       req.user = userFound;
       next();
+      
     } catch (error) {
       console.log('invalid token')
       return res.status(401).json({ message: 'Invalid Token',redirect:'/login'});
