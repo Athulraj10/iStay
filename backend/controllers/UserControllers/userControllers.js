@@ -560,12 +560,17 @@ const logoutUser = asyncHandler(async (req, res) => {
 //access Private
 //route POST// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
-  const userDetails = {
-    name: req.user.name,
-    email: req.user.email,
-    user_id: req.user._id,
-  };
-  res.status(200).json({ message: "User profile" });
+ try {
+  console.log(req.body)
+ } catch (error) {
+  console.log(error)
+ }
+  // const userDetails = {
+  //   name: req.user.name,
+  //   email: req.user.email,
+  //   user_id: req.user._id,
+  // };
+  // res.status(200).json({ message: "User profile" });
 });
 
 // ---------------------------Update User Profile---------------------------
