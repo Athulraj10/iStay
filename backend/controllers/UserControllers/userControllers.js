@@ -561,7 +561,7 @@ const logoutUser = asyncHandler(async (req, res) => {
 //route POST// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
  try {
-  console.log(req.body)
+  
  } catch (error) {
   console.log(error)
  }
