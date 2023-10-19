@@ -323,13 +323,13 @@ const dashboardValues = asyncHandler(async (req, res) => {
         $match: { seller: new mongoose.Types.ObjectId(sellerId) }
       },
       {
+        $unwind: "$seller",
+      },
+      {
         $group: {
           _id: "$seller",
           totalAmount: { $sum: "$totalAmount" },
         },
-      },
-      {
-        $unwind: "$seller",
       },
     ]);
 
@@ -354,7 +354,6 @@ const dashboardValues = asyncHandler(async (req, res) => {
       endOfDay
     );
 
-    // console.log(revenue)
 
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount:0,
@@ -398,7 +397,6 @@ const sellerNotificationDetails = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
-
 // ----------------------------List seller Hostels-------------
 const listHostels = asyncHandler(async (req, res) => {
   try {
@@ -414,7 +412,6 @@ const listHostels = asyncHandler(async (req, res) => {
     });
   }
 });
-
 // ----------------------------Edit Hostels Data senting Part-------------
 const editHostel = asyncHandler(async (req, res) => {
   const id = req.body._id;
@@ -425,7 +422,6 @@ const editHostel = asyncHandler(async (req, res) => {
     console.log(error);
   }
 });
-
 // ----------------------------editHostel Details Hostel data receiving part-------------
 const editHostelDetails = asyncHandler(async (req, res) => {
   const formDataObject = req.body;
@@ -496,7 +492,6 @@ const editHostelDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error." });
   }
 });
-
 // ----------------------------Seller Add Hostel-------------
 const addHostelDetails = asyncHandler(async (req, res) => {
   const formDataObject = req.body;
@@ -559,7 +554,6 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Some Field Missing or Server Error" });
   }
 });
-
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
 //access Public
@@ -577,54 +571,12 @@ const logoutSeller = asyncHandler(async (req, res) => {
   res.status(200).json({ status: "User Logout" });
 });
 
-// ---------------------------Get User Profile---------------------------
-//@desc get user profile
-//access Private
-//route POST// /api/users/profile
-// const getUserProfile = asyncHandler(async (req, res) => {
-//   // console.log(req.user)
-//   const userDetails = {
-//     name: req.user.name,
-//     email: req.user.email,
-//     user_id: req.user._id,
-//   };
-//   // console.log(userDetails)
-//   res.status(200).json({ message: "User profile" });
-// });
-
-// ---------------------------Update User Profile---------------------------
-//@desc get update user profile
-//access Private
-//route PUT// /api/users/profile
-// const updateUserProfile = asyncHandler(async (req, res) => {
-//   const user = await User.findById(req.user._id);
-//   // console.log(user)
-//   if (user) {
-//     // console.log(req.body)
-//     user.name = req.body.name || user.name;
-//     user.email = req.body.email || user.email;
-//     if (req.body.password) {
-//       user.password = req.body.password;
-//     }
-//     const updatedUser = await user.save();
-//     res.status(200).json({
-//       _id: updatedUser._id,
-//       name: updatedUser.name,
-//       email: updatedUser.email,
-//     });
-//   } else {
-//     res.status(404);
-//     throw new Error("User Not Found");
-//   }
-// });
-
 export {
+  // Admin AUthentication and more
   authSeller,
   registerSeller,
   logoutSeller,
   sellerForget,
-  // getUserProfile,
-  // updateUserProfile,
   sellerVerifyOTP,
   sellersResetPassword,
 
