@@ -18,7 +18,6 @@ export default function UserProfile() {
         if (response.data.userDetails) {
           setUserData(response.data.userDetails)
         }
-        
       } catch (error) {
         if (
           error.response &&
