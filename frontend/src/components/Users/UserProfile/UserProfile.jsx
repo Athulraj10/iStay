@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Link } from "react-router-dom";
 import "./style.css";
 import {
   MDBCol,
@@ -18,40 +17,43 @@ import { toast } from "react-toastify";
 
 export default function UserProfile() {
   const navigate = useNavigate();
+
+
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
 
     const fetchUserDetails = async () => {
       try {
-        const response = await USERSAPI.get("users/profile", {
-          headers: {
-            Authorization: `Bearer ${userInfo.token}`, // Add the user's token to the request headers
-          },
-        });
+        const response = await USERSAPI.get("/users/profile")
+        // ,{
+        //   headers: {
+        //     Authorization: `Bearer ${userInfo.token}`, // Add the user's token to the request headers
+        //   },
+        // });
         if (response.data) {
           console.log(response);
         }
       } catch (error) {
-        if (
-          error.response &&
-          error.response.data &&
-          error.response.data.message
-        ) {
-          toast.error('catch block first error')
-          toast.error(error.response.data.message);
+        // if (
+        //   error.response &&
+        //   error.response.data &&
+        //   error.response.data.message
+        // ) {
+        //   toast.error('catch block first error')
+        //   toast.error(error.response.data.message);
 
-          if (error.response.data.redirect) {
-            setTimeout(() => {
-              navigate(`/${error.response.data.redirect}`);
-            }, 3000);
-          }
-        } else {
+        //   if (error.response.data.redirect) {
+        //     setTimeout(() => {
+        //       navigate(`/${error.response.data.redirect}`);
+        //     }, 3000);
+        //   }
+        // } else {
           toast.error("Please Login");
-          setTimeout(() => {
-            navigate('/login');
-          }, 3000);
-        }
+          // setTimeout(() => {
+          //   navigate('/login');
+          // }, 8000);
+        // }
       }
     };
     fetchUserDetails();
