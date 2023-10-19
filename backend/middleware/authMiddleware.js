@@ -5,6 +5,7 @@ import User from "../models/UserModels/userModel.js";
 const protect = asyncHandler(async (req, res, next) => {
   let token;
   token = req.cookies.jwt;
+  console.log('token')
   if (token) {
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
@@ -15,9 +16,11 @@ const protect = asyncHandler(async (req, res, next) => {
       req.user = userFound;
       next();
     } catch (error) {
+      console.log('invalid token')
       return res.status(401).json({ message: 'Invalid Token' ,redirect:'/login'});
     }
   } else {
+    console.log('no Token')
     return res.status(401).json({ message: 'Not authorized, Please login',redirect:'/login' });
   }
 });

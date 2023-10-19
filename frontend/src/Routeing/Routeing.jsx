@@ -42,7 +42,7 @@ import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 
 const LazyFindAccommodation = React.lazy(() => import("../components/Users/Screens/FindAccommodationScreen"));
 import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
-import AboutPageScreen from "../components/Users/Screens/UserProfileScreen";
+import UserProfileScreen from "../components/Users/Screens/UserProfileScreen";
 import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
 import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
@@ -59,7 +59,7 @@ const Routeing = () => {
       {/* ------------------------------UserScreen */}
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
-      <Route path="/profile" element={<AboutPageScreen />} />
+      <Route path="/profile" element={<UserProfileScreen />} />
       <Route path="/" element={<HomeScreen />} />
       <Route path="/forget" element={<ForgetScreenPassword />} />
       <Route path="/OTP" element={<OTPScreen />} />
