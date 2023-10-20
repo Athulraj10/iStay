@@ -46,7 +46,7 @@ const SellerHeader = () => {
       }
     };
     fetchsellerInfo();
-  }, [notification]); 
+  }, []); 
   return (
     <>
       <Navbar
