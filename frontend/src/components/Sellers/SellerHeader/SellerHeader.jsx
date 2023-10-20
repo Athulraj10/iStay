@@ -46,7 +46,7 @@ const SellerHeader = () => {
     };
   
     fetchSellerInfo();
-  }, []); // Empty dependency array to run this effect only once
+  }, []);
 
   
   return (
