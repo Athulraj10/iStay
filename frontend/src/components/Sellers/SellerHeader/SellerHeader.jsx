@@ -29,23 +29,26 @@ const SellerHeader = () => {
   };
 
   useEffect(() => {
-    const fetchsellerInfo = async () => {
-      const storedsellerInfo = localStorage.getItem("sellerInfo");
-      const parsedSellerInfo = JSON.parse(storedsellerInfo);
+    const fetchSellerInfo = async () => {
+      const storedSellerInfo = localStorage.getItem("sellerInfo");
+      const parsedSellerInfo = JSON.parse(storedSellerInfo);
       if (parsedSellerInfo) {
         setsellerInfo(parsedSellerInfo);
-      }
-      const response = await USERSAPI.get("seller/notification",{
-        params: { sellerInfo: parsedSellerInfo._id },
-      });
-      if (response.data.sellerBookings) {
-        setNotification(response.data.sellerBookings);
-      } else {
-        setNotification(null);
+        const response = await USERSAPI.get("seller/notification", {
+          params: { sellerInfo: parsedSellerInfo._id },
+        });
+        if (response.data.sellerBookings) {
+          setNotification(response.data.sellerBookings);
+        } else {
+          setNotification(null);
+        }
       }
     };
-    fetchsellerInfo();
-  },[sellerInfo]); 
+  
+    fetchSellerInfo();
+  }, []); // Empty dependency array to run this effect only once
+
+  
   return (
     <>
       <Navbar
@@ -64,9 +67,7 @@ const SellerHeader = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {/* Conditionally render Login/Logout button */}
               {sellerInfo ? (
-                // If user information is available, show Logout button
                 <>
                   <Link to="/seller/message" className="nav-link">
                     <FaStore /> List Messge
