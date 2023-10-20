@@ -79,7 +79,6 @@ const SellerHeader = () => {
                   <Link to="/seller/listHostels" className="nav-link">
                     <FaHome /> List Hostel
                   </Link>
-
                   <Link to="/seller/notification" className="nav-link">
                     <FaBell /> Notification
                     {notification != null ? (
@@ -95,6 +94,7 @@ const SellerHeader = () => {
                       </span>
                     ) : null}
                   </Link>
+
 
                   <Nav.Link onClick={handleLogout}>
                     <FaSignOutAlt /> Logout
