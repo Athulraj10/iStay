@@ -43,10 +43,9 @@ const SellerHeader = () => {
       } else {
         setNotification(null);
       }
-      
     };
     fetchsellerInfo();
-  }, [response]); 
+  },[sellerInfo]); 
   return (
     <>
       <Navbar
