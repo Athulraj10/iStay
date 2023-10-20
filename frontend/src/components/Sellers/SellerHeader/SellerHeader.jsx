@@ -16,7 +16,7 @@ import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const SellerHeader = () => {
   const location = useNavigate();
-  const [sellerInfo, setsellerInfo] = useState(null);
+  const [sellerInfo, setsellerInfo] = useState();
   const [notification, setNotification] = useState(null);
 
   const handleLogout = async () => {
@@ -29,11 +29,13 @@ const SellerHeader = () => {
   };
 
   useEffect(() => {
-    // Define an asynchronous function to fetch sellerInfo from localStorage
     const fetchsellerInfo = async () => {
       const storedsellerInfo = localStorage.getItem("sellerInfo");
       const parsedSellerInfo = JSON.parse(storedsellerInfo);
-      const response = await USERSAPI.get("seller/notification", {
+      if (parsedSellerInfo) {
+        setsellerInfo(parsedSellerInfo);
+      }
+      const response = await USERSAPI.get("seller/notification",{
         params: { sellerInfo: parsedSellerInfo._id },
       });
       if (response.data.sellerBookings) {
@@ -41,12 +43,10 @@ const SellerHeader = () => {
       } else {
         setNotification(null);
       }
-      if (parsedSellerInfo) {
-        setsellerInfo(parsedSellerInfo);
-      }
+      
     };
     fetchsellerInfo();
-  }, []); 
+  }, [response]); 
   return (
     <>
       <Navbar
@@ -105,7 +105,7 @@ const SellerHeader = () => {
                 <>
                   <LinkContainer to="/seller/login">
                     <>
-                      <Link to="/seller/message" className="nav-link">
+                      {/* <Link to="/seller/message" className="nav-link">
                         <FaStore /> List Messge
                       </Link>
 
@@ -115,9 +115,9 @@ const SellerHeader = () => {
 
                       <Link to="/seller/listHostels" className="nav-link">
                         <FaHome /> List Hostel
-                      </Link>
+                      </Link> */}
 
-                      <Link to="/seller/notification" className="nav-link">
+                      {/* <Link to="/seller/notification" className="nav-link">
                     <FaBell /> Notification
                     {notification != null ? (
                       <span
@@ -131,12 +131,12 @@ const SellerHeader = () => {
                       {notification}
                       </span>
                     ) : null}
-                  </Link>
+                  </Link> */}
 
 
-                      <Nav.Link onClick={handleLogout}>
+                      {/* <Nav.Link onClick={handleLogout}>
                         <FaSignOutAlt /> Logout
-                      </Nav.Link>
+                      </Nav.Link> */}
                     </>
                   </LinkContainer>
                 </>
