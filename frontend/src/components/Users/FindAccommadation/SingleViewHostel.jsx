@@ -60,10 +60,10 @@ const SingleViewHostel = () => {
     }
   };
   const [formData, setFormData] = useState({
-    userId: "", // Make sure you set userId and hostelId as needed
+    userId: "",
     hostelId: "",
     hostelReview: "",
-    files: [], // Store the primary image here
+    files: [],
   });
 
   const [imageUrls, setImageUrls] = useState([]);
