@@ -1,20 +1,21 @@
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import User from "../models/UserModels/userModel.js";
+import Seller from "../../models/SellerModel/SellerModel";
 
-const protect = asyncHandler(async (req, res, next) => {
+
+const sellerMiddleware = asyncHandler(async (req, res, next) => {
   let token;
   token = req.cookies.jwt;
   if (token) {
     console.log(token)
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      let userFound = await User.findById(decodedToken.userId).select('-password');
-      if (!userFound) {
-        return res.status(401).json({ message: 'User not found' });
+      let seller = await Seller.findById(decodedToken.userId).select('-password');
+      if (!seller) {
+        return res.status(401).json({ message: 'Seller not found' });
       }
-      req.user = userFound;
-      console.log(userFound)
+      req.seller = seller;
+      console.log(seller)
       next();
       
     } catch (error) {
@@ -27,4 +28,4 @@ const protect = asyncHandler(async (req, res, next) => {
   }
 });
 
-export { protect };
+export { sellerMiddleware };

@@ -43,7 +43,7 @@ sellerRoute.post("/resetPassword",sellersResetPassword);
 
 
 // -----------Dashboard Manageing-----------
-sellerRoute.get("/dashboard",dashboardValues)
+sellerRoute.get("/dashboard",protect,dashboardValues)
 sellerRoute.get("/notification",sellerNotification)
 sellerRoute.get("/notificationDetails",sellerNotificationDetails)
 
