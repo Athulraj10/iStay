@@ -48,7 +48,6 @@ const SellerHeader = () => {
     fetchSellerInfo();
   }, []);
 
-  
   return (
     <>
       <Navbar
