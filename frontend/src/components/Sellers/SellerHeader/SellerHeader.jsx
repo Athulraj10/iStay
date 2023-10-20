@@ -113,10 +113,11 @@ const SellerHeader = () => {
                         <FaUser /> List Enquery
                       </Link>
 
-                      
+
                       <Link to="/seller/listHostels" className="nav-link">
                         <FaHome /> List Hostel
                       </Link> */}
+
 
                       {/* <Link to="/seller/notification" className="nav-link">
                     <FaBell /> Notification
