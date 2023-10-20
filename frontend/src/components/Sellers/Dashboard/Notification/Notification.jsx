@@ -18,11 +18,12 @@ function Notification() {
   useEffect(() => {
     const storedSellerInfo = localStorage.getItem("sellerInfo");
     if (storedSellerInfo) {
-      console.log(storedSellerInfo);
       setSellerInfo(storedSellerInfo);
       const seller = JSON.parse(storedSellerInfo);
       setSellerId(seller._id);
       setDataReceived(true);
+    }else{
+      navigate('/seller/login')
     }
   }, [dataReceived]);
 
@@ -35,7 +36,6 @@ function Notification() {
         const responseData = res.data.sellerBookings;
         setData(responseData);
         setLoading(false);
-        console.log(data);
       };
       fetchdata();
     }

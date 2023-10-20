@@ -18,7 +18,7 @@ import {
 
   logoutSeller,
 } from "../../controllers/sellerController/SellerControllers.js";
-import { protect } from "../../middleware/authMiddleware.js";
+import { sellerMiddleware } from "../../middleware/SellerMiddleware/SellerMiddleware.js";
 import multer from "multer";
 
 const storage = multer.diskStorage({
@@ -43,18 +43,18 @@ sellerRoute.post("/resetPassword",sellersResetPassword);
 
 
 // -----------Dashboard Manageing-----------
-sellerRoute.get("/dashboard",protect,dashboardValues)
-sellerRoute.get("/notification",sellerNotification)
-sellerRoute.get("/notificationDetails",sellerNotificationDetails)
+sellerRoute.get("/dashboard",sellerMiddleware,dashboardValues)
+sellerRoute.get("/notification",sellerMiddleware,sellerNotification)
+sellerRoute.get("/notificationDetails",sellerMiddleware,sellerNotificationDetails)
 
 
 // -----------hostel Manageing-----------
-sellerRoute.post("/listHostels",listHostels);
-sellerRoute.post("/listHostels/editHostel",editHostel);
-sellerRoute.post("/listHostels/edithostelDetails",
+sellerRoute.post("/listHostels",sellerMiddleware,listHostels);
+sellerRoute.post("/listHostels/editHostel",sellerMiddleware,editHostel);
+sellerRoute.post("/listHostels/edithostelDetails",sellerMiddleware,
 upload.array('files',10),editHostelDetails);
 sellerRoute.post(
-  '/listHostels/addhostelDetails',
+  '/listHostels/addhostelDetails',sellerMiddleware,
   upload.array('files', 10), 
     addHostelDetails
 );

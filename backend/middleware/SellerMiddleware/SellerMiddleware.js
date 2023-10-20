@@ -1,13 +1,13 @@
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import Seller from "../../models/SellerModel/SellerModel";
+import Seller from "../../models/SellerModel/SellerModel.js";
 
 
 const sellerMiddleware = asyncHandler(async (req, res, next) => {
   let token;
   token = req.cookies.jwt;
   if (token) {
-    console.log(token)
+    console.log("token received")
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       let seller = await Seller.findById(decodedToken.userId).select('-password');
@@ -15,7 +15,6 @@ const sellerMiddleware = asyncHandler(async (req, res, next) => {
         return res.status(401).json({ message: 'Seller not found' });
       }
       req.seller = seller;
-      console.log(seller)
       next();
       
     } catch (error) {

@@ -1,7 +1,7 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
@@ -9,6 +9,7 @@ import Chart from "chart.js/auto";
 import React from "react";
 
 function Dashboard() {
+  const navigate = useNavigate()
   const [sellerInfo, setSellerInfo] = useState([]);
 
   const [bookingCount, setBookingCount] = useState(0);
@@ -23,6 +24,9 @@ function Dashboard() {
       try {
         const storedSellerInfo = localStorage.getItem("sellerInfo");
         const sellerInfo = JSON.parse(storedSellerInfo);
+        if (!sellerInfo) {
+          navigate('/seller/login')
+        }
         if (sellerInfo) {
           setSellerInfo(sellerInfo);
         }
@@ -40,12 +44,14 @@ function Dashboard() {
           }
         }
       } catch (error) {
+        console.log(error)
         toast.error(error.message);
         setLoading(false);
       }
     };
     fetchData();
   }, []);
+
 
   const chartRef = React.createRef();
 

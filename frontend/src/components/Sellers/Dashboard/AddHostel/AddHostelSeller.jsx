@@ -10,14 +10,14 @@ const AddHostelSeller = () => {
   const [sellerInfo, setSellerInfo] = useState(null);
   const [sellerIdStored,setsellerId] = useState("");
   useEffect(() => {
-    // Define an asynchronous function to fetch sellerInfo from localStorage
     const fetchsellerInfo = async () => {
       const storedsellerInfo = localStorage.getItem("sellerInfo");
       if (storedsellerInfo) {
-        // You can add await here if needed
         setSellerInfo(storedsellerInfo);
         const seller = JSON.parse(storedsellerInfo);
         setsellerId(seller._id)
+      }else{
+        navigate('/seller/login')
       }
     }; 
     // Call the asynchronous function

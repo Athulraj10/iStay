@@ -3,11 +3,11 @@ import { Container, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import './style.css'
+import "./style.css";
 
 function ListHostel() {
-  const navigate = useNavigate()
-  const location = useLocation()
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const [sellerInfo, setSellerInfo] = useState(null);
   const [sellerIdStored, setSellerId] = useState("");
@@ -18,13 +18,14 @@ function ListHostel() {
   useEffect(() => {
     const storedSellerInfo = localStorage.getItem("sellerInfo");
     if (storedSellerInfo) {
-      console.log(storedSellerInfo);
       setSellerInfo(storedSellerInfo);
       const seller = JSON.parse(storedSellerInfo);
       setSellerId(seller._id);
       setDataReceived(true);
+    } else {
+      navigate("/seller/login");
     }
-  }, [dataReceived]); 
+  }, [dataReceived]);
 
   useEffect(() => {
     if (dataReceived) {
@@ -40,22 +41,22 @@ function ListHostel() {
     }
   }, [dataReceived, sellerIdStored]);
 
-  const handleEditButton = async (hostelId)=>{
-      if (hostelId) {
-          const res = await USERSAPI.post("seller/listHostels/editHostel", {
-            _id:hostelId,
-          });
-          const responseData = res.data.data;
-          if(responseData){
-            navigate('/seller/listHostels/editHostelDetails',{state:{responseData}})
-          }
+  const handleEditButton = async (hostelId) => {
+    if (hostelId) {
+      const res = await USERSAPI.post("seller/listHostels/editHostel", {
+        _id: hostelId,
+      });
+      const responseData = res.data.data;
+      if (responseData) {
+        navigate("/seller/listHostels/editHostelDetails", {
+          state: { responseData },
+        });
+      }
     }
-  }
+  };
 
   return (
-    <div
-      className="event-schedule-area-two p-4 rounded"
-    >
+    <div className="event-schedule-area-two p-4 rounded">
       <Container>
         <Row>
           <Link to="/seller/listHostels/addhostel">
@@ -67,7 +68,6 @@ function ListHostel() {
           </Link>
         </Row>
 
-
         <Row>
           <Col lg={12}>
             <div className="tab-content" id="myTabContent">
@@ -76,9 +76,9 @@ function ListHostel() {
                 id="home"
                 role="tabpanel"
               >
-                <div  className="table-responsive">
-                <table className="table table-bordered transparent-table">
-                    <thead >
+                <div className="table-responsive">
+                  <table className="table table-bordered transparent-table">
+                    <thead>
                       <tr>
                         <th className="text-center" scope="col">
                           Hostel Name
@@ -101,19 +101,25 @@ function ListHostel() {
                               </div>
                             </td>
                             <td className="align-middle">
-                              <div className="event-img">{item.mainLocation}</div>
+                              <div className="event-img">
+                                {item.mainLocation}
+                              </div>
                             </td>
 
                             <td className="align-middle">
                               <div className="event-wrap">
                                 {item.images.map((image, index) => (
-                                 <img
+                                  <img
                                     key={index}
                                     src={`http://localhost:5000/images/${image}`}
-                                    // src={`/public/${image}`} 
+                                    // src={`/public/${image}`}
                                     alt={`Image ${index}`}
                                     className="event-image"
-                                    style={{height:'100px', width:'100px', margin:'10px'}}
+                                    style={{
+                                      height: "100px",
+                                      width: "100px",
+                                      margin: "10px",
+                                    }}
                                   />
                                 ))}
                               </div>
@@ -134,9 +140,9 @@ function ListHostel() {
                                   {item.isBlock ? "Admin Blocked" : "Live"}
                                 </button>
                                 <button
-                                className="m-1 btn btn-primary"
+                                  className="m-1 btn btn-primary"
                                   onClick={() => handleEditButton(item._id)} // Pass item._id as a parameter
-                                 >
+                                >
                                   Edit
                                 </button>
                               </div>
