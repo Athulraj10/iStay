@@ -120,8 +120,8 @@ const SingleViewHostel = () => {
       console.error(error);
       // Display the error message as a toast notification
       toast.error(error.response.data.message, {
-        position: "top-right", // You can customize the position if needed
-        autoClose: 5000, // How long the toast will be displayed (in milliseconds)
+        position: "top-right", 
+        autoClose: 5000,
       });
     }
   };
