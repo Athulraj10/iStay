@@ -4,7 +4,6 @@ import User from "../models/UserModels/userModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-  console.log('token')
   token = req.cookies.jwt;
   if (token) {
     try {
@@ -14,6 +13,7 @@ const protect = asyncHandler(async (req, res, next) => {
         return res.status(401).json({ message: 'User not found' });
       }
       req.user = userFound;
+      console.log(userFound)
       next();
       
     } catch (error) {

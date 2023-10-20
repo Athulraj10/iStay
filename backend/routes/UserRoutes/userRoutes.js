@@ -47,7 +47,7 @@ router.post('/bookingHostel',bookHostel)
 router.get('/bookingConfirmation/',bookingConfirmation)
 router.post('/addReview',upload.array('files',3),addReview)
 
-router.get('/myBookings',myBookings)
+router.get('/myBookings',protect,myBookings)
 
 // router.post('/',)
 router.post('/logout',logoutUser)

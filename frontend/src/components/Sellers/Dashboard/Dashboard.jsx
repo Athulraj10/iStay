@@ -27,7 +27,6 @@ function Dashboard() {
           setSellerInfo(sellerInfo);
         }
         if (sellerInfo) {
-          console.log(sellerInfo);
           const response = await USERSAPI.get("/seller/dashboard", {
             params: sellerInfo,
           });

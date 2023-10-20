@@ -103,7 +103,7 @@ const aggregateBookingWithHostel = async (userId) => {
     return result;
 
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
 }
 // const userProfile = asyncHandler(async(req,res)=>{
@@ -128,7 +128,7 @@ const aggregateBookingWithHostel = async (userId) => {
 //   });
 
 //   } catch (error) {
-//     console.log(error)
+//     console.error(error)
 //   }
 // })
 
@@ -285,7 +285,7 @@ const verifyOTP = asyncHandler(async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 });
 // ----------------------------Reset Password-------------
@@ -401,7 +401,6 @@ const singlePageView = asyncHandler(async (req, res) => {
   try {
     const hostel = await Hostel.find({ _id: req.body.id });
     const review = await HostelReview.find({ hostel: req.body.id });
-    console.log(review)
     if (!hostel) {
       return res.status(404).json({ message: "Something Wrong Please Try Again" });
     }
@@ -544,8 +543,8 @@ const addReview = asyncHandler(async(req,res)=>{
 //access Public
 //route POST// /api/logout
 const logoutUser = asyncHandler(async (req, res) => {
-  // console.log("logout")
-  res.cookie("jwt", "", {
+  console.log("logout")
+  res.cookie("jwt", "",{
     httpOnly: true,
     expires: new Date(0),
     secure: false, // Set to true if you're using HTTPS
@@ -562,13 +561,14 @@ const logoutUser = asyncHandler(async (req, res) => {
 const getUserProfile = asyncHandler(async (req, res) => {
  try {
    const userDetails = await User.findOne({_id:req.user._id})
+  //  console.log(userDetails)
   if(userDetails){
    return res.status(200).json({ message: "User profile",userDetails});
   }else{
    return res.status(404).json({message:'No User Found'})
   }
   } catch (error) {
-  console.log(error)
+  console.error(error)
  }
 });
 

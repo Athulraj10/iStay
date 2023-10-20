@@ -45,9 +45,8 @@ const SellerHeader = () => {
         setsellerInfo(parsedSellerInfo);
       }
     };
-    // Call the asynchronous function
     fetchsellerInfo();
-  }, [notification]); // Empty dependency array to run once on mount
+  }, [notification]); 
   return (
     <>
       <Navbar
