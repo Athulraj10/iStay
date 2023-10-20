@@ -56,7 +56,7 @@ const SellerHeader = () => {
         expand="lg"
         collapseOnSelect
       >
-        
+
         <Container>
           <LinkContainer to="/seller">
             <Navbar.Brand>
