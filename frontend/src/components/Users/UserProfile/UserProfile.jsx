@@ -18,6 +18,7 @@ export default function UserProfile() {
         if (response.data.userDetails) {
           setUserData(response.data.userDetails)
         }
+        
       } catch (error) {
         if (
           error.response &&
@@ -31,7 +32,7 @@ export default function UserProfile() {
               navigate(`${error.response.data.redirect}`);
             }, 3000);
           }
-          
+
         } else {
           toast.error("Please Login");
           setTimeout(() => {
