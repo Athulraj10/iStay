@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 import { Container, Button, Row, Col } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
 function ListHostel() {
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0); // Add currentPage state
@@ -38,18 +39,23 @@ function ListHostel() {
 
 
   useEffect(() => {
+   const adminInfo =  localStorage.getItem('adminInfo');
+   if(adminInfo){
     const fetchData = async () => {
       try {
-        const res = await USERSAPI.post("admin/listHostels");
+        const response = await USERSAPI.post("admin/listHostels");
         const responseData = res.data.data;
         setData(responseData);
         setLoading(false);
       } catch (error) {
-        toast.error(error.message);
+        toast.error(error.response.data.message);
         setLoading(false);
       }
     };
     fetchData();
+   }else{
+    navigate('/admin')
+   }
   },[handleBlockButton]);
   return (
     <div
