@@ -9,7 +9,7 @@ import {
 import Admin from "../../models/AdminModel/adminModel.js";
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
-import generateToken from "../../utils/generateToken.js";
+import generateTokenAdmin from "../../utils/generateTokenAdmin.js";
 import Seller from "../../models/SellerModel/SellerModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
@@ -174,7 +174,7 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 
     if (admin && (await admin.matchPassword(password))) {
       // Assuming generateToken is a valid function
-      const token = generateToken(res, admin._id);
+      const token = generateTokenAdmin(res, admin._id);
       return res.status(201).json({
         _id: admin._id,
         name: admin.name,

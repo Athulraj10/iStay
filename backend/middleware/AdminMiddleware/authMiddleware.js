@@ -4,16 +4,17 @@ import Admin from "../../models/AdminModel/adminModel.js";
 
 const adminMiddleware = asyncHandler(async (req, res, next) => {
   let token;
-  token = req.cookies.jwtAdminKey;
+  token = req.cookies.jwt_Admin;
   if (token) {
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      let adminFount = await Admin.findById(decodedToken.userId).select('-password');
-      if (!adminFount) {
+      console.log(decodedToken)
+      let adminFound = await Admin.findById(decodedToken.admin_id).select('-password');
+      if (!adminFound) {
         return res.status(401).json({ message: 'Admin not found' });
       }
-      req.admin = adminFount;
-      console.log(adminFount)
+      req.admin = adminFound;
+      console.log(adminFound)
       next();
       
     } catch (error) {

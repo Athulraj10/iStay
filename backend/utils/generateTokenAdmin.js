@@ -1,14 +1,14 @@
 import jwt from "jsonwebtoken";
-const generateToken = (res,userId)=>{
-    const token = jwt.sign({userId},process.env.JWT_SECRET,{
+const generateTokenAdmin = (res,admin_id)=>{
+    const token = jwt.sign({admin_id},process.env.JWT_SECRET,{
         expiresIn:'14d'
     });
 
-    res.cookie('jwt_User', token ,{
+    res.cookie('jwt_Admin', token ,{
         httpOnly:true,
         secure:process.env.NODE_ENV !== 'development',
         sameSite : 'strict',
         maxAge : 14 * 24 * 60 * 1000
     })
 }
-export default generateToken;
+export default generateTokenAdmin;

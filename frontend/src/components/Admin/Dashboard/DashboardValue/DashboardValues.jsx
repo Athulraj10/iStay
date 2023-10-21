@@ -50,7 +50,6 @@ function dashboardValues() {
         } catch (error) {
           toast.error(error.response.data.message || 'Internal Error');
           setLoading(false);
-          return navigate('/admin')
         }
       }else{
         navigate('/admin')
