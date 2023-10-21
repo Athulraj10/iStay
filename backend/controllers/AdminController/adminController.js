@@ -130,13 +130,13 @@ const sendForgetPassword = async (name, email, OTP) => {
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
-        console.log(error);
+        console.error(error);
       } else {
-        console.log("email successfully", info.response);
+        console.error("email successfully", info.response);
       }
     });
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 };
 // -------------------Save OTP Function with UserEmail---------------------------
@@ -153,7 +153,7 @@ const OTPsaveFunction = async (email, otp) => {
     const OTPsaved = await saveOTP.save();
     return;
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 };
 // -------------------admin Authentication---------------------------
@@ -162,11 +162,11 @@ const OTPsaveFunction = async (email, otp) => {
 // route POST// /api/admin
 const adminAuthentication = asyncHandler(async (req, res) => {
   try {
-    console.log(req.body);
+    console.error(req.body);
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      console.log("admin not found");
+      console.error("admin not found");
       return res.status(401).json({
         message: "Invalid Email or Password",
       });
@@ -174,13 +174,12 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 
     if (admin && (await admin.matchPassword(password))) {
       // Assuming generateToken is a valid function
-      const token = generateToken(res, admin._id); // Pass res as the first argument
-
+      const token = generateToken(res, admin._id);
       return res.status(201).json({
         _id: admin._id,
         name: admin.name,
         email: admin.email,
-        token, // Send the token back to the client
+        token,
       });
     }
 
@@ -199,7 +198,7 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 // -------------------Forget Password Admin Verification---------------------------
 const adminForget = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  console.log(req.body);
+  console.error(req.body);
   const admin = await Admin.findOne({ email });
   if (!admin) {
     return res.status(401).json({
@@ -209,7 +208,7 @@ const adminForget = asyncHandler(async (req, res) => {
   if (admin) {
     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
     sendForgetPassword(admin.name, admin.email, OTPgenerated);
-    console.log(OTPgenerated);
+    console.error(OTPgenerated);
     const saveOrNot = await OTPsaveFunction(admin.email, OTPgenerated);
     return res.json({
       email,
@@ -236,13 +235,13 @@ const adminVerifyOTP = asyncHandler(async (req, res) => {
       }
     }
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 });
 // ----------------------------Reset Password-------------
 const adminResetPassword = asyncHandler(async (req, res) => {
   const { userId, password } = req.body;
-  console.log(req.body);
+  console.error(req.body);
   try {
     const admin = await Admin.findOne({ email: userId });
     if (!admin) {
@@ -288,7 +287,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const sellerBlockCount = await Seller.countDocuments({isBlock:true});
     const hostelBlockCount = await Hostel.countDocuments({isBlock:true});
     const revenue = await revenueFunction();
-    console.log(revenue)
+    console.error(revenue)
     
     if (!userCount) {
       return res
@@ -330,7 +329,7 @@ const listHostelsAdmin = asyncHandler(async (req, res) => {
     const listHostels = await aggregateAllHostels();
     res.status(200).json({data:listHostels})
   } catch (error) {
-    console.log("listHostelAdmin");
+    console.error("listHostelAdmin");
     res.status(500).json({
       message: "Hostel List Error",
     });
@@ -466,7 +465,7 @@ const blockSeller = asyncHandler(async (req, res) => {
 //access Public
 //route POST// /api/logout
 const logoutAdmin = asyncHandler(async (req, res) => {
-  console.log("logout");
+  console.error("logout");
   // Set the SameSite attribute to None and Secure to true for cross-site cookies
   res.cookie("jwt", "", {
     httpOnly: true,
@@ -483,13 +482,13 @@ const logoutAdmin = asyncHandler(async (req, res) => {
 //access Private
 //route POST// /api/users/profile
 // const getUserProfile = asyncHandler(async (req, res) => {
-//   // console.log(req.user)
+//   // console.error(req.user)
 //   const userDetails = {
 //     name: req.user.name,
 //     email: req.user.email,
 //     user_id: req.user._id,
 //   };
-//   // console.log(userDetails)
+//   // console.error(userDetails)
 //   res.status(200).json({ message: "User profile" });
 // });
 
@@ -499,9 +498,9 @@ const logoutAdmin = asyncHandler(async (req, res) => {
 //route PUT// /api/users/profile
 // const updateUserProfile = asyncHandler(async (req, res) => {
 //   const user = await User.findById(req.user._id);
-//   // console.log(user)
+//   // console.error(user)
 //   if (user) {
-//     // console.log(req.body)
+//     // console.error(req.body)
 //     user.name = req.body.name || user.name;
 //     user.email = req.body.email || user.email;
 //     if (req.body.password) {

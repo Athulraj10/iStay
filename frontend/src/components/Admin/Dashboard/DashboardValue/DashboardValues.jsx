@@ -1,14 +1,16 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import Chart from "chart.js/auto";
 import React from "react";
 
+
 function dashboardValues() {
+  const navigate = useNavigate();
   const [totalUsers, settotalUsers] = useState(0);
   const [totalBlockUsers, settotalBlockUsers] = useState(0);
   const [totalSeller, setTotalSeller] = useState(0);
@@ -22,34 +24,35 @@ function dashboardValues() {
 
   useEffect(() => {
     const fetchData = async () => {
-      
-      try {
-        const response = await USERSAPI.post("admin/usersCount");
-        const {
-          userCount,
-          userBlockCount,
-          sellerCount,
-          sellerBlockCount,
-          hostelCount,
-          hostelBlockCount,
-          bookingCount,
-          revenue,
-        } = response.data;
-        setTotalSeller(sellerCount);
-        setTotalBlockSeller(sellerBlockCount);
-        setTotalHostel(hostelCount);
-        setTotalBlockHostel(hostelBlockCount);
-        settotalUsers(userCount);
-        settotalBlockUsers(userBlockCount);
-
-        setBookingCount(bookingCount);
-        setRevenue(revenue);
-
-        setLoading(false);
-        
-      } catch (error) {
-        toast.error(error.message);
-        setLoading(false);
+      const adminData = localStorage.getItem("adminInfo");
+      if (adminData) {
+        try {
+          const response = await USERSAPI.post("admin/usersCount");
+          const {
+            userCount,
+            userBlockCount,
+            sellerCount,
+            sellerBlockCount,
+            hostelCount,
+            hostelBlockCount,
+            bookingCount,
+            revenue,
+          } = response.data;
+          setTotalSeller(sellerCount);
+          setTotalBlockSeller(sellerBlockCount);
+          setTotalHostel(hostelCount);
+          setTotalBlockHostel(hostelBlockCount);
+          settotalUsers(userCount);
+          settotalBlockUsers(userBlockCount);
+          setBookingCount(bookingCount);
+          setRevenue(revenue);
+          setLoading(false);
+        } catch (error) {
+          toast.error(error.message);
+          setLoading(false);
+        }
+      }else{
+        navigate('/admin')
       }
     };
     fetchData();

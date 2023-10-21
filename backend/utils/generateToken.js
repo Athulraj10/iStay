@@ -4,7 +4,7 @@ const generateToken = (res,userId)=>{
         expiresIn:'14d'
     });
 
-    res.cookie('jwt', token ,{
+    res.cookie('jwtAdminKey', token ,{
         httpOnly:true,
         secure:process.env.NODE_ENV !== 'development',
         sameSite : 'strict',
