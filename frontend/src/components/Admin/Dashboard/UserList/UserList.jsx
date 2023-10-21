@@ -49,6 +49,7 @@ function UserList() {
           setLoading(false);
         }
       };
+      
       fetchData();
     }else{
       navigate('/admin')
