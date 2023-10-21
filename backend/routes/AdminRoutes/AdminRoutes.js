@@ -33,7 +33,7 @@ import {
   // updateUserProfile,
   // forget,verifyOTP,resetPassword
 } from "../../controllers/AdminController/adminController.js";
-// import { protect } from "../middleware/authMiddleware.js";
+import { adminMiddleware } from "../../middleware/AdminMiddleware/authMiddleware.js";
 const AdminRoute = express.Router();
 
 
@@ -68,7 +68,7 @@ AdminRoute.patch('/listHostel/block/:id',BlockHostelsAdmin);
 
 
 //-------------------- Dashboard Values
-AdminRoute.post("/usersCount",dashboardValuesCount);
+AdminRoute.post("/dashboard",adminMiddleware,dashboardValuesCount);
 
 // // AdminRoute.post('/',)
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)

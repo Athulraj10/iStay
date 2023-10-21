@@ -27,7 +27,7 @@ function dashboardValues() {
       const adminData = localStorage.getItem("adminInfo");
       if (adminData) {
         try {
-          const response = await USERSAPI.post("admin/usersCount");
+          const response = await USERSAPI.post("admin/dashboard");
           const {
             userCount,
             userBlockCount,
@@ -48,8 +48,9 @@ function dashboardValues() {
           setRevenue(revenue);
           setLoading(false);
         } catch (error) {
-          toast.error(error.message);
+          toast.error(error.response.data.message || 'Internal Error');
           setLoading(false);
+          return navigate('/admin')
         }
       }else{
         navigate('/admin')
