@@ -43,10 +43,10 @@ function ListHostel() {
 
   const handleEditButton = async (hostelId) => {
     if (hostelId) {
-      const res = await USERSAPI.post("seller/listHostels/editHostel", {
+      const response = await USERSAPI.post("seller/listHostels/editHostel", {
         _id: hostelId,
       });
-      const responseData = res.data.data;
+      const responseData = response.data.data;
       if (responseData) {
         navigate("/seller/listHostels/editHostelDetails", {
           state: { responseData },

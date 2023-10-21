@@ -7,6 +7,7 @@ import { Navigate, useLocation, useNavigate } from 'react-router-dom'
 
 const EditHostel = () => {
   const location = useLocation()
+
   const navigate = useNavigate()
   
   
@@ -14,7 +15,7 @@ const EditHostel = () => {
   const [imageUrls, setImageUrls] = useState([]);
   const [imageInitial, setImageInitial] = useState([]);
   const [sellerIdStored,setsellerId] = useState("");
-  
+  const [receivedData,setDataReceived] = useState(location.state.responseData)
 
   useEffect(()=>{
     setImageInitial(receivedData.images)
@@ -24,7 +25,7 @@ const EditHostel = () => {
   const [formData, setFormData] = useState({
     sellerID:"",
     id:receivedData._id,
-    files: [], // Store the primary image here
+    files: [],
     category: receivedData.category,
     hostelName: receivedData.hostelName,
     mainLocation: receivedData.mainLocation,
