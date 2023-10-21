@@ -23,7 +23,6 @@ const AdminHeader = () => {
       localStorage.removeItem("adminInfo");
       setadminInfo(null);
       location("/admin");
-      
     }
   };
 

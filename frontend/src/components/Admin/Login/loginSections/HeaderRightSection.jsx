@@ -29,15 +29,20 @@ const HeaderRightSection = () => {
         email: email,
         password: password,
       };
-      let res = await USERSAPI.post("admin/login", formData);
-      if (res.data) {
-        localStorage.setItem("adminInfo", JSON.stringify(res.data));
-        return (location.window.reload(false),navigate("/admin/dashboard"));
+      let response = await USERSAPI.post("admin/login", formData);
+      if (response.data) {
+        localStorage.setItem("adminInfo", JSON.stringify(response.data));
+        return (window.location.reload(false),navigate("/admin/dashboard"));
       } else {
         return navigate("admin/login");
       }
     } catch (error) {
-      return toast.error(error.response.data.message);
+      console.log(error)
+      if (error.response.status === 401) {
+        return toast.error("Invalid email or password.");
+      } else {
+        return toast.error("An unexpected error occurred.");
+      }
     }
   };
 
