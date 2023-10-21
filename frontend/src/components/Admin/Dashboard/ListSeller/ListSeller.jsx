@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 
 function ListSeller() {
-  const location = useNavigate()
+  const navigate = useNavigate()
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0); // Add currentPage state
@@ -24,12 +24,12 @@ function ListSeller() {
 
   const handleBlockButton = async (sellerId) => {
     try {
-      let res = await USERSAPI.patch(`admin/listSeller/block/${sellerId}`);
-      if (res.data) {
-        if(res.data.status==true){
-          toast.error(res.data.message)
+      let response = await USERSAPI.patch(`admin/listSeller/block/${sellerId}`);
+      if (response.data) {
+        if(response.data.status==true){
+          toast.error(response.data.message)
         }else{
-          toast.success(res.data.message)
+          toast.success(response.data.message)
         }
       }
     }catch (error) {
@@ -45,18 +45,23 @@ function ListSeller() {
   
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const res = await USERSAPI.post("admin/listSellers");
-        const responseData = res.data.data; // Access the data property
-        setData(responseData);
-        setLoading(false);
-      } catch (error) {
-        toast.error(error.message);
-        setLoading(false);
-      }
-    };
-    fetchData();
+    const adminInfo = localStorage.getItem('adminInfo')
+    if(adminInfo){
+      const fetchData = async () => {
+        try {
+          const response = await USERSAPI.post("admin/listSellers");
+          const responseData = response.data.data; 
+          setData(responseData);
+          setLoading(false);
+        } catch (error) {
+          toast.error(error.response.data.message);
+          setLoading(false);
+        }
+      };
+      fetchData();
+    }else{
+      navigate('/admin')
+    }
   },[handleBlockButton]);
 
 
