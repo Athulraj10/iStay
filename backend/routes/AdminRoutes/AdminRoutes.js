@@ -55,15 +55,15 @@ AdminRoute.post("/verifyOTP", adminVerifyOTP);
 AdminRoute.post("/resetPassword", adminResetPassword);
 
 // -------------User Management
-AdminRoute.post("/listUser", listUser);
+AdminRoute.post("/listUser",adminMiddleware, listUser);
 AdminRoute.patch("/listUser/block/:id", blockUser);
 
 // ----------------Seller Management
-AdminRoute.post("/listSellers", listSellers);
+AdminRoute.post("/listSellers",adminMiddleware, listSellers);
 AdminRoute.patch("/listSeller/block/:id",blockSeller);
 
 // --------------HostelManagement
-AdminRoute.post('/listHostels',listHostelsAdmin);
+AdminRoute.post('/listHostels',adminMiddleware,listHostelsAdmin);
 AdminRoute.patch('/listHostel/block/:id',BlockHostelsAdmin);
 
 
