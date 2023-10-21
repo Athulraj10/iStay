@@ -3,18 +3,17 @@ import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 import "./Style.css";
-import {useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const MyBookings = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [hostelData, setHostelData] = useState([]);
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
     const fetchData = async () => {
-      if(userInfo){
-        console.log("userInfo" + userInfo)
+      if (userInfo) {
         try {
           const response = await USERSAPI.get(
             `users/myBookings?token=${userInfo._id}`
@@ -23,18 +22,32 @@ const MyBookings = () => {
             setHostelData(response.data.allDetails);
           }
         } catch (error) {
-          toast.error(error);
+          if (
+            error.response &&
+            error.response.data &&
+            error.response.data.message
+          ) {
+            toast.error(error.response.data.message);
+            if (error.response.data.redirect) {
+              setTimeout(() => {
+                navigate(`${error.response.data.redirect}`);
+              }, 1000);
+            }
+  
+          } else {
+            toast.error("Please Login");
+            setTimeout(() => {
+              navigate("/login");
+            }, 3000);
+          }
         }
-      }else{
-        navigate('/login')
       }
-      }
-
+    }
     fetchData();
   }, []);
 
   return (
-    <Container style={{ color: "white", minHeight: "100vh",height:'auto' }}>
+    <Container style={{ color: "white", minHeight: "100vh", height: "auto" }}>
       {hostelData.length > 0 ? ( // Check if hostelData has data
         hostelData.map((hostel, index) => (
           <Button
@@ -65,7 +78,7 @@ const MyBookings = () => {
                 <Row style={{ border: "1px solid gray" }}>
                   <Col>
                     {/* Display the total amount */}
-                  
+
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
                       <h6 style={{ color: "gray" }}>HostelName & Address</h6>
                       {hostel.hostelDetails.fullDetails}
@@ -82,10 +95,22 @@ const MyBookings = () => {
                     {/* <h6 style={{ margin: "20px", color: "gray" }}>
                       Bed Available: {hostel.hostelDetails.bedAvailableNow}
                     </h6> */}
-                    <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       WIFI: {hostel.hostelDetails.Wifi}
                     </h6>
-                    <h6 style={{ margin: "20px", color: "gray" ,textTransform:'capitalize'}}>
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       Restrictions: {hostel.hostelDetails.restrictions}
                     </h6>
                     {/* <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
@@ -94,23 +119,39 @@ const MyBookings = () => {
                   </Col>
 
                   <Col>
-                  <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       OnwerName: {hostel.sellerDetails[0].name}
                     </h6>
-                   
-                  <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       OnwerName: {hostel.sellerDetails[0].email}
                     </h6>
-                   
-                   
-                  <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
+
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                      }}
+                    >
                       Onwer Number: {hostel.sellerDetails[0].mobile}
                     </h6>
-                   
+
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
                       <span style={{ color: "gray" }}>Booked : </span>
-                      {
-                        hostel.hostelDetails.updatedAt.split('T')[0]}
+                      {hostel.hostelDetails.updatedAt.split("T")[0]}
                     </h6>
                   </Col>
                 </Row>

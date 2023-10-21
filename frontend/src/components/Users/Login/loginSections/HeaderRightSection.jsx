@@ -34,8 +34,9 @@ const HeaderRightSection = () => {
       let res = await USERSAPI.post("users/login", formData);
       if (res.data) {
         localStorage.setItem("userInfo",JSON.stringify(res.data));
-        return navigate("/");
+        return (window.location.reload(false), navigate("/"));
       } else {
+        location.windowReload()
         return navigate("/login");
       }
     } catch (error) {

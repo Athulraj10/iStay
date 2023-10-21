@@ -30,7 +30,7 @@ export default function UserProfile() {
             setTimeout(() => {
               // if no token this will work
               navigate(`${error.response.data.redirect}`);
-            }, 3000);
+            }, 1000);
           }
 
         } else {
