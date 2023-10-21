@@ -6,7 +6,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import ReactPaginate from "react-paginate";
 
 function UserList() {
-  const location = useNavigate();
+  const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0); // Add currentPage state
@@ -36,18 +36,23 @@ function UserList() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await USERSAPI.get("admin/listUser");
-        const responseData = response.data.data;
-        setData(responseData);
-        setLoading(false);
-      } catch (error) {
-        toast.error(error.response.data.message);
-        setLoading(false);
-      }
-    };
-    fetchData();
+    const adminInfo = localStorage.getItem("adminInfo")
+    if(adminInfo){
+      const fetchData = async () => {
+        try {
+          const response = await USERSAPI.get("admin/listUser");
+          const responseData = response.data.data;
+          setData(responseData);
+          setLoading(false);
+        } catch (error) {
+          toast.error(error.response.data.message);
+          setLoading(false);
+        }
+      };
+      fetchData();
+    }else{
+      navigate('/admin')
+    }
   }, [handleBlockButton]);
 
   return (
