@@ -32,7 +32,7 @@ const HeaderRightSection = () => {
       let res = await USERSAPI.post("seller/login", formData);
       if (res.data) {
         localStorage.setItem("sellerInfo", JSON.stringify(res.data));
-        return navigate("/seller/dashboard");
+        return (window.location.reload(false),navigate("/seller/dashboard"))
       } else {
         return navigate("seller/login");
       }
