@@ -16,35 +16,23 @@ import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 const AdminHeader = () => {
   const location = useNavigate();
   const [adminInfo, setadminInfo] = useState(null);
-  const [adminInfoLoaded, setadminInfoLoaded] = useState(false);
-  
+
   const handleLogout = async () => {
     let res = await USERSAPI.post("/admin/logout");
-    console.log(res);
     if (res.status) {
       localStorage.removeItem("adminInfo");
       setadminInfo(null);
       location("/admin");
+      
     }
   };
 
   useEffect(() => {
-    const fetchAdminInfo = async () => {
-      const storedAdminInfo = localStorage.getItem("adminInfo");
-      if (storedAdminInfo) {
-        setadminInfo(storedAdminInfo);
-        setadminInfoLoaded(true);
-      }
-    };
-    fetchAdminInfo();
-  }, []); 
-
-  useEffect(() => {
-    // This effect runs whenever adminInfoLoaded changes
-    if (adminInfoLoaded) {
-      // Add code here to handle changes when adminInfoLoaded is true
+    const storedAdminInfo = localStorage.getItem("adminInfo");
+    if (storedAdminInfo) {
+      setadminInfo(storedAdminInfo);
     }
-  }, [adminInfoLoaded]);
+  }, []);
 
   return (
     <>
@@ -64,9 +52,8 @@ const AdminHeader = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ms-auto">
-              {/* Conditionally render Login/Logout button */}
               {adminInfo ? (
-                // If user information is available, show Logout button
+                // If admin information is available, show the logged-in content
                 <>
                   <Link to="/admin/listUsers" className="nav-link">
                     <FaUser /> List User
@@ -85,8 +72,11 @@ const AdminHeader = () => {
                   </Nav.Link>
                 </>
               ) : (
+                // If admin information is not available, show the default content
                 <>
-                 
+                  <Link to="/admin/login" className="nav-link">
+                    <FaSignInAlt /> Login
+                  </Link>
                 </>
               )}
             </Nav>
