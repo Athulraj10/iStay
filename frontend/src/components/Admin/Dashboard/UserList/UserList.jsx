@@ -22,12 +22,12 @@ function UserList() {
 
   const handleBlockButton = async (userId) => {
     try {
-      let res = await USERSAPI.patch(`admin/listUser/block/${userId}`);
-      if (res.data) {
-        if (res.data.status) {
-          toast.error(res.data.message);
+      let response = await USERSAPI.patch(`admin/listUser/block/${userId}`);
+      if (response.data) {
+        if (response.data.status) {
+          toast.error(response.data.message);
         } else {
-          toast.success(res.data.message);
+          toast.success(response.data.message);
         }
       }
     } catch (error) {
@@ -38,12 +38,12 @@ function UserList() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await USERSAPI.post("admin/listUser");
-        const responseData = res.data.data; // Access the data property
+        const response = await USERSAPI.get("admin/listUser");
+        const responseData = response.data.data;
         setData(responseData);
         setLoading(false);
       } catch (error) {
-        toast.error(error.message);
+        toast.error(error.response.data.message);
         setLoading(false);
       }
     };

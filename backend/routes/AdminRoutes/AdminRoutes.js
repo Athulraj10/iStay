@@ -55,7 +55,7 @@ AdminRoute.post("/verifyOTP", adminVerifyOTP);
 AdminRoute.post("/resetPassword", adminResetPassword);
 
 // -------------User Management
-AdminRoute.post("/listUser",adminMiddleware, listUser);
+AdminRoute.get("/listUser",adminMiddleware, listUser);
 AdminRoute.patch("/listUser/block/:id", blockUser);
 
 // ----------------Seller Management
