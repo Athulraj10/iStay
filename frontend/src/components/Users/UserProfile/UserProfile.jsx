@@ -11,7 +11,7 @@ export default function UserProfile() {
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
-
+   if(userInfo){
     const fetchUserDetails = async () => {
       try {
         const response = await USERSAPI.get("/users/profile");
@@ -42,6 +42,9 @@ export default function UserProfile() {
       }
     };
     fetchUserDetails();
+   }else{
+    navigate('/login')
+   }
   }, []);
 
   return (

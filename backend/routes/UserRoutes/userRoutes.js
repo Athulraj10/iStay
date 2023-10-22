@@ -13,7 +13,7 @@ import {
     bookHostel,bookingConfirmation,myBookings,addReview
 }
     from "../../controllers/UserControllers/userControllers.js";
-import { protect } from "../../middleware/authMiddleware.js";
+import { protect } from "../../middleware/UserMiddleware/authMiddleware.js";
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {

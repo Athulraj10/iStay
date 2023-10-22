@@ -1,6 +1,6 @@
 import asyncHandler from "express-async-handler";
 import jwt from "jsonwebtoken";
-import User from "../models/UserModels/userModel.js";
+import User from "../../models/UserModels/userModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
@@ -13,15 +13,14 @@ const protect = asyncHandler(async (req, res, next) => {
         return res.status(401).json({ message: 'User not found' });
       }
       req.user = userFound;
-      console.log(userFound)
       next();
       
     } catch (error) {
-      console.log('invalid token')
+      console.error('invalid token')
       return res.status(401).json({ message: 'Invalid Token',redirect:'/login'});
     }
   } else {
-    console.log('no Token')
+    console.error('no Token')
     return res.status(401).json({ message: 'Not authorized, Please login',redirect:'/login' });
   }
 });

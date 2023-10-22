@@ -1,7 +1,7 @@
 import userRoutes from "./routes/UserRoutes/userRoutes.js"
 import sellerRoutes from "./routes/SellerRoutes/SellerRoutes.js"
 import adminRoutes from "./routes/AdminRoutes/AdminRoutes.js"
-import { errorHandler, notFound } from "./middleware/errorMiddleware.js";
+import { errorHandler, notFound } from "./middleware/UserMiddleware/errorMiddleware.js";
 import express from "express";
 import connectDB from "./config/db.js";
 import dotenv from 'dotenv';
