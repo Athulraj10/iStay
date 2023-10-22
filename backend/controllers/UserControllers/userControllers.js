@@ -527,33 +527,6 @@ const addReview = asyncHandler(async(req,res)=>{
     console.error(error)
   }
 })
-
-
-
-
-
-
-
-
-
-
-
-// --------------------------Logout clearing JWT---------------------------
-//@desc logout USer
-//access Public
-//route POST// /api/logout
-const logoutUser = asyncHandler(async (req, res) => {
-  console.log("logout")
-  res.cookie("jwt", "",{
-    httpOnly: true,
-    expires: new Date(0),
-    secure: false, // Set to true if you're using HTTPS
-    sameSite: "none", // Set to "none" for cross-site cookies
-  });
-
-  res.status(200).json({ message: "User Logout" });
-});
-
 // ---------------------------Get User Profile---------------------------
 //@desc get user profile
 //access Private
@@ -595,6 +568,22 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("User Not Found");
   }
+});
+
+// --------------------------Logout clearing JWT---------------------------
+//@desc logout USer
+//access Public
+//route POST// /api/logout
+const logoutUser = asyncHandler(async (req, res) => {
+  console.log("logout")
+  res.cookie("jwt_User", "",{
+    httpOnly: true,
+    expires: new Date(0),
+    secure: false, // Set to true if you're using HTTPS
+    sameSite: "none", // Set to "none" for cross-site cookies
+  });
+
+  res.status(200).json({ message: "User Logout" });
 });
 
 export {
