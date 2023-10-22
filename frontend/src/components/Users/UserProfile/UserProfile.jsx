@@ -47,7 +47,7 @@ export default function UserProfile() {
       const fetchUserDetails = async () => {
         try {
           const response = await USERSAPI.get("/users/profile", {
-            params: { userId: userInfo._id },
+            params: { userId: userInfo?._id },
           });
           if (response.data.userData) {
             setUserData(response?.data?.userData);
