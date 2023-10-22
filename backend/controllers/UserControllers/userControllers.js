@@ -230,8 +230,6 @@ const createNewUserWithWallet = async (name, email, password, mobile) => {
       { _id: userRegistration._id },
       { wallet_id: wallet._id }
     );
-      console.log(wallet)
-      console.log(userRegistration)
 
     return userRegistration;
   } catch (error) {
