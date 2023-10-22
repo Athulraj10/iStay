@@ -35,7 +35,7 @@ export default function UserProfile() {
       email,
       mobile,
     };
-    const response = await USERSAPI.put("/profile", dataToUpdate);
+    const response = await USERSAPI.put("users/profile",dataToUpdate);
     if (response) {
     }
   };
