@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'; 
+import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
@@ -13,7 +13,7 @@ import {
 } from "../../config/config.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
-import HostelReview from '../../models/SellerModel/Review.js';
+import HostelReview from "../../models/SellerModel/Review.js";
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
@@ -65,47 +65,46 @@ const aggregateBookingWithHostel = async (userId) => {
   try {
     const result = await Booking.aggregate([
       {
-        $match: { user: new mongoose.Types.ObjectId(userId) }
+        $match: { user: new mongoose.Types.ObjectId(userId) },
       },
       {
         $lookup: {
-          from: 'hostels', // Name of the Hostel collection
-          localField: 'hostel',
-          foreignField: '_id',
-          as: 'hostelDetails'
-        }
+          from: "hostels", // Name of the Hostel collection
+          localField: "hostel",
+          foreignField: "_id",
+          as: "hostelDetails",
+        },
       },
       {
-        $unwind: '$hostelDetails'
+        $unwind: "$hostelDetails",
       },
       {
         $lookup: {
-          from: 'sellers', // Name of the Sellers collection
-          localField: 'hostelDetails.seller',
-          foreignField: '_id',
-          as: 'sellerDetails'
-        }
+          from: "sellers", // Name of the Sellers collection
+          localField: "hostelDetails.seller",
+          foreignField: "_id",
+          as: "sellerDetails",
+        },
       },
       {
         $group: {
-          _id: '$_id',
-          user: { $first: '$user' },
-          hostel: { $first: '$hostel' },
-          paymentMethod: { $first: '$paymentMethod' },
-          paymentVia: { $first: '$paymentVia' },
-          totalAmount: { $first: '$totalAmount' },
-          hostelDetails: { $first: '$hostelDetails' },
-          sellerDetails: { $first: '$sellerDetails' }
-        }
-      }
+          _id: "$_id",
+          user: { $first: "$user" },
+          hostel: { $first: "$hostel" },
+          paymentMethod: { $first: "$paymentMethod" },
+          paymentVia: { $first: "$paymentVia" },
+          totalAmount: { $first: "$totalAmount" },
+          hostelDetails: { $first: "$hostelDetails" },
+          sellerDetails: { $first: "$sellerDetails" },
+        },
+      },
     ]);
 
     return result;
-
   } catch (error) {
     console.error(error);
   }
-}
+};
 // const userProfile = asyncHandler(async(req,res)=>{
 //   try {
 //     const token = req.headers.authorization; // Get the token from the request header
@@ -166,7 +165,6 @@ const aggregateBookingWithHostel = async (userId) => {
 //   });
 // }
 
-
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
   try {
@@ -198,8 +196,8 @@ const authUser = asyncHandler(async (req, res) => {
     });
     throw new Error("Invalid Email or Password");
   }
-  if(user.isBlock){
-    return res.status(401).json({message:'User Is Blocked'})
+  if (user.isBlock) {
+    return res.status(401).json({ message: "User Is Blocked" });
   }
   if (user && (await user.matchPassword(password))) {
     genereateToken(res, user._id);
@@ -214,6 +212,33 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
+// -------------------Register New User with wallet function---------------------------
+const createNewUserWithWallet = async (name, email, password, mobile) => {
+  try {
+    const userRegistration = await User.create({
+      name,
+      email,
+      password,
+      mobile,
+    });
+
+    const wallet = await Wallet.create({
+      user_id: userRegistration._id,
+    });
+
+    await User.updateOne(
+      { _id: userRegistration._id },
+      { wallet_id: wallet._id }
+    );
+      console.log(wallet)
+      console.log(userRegistration)
+
+    return userRegistration;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 // -------------------Register New User---------------------------
 //@desc createing new  user
 //access Public
@@ -221,31 +246,33 @@ const authUser = asyncHandler(async (req, res) => {
 const registerUser = asyncHandler(async (req, res) => {
   try {
     const { userName, email, password, mobile } = req.body;
-  const userExists = await User.findOne({ email });
-  if (userExists) {
-    res.status(400);
-    res.status(400).json({message:'User Already Exist'})
-    throw new Error(" User already Exists");
-  }
-  const userRegister = await User.create({
-    name: userName,
-    email,
-    password,
-    mobile,
-  });
-  const userWaller = await Wallet.create({
-    user_id:userRegister._id,
-  })
-  if (userRegister) {
-    genereateToken(res, userRegister._id);
-    res.status(201).json({
-      _id: userRegister._id,
-      name: userRegister.name,
-      email: userRegister.email,
-    });
-  }
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+      res.status(400);
+      res.status(400).json({ message: "User Already Exist" });
+      throw new Error(" User already Exists");
+    }
+    const userRegister = createNewUserWithWallet(
+      userName,
+      email,
+      password,
+      mobile
+    )
+      .then((user) => {
+        if (user) {
+          genereateToken(res, userRegister._id);
+          res.status(201).json({
+            _id: userRegister._id,
+            name: userRegister.name,
+            email: userRegister.email,
+          });
+        }
+      })
+      .catch((error) => {
+        res.status(401).json({ message: error });
+      });
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
 });
 
@@ -336,9 +363,9 @@ const findAccommodation = asyncHandler(async (req, res) => {
 // ----------------------------FindAccommodation-------------
 const high = asyncHandler(async (req, res) => {
   try {
-    const hostels = await Hostel
-    .find({ isBlock: { $ne: true } })
-    .sort({ price: -1 }); 
+    const hostels = await Hostel.find({ isBlock: { $ne: true } }).sort({
+      price: -1,
+    });
 
     if (!hostels) {
       return res
@@ -355,9 +382,9 @@ const high = asyncHandler(async (req, res) => {
 });
 const low = asyncHandler(async (req, res) => {
   try {
-    const hostels = await Hostel
-    .find({ isBlock: { $ne: true } })
-    .sort({ price: 1 }); 
+    const hostels = await Hostel.find({ isBlock: { $ne: true } }).sort({
+      price: 1,
+    });
 
     if (!hostels) {
       return res
@@ -380,11 +407,11 @@ const search = asyncHandler(async (req, res) => {
         { isBlock: { $ne: true } }, // Exclude blocked hostels
         {
           $or: [
-            { hostelName: { $regex: new RegExp(searchValue, "i") } }, 
             { hostelName: { $regex: new RegExp(searchValue, "i") } },
-            { category: { $regex: new RegExp(searchValue, "i") } }, 
+            { hostelName: { $regex: new RegExp(searchValue, "i") } },
             { category: { $regex: new RegExp(searchValue, "i") } },
-            { fullDetails: { $regex: new RegExp(searchValue, "i") } }, 
+            { category: { $regex: new RegExp(searchValue, "i") } },
+            { fullDetails: { $regex: new RegExp(searchValue, "i") } },
             { fullDetails: { $regex: new RegExp(searchValue, "i") } },
           ],
         },
@@ -409,7 +436,9 @@ const singlePageView = asyncHandler(async (req, res) => {
     const hostel = await Hostel.find({ _id: req.body.id });
     const review = await HostelReview.find({ hostel: req.body.id });
     if (!hostel) {
-      return res.status(404).json({ message: "Something Wrong Please Try Again" });
+      return res
+        .status(404)
+        .json({ message: "Something Wrong Please Try Again" });
     }
     if (hostel) {
       const responseData = {
@@ -464,7 +493,7 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     const hostelDatas = await singleHostelFinding(hostelId);
     let price = parseFloat(hostelDatas.price);
     let extraPrice = parseFloat(hostelDatas.extraPrice);
-    let sellerId = hostelDatas.seller
+    let sellerId = hostelDatas.seller;
     let totalAmount = price + extraPrice;
 
     if (userId && hostelId) {
@@ -476,13 +505,16 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
         totalAmount: totalAmount,
         paymentMethod: "Card",
         paymentVia: "Stripe",
-
       });
       const booked = await conformBooking.save();
       if (booked) {
         res
           .status(200)
-          .json({ bookingCompleted: true, hostelData: hostelDatas,bookedDetails:booked });
+          .json({
+            bookingCompleted: true,
+            hostelData: hostelDatas,
+            bookedDetails: booked,
+          });
       } else {
         res.status(404).json({ bookingCompleted: false });
       }
@@ -493,27 +525,27 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
 });
 
 // ----------------------------user mY booking-------------
-const myBookings = asyncHandler(async(req,res)=>{
+const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;
-  const response =await aggregateBookingWithHostel(userId)
+  const response = await aggregateBookingWithHostel(userId);
   try {
-    if(response){
-     return res.status(200).json({
-        allDetails:response
-      })
+    if (response) {
+      return res.status(200).json({
+        allDetails: response,
+      });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-} )
-const addReview = asyncHandler(async(req,res)=>{
-  const {userId,hostelId,description}= req.body
+});
+const addReview = asyncHandler(async (req, res) => {
+  const { userId, hostelId, description } = req.body;
   try {
     const review = new HostelReview({
-      user:userId,
-      hostel:hostelId,
-      content:description
-    })
+      user: userId,
+      hostel: hostelId,
+      content: description,
+    });
     if (req.files) {
       const uploadedFiles = req.files;
       let fileUrls = [];
@@ -524,33 +556,34 @@ const addReview = asyncHandler(async(req,res)=>{
       review.images = fileUrls;
     }
     const hostelReviewAdded = await review.save();
-    if(!hostelReviewAdded){
-      return res.status(404).json({review:false,message:'Internal Error'})
+    if (!hostelReviewAdded) {
+      return res.status(404).json({ review: false, message: "Internal Error" });
     }
-    if(hostelReviewAdded){
-      return res.status(200).json({review:true,message:'Review Added Successfully'})
+    if (hostelReviewAdded) {
+      return res
+        .status(200)
+        .json({ review: true, message: "Review Added Successfully" });
     }
   } catch (error) {
-    console.error(error)
+    console.error(error);
   }
-})
+});
 // ---------------------------Get User Profile---------------------------
 //@desc get user profile
 //access Private
 //route POST// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
- try {
-   const userDetails = await User.findOne({_id:req.user._id})
-   const userWallet = await Wallet
-  //  console.log(userDetails)
-  if(userDetails){
-   return res.status(200).json({ message: "User profile",userDetails});
-  }else{
-   return res.status(404).json({message:'No User Found'})
-  }
+  try {
+    const userDetails = await User.findOne({ _id: req.user._id });
+    const userWallet = await Wallet.findOne({ user_id: userDetails._id });
+    if (userDetails) {
+      return res.status(200).json({ message: "User profile", userDetails });
+    } else {
+      return res.status(404).json({ message: "No User Found" });
+    }
   } catch (error) {
-  console.error(error)
- }
+    console.error(error);
+  }
 });
 
 // ---------------------------Update User Profile---------------------------
@@ -583,8 +616,8 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //access Public
 //route POST// /api/logout
 const logoutUser = asyncHandler(async (req, res) => {
-  console.log("logout")
-  res.cookie("jwt_User", "",{
+  console.log("logout");
+  res.cookie("jwt_User", "", {
     httpOnly: true,
     expires: new Date(0),
     secure: false, // Set to true if you're using HTTPS
@@ -602,13 +635,15 @@ export {
   forget,
   getUserProfile,
   updateUserProfile,
-
   verifyOTP,
   resetPassword,
   findAccommodation,
-  high,low,search,
+  high,
+  low,
+  search,
   singlePageView,
   bookHostel,
   bookingConfirmation,
-  myBookings,addReview
+  myBookings,
+  addReview,
 };

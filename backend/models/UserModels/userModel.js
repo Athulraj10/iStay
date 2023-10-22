@@ -30,6 +30,12 @@ const userSchema = mongoose.Schema({
         type:Number,
         required:true
     },
+    wallet_id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Wallet",
+        unique:true,
+        required: false,
+      },
 },{ 
     timestamps:true
 });
