@@ -81,6 +81,7 @@ export default function UserProfile() {
     <div style={{ height: "100vh", display: "flex", alignItems: "start" }}>
       <Container fluid className="m-5">
         <Row>
+          
           <Col sm={12} className="content">
             <div>
               <h3 className="head text-white">My Profile</h3>
