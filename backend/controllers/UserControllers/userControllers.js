@@ -60,7 +60,6 @@ const singleHostelFinding = async (hostelId) => {
     console.error(error);
   }
 };
-
 const aggregateBookingWithHostel = async (userId) => {
   try {
     const result = await Booking.aggregate([
@@ -182,7 +181,6 @@ const OTPsaveFunction = async (email, otp) => {
     console.error(error.message);
   }
 };
-
 // -------------------User Authentication---------------------------
 //@desc Auth user/set token
 //access Public
@@ -211,7 +209,6 @@ const authUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid Email or Password");
   }
 });
-
 // -------------------Register New User with wallet function---------------------------
 const createNewUserWithWallet = async (name, email, password, mobile) => {
   try {
@@ -236,7 +233,6 @@ const createNewUserWithWallet = async (name, email, password, mobile) => {
     console.log(error);
   }
 };
-
 // -------------------Register New User---------------------------
 //@desc createing new  user
 //access Public
@@ -273,7 +269,6 @@ const registerUser = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
-
 // -------------------Forget Password User Verification---------------------------
 //@desc Auth user/set token
 //access Public
@@ -296,7 +291,6 @@ const forget = asyncHandler(async (req, res) => {
     });
   }
 });
-
 // -----------------------------Verify OTP ---------------------------
 const verifyOTP = asyncHandler(async (req, res) => {
   const { email } = req.body;
@@ -450,7 +444,6 @@ const singlePageView = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-
 // ----------------------------singlePageView hostel-------------
 const bookHostel = asyncHandler(async (req, res) => {
   try {
@@ -483,7 +476,6 @@ const bookHostel = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server Error" });
   }
 });
-
 // ----------------------------Stripe Booking -------------
 const bookingConfirmation = asyncHandler(async (req, res) => {
   const { userId, hostelId } = req.query;
@@ -506,13 +498,11 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
       });
       const booked = await conformBooking.save();
       if (booked) {
-        res
-          .status(200)
-          .json({
-            bookingCompleted: true,
-            hostelData: hostelDatas,
-            bookedDetails: booked,
-          });
+        res.status(200).json({
+          bookingCompleted: true,
+          hostelData: hostelDatas,
+          bookedDetails: booked,
+        });
       } else {
         res.status(404).json({ bookingCompleted: false });
       }
@@ -521,7 +511,6 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
-
 // ----------------------------user mY booking-------------
 const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;
@@ -566,24 +555,55 @@ const addReview = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
+const userProfileWithWalletAggregate = asyncHandler(
+  asyncHandler(async (userId) => {
+    try {
+      const result = await User.aggregate([
+        {
+          $match: { _id: new mongoose.Types.ObjectId(userId) },
+        },
+        {
+          $lookup: {
+            from: "wallets",
+            localField: "wallet_id",
+            foreignField: "_id",
+            as: "wallet",
+          },
+        },
+        {
+          $unwind: "$wallet",
+        },
+      ]);
+      console.log(result);
+      return result;
+    } catch (error) {
+      console.error(error);
+    }
+  })
+);
 // ---------------------------Get User Profile---------------------------
 //@desc get user profile
 //access Private
 //route POST// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
   try {
-    const userDetails = await User.findOne({ _id: req.user._id });
-    const userWallet = await Wallet.findOne({ user_id: userDetails._id });
-    if (userDetails) {
-      return res.status(200).json({ message: "User profile", userDetails });
-    } else {
-      return res.status(404).json({ message: "No User Found" });
-    }
+    userProfileWithWalletAggregate(req.query.userId).then((value) => {
+      if(value){
+        return res.status(200).json({userData:value})
+      }
+    }).catch((error)=>{
+      console.error(error)
+      return res.status(404).json({message:'User Fetching Error'})
+    });
+    // if (userDetails) {
+    //   return res.status(200).json({ message: "User profile", userDetails });
+    // } else {
+    //   return res.status(404).json({ message: "No User Found" });
+    // }
   } catch (error) {
     console.error(error);
   }
 });
-
 // ---------------------------Update User Profile---------------------------
 //@desc get update user profile
 //access Private

@@ -14,9 +14,9 @@ export default function UserProfile() {
     if (userInfo) {
       const fetchUserDetails = async () => {
         try {
-          const response = await USERSAPI.get("/users/profile");
-          if (response.data.userDetails) {
-            setUserData(response.data.userDetails);
+          const response = await USERSAPI.get("/users/profile",{params:{userId:userInfo._id}});
+          if (response.data.userData) {
+            setUserData(response.data.userData);
           }
         } catch (error) {
           if (
@@ -43,9 +43,10 @@ export default function UserProfile() {
       navigate("/login");
     }
   }, []);
+  return (
+    <div>
+     
+     </div>
+  );
 
-  return 
-  <>
-  
-  </>;
 }
