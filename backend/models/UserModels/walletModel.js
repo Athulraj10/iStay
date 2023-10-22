@@ -3,20 +3,25 @@ import mongoose from "mongoose";
 const transactionSchema = new mongoose.Schema({
   transaction_id: {
     type: String,
-    required: true,
+    required: false,
   },
   closing_balance: {
     type: Number,
-    required: true,
+    required: false,
   },
   booking_date: {
     type: Date,
-    required: true,
+    required: false,
   },
   hostel_id: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Hostel",
-    required: true,
+    required: false,
+  },
+  booking_amount: {
+    type: Number,
+    required: false,
+    default: 0,
   },
 });
 
@@ -26,14 +31,9 @@ const walletSchema = new mongoose.Schema({
     ref: "User",
     required: true,
   },
-  booking_amount: {
-    type: Number,
-    required: true,
-    default: 0,
-  },
   balance: {
     type: Number,
-    required: true,
+    required: false,
     default: 0,
   },
   created_at: {
