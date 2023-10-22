@@ -49,6 +49,7 @@ export default function UserProfile() {
           const response = await USERSAPI.get("/users/profile", {
             params: { userId: userInfo._id },
           });
+          console.log(response)
           if (response.data.userData) {
             setUserData(response.data.userData);
           }
