@@ -8,9 +8,9 @@ import { Col, Container, Button, Form, Row } from "react-bootstrap";
 export default function UserProfile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const [name, setName] = useState(userData?.name);
-  const [email, setEmail] = useState(userData?.email);
-  const [mobile, setMobile] = useState(userData?.mobile);
+  const [name, setName] = useState();
+  const [email, setEmail] = useState();
+  const [mobile, setMobile] = useState();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -49,9 +49,8 @@ export default function UserProfile() {
           const response = await USERSAPI.get("/users/profile", {
             params: { userId: userInfo._id },
           });
-          console.log(response)
           if (response.data.userData) {
-            setUserData(response.data.userData);
+            setUserData(response?.data?.userData);
           }
         } catch (error) {
           if (
