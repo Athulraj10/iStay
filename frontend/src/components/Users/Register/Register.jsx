@@ -19,15 +19,12 @@ const RegisterPage = () => {
  }
   const handleSubmit = async (formData) => {
     try {
-      console.log("formData",formData)
-      let res = await USERSAPI.post("users/register",formData);
-      if (res.data) {
-        console.log(res)
-        localStorage.setItem("userInfo", JSON.stringify(res.data));
-        navigate("/");
+      let response = await USERSAPI.post("users/register",formData);
+      if (response.data) {
+         navigate("/login");
       }
     } catch (error) {
-      toast.error(error.message)
+      toast.error(error?.response?.data?.message ?? 'An error occurred');
     }
   };
 

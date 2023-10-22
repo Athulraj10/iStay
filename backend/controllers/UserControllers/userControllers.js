@@ -219,11 +219,14 @@ const authUser = asyncHandler(async (req, res) => {
 //access Public
 //route POST// /api/register
 const registerUser = asyncHandler(async (req, res) => {
-  const { userName, email, password, mobile } = req.body;
+  try {
+    const { userName, email, password, mobile } = req.body;
   const userExists = await User.findOne({ email });
   if (userExists) {
     res.status(400);
+    res.status(400).json({message:'User Already Exist'})
     throw new Error(" User already Exists");
+    return
   }
   const userRegister = await User.create({
     name: userName,
@@ -231,7 +234,9 @@ const registerUser = asyncHandler(async (req, res) => {
     password,
     mobile,
   });
-
+  const userWaller = await Wallet.create({
+    user_id:userRegister._id,
+  })
   if (userRegister) {
     genereateToken(res, userRegister._id);
     res.status(201).json({
@@ -239,6 +244,9 @@ const registerUser = asyncHandler(async (req, res) => {
       name: userRegister.name,
       email: userRegister.email,
     });
+  }
+  } catch (error) {
+    console.error(error)
   }
 });
 
