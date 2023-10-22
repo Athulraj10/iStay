@@ -36,6 +36,8 @@ router.post('/forget',forget)
 router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
 router.get('/profile',protect,getUserProfile)
+router.put('/profile',updateUserProfile)
+// router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 
 
 router.post('/findAccommodation',findAccommodation)
@@ -51,7 +53,6 @@ router.get('/myBookings',protect,myBookings)
 
 // router.post('/',)
 router.post('/logout',logoutUser)
-// router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 
 
 export default router
