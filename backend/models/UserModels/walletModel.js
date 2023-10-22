@@ -1,14 +1,29 @@
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 
-const walletSchema = new mongoose.Schema({
-  user_id: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
+const transactionSchema = new mongoose.Schema({
+  transaction_id: {
+    type: String,
+    required: true,
+  },
+  closing_balance: {
+    type: Number,
+    required: true,
+  },
+  booking_date: {
+    type: Date,
     required: true,
   },
   hostel_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'Hostel',
+    ref: "Hostel",
+    required: true,
+  },
+});
+
+const walletSchema = new mongoose.Schema({
+  user_id: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
   },
   booking_amount: {
@@ -21,11 +36,6 @@ const walletSchema = new mongoose.Schema({
     required: true,
     default: 0,
   },
-//   currency: {
-//     type: String,
-//     required: true,
-//     enum: ['USD', 'EUR', 'GBP'],
-//   },
   created_at: {
     type: Date,
     default: Date.now,
@@ -34,8 +44,9 @@ const walletSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  transactions: [transactionSchema], 
 });
 
-const Wallet = mongoose.model('Wallet', walletSchema);
+const Wallet = mongoose.model("Wallet", walletSchema);
 
-module.exports = Wallet;
+export default Wallet;

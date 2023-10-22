@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'; // Import mongoose
-
+import mongoose from 'mongoose'; 
 import asyncHandler from "express-async-handler";
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
+import Wallet from "../../models/UserModels/walletModel.js";
 import genereateToken from "../../utils/generateToken.js";
 import nodemailer from "nodemailer";
 import { Stripe } from "stripe";
@@ -534,6 +534,7 @@ const addReview = asyncHandler(async(req,res)=>{
 const getUserProfile = asyncHandler(async (req, res) => {
  try {
    const userDetails = await User.findOne({_id:req.user._id})
+   const userWallet = await Wallet
   //  console.log(userDetails)
   if(userDetails){
    return res.status(200).json({ message: "User profile",userDetails});

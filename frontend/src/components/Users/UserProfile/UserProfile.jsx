@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 
 export default function UserProfile() {
   const navigate = useNavigate();
-  const [userData,setUserData]=useState()
+  const [userData,setUserData]=useState(null)
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -28,11 +28,9 @@ export default function UserProfile() {
           toast.error(error.response.data.message);
           if (error.response.data.redirect) {
             setTimeout(() => {
-              // if no token this will work
               navigate(`${error.response.data.redirect}`);
             }, 1000);
           }
-
         } else {
           toast.error("Please Login");
           setTimeout(() => {
@@ -72,7 +70,7 @@ export default function UserProfile() {
                   </button>
                 </div>
                 <div className="ms-3 mt-5">
-                  <h5 className="text-xl">Athul raj</h5>
+                  <h5 className="text-xl">{userData.username}</h5>
                   <p>Kerala</p>
                 </div>
               </div>
