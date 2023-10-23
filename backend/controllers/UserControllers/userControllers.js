@@ -499,6 +499,7 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     if (userId && hostelId) {
       const conformBooking = new Booking({
         user: userId,
+        status:'confirmed',
         hostel: hostelId,
         seller: sellerId,
         date: new Date(),
@@ -544,8 +545,10 @@ const cancelBooking = asyncHandler(async (req, res) => {
       { _id: id },
       { cancelled: true }
     );
+    cancel_update.status = "cancelled";
+    await cancel_update.save();
+
     if (cancel_update) {
-      console.log(cancel_update);
       const userWallet = await Wallet.findOne({ user_id: cancel_update.user });
       userWallet.balance = userWallet.balance + cancel_update.totalAmount;
       const newTransaction = {

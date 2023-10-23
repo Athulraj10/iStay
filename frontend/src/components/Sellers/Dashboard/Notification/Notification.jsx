@@ -136,7 +136,7 @@ function Notification() {
                             <td className="align-middle text-center">
                               <button
                                 className="m-1 btn btn-primary"
-                                onClick={() => handleEditButton(item._id)}
+                                // onClick={() => handleEditButton(item._id)}
                               >
                                 Paid
                               </button>

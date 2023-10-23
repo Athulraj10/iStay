@@ -16,6 +16,10 @@ const bookingModel = mongoose.Schema({
         type: Date,
         required: true
       },
+      status: {
+        type: String,
+        required: false
+      },
     seller: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Seller', 

@@ -8,7 +8,7 @@ import {
 } from "../../config/config.js";
 import Seller from "../../models/SellerModel/SellerModel.js";
 import OTP from "../../models/OTPModel.js";
-import generateToken from "../../utils/generateToken.js";
+import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 
@@ -133,8 +133,8 @@ const authSeller = asyncHandler(async (req, res) => {
     });
   }
   if (seller && (await seller.matchPassword(password))) {
-    // Assuming generateToken is a valid function
-    const token = generateToken(res, seller._id); // Pass res as the first argument
+    // Assuming generateTokenSeller is a valid function
+    const token = generateTokenSeller(res, seller._id); // Pass res as the first argument
 
     return res.status(201).json({
       _id: seller._id,
@@ -151,7 +151,7 @@ const authSeller = asyncHandler(async (req, res) => {
 
 // Aggregate daily sales for a specific seller
 const aggregateDailySales = async (sellerId, startDate, endDate) => {
-  console.log(sellerId);
+  
 
   // Ensure that sellerId is a valid ObjectId
   const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
@@ -235,7 +235,7 @@ const registerSeller = asyncHandler(async (req, res) => {
   });
 
   if (sellerRegister) {
-    generateToken(res, sellerRegister._id);
+    generateTokenSeller(res, sellerRegister._id);
     res.status(201).json({
       _id: sellerRegister._id,
       name: sellerRegister.name,
@@ -250,7 +250,7 @@ const registerSeller = asyncHandler(async (req, res) => {
 //route POST// /api/users
 const sellerForget = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  console.log(req.body);
+  
   const seller = await Seller.findOne({ email });
   if (!seller) {
     return res.status(401).json({
@@ -295,7 +295,7 @@ const sellerVerifyOTP = asyncHandler(async (req, res) => {
 // ----------------------------Reset Password-------------
 const sellersResetPassword = asyncHandler(async (req, res) => {
   const { userId, password } = req.body;
-  console.log(req.body);
+
   try {
     const seller = await Seller.findOne({ email: userId });
     if (!seller) {
@@ -387,7 +387,6 @@ const sellerNotificationDetails = asyncHandler(async (req, res) => {
     const sellerId = req.query.sellerId;
     const sellerBookings = await aggregateBookingWithHostel(sellerId)
     if(sellerBookings){
-      console.log(sellerBookings)
       return res.json({sellerBookings})
     }
     if(!sellerBookings){
