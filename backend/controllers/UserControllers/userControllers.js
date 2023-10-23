@@ -554,7 +554,6 @@ const cancelBooking = asyncHandler(async (req, res) => {
       { $inc: { bedAvailableNow: 1 } },
       { new: true }
     );
-
     await cancel_update.save();
 
     if (cancel_update) {
