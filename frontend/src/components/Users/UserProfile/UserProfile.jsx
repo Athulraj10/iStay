@@ -8,7 +8,7 @@ import { Col, Container, Button, Form, Row } from "react-bootstrap";
 export default function UserProfile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const [name, setName] = useState();
+  const [name, setName] = useState("aaaa");
   const [email, setEmail] = useState();
   const [mobile, setMobile] = useState();
 
