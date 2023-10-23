@@ -100,6 +100,7 @@ const aggregateBookingWithHostel = async (sellerId) => {
           // hostel: { $first: '$hostel' },
           paymentMethod: { $first: '$paymentMethod' },
           paymentVia: { $first: '$paymentVia' },
+          status: { $first: '$status' },
           createdAt: { $first: '$createdAt' },
           totalAmount: { $first: '$totalAmount' },
           hostelDetails: { $first: '$hostelDetails' },

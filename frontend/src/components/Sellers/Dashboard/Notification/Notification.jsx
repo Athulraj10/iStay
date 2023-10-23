@@ -22,8 +22,8 @@ function Notification() {
       const seller = JSON.parse(storedSellerInfo);
       setSellerId(seller._id);
       setDataReceived(true);
-    }else{
-      navigate('/seller/login')
+    } else {
+      navigate("/seller/login");
     }
   }, [dataReceived]);
 
@@ -88,79 +88,81 @@ function Notification() {
                       </tr>
                     </thead>
                     <tbody>
-                      {Array.isArray(data) ? (
-                        data.map((item, index) => (
-                          <tr className="inner-box" key={index}>
-                            <td className="align-middle">
-                              <div className="event-date text-center">
-                                <p className="date-month">
-                                  {item.hostelDetails.hostelName}
-                                </p>
-                              </div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="event-img text-center">
-                                {item.hostelDetails.mainLocation}
-                              </div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="event-img text-center">
-                                {item.paymentVia}
-                              </div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="event-img text-center">
-                                {item.totalAmount}
-                              </div>
-                            </td>
+                      {Array.isArray(data)
+                        ? data.map((item, index) => (
+                            <tr className="inner-box" key={index}>
+                              <td className="align-middle">
+                                <div className="event-date text-center">
+                                  <p className="date-month">
+                                    {item.hostelDetails.hostelName}
+                                  </p>
+                                </div>
+                              </td>
+                              <td className="align-middle">
+                                <div className="event-img text-center">
+                                  {item.hostelDetails.mainLocation}
+                                </div>
+                              </td>
+                              <td className="align-middle">
+                                <div className="event-img text-center">
+                                  {item.paymentVia}
+                                </div>
+                              </td>
+                              <td className="align-middle">
+                                <div className="event-img text-center">
+                                  {item.totalAmount}
+                                </div>
+                              </td>
 
-                            <td
-                              className="align-middle"
-                              style={{ textAlign: "center" }}
-                            >
-                              <span>{item.createdAt.split("T")[0]}</span>
-                            </td>
-
-                            <td
-                              className="align-middle"
-                              style={{ textAlign: "center" }}
-                            >
-                              <span>
-                                {item.userDetails.name} <br />
-                                {item.userDetails.mobile}
-                              </span>
-                            </td>
-                            {/* <td className="align-middle" style={{textAlign:'center'}}>
-                                <span>{item.userDetails.name} <br />{item.userDetails.mobile}</span>
-                            </td> */}
-                            <td className="align-middle text-center">
-                              <button
-                                className="m-1 btn btn-primary"
-                                // onClick={() => handleEditButton(item._id)}
+                              <td
+                                className="align-middle"
+                                style={{ textAlign: "center" }}
                               >
-                                Paid
-                              </button>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                       null
-                      )}
+                                <span>{item.createdAt.split("T")[0]}</span>
+                              </td>
+
+                              <td
+                                className="align-middle"
+                                style={{ textAlign: "center" }}
+                              >
+                                <span>
+                                  {item.userDetails.name} <br />
+                                  {item.userDetails.mobile}
+                                </span>
+                              </td>
+
+                              <td className="align-middle text-center">
+                                <Button
+                                  className={`m-1 btn ${
+                                    item.status === "confirmed"
+                                      ? "btn-success"
+                                      : item.status === "cancelled"
+                                      ? "btn-danger"
+                                      : "btn-primary"
+                                  }`}
+                                >
+                                  {item.status}
+                                </Button>
+                              </td>
+                              
+                            </tr>
+                          ))
+                        : null}
                     </tbody>
                   </table>
-                      <div class="spinner-container">
+                  <div class="spinner-container">
+                    <div class="spinner">
+                      <div class="spinner">
                         <div class="spinner">
                           <div class="spinner">
                             <div class="spinner">
-                              <div class="spinner">
-                                <div class="spinner">
-                                  <div class="spinner"></div>
-                                </div>
-                              </div>
+                              <div class="spinner"></div>
                             </div>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
