@@ -3,14 +3,15 @@ import { useNavigate } from "react-router-dom";
 import "./style.css";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
-import { Col, Container, Button, Form, Row } from "react-bootstrap";
+import { Col, Container, Button, Form, Row, FormGroup } from "react-bootstrap";
 
 export default function UserProfile() {
   const navigate = useNavigate();
   const [userData, setUserData] = useState([]);
-  const [name, setName] = useState("aaaa");
-  const [email, setEmail] = useState();
-  const [mobile, setMobile] = useState();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [mobile, setMobile] = useState("");
+  const [isEditable, setIsEditable] = useState(false);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,13 +31,20 @@ export default function UserProfile() {
   };
 
   const handleSave = async () => {
+    setIsEditable(false);
     const dataToUpdate = {
       name,
       email,
       mobile,
     };
-    const response = await USERSAPI.put("users/profile",dataToUpdate);
-    if (response) {
+    const response = await USERSAPI.put("users/profile", dataToUpdate, {
+      params: { userId: userData[0]?._id },
+    });
+    if (response.data.updated) {
+      setName(response.data.name);
+      setEmail(response.data.email);
+      setMobile(response.data.mobile);
+      toast.success(`${name} Profile Updated`);
     }
   };
 
@@ -51,6 +59,9 @@ export default function UserProfile() {
           });
           if (response.data.userData) {
             setUserData(response?.data?.userData);
+            setName(userData[0]?.name);
+            setEmail(userData[0]?.email);
+            setMobile(userData[0]?.mobile);
           }
         } catch (error) {
           if (
@@ -76,7 +87,7 @@ export default function UserProfile() {
     } else {
       navigate("/login");
     }
-  }, []);
+  }, [mobile]);
   return (
     <div style={{ height: "100vh", display: "flex", alignItems: "start" }}>
       <Container fluid className="m-5">
@@ -93,6 +104,7 @@ export default function UserProfile() {
                       </Form.Label>
                       <Form.Control
                         type="text"
+                        readOnly={!isEditable}
                         name="name"
                         value={name}
                         onChange={handleInputChange}
@@ -105,6 +117,7 @@ export default function UserProfile() {
                       <Form.Control
                         type="email"
                         name="email"
+                        readOnly={!isEditable}
                         value={email}
                         onChange={handleInputChange}
                       />
@@ -118,15 +131,36 @@ export default function UserProfile() {
                         Mobile Number
                       </Form.Label>
                       <Form.Control
-                        type="text"
+                        type="number"
+                        readOnly={!isEditable}
                         name="mobile"
                         value={mobile}
                         onChange={handleInputChange}
                       />
                     </Form.Group>
-                    <Button variant="primary" onClick={handleSave}>
+
+                    {isEditable ? (
+                      <>
+                        <Button className="m-2" variant="primary" onClick={handleSave}>
+                          Save
+                        </Button>
+                        <Button variant="secondary" onClick={()=>setIsEditable(false)}>
+                          Cancel
+                        </Button>
+                      </>
+                    ) : (
+                      <Button
+                        className="text-white"
+                        variant="info"
+                        onClick={() => setIsEditable(true)}
+                      >
+                        Edit
+                      </Button>
+                    )}
+
+                    {/* <Button variant="primary" onClick={handleSave}>
                       Save
-                    </Button>
+                    </Button> */}
                   </Form>
                 ) : (
                   // If userData is not available, show loading or default content

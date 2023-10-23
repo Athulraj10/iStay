@@ -68,7 +68,7 @@ const aggregateBookingWithHostel = async (userId) => {
       },
       {
         $lookup: {
-          from: "hostels", // Name of the Hostel collection
+          from: "hostels",
           localField: "hostel",
           foreignField: "_id",
           as: "hostelDetails",
@@ -79,7 +79,7 @@ const aggregateBookingWithHostel = async (userId) => {
       },
       {
         $lookup: {
-          from: "sellers", // Name of the Sellers collection
+          from: "sellers",
           localField: "hostelDetails.seller",
           foreignField: "_id",
           as: "sellerDetails",
@@ -574,7 +574,6 @@ const userProfileWithWalletAggregate = asyncHandler(
           $unwind: "$wallet",
         },
       ]);
-      console.log(result);
       return result;
     } catch (error) {
       console.error(error);
@@ -609,26 +608,26 @@ const getUserProfile = asyncHandler(async (req, res) => {
 //access Private
 //route PUT// /api/users/profile
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
-  console.log(user)
-  // if (user) {
-  //   user.name = req.body.name || user.name;
-  //   user.email = req.body.email || user.email;
-  //   user.mobile = req.body.mobile || user.email;
-  //   if (req.body.password) {
-  //     user.password = req.body.password;
-  //   }
-
-  //   const updatedUser = await user.save();
-  //   res.status(200).json({
-  //     _id: updatedUser._id,
-  //     name: updatedUser.name,
-  //     email: updatedUser.email,
-  //   });
-  // } else {
-  //   res.status(404);
-  //   throw new Error("User Not Found");
-  // }
+  const user = await User.findById(req.query.userId);
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.mobile = req.body.mobile || user.email;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+    const updatedUser = await user.save();
+    res.status(200).json({
+      updated:true,
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      mobile: updatedUser.mobile,
+    });
+  } else {
+    res.status(404);
+    throw new Error("User Not Found");
+  }
 });
 
 // --------------------------Logout clearing JWT---------------------------
