@@ -32,6 +32,10 @@ const bookingModel = mongoose.Schema({
     totalAmount:{
         type:Number,
         required:true
+    },
+    cancelled:{
+        type:Boolean,
+        required:false
     }
 },{ 
     timestamps:true

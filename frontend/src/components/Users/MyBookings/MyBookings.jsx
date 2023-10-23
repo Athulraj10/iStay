@@ -9,6 +9,24 @@ const MyBookings = () => {
   const navigate = useNavigate();
   const [hostelData, setHostelData] = useState([]);
 
+  const handleCancel = async (id) => {
+    console.log(id);
+    if (window.confirm("Are you sure you want to perform this action?")) {
+      const response = await USERSAPI.patch(
+        `/users/myBookings/cancelBooking/${id}`
+      );
+      if (response.data.is_modified) {
+        toast.success(response.data.message);
+        navigate("/myBookings");
+      } else {
+        toast.error(response.data.message);
+      }
+    } else {
+      // User clicked "Cancel" in the confirmation dialog
+      // You can choose to do nothing or provide feedback to the user.
+    }
+  };
+
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
@@ -33,7 +51,6 @@ const MyBookings = () => {
                 navigate(`${error.response.data.redirect}`);
               }, 1000);
             }
-  
           } else {
             toast.error("Please Login");
             setTimeout(() => {
@@ -42,7 +59,7 @@ const MyBookings = () => {
           }
         }
       }
-    }
+    };
     fetchData();
   }, []);
 
@@ -126,9 +143,8 @@ const MyBookings = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      OnwerName: {hostel.sellerDetails[0].name}
+                      OnwerName: {hostel.sellerDetails.name}
                     </h6>
-
                     <h6
                       style={{
                         margin: "20px",
@@ -136,9 +152,8 @@ const MyBookings = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      OnwerName: {hostel.sellerDetails[0].email}
+                      OnwerName: {hostel.sellerDetails.email}
                     </h6>
-
                     <h6
                       style={{
                         margin: "20px",
@@ -146,27 +161,40 @@ const MyBookings = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      Onwer Number: {hostel.sellerDetails[0].mobile}
+                      Onwer Number: {hostel.sellerDetails.mobile}
                     </h6>
-
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
                       <span style={{ color: "gray" }}>Booked : </span>
                       {hostel.hostelDetails.updatedAt.split("T")[0]}
                     </h6>
                   </Col>
                 </Row>
-                {/* <Row className="mt-4">
-                  <Button
-                    style={{
-                      width: "300px",
-                      marginLeft: "30px",
-                      marginTop: "10px",
-                    }}
-                    variant="primary"
-                  >
-                    Cancel Now
-                  </Button>
-                </Row> */}
+                <Row className="mt-4">
+                  {hostel.cancelled ? (
+                    <Button
+                      style={{
+                        width: "300px",
+                        marginLeft: "30px",
+                        marginTop: "10px",
+                      }}
+                      variant="primary"
+                    >
+                      Cancelled
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => handleCancel(hostel._id)}
+                      style={{
+                        width: "300px",
+                        marginLeft: "30px",
+                        marginTop: "10px",
+                      }}
+                      variant="primary"
+                    >
+                      Cancel Now
+                    </Button>
+                  )}
+                </Row>
               </Card>
             </div>
           </Button>

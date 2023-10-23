@@ -86,9 +86,13 @@ const aggregateBookingWithHostel = async (userId) => {
         },
       },
       {
+        $unwind: "$sellerDetails",
+      },
+      {
         $group: {
           _id: "$_id",
           user: { $first: "$user" },
+          cancelled: { $first: "$cancelled" },
           hostel: { $first: "$hostel" },
           paymentMethod: { $first: "$paymentMethod" },
           paymentVia: { $first: "$paymentVia" },
@@ -98,7 +102,6 @@ const aggregateBookingWithHostel = async (userId) => {
         },
       },
     ]);
-
     return result;
   } catch (error) {
     console.error(error);
@@ -525,6 +528,20 @@ const myBookings = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
+// ----------------------------user Cancell booking-------------
+const cancelBooking = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+  try {
+    const cancel_update = await Booking.findOneAndUpdate({_id:id},{cancelled:true} )
+    if(cancel_update){
+      return res.status(200).json({is_modified:true,message:'Hostel Cancel Successfully'})
+    }else{
+      return res.status(400).json({message:'Internal Server Error'})
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
 const addReview = asyncHandler(async (req, res) => {
   const { userId, hostelId, description } = req.body;
   try {
@@ -586,14 +603,16 @@ const userProfileWithWalletAggregate = asyncHandler(
 //route POST// /api/users/profile
 const getUserProfile = asyncHandler(async (req, res) => {
   try {
-    userProfileWithWalletAggregate(req.query.userId).then((value) => {
-      if(value){
-        return res.status(200).json({userData:value})
-      }
-    }).catch((error)=>{
-      console.error(error)
-      return res.status(404).json({message:'User Fetching Error'})
-    });
+    userProfileWithWalletAggregate(req.query.userId)
+      .then((value) => {
+        if (value) {
+          return res.status(200).json({ userData: value });
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        return res.status(404).json({ message: "User Fetching Error" });
+      });
     // if (userDetails) {
     //   return res.status(200).json({ message: "User profile", userDetails });
     // } else {
@@ -618,7 +637,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     }
     const updatedUser = await user.save();
     res.status(200).json({
-      updated:true,
+      updated: true,
       _id: updatedUser._id,
       name: updatedUser.name,
       email: updatedUser.email,
@@ -664,5 +683,6 @@ export {
   bookHostel,
   bookingConfirmation,
   myBookings,
+  cancelBooking,
   addReview,
 };
