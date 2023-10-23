@@ -496,14 +496,12 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     let sellerId = hostelDatas.seller;
     let totalAmount = price + extraPrice;
     hostelDatas.bedAvailableNow--;
-    await hostelDatas.save()
-
-    
+    await hostelDatas.save();
 
     if (userId && hostelId) {
       const conformBooking = new Booking({
         user: userId,
-        status:'confirmed',
+        status: "confirmed",
         hostel: hostelId,
         seller: sellerId,
         date: new Date(),
@@ -550,10 +548,14 @@ const cancelBooking = asyncHandler(async (req, res) => {
       { cancelled: true }
     );
     cancel_update.status = "cancelled";
-    const hostelId=cancel_update.hostel
-    await Hostel.findOneAndUpdate({ _id: hostelId }, { $inc: { bedAvailableNow: 1 } }, { new: true });
-    await cancel_update.save();
+    const hostelId = cancel_update.hostel;
+    await Hostel.findOneAndUpdate(
+      { _id: hostelId },
+      { $inc: { bedAvailableNow: 1 } },
+      { new: true }
+    );
 
+    await cancel_update.save();
 
     if (cancel_update) {
       const userWallet = await Wallet.findOne({ user_id: cancel_update.user });
@@ -564,7 +566,7 @@ const cancelBooking = asyncHandler(async (req, res) => {
         booking_id: new mongoose.Types.ObjectId(cancel_update._id),
         booking_amount: cancel_update.totalAmount,
       };
-      
+
       userWallet.transactions.push(newTransaction);
       const updated = await userWallet.save();
       if (updated) {
