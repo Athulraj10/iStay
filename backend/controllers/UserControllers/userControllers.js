@@ -578,6 +578,7 @@ const cancelBooking = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
+
 const addReview = asyncHandler(async (req, res) => {
   const { userId, hostelId, description } = req.body;
   try {
