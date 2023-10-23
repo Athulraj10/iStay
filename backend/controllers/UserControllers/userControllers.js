@@ -551,8 +551,7 @@ const cancelBooking = asyncHandler(async (req, res) => {
     );
     cancel_update.status = "cancelled";
     const hostelId=cancel_update.hostel
-    const updatedHostel = await Hostel.findOneAndUpdate({ _id: hostelId }, { $inc: { bedAvailableNow: 1 } }, { new: true });
-      console.log(updatedHostel)
+    await Hostel.findOneAndUpdate({ _id: hostelId }, { $inc: { bedAvailableNow: 1 } }, { new: true });
     await cancel_update.save();
 
 
