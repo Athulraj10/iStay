@@ -177,7 +177,7 @@ const MyBookings = () => {
                         marginLeft: "30px",
                         marginTop: "10px",
                       }}
-                      variant="primary"
+                      variant="danger"
                     >
                       Cancelled
                     </Button>
