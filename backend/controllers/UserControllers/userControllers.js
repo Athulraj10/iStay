@@ -555,7 +555,6 @@ const cancelBooking = asyncHandler(async (req, res) => {
       { new: true }
     );
     await cancel_update.save();
-
     if (cancel_update) {
       const userWallet = await Wallet.findOne({ user_id: cancel_update.user });
       userWallet.balance = userWallet.balance + cancel_update.totalAmount;
