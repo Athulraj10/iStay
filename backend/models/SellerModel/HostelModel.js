@@ -80,7 +80,7 @@ const hostelModel = mongoose.Schema({
         required:true
     },
     bedAvailableNow:{
-        type:String,
+        type:Number,
         required:true
     },
     Wifi:{
