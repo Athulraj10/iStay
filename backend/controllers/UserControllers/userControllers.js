@@ -564,7 +564,6 @@ const cancelBooking = asyncHandler(async (req, res) => {
         booking_id: new mongoose.Types.ObjectId(cancel_update._id),
         booking_amount: cancel_update.totalAmount,
       };
-
       userWallet.transactions.push(newTransaction);
       const updated = await userWallet.save();
       if (updated) {
