@@ -13,9 +13,9 @@ const transactionSchema = new mongoose.Schema({
     type: Date,
     required: false,
   },
-  hostel_id: {
+  booking_id: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "Hostel",
+    ref: "Wallet",
     required: false,
   },
   booking_amount: {

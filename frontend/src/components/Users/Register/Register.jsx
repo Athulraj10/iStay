@@ -30,6 +30,14 @@ const RegisterPage = () => {
 
  
 
+  return (
+    <div>
+      <RegisterValidation onSubmit={handleSubmit} />
+      <Navbars />
+      <BodySection />
+      <MainSection />
+    </div>
+  );
 };
 
 export default RegisterPage;

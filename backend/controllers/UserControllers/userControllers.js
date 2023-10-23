@@ -545,18 +545,25 @@ const cancelBooking = asyncHandler(async (req, res) => {
       { cancelled: true }
     );
     if (cancel_update) {
+      console.log(cancel_update);
       const userWallet = await Wallet.findOne({ user_id: cancel_update.user });
+      userWallet.balance = userWallet.balance + cancel_update.totalAmount;
       const newTransaction = {
-        amount: 100,
-        description: "Payment received",
+        closing_balance: userWallet.balance,
+        booking_date: new Date(),
+        booking_id: new mongoose.Types.ObjectId(cancel_update._id),
+        booking_amount: cancel_update.totalAmount,
       };
+
       userWallet.transactions.push(newTransaction);
-      await userWallet.save();
-      return res
-        .status(200)
-        .json({ is_modified: true, message: "Hostel Cancel Successfully" });
-    } else {
-      return res.status(400).json({ message: "Internal Server Error" });
+      const updated = await userWallet.save();
+      if (updated) {
+        return res
+          .status(200)
+          .json({ is_modified: true, message: "Hostel Cancel Successfully" });
+      } else {
+        return res.status(400).json({ message: "Internal Server Error" });
+      }
     }
   } catch (error) {
     console.error(error);
