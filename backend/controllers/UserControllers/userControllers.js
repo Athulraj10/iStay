@@ -62,7 +62,7 @@ const singleHostelFinding = async (hostelId) => {
     console.error(error);
   }
 };
-const aggregateBookingWithHostel = async (userId) => {
+const aggregateBookingWithHostel = async (userId,sortOrder) => {
   try {
     const result = await Booking.aggregate([
       {
@@ -101,6 +101,11 @@ const aggregateBookingWithHostel = async (userId) => {
           totalAmount: { $first: "$totalAmount" },
           hostelDetails: { $first: "$hostelDetails" },
           sellerDetails: { $first: "$sellerDetails" },
+        },
+      },
+      {
+        $sort: {
+          [sortOrder.field]: sortOrder.order, // This line sorts the results
         },
       },
     ]);
@@ -519,7 +524,8 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
 // ----------------------------user mY booking-------------
 const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;
-  const response = await aggregateBookingWithHostel(userId);
+  const sortOrder = { field: "createdAt", order: -1 };
+  const response = await aggregateBookingWithHostel(userId,sortOrder);
   try {
     if (response) {
       return res.status(200).json({
@@ -536,9 +542,9 @@ const cancelBooking = asyncHandler(async (req, res) => {
   try {
     const cancel_update = await Booking.findOneAndUpdate({_id:id},{cancelled:true} )
     if(cancel_update){
-      console.log(cancel_update.user)
-      const refund = await Wallet.findById({_id:new mongoose.Types.ObjectId(cancel_update.user)})
-      console.log(refund)
+      console.log(cancel_update.user);
+const refund = await Wallet.findById(new mongoose.Types.ObjectId(cancel_update.user));
+console.log(refund);
 
 
       return res.status(200).json({is_modified:true,message:'Hostel Cancel Successfully'})

@@ -8,16 +8,16 @@ import { useNavigate } from "react-router-dom";
 const MyBookings = () => {
   const navigate = useNavigate();
   const [hostelData, setHostelData] = useState([]);
+  const [hostelDataLoaded, setHostelDataLoaded] = useState(false);
 
   const handleCancel = async (id) => {
-    console.log(id);
     if (window.confirm("Are you sure you want to perform this action?")) {
       const response = await USERSAPI.patch(
         `/users/myBookings/cancelBooking/${id}`
       );
       if (response.data.is_modified) {
         toast.success(response.data.message);
-        navigate("/myBookings");
+        setHostelDataLoaded(!hostelDataLoaded)
       } else {
         toast.error(response.data.message);
       }
@@ -61,7 +61,7 @@ const MyBookings = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [hostelDataLoaded]);
 
   return (
     <Container style={{ color: "white", minHeight: "100vh", height: "auto" }}>
