@@ -62,7 +62,7 @@ const singleHostelFinding = async (hostelId) => {
     console.error(error);
   }
 };
-const aggregateBookingWithHostel = async (userId,sortOrder) => {
+const aggregateBookingWithHostel = async (userId, sortOrder) => {
   try {
     const result = await Booking.aggregate([
       {
@@ -525,7 +525,7 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
 const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;
   const sortOrder = { field: "createdAt", order: -1 };
-  const response = await aggregateBookingWithHostel(userId,sortOrder);
+  const response = await aggregateBookingWithHostel(userId, sortOrder);
   try {
     if (response) {
       return res.status(200).json({
@@ -540,16 +540,23 @@ const myBookings = asyncHandler(async (req, res) => {
 const cancelBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
   try {
-    const cancel_update = await Booking.findOneAndUpdate({_id:id},{cancelled:true} )
-    if(cancel_update){
-      console.log(cancel_update.user);
-const refund = await Wallet.findById(new mongoose.Types.ObjectId(cancel_update.user));
-console.log(refund);
-
-
-      return res.status(200).json({is_modified:true,message:'Hostel Cancel Successfully'})
-    }else{
-      return res.status(400).json({message:'Internal Server Error'})
+    const cancel_update = await Booking.findOneAndUpdate(
+      { _id: id },
+      { cancelled: true }
+    );
+    if (cancel_update) {
+      const userWallet = await Wallet.findOne({ user_id: cancel_update.user });
+      const newTransaction = {
+        amount: 100,
+        description: "Payment received",
+      };
+      userWallet.transactions.push(newTransaction);
+      await userWallet.save();
+      return res
+        .status(200)
+        .json({ is_modified: true, message: "Hostel Cancel Successfully" });
+    } else {
+      return res.status(400).json({ message: "Internal Server Error" });
     }
   } catch (error) {
     console.error(error);
