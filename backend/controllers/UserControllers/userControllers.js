@@ -222,13 +222,13 @@ const authUser = asyncHandler(async (req, res) => {
 // -------------------Register New User with wallet function---------------------------
 const createNewUserWithWallet = async (name, email, password, mobile) => {
   try {
+    console.log(name,email,password,mobile)
     const userRegistration = await User.create({
       name,
       email,
       password,
       mobile,
     });
-
     const wallet = await Wallet.create({
       user_id: userRegistration._id,
     });
@@ -237,7 +237,6 @@ const createNewUserWithWallet = async (name, email, password, mobile) => {
       { _id: userRegistration._id },
       { wallet_id: wallet._id }
     );
-
     return userRegistration;
   } catch (error) {
     console.log(error);
@@ -252,33 +251,29 @@ const registerUser = asyncHandler(async (req, res) => {
     const { userName, email, password, mobile } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
-      res.status(400);
-      res.status(400).json({ message: "User Already Exist" });
-      throw new Error(" User already Exists");
+      res.status(400).json({ message: "User Already Exists" });
+      return;
     }
-    const userRegister = createNewUserWithWallet(
-      userName,
-      email,
-      password,
-      mobile
-    )
-      .then((user) => {
-        if (user) {
-          genereateToken(res, userRegister._id);
-          res.status(201).json({
-            _id: userRegister._id,
-            name: userRegister.name,
-            email: userRegister.email,
-          });
-        }
-      })
-      .catch((error) => {
-        res.status(401).json({ message: error });
+    
+    
+    const user = await createNewUserWithWallet(userName, email, password, mobile);
+    
+    if (user) {
+      genereateToken(res, user._id);
+      res.status(201).json({
+        _id: user._id,
+        name: user.name,
+        email: user.email,
       });
+    } else {
+      res.status(401).json({ message: "User creation failed" });
+    }
   } catch (error) {
     console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
   }
 });
+
 // -------------------Forget Password User Verification---------------------------
 //@desc Auth user/set token
 //access Public

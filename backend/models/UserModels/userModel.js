@@ -11,22 +11,20 @@ const userSchema = mongoose.Schema({
     isBlock:{
         type:Boolean,
         default:false,
-        required:false
     },
     email:{
         type:String,
         required:true,
-        unique:true
     },
     pic:{
         type:String,
-        required:true,
+        required:false,
         default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
-    location:{
-        type:String,
-        required:false,
-    },
+    // location:{
+    //     type:String,
+    //     required:false,
+    // },
     password:{
         type:String,
         required:true
@@ -38,7 +36,6 @@ const userSchema = mongoose.Schema({
     wallet_id: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "Wallet",
-        unique:true,
         required: false,
       },
 },{ 
