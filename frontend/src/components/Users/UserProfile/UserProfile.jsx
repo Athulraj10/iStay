@@ -4,6 +4,7 @@ import "./style.css";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 import { Col, Container, Button, Form, Row, FormGroup } from "react-bootstrap";
+import { useToast } from "@chakra-ui/react";
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -12,6 +13,9 @@ export default function UserProfile() {
   const [email, setEmail] = useState("");
   const [mobile, setMobile] = useState("");
   const [isEditable, setIsEditable] = useState(false);
+  const [image, setImage] = useState();
+  const [imageLoading, setImageLoading] = useState(false);
+  const toast = useToast();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,12 +34,57 @@ export default function UserProfile() {
     }
   };
 
+  const handleImage = async (pic) => {
+    console.log(pic)
+    setImageLoading(true);
+    if (pic === undefined) {
+      toast({
+        title: "Please Select an Image !",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
+      return;
+    }
+    if (pic.type === "image/jpeg" || pic.type === "image/png") {
+      const userImage = new FormData();
+      userImage.append("file", pic);
+      userImage.append("upload_preset","chat-app");
+      // userImage.append("cloud_name","istayprocess");
+      // console.log(userImage)
+       fetch("https://api.cloudinary.com/v1_1/istayprocess/image/upload",{
+        method: "POST",
+        body: userImage,
+      })
+        .then((res) => res.json())
+        .then((value)=>{
+          setImage(value.url.toString());
+          setImageLoading(false)
+        }).catch((error)=>{
+          console.error(error);
+          setImageLoading(false);
+        })
+    }else{
+      toast({
+        title:'Please Select an Image',
+        status:'warning',
+        duration:3000,
+        isClosable:true,
+        position:'bottom'
+      })
+      setImageLoading(false);
+      return
+    }
+  };
+
   const handleSave = async () => {
     setIsEditable(false);
     const dataToUpdate = {
       name,
       email,
       mobile,
+      image
     };
     const response = await USERSAPI.put("users/profile", dataToUpdate, {
       params: { userId: userData[0]?._id },
@@ -139,12 +188,36 @@ export default function UserProfile() {
                       />
                     </Form.Group>
 
+                    <Form.Group
+                      className="mb-3"
+                      controlId="formBasicExperience"
+                    >
+                      <Form.Label className="fields text-white">
+                        User Profile Picture
+                      </Form.Label>
+                      <input
+                        type="file"
+                        // readOnly={!isEditable}
+                        accept='image/*'
+                        // value={mobile}
+                        onChange={(e) => handleImage(e.target.files[0])}
+                      />
+                    </Form.Group>
+
                     {isEditable ? (
                       <>
-                        <Button className="m-2" variant="primary" onClick={handleSave}>
+                        <Button
+                          className="m-2"
+                          variant="primary"
+                          onClick={handleSave}
+                          // isLoading={imageLoading}
+                        >
                           Save
                         </Button>
-                        <Button variant="secondary" onClick={()=>setIsEditable(false)}>
+                        <Button
+                          variant="secondary"
+                          onClick={() => setIsEditable(false)}
+                        >
                           Cancel
                         </Button>
                       </>
