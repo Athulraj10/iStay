@@ -164,4 +164,6 @@ export {
   accessChat,
   // ---------------------excluding Self Chat
   fetchChats,
+  // -------------------------group chat
+  createGroupChat
 };

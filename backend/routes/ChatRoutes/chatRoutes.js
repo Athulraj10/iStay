@@ -7,8 +7,10 @@ import {
     // acces to chat------------
     accessChat,
     // fetching all chat------------
-    fetchChats
-   }
+    fetchChats,
+    // GroupChat
+    createGroupChat
+}
     from "../../controllers/ChatController/chatController.js";
 // import  {protect}  from "../../middleware/ChatMiddleware/authMiddleware.js";
 import  {protect}  from "../../middleware/UserMiddleware/authMiddleware.js";
