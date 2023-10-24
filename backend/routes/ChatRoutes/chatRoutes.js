@@ -4,21 +4,23 @@ import multer from "multer";
 import { 
     AllUsers,
 
-    
-    accessChat
+    // acces to chat------------
+    accessChat,
+    // fetching all chat------------
+    fetchChats
    }
     from "../../controllers/ChatController/chatController.js";
 // import  {protect}  from "../../middleware/ChatMiddleware/authMiddleware.js";
 import  {protect}  from "../../middleware/UserMiddleware/authMiddleware.js";
 
 
-router.get('/', AllUsers)
+// router.get('/', AllUsers)
 // router.post('/login',authUser)
 
 router.route('/').post(
     protect,
     accessChat);
-// router.route('/').get(protect,fetchChat);
+router.route('/').get(protect,fetchChats);
 
 // router.route('/group').post(protect,createGroupChat);
 // router.route('/rename').put(protect,renameGroup);
