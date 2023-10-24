@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import path from 'path';
+import colors from 'colors'
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 dotenv.config();
@@ -48,4 +49,4 @@ app.get('/',(req,res)=>res.send("server is ready"))
 
 app.use(notFound)
 app.use(errorHandler)
-app.listen(port,()=>console.log(`server start port ${port}`))
+app.listen(port,()=>console.log(`server start port ${port}`.yellow.bold))

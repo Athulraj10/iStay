@@ -18,6 +18,11 @@ const userSchema = mongoose.Schema({
         required:true,
         unique:true
     },
+    pic:{
+        type:String,
+        required:true,
+        default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
+    },
     location:{
         type:String,
         required:false,
