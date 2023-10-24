@@ -22,7 +22,7 @@ router.route('/').post(
     accessChat);
 router.route('/').get(protect,fetchChats);
 
-// router.route('/group').post(protect,createGroupChat);
+router.route('/group').post(protect,createGroupChat);
 // router.route('/rename').put(protect,renameGroup);
 
 // router.route('/groupremove').put(protect,removeFromGroup);
