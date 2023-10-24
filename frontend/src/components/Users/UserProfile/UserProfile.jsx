@@ -15,7 +15,7 @@ export default function UserProfile() {
   const [isEditable, setIsEditable] = useState(false);
   const [image, setImage] = useState();
   const [imageLoading, setImageLoading] = useState(false);
-  const toast = useToast();
+  const toasty = useToast();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -38,7 +38,7 @@ export default function UserProfile() {
     console.log(pic)
     setImageLoading(true);
     if (pic === undefined) {
-      toast({
+      toasty({
         title: "Please Select an Image !",
         status: "warning",
         duration: 3000,
@@ -66,7 +66,7 @@ export default function UserProfile() {
           setImageLoading(false);
         })
     }else{
-      toast({
+      toasty({
         title:'Please Select an Image',
         status:'warning',
         duration:3000,
@@ -89,6 +89,7 @@ export default function UserProfile() {
     const response = await USERSAPI.put("users/profile", dataToUpdate, {
       params: { userId: userData[0]?._id },
     });
+    console.log(response.data)
     if (response.data.updated) {
       setName(response.data.name);
       setEmail(response.data.email);
