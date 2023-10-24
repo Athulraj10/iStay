@@ -21,10 +21,10 @@ const userSchema = mongoose.Schema({
         required:false,
         default: "https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg",
     },
-    // location:{
-    //     type:String,
-    //     required:false,
-    // },
+    location:{
+        type:String,
+        required:false,
+    },
     password:{
         type:String,
         required:true
@@ -37,6 +37,11 @@ const userSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: "Wallet",
         required: false,
+      },
+      isAdmin: {
+        type: Boolean,
+        required: false,
+        default: false,
       },
 },{ 
     timestamps:true

@@ -5,7 +5,7 @@ import User from "../../models/UserModels/userModel.js";
 const protect = asyncHandler(async (req, res, next) => {
   let token;
   token = req.cookies.jwt_User;
-  console.log("token sliceed is"+ token.slice(0,10))
+  // console.log("token sliceed is"+ token.slice(0,10))
   if (token) {
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);

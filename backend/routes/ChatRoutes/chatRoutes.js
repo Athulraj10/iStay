@@ -8,15 +8,15 @@ import {
     accessChat
    }
     from "../../controllers/ChatController/chatController.js";
-import  {protect}  from "../../middleware/ChatMiddleware/authMiddleware.js";
+// import  {protect}  from "../../middleware/ChatMiddleware/authMiddleware.js";
+import  {protect}  from "../../middleware/UserMiddleware/authMiddleware.js";
 
 
-router.route('/').get(
-    // protect,
-    AllUsers)
+router.get('/', AllUsers)
+// router.post('/login',authUser)
 
 router.route('/').post(
-    // protect,
+    protect,
     accessChat);
 // router.route('/').get(protect,fetchChat);
 

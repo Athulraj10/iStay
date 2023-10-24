@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import User from "../../models/UserModels/userModel.js";
-import Chat  from "../../models/chatModel.js";
+import Chat from "../../models/chatModel.js";
 // import nodemailer from "nodemailer";
 // import {
 //   sessionSecret,
@@ -16,6 +16,7 @@ import Chat  from "../../models/chatModel.js";
 
 // // -------------------All Users---------------------------
 const AllUsers = asyncHandler(async (req, res) => {
+  console.log('/ called')
   const keyword = req.query.search
     ? {
         $or: [
@@ -69,17 +70,18 @@ const AllUsers = asyncHandler(async (req, res) => {
 
 const accessChat = asyncHandler(async (req, res) => {
     const { userId } = req.body;
-    console.log(req.body)
+    console.log(userId)
+    console.log(req.user._id)
     if (!userId) {
       console.log("UserId param not sent with request");
       return res.sendStatus(400);
     }
-  
-    var isChat = await Chat.find({
+
+    var isChat = await Chat.findOne({
       isGroupChat: false,
       $and: [
-        { users: { $elemMatch: { $eq: req.user._id } } },
-        { users: { $elemMatch: { $eq: userId } } },
+        { users: { $elemMatch: { $eq:req.user._id } } },
+        { users: { $elemMatch: { $eq:userId } } },
       ],
     })
       .populate("users", "-password")
@@ -90,6 +92,8 @@ const accessChat = asyncHandler(async (req, res) => {
       select: "name pic email",
     });
   
+    console.log("isChat" + isChat)
+
     if (isChat.length > 0) {
       res.send(isChat[0]);
     } else {
