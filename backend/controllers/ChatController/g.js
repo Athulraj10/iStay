@@ -12,6 +12,3 @@ var isChat = await Chat.find({
     path: "latestMessage.sender",
     select: "name pic email",
   });
-
-  if (isChat.length > 0) {
-    res.send(isChat[0]);
