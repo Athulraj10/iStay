@@ -609,7 +609,7 @@ const addReview = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
-// ---------------------------Aggregate with wallet---------------------------
+// ---------------------------Aggregate with wallet ---------------------------
 const userProfileWithWalletAggregate = asyncHandler(
   asyncHandler(async (userId) => {
     try {
