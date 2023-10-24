@@ -70,8 +70,6 @@ const AllUsers = asyncHandler(async (req, res) => {
 
 const accessChat = asyncHandler(async (req, res) => {
     const { userId } = req.body;
-    console.log(userId)
-    console.log(req.user._id)
     if (!userId) {
       console.log("UserId param not sent with request");
       return res.sendStatus(400);
@@ -91,9 +89,6 @@ const accessChat = asyncHandler(async (req, res) => {
       path: "latestMessage.sender",
       select: "name pic email",
     });
-  
-    console.log("isChat" + isChat)
-
     if (isChat.length > 0) {
       res.send(isChat[0]);
     } else {
@@ -109,7 +104,7 @@ const accessChat = asyncHandler(async (req, res) => {
           "users",
           "-password"
         );
-        res.status(200).json(FullChat);
+        res.status(200).send(FullChat);
       } catch (error) {
         res.status(400);
         throw new Error(error.message);
