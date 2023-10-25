@@ -160,7 +160,7 @@ const fetchChats = asyncHandler(async (req, res) => {
 //@route           POST /api/chat/group
 //@access          Protected
 const createGroupChat = asyncHandler(async (req, res) => {
-  console.log('group')
+  console.log("group");
   if (!req.body.users || !req.body.name) {
     return res.status(400).send({ message: "Please Fill all the feilds" });
   }
@@ -194,12 +194,55 @@ const createGroupChat = asyncHandler(async (req, res) => {
   }
 });
 
-const renameGroup = asyncHandler(async(req,res)=>{
-  const {chatId,chatName}=req.body;
+const renameGroup = asyncHandler(async (req, res) => {
+  const { chatId, chatName } = req.body;
+  console.log(chatId + "\\" + chatName);
   const updatedChat = await Chat.findByIdAndUpdate(
-    chatId,{chatName},{new:true}
-  ).populate('users','-password').populate('groupAdmin','-password');
-})
+    chatId,
+    { chatName },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+});
+
+const addToGroup = asyncHandler(async (req, res) => {
+  const { chatId, userId } = req.body;
+  const added = Chat.findByIdAndUpdate(
+    chatId,
+    {
+      $push: { users: userId },
+    },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+  if (!added) {
+    res.status(404);
+    throw new Error("Chat not found");
+  } else {
+    res.json(added);
+  }
+});
+
+const removeFromGroup = asyncHandler(async (req, res) => {
+  const { chatId, userId } = req.body;
+  const removed = Chat.findByIdAndUpdate(
+    chatId,
+    {
+      $pull: { users: userId },
+    },
+    { new: true }
+  )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+  if (!removed) {
+    res.status(404);
+    throw new Error("Chat not found");
+  } else {
+    res.json(removed);
+  }
+});
 
 export {
   // -----------fetch All users
@@ -212,5 +255,9 @@ export {
   // -------------------------group chat
   createGroupChat,
   // ------------------------rename group
-  renameGroup
+  renameGroup,
+  // ----------------add to group
+  addToGroup,
+  // -------------remove from group
+  removeFromGroup
 };

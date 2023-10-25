@@ -12,6 +12,10 @@ import {
     createGroupChat,
     // Renaming chat-----------
     renameGroup,
+    // -----------------Addtogroup
+    addToGroup,
+    // -----------remove form group
+    removeFromGroup
 }
     from "../../controllers/ChatController/chatController.js";
 // import  {protect}  from "../../middleware/ChatMiddleware/authMiddleware.js";
@@ -25,9 +29,8 @@ router.route('/').post(protect,accessChat);
 router.route('/').get(protect,fetchChats);
 router.route('/group').post(protect,createGroupChat);
 router.route('/rename').put(protect,renameGroup);
-
-// router.route('/groupremove').put(protect,removeFromGroup);
-// router.route('/groupadd').put(protect,addToGroup);
+router.route('/groupadd').put(protect,addToGroup);
+router.route('/groupremove').put(protect,removeFromGroup);
 
 
 export default router
