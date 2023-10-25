@@ -27,6 +27,16 @@ const MyBookings = () => {
     }
   };
 
+  const handleMessage = (hostelId)=>{
+    try {
+      if(hostelId){
+        navigate(`/chats/${hostelId}`)
+      }
+    } catch (error) {
+      toast.error(error)
+    }
+  }
+
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
     const userInfo = JSON.parse(storedUserInfo);
@@ -185,7 +195,7 @@ const MyBookings = () => {
                     <Button
                       onClick={() => handleCancel(hostel._id)}
                       style={{
-                        width: "300px",
+                        width: "230px",
                         marginLeft: "30px",
                         marginTop: "10px",
                       }}
@@ -194,6 +204,17 @@ const MyBookings = () => {
                       Cancel Now
                     </Button>
                   )}
+                   <Button
+                      onClick={() => handleMessage(hostel._id)}
+                      style={{
+                        width: "200px",
+                        marginLeft: "30px",
+                        marginTop: "10px",
+                      }}
+                      variant="primary"
+                    >
+                      Message Now
+                    </Button>
                 </Row>
               </Card>
             </div>

@@ -52,8 +52,7 @@ import BookingConformationScreen from "../components/Users/Screens/BookingConfor
 import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
 // ------------------Chat Components
-import ChatPage from "../components/ChatPage/ChatPage";
-
+import UserChats from "../components/ChatPage/UsersChats";
 
 
 const Routeing = () => {
@@ -75,7 +74,7 @@ const Routeing = () => {
       <Route path="/myBookings" element={<MyBookingScreen />} />
 
 
-      <Route path="/chat" element={<ChatPage />} />
+      <Route path="/chats/:hostelId" element={<UserChats />} />
 
 
 

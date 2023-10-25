@@ -31,7 +31,7 @@ app.use(express.urlencoded({extended:true}))
 app.use('/api/users',userRoutes)
 app.use('/api/seller',sellerRoutes)
 app.use('/api/admin',adminRoutes)
-app.use('/api/chat',chatRoutes)
+app.use('/api/chats',chatRoutes)
 
 
 if (process.env.NODE_ENV === 'production') {
