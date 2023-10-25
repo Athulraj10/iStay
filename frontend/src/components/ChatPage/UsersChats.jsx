@@ -83,7 +83,7 @@ const UserChats = () => {
           if (res) {
               setChats(res.data)
               setMessageSent(false)
-              socket.emit("join chat",chatId)
+            //   socket.emit("join chat",chatId)
           }
       };
       if(chatId){
