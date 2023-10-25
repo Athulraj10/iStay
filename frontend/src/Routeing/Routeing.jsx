@@ -1,6 +1,10 @@
 import React, { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 
+// ------------Error Page Global
+import NotFoundScreen from "../components/ErrorPage/ErrorPage";
+
+
 // --------------User Panel-----------
 import HomeScreen from "../components/Users/Screens/HomeScreen";
 import LoginScreen from "../components/Users/Screens/LoginScreen";
@@ -23,6 +27,7 @@ import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery
 import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
 import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
 import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
+import SellerNotificationScreen from "../components/Sellers/Screens/SellerNotificationScreen";
 
 
 
@@ -46,10 +51,9 @@ import UserProfileScreen from "../components/Users/Screens/UserProfileScreen";
 import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
 import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
+// ------------------Chat Components
+import ChatPage from "../components/ChatPage/ChatPage";
 
-
-import NotFoundScreen from "../components/ErrorPage/ErrorPage";
-import SellerNotificationScreen from "../components/Sellers/Screens/SellerNotificationScreen";
 
 
 const Routeing = () => {
@@ -69,6 +73,9 @@ const Routeing = () => {
       <Route path="/findAccommodation/singlePageView" element={<SinglePageView />}/>
       <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
       <Route path="/myBookings" element={<MyBookingScreen />} />
+
+
+      <Route path="/chat" element={<ChatPage />} />
 
 
 
