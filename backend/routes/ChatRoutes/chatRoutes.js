@@ -21,9 +21,9 @@ router.get('/get-room-messages/:roomid',chatController.getMessages)
 // router.get('/getrooms/:user',chatController.getRooms)
 
 
-// router.get('/get-doctor-rooms/:seller',chatController.getDoctorsRooms)
-// router.post('/sendchat/:chatid/:sender/:type',chatController.chatSend)
-// router.get('/get-room-messages/:roomid',chatController.getMessages)
+router.get('/get-seller-rooms/:seller',chatController.getDoctorsRooms)
+router.get('/get-room-messages/:roomid',chatController.getMessages)
+router.post('/sendchat/:chatid/:sender/:type',chatController.chatSend)
 
 export default router
 

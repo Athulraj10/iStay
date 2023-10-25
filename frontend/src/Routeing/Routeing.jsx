@@ -53,6 +53,7 @@ import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 
 // ------------------Chat Components
 import UserChats from "../components/ChatPage/UsersChats";
+import SellerChat from "../components/Sellers/SellerChat/SellerChat";
 
 
 const Routeing = () => {
@@ -77,7 +78,8 @@ const Routeing = () => {
       <Route path="/chats/:hostelId" element={<UserChats />} />
 
 
-
+      <Route path="/seller/message" element={<SellerChat />} />
+      <Route path='/seller/chats' element={<SellerChat/>}/>
       {/* ----------------------------------------------------Seller Routes---------- */}
       <Route path="/seller/register" element={<SellerRegisterScreen />} />
       <Route path="/seller/login" element={<SellerLoginScreen />} />
@@ -89,7 +91,6 @@ const Routeing = () => {
       <Route path="/seller/resetPassword" element={<SellerResetPassword />} />
       <Route path="/seller/listEnquery" element={<SelllerListEnquery />} />
       <Route path="/seller/listHostels" element={<SellerHostelList />} />
-      <Route path="/seller/message" element={<SellerMessageList />} />
       <Route path="/seller/listHostels/addhostel" element={<AddHostelSeller />}/>
       <Route path="/seller/listHostels/editHostelDetails" element={<SellerHostelEditScreen />}/>
 

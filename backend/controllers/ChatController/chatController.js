@@ -280,10 +280,11 @@ const chatController = {
     }),
 
     chatSend: asyncHandler(async (req, res) => {
-        const { content } = req.body;
-        console.log(content)
+        try {
+          const { content } = req.body;
         const { chatid, sender, type } = req.params;
-      
+      console.log(req.body)
+      console.log(req.params)
         // Create a new chat message
         const newMessage = new ChatMessage({
           room: chatid,
@@ -293,8 +294,8 @@ const chatController = {
         });
       
         // Save the chat message
-        await newMessage.save();
-
+        const newMessageSaved = await newMessage.save();
+        console.log(newMessageSaved)
         let chatRoom = await ChatRoom.findOne({_id:chatid})
         if(chatRoom){
             chatRoom.messages.push(newMessage._id)
@@ -311,6 +312,9 @@ const chatController = {
       
         // Return the chat message with all populated fields
         res.json(newMessage);
+        } catch (error) {
+          console.log(error)
+        }
     }),
 
     //User side
@@ -338,6 +342,8 @@ const chatController = {
 
     getMessages: asyncHandler(async (req, res) => {
         const { roomid } = req.params;
+        console.log(roomid)
+        console.log("getMessage")
       
         try {
           // Sort messages in ascending order of createdAt
