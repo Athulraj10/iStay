@@ -20,7 +20,7 @@ import { Link, useNavigate } from "react-router-dom";
 const Header = () => {
   const navigate = useNavigate();
   const [userInfo, setUserInfo] = useState(null);
- 
+
   const handleLogout = async () => {
     let res = await USERSAPI.post("users/logout");
     if (res.status) {
@@ -29,20 +29,17 @@ const Header = () => {
       navigate("/login");
     }
   };
- 
+
+  const fetchUserInfo = async () => {
+    const userInfo = localStorage.getItem("userInfo");
+    if (userInfo) {
+      setUserInfo(userInfo);
+    }
+  };
 
   useEffect(() => {
-    // Define an asynchronous function to fetch sellerInfo from localStorage
-    const fetchUserInfo = async () => {
-      const userInfo = localStorage.getItem("userInfo");
-      if (userInfo) {
-        // You can add await here if needed
-        setUserInfo(userInfo);
-      }
-    };
-    // Call the asynchronous function
     fetchUserInfo();
-  }, []); // Empty dependency array to run once on mount
+  }, [userInfo]);
   return (
     <>
       <Navbar
@@ -89,7 +86,7 @@ const Header = () => {
                 </>
               ) : (
                 <>
-                 <Nav>
+                  <Nav>
                     <Link to="/findAccommodation" className="nav-link">
                       <FaPhone />
                       &nbsp; Find Accommodation
@@ -112,8 +109,7 @@ const Header = () => {
         </Container>
       </Navbar>
     </>
-
-      );
+  );
 };
 
 export default Header;

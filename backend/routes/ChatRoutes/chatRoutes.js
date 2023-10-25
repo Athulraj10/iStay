@@ -1,6 +1,5 @@
 import express from "express"
 const router = express.Router();
-import multer from "multer";    
 import { 
     AllUsers,
 
