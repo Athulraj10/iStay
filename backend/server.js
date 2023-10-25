@@ -51,4 +51,14 @@ app.get('/',(req,res)=>res.send("server is ready"))
 
 app.use(notFound)
 app.use(errorHandler)
-app.listen(port,()=>console.log(`server start port ${port}`.yellow.bold))
+const server = app.listen(port,()=>console.log(`server start port ${port}`.yellow.bold))
+import {Server} from 'socket.io'
+const io = new Server(server,{
+  pingTimeout:60000,
+  cors:{
+    origin:["http://localhost:3000/"]
+  }
+})
+io.on('connections',(socket)=>{
+  console.log('connected to socket.io')
+})
