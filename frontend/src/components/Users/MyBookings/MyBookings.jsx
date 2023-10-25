@@ -73,6 +73,7 @@ const MyBookings = () => {
     fetchData();
   }, [hostelDataLoaded]);
 
+
   return (
     <Container style={{ color: "white", minHeight: "100vh", height: "auto" }}>
       {hostelData.length > 0 ? ( // Check if hostelData has data
@@ -193,7 +194,7 @@ const MyBookings = () => {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => handleCancel(hostel._id)}
+                      onClick={() => handleCancel(seller._id)}
                       style={{
                         width: "230px",
                         marginLeft: "30px",
@@ -205,7 +206,7 @@ const MyBookings = () => {
                     </Button>
                   )}
                    <Button
-                      onClick={() => handleMessage(hostel._id)}
+                      onClick={() => handleMessage(hostel.sellerDetails._id)}
                       style={{
                         width: "200px",
                         marginLeft: "30px",
@@ -215,6 +216,7 @@ const MyBookings = () => {
                     >
                       Message Now
                     </Button>
+                    
                 </Row>
               </Card>
             </div>

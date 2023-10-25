@@ -251,7 +251,6 @@ const chatController = {
     createRoom : asyncHandler(async(req,res)=>{
         try {
             const { user, seller } = req.query
-
             let chatRoom = await ChatRoom.findOne({
                 user:user,
                 seller:seller
@@ -266,18 +265,23 @@ const chatController = {
                 })
                 await chatRoom.save();
             }
-            console.log(chatRoom)
-            const roomDetails = await ChatRoom.findOne({_id:chatRoom._id}).populate({path:'seller',select:'_id name'})
-            console.log(roomDetails)
 
-            res.status(200).json(roomDetails);
+            const roomDetails = await ChatRoom.find({ _id: chatRoom._id })
+            .populate({
+              path: 'seller',
+              select: 'name _id mobile' 
+            })
+            .exec();
+            console.log(roomDetails)
+            res.status(200).json({roomDetails:roomDetails});
         } catch (error) {
-            res.status(500).json({ message: 'Error creating or getting chat room' });
+           console.log(error)
         }
     }),
 
     chatSend: asyncHandler(async (req, res) => {
         const { content } = req.body;
+        console.log(content)
         const { chatid, sender, type } = req.params;
       
         // Create a new chat message
@@ -295,8 +299,9 @@ const chatController = {
         if(chatRoom){
             chatRoom.messages.push(newMessage._id)
         }
-        await chatRoom.save()
-      
+        let message = await chatRoom.save()
+        console.log(message)
+        
         // Populate the sender field with specific fields (_id, name, email)
         // and also populate the nested fields room.user and room.seller
         await newMessage.populate([

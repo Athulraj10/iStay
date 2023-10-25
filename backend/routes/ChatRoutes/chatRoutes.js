@@ -16,9 +16,9 @@ import  {protect}  from "../../middleware/UserMiddleware/authMiddleware.js";
 // router.route('/groupremove').put(protect,removeFromGroup);
 
 router.get('/get-or-createroom',chatController.createRoom)
+router.post('/sendchat/:chatid/:sender/:type',chatController.chatSend)
+router.get('/get-room-messages/:roomid',chatController.getMessages)
 // router.get('/getrooms/:user',chatController.getRooms)
-// router.post('/sendchat/:chatid/:sender/:type',chatController.chatSend)
-// router.get('/get-room-messages/:roomid',chatController.getMessages)
 
 
 // router.get('/get-doctor-rooms/:seller',chatController.getDoctorsRooms)
