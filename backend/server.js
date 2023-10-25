@@ -52,13 +52,40 @@ app.get('/',(req,res)=>res.send("server is ready"))
 app.use(notFound)
 app.use(errorHandler)
 const server = app.listen(port,()=>console.log(`server start port ${port}`.yellow.bold))
-import {Server} from 'socket.io'
-const io = new Server(server,{
-  pingTimeout:60000,
-  cors:{
-    origin:["http://localhost:3000/"]
-  }
-})
-io.on('connections',(socket)=>{
-  console.log('connected to socket.io')
+import { Server } from 'socket.io'
+// import { userInfo } from "os";
+
+const io = new Server(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: ["http://localhost:3000"],
+  },
+}); 
+
+io.on("connection",(socket)=>{
+  console.log("connected with socket io");
+
+  socket.on("setup",(userData)=>{
+    socket.join(userData._id);
+    socket.emit("connected");
+  });
+
+  socket.on('join chat',(room)=>{
+    socket.join(room);
+    console.log("User Joined room:"+room);
+  })
+  socket.on('new message',(newMessageReceived)=>{
+    var chat = newMessageReceived.room;
+    if(!chat.user || !chat.seller){
+      return console.log('chat.userrrr not defined')
+    }
+    if(chat.user._id === newMessageReceived.sender._id){
+      socket.to(chat.seller._id).emit("message received",newMessageReceived)
+    }
+
+    if(chat.seller._id === newMessageReceived.sender._id){
+      socket.to(chat.user._id).emit("message received",newMessageReceived)
+    }
+  })    
+
 })

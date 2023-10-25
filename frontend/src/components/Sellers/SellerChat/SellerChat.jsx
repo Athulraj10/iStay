@@ -3,9 +3,9 @@ import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
-// import io from 'socket.io-client'
+import io from 'socket.io-client'
 
-const ENDPOINT = "https://medicarez.online";
+const ENDPOINT = "http://localhost:5000/";
 var socket, selectedChatCompare;
 
 const SellerChat = () => {
@@ -19,11 +19,14 @@ const SellerChat = () => {
   const [messageSent, setMessageSent] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
 
-  // useEffect(()=>{
-  //     socket = io(ENDPOINT);
-  //     socket.emit("setup",sellerInfo)
-  //     socket.on('connection',()=>setSocketConnected(true))
-  // },[])
+  useEffect(()=>{
+      socket = io(ENDPOINT);
+      socket.emit("setup",sellerInfo)
+      socket.on('connection',()=>{setSocketConnected(true)
+        console.log("oooooooooooo");
+      })
+  },[])
+  console.log("socketConnected"+ socketConnected)
 
   const sendHandler = async () => {
     if (content === "") {
@@ -38,7 +41,7 @@ const SellerChat = () => {
       if (res) {
         setContent("");
         setMessageSent(true);
-        // socket.emit('new message',res.data)
+        socket.emit('new message',res.data)
       }
     } catch (error) {
       console.log(error.message);
@@ -53,24 +56,24 @@ const SellerChat = () => {
         console.log(res.data);
         setChats(res.data);
         setMessageSent(false);
-        // socket.emit("join chat",chatId)
+        socket.emit("join chat",chatId)
       }
     };
     if (chatId) {
       fetchMessages();
     }
-    // selectedChatCompare = chats;
+    selectedChatCompare = chats;
   }, [chatId, messageSent]);
 
-  // useEffect(() => {
-  //     socket.on('message received',(newMessageReceived)=>{
-  //         if(!selectedChatCompare || chatId!==newMessageReceived.room._id){
+  useEffect(() => {
+      socket.on('message received',(newMessageReceived)=>{
+          if(!selectedChatCompare || chatId!==newMessageReceived.room._id){
 
-  //         }else{
-  //             setChats([...chats,newMessageReceived])
-  //         }
-  //     })
-  // })
+          }else{
+              setChats([...chats,newMessageReceived])
+          }
+      })
+  })
 
   useEffect(() => {
     console.log("74");

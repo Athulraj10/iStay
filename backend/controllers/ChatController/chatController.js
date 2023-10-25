@@ -315,7 +315,6 @@ const chatController = {
     getRooms : asyncHandler(async(req,res)=>{
         const { user } = req.params
         const rooms = await ChatRoom.find({user:user}).populate({path:'seller',select:'_id name email'})
-        console.log(rooms)
         if(rooms){
             res.status(200).json(rooms)
         }else{

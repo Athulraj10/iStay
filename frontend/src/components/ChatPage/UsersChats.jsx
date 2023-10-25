@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { createSelectorHook, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import io from 'socket.io-client'
 // import io from 'socket.io-client'
 import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 
-const ENDPOINT = "https://medicarez.online";
+const ENDPOINT = "http://localhost:5000/";
 var socket, selectedChatCompare;
 
 const UserChats = () => {
@@ -47,12 +47,15 @@ const UserChats = () => {
 
 
 
-  // useEffect(()=>{
-  //     socket = io(ENDPOINT);
-  //     socket.emit("setup",userInfo)
-  //     socket.on('connection',()=>setSocketConnected(true))
-  // },[])
-
+  useEffect(()=>{
+      socket = io(ENDPOINT);
+      socket.emit("setup",userInfo)
+      console.log("userInfo",userInfo._id)
+      socket.on('connection',()=>{
+        console.log("hiiiiiiii");
+        setSocketConnected(true)})
+  },[])
+console.log("socketConnected is userchtas" + socketConnected)
   const sendHandler = async()=>{
       if(content===''){
           toast.error("Message cannot be empty")
@@ -61,10 +64,9 @@ const UserChats = () => {
       try {
           let res = await USERSAPI.post(`/chats/sendchat/${chatId}/${userInfo._id}/User`,{content})
           if(res){
-              console.log(res.data)
               setContent('')
               setMessageSent(true)
-            //   socket.emit('new message',res.data)
+              socket.emit('new message',res.data)
           }
       } catch (error) {
           console.log(error.message)
@@ -83,36 +85,34 @@ const UserChats = () => {
           if (res) {
               setChats(res.data)
               setMessageSent(false)
-            //   socket.emit("join chat",chatId)
+              socket.emit("join chat",chatId)
           }
       };
       if(chatId){
           fetchMessages();
       }
-      // selectedChatCompare = chats;
+      selectedChatCompare = chats;
   }, [chatId,messageSent]);
 
-  // useEffect(() => {
-  //     if (userInfo._id) {
-  //         let fetchRooms = async () => {
-  //             let res = await USERSAPI.get(`/getrooms/${userInfo._id}`);
-  //             setRooms(res.data);
-  //         };
-  //         fetchRooms();
-  //     }
-  // }, [userInfo]);
+  useEffect(() => {
+      if (userInfo._id) {
+          let fetchRooms = async () => {
+              let res = await USERSAPI.get(`/chats/getrooms/${userInfo._id}`);
+              setRooms(res.data);
+          };
+          fetchRooms();
+      }
+  }, [userInfo]);
 
-  // useEffect(() => {
-  //     socket.on('message received',(newMessageReceived)=>{
-  //         if(!selectedChatCompare || chatId!==newMessageReceived.room._id){
+  useEffect(() => {
+      socket.on('message received',(newMessageReceived)=>{
+          if(!selectedChatCompare || chatId!==newMessageReceived.room._id){
 
-  //         }else{
-  //             setChats([...chats,newMessageReceived])
-  //         }
-  //     })
-  // })
-  console.log(chatId?chatId:'null')
-
+          }else{
+              setChats([...chats,newMessageReceived])
+          }
+      })
+  })
   return (
     <section className="container h-screen flex-col h-5/6">
       <div
