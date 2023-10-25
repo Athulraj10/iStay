@@ -4,8 +4,6 @@ const ChatBox = () => {
   return (
       <div>
     ChatBOx
-    ChatBOx
-    ChatBOx
     </div>
 )
 };
