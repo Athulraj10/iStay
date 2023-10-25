@@ -272,7 +272,6 @@ const chatController = {
               select: 'name _id mobile' 
             })
             .exec();
-            console.log(roomDetails)
             res.status(200).json({roomDetails:roomDetails});
         } catch (error) {
            console.log(error)
@@ -283,8 +282,6 @@ const chatController = {
         try {
           const { content } = req.body;
         const { chatid, sender, type } = req.params;
-      console.log(req.body)
-      console.log(req.params)
         // Create a new chat message
         const newMessage = new ChatMessage({
           room: chatid,
@@ -295,13 +292,11 @@ const chatController = {
       
         // Save the chat message
         const newMessageSaved = await newMessage.save();
-        console.log(newMessageSaved)
         let chatRoom = await ChatRoom.findOne({_id:chatid})
         if(chatRoom){
             chatRoom.messages.push(newMessage._id)
         }
         let message = await chatRoom.save()
-        console.log(message)
         
         // Populate the sender field with specific fields (_id, name, email)
         // and also populate the nested fields room.user and room.seller
@@ -309,7 +304,6 @@ const chatController = {
           { path: 'sender', select: '_id name email' },
           { path: 'room', populate: [{ path: 'user', select: '_id name email' }, { path: 'seller', select: '_id name email' }] },
         ]);
-      
         // Return the chat message with all populated fields
         res.json(newMessage);
         } catch (error) {
