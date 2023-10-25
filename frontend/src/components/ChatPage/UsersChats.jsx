@@ -16,7 +16,7 @@ const UserChats = () => {
   const [rooms, setRooms] = useState([]);
   const [chatId, setChatId] = useState("");
   const [chats, setChats] = useState([]);
-  const [doctor, setSeller] = useState("");
+  const [seller, setSeller] = useState("");
   const [content, setContent] = useState("");
   const [messageSent, setMessageSent] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
@@ -115,9 +115,15 @@ const UserChats = () => {
 
   return (
     <section className="container h-screen flex-col h-5/6">
-      <div className="flex h-4/5 w-full border-r-2 rounded-lg" style={{background:"#141d39",outline:'1px solid gray'}}>
-        <div className="w-1/2 p-4 overflow-y-auto">
-          {roomDetails ? (
+      <div
+        className="flex h-4/5 w-full border-r-2 rounded-lg"
+        style={{ background: "#141d39", outline: "1px solid gray" }}
+      >  
+       <div
+          className="w-1/2 p-5 overflow-y-auto"
+          style={{ background: "#141d39", outline: "1px solid gray" }}
+        >
+              {roomDetails ? (
             roomDetails.map((chat, index) => (
               <div
                 key={index}
@@ -125,8 +131,8 @@ const UserChats = () => {
                   setChatId(chat._id);
                   setSeller(chat.seller.name);
                 }}
-                className="flex justify-between my-2 mx-5 items-center  p-3 rounded-lg"
-                style={{background:"#141d39" ,outline:'1px solid gray'}}
+                className="flex justify-between my-2 items-center bg-blue-600 p-3 rounded-lg"
+                style={{ background: "#141d39", outline: "1px solid gray" }}
               >
                 <h3 className="font-bold text-white">{chat.seller.name}</h3>
                 <span className="h-fit inline-flex items-center rounded-md bg-blue-50 px-2 py-2 text-xs font-bold text-blue-600 ring-1 ring-inset ring-blue-600/10">
@@ -144,21 +150,27 @@ const UserChats = () => {
         <div className="w-1/2 h-full border-l-2 p-3">
           {chatId ? (
             <div className="h-full w-full">
-              <div className="bg-blue-600 w-full p-4 my-3 rounded-lg">
-                <h3 className="font-medium text-white">{doctor}</h3>
+              <div 
+               style={{ background: "#141d39", outline: "1px solid gray" }}
+              className=" w-full p-4 my-3 rounded-lg">
+                <h3 className="font-medium text-white">Hostel Onwer - {seller}</h3>
               </div>
-              <div className="bg-white h-4/6 w-full overflow-y-auto p-5">
+              <div className=" h-4/6 w-full overflow-y-auto p-5">
                 {chats && chats.length > 0 ? (
                   chats.map((chat, index) =>
                     chat.senderType === "User" ? (
                       <div key={index} className="w-full flex my-2 justify-end">
-                        <div className="bg-blue-600 max-w-1/2 w-fit text-white p-2 rounded-tl-lg rounded-tr-lg rounded-bl-lg">
+                        <div
+                         style={{ background: "#112A46" }}
+                        className="max-w-1/2 w-fit text-white p-3 rounded-tl-lg rounded-tr-lg rounded-bl-lg">
                           {chat.content}
                         </div>
                       </div>
                     ) : (
-                      <div key={index} className="w-full my-2">
-                        <div className="bg-blue-200 max-w-1/2 w-fit p-2 rounded-tl-lg rounded-tr-lg rounded-br-lg">
+                      <div key={index} className="w-60 my-2">
+                        <div 
+                        style={{ background: "#253a59", color: "white" }}
+                        className="bg-blue-200 max-w-1/2 w-fit p-3 rounded-tl-lg rounded-tr-lg rounded-br-lg">
                           {chat.content}
                         </div>
                       </div>
@@ -170,16 +182,18 @@ const UserChats = () => {
                   </div>
                 )}
               </div>
-              <div className="flex my-4">
-                <div className="w-11/12">
-                  <input
+              <div className="flex my-3">
+                <div className="w-10/12">
+                <input
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    className="h-full w-full p-3"
+                    className="h-full w-full p-3 rounded-lg"
                     type="text"
+                    style={{ backgroundColor: "black",color:"white" }}
+                    placeholder="Enter your text"
                   />
                 </div>
-                <div className="w-1/12">
+                <div className="w-2/12">
                   <button
                     type="button"
                     onClick={sendHandler}
