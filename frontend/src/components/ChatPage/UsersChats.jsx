@@ -192,7 +192,6 @@ const UserChats = () => {
                     style={{ backgroundColor: "black",color:"white" }}
                     placeholder="Enter your text"
                   />
-                  
                 </div>
                 <div className="w-2/12">
                   <button
