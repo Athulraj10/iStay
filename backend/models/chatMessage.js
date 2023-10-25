@@ -13,6 +13,7 @@ const chatMessageSchema = new mongoose.Schema({
   senderType: {
     type: String,
     enum: ['User', 'Seller'],
+    
     required: true,
   },
   content: {
