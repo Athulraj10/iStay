@@ -336,8 +336,6 @@ const chatController = {
 
     getMessages: asyncHandler(async (req, res) => {
         const { roomid } = req.params;
-        console.log(roomid)
-        console.log("getMessage")
       
         try {
           // Sort messages in ascending order of createdAt
