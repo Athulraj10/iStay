@@ -5,6 +5,8 @@ import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import Wallet from "../../models/UserModels/walletModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
+import enquery from "../../models/UserModels/enquery.js";
+
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import HostelReview from "../../models/SellerModel/Review.js";
 import genereateToken from "../../utils/generateToken.js";
@@ -526,7 +528,19 @@ const makeEnquery = asyncHandler(async(req,res)=>{
       const {hostelId} = req.query;
       const userId = req.user._id
       if(hostelId&&userId){
+        const newEnquiry = new Enquiry({
+          name: 'John Doe',
+          email: 'john@example.com',
+          message: 'This is a test enquiry.',
+        });
         
+        newEnquiry.save((err) => {
+          if (err) {
+            console.error(err);
+          } else {
+            console.log('Enquiry saved successfully.');
+          }
+        });
       }else{
         return res.status(404).json({message:'Something went Wrong please Login Again'})
       }

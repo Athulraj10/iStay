@@ -26,10 +26,22 @@ const SingleViewHostel = () => {
   const [userInfo, setUserInfo] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [clickedImage, setClickedImage] = useState(null);
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const handleEnquery = async (hostelId) =>{
-    const response = await USERSAPI.get('/users/enquery',{params:{hostelId}})
-  }
+  const [showModalForEnquery, setShowModalForEnquiry] = useState(false);
+
+  const handleShowModal = (hostelId) => {
+    setShowModalForEnquiry(true);
+    const handleEnquery = async (hostelId) => {
+      const response = await USERSAPI.get("/users/enquery", {
+        params: { hostelId },
+      });
+    };
+  };
+
+  const handleCloseModal = () => {
+    setShowModalForEnquiry(false);
+  };
 
   const handlePayment = async () => {
     try {
@@ -70,8 +82,22 @@ const SingleViewHostel = () => {
     files: [],
   });
 
-  const [imageUrls, setImageUrls] = useState([]);
+  const [formDataEnquery, setformDataEnquery] = useState({
+    name: '',
+    phone: '',
+    message: '',
+  });
+  const handleInputForEnqueryChange = (e) => {
+    const { name, value } = e.target;
+    setformDataEnquery({
+      ...formDataEnquery,
+      [name]: value,
+    });
+    console.log(formDataEnquery)
+  };
+  
 
+  const [imageUrls, setImageUrls] = useState([]);
   const handleAddPhoto = (e) => {
     const files = e.target.files;
     const selectedFiles = Array.from(files).slice(0, 10);
@@ -122,16 +148,13 @@ const SingleViewHostel = () => {
       }
     } catch (error) {
       console.error(error);
-      // Display the error message as a toast notification
       toast.error(error.response.data.message, {
         position: "top-right",
         autoClose: 5000,
       });
     }
   };
-  // if (res.data.message) {
-  //   toast.success("Successfully added");
-  // }
+
   const scrollToReviews = () => {
     const element = document.getElementById("reviewsContainer");
     if (element) {
@@ -293,30 +316,128 @@ const SingleViewHostel = () => {
                   </Col>
                 </Row>
                 <Row>
-                  <Col style={{display:'flex'}}>
-                  
-                  <Button
-                    onClick={()=>{handleEnquery(hostel._id)}}
-                    style={{
-                      minWidth: "300px",
-                      padding:"10px",
-                      color:'white'
-                    }}
-                    variant="info"
-                  >
-                    Have Any Enquery....?
-                  </Button>
-                  <Button
-                    onClick={handlePayment}
-                    style={{
-                     minWidth: "200px",
-                      marginLeft: "50px",
-                      padding:"10px"
-                    }}
-                    variant="primary"
-                  >
-                    Book Now
-                  </Button>
+                  <Col style={{ display: "flex" }}>
+                    <Button
+                      onClick={() => handleShowModal(hostel._id)}
+                      style={{
+                        minWidth: "300px",
+                        padding: "10px",
+                        color: "white",
+                      }}
+                      variant="info"
+                    >
+                      Have Any Enquiry....?
+                    </Button>
+
+                    <Modal
+                      style={{
+                        background: "rgba(255, 255, 255s, 0.1)",
+                        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                        backdropFilter: "blur(5px)",
+                        color: "white",
+                      }}
+                      show={showModalForEnquery}
+                      onHide={handleCloseModal}
+                    >
+                      <Modal.Header
+                        style={{
+                          backgroundColor: "#0d1427",
+                          background: "rgba(255, 255, 255s, 1)",
+                        }}
+                      >
+                        <Modal.Title className="text-white">
+                          Enquiry Form
+                        </Modal.Title>
+                      </Modal.Header>
+                      <Modal.Body
+                        style={{
+                          backgroundColor: "#0d1427",
+                          background: "rgba(255, 255, 255s, 0.1)",
+                        }}
+                      >
+                        <form>
+                          <div className="mb-3">
+                            <label>Name</label>
+                            <input
+                              type="text"
+                              style={{
+                                backgroundColor: "#0d1527",
+                                background: "rgba(255, 255, 255s, 0.9)",
+                                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                                backdropFilter: "blur(5px)",
+                              }}
+                              required="true"
+                              placeholder="Enter Name"
+                              className="form-control"
+                              value={formDataEnquery.name}
+                              onChange={handleInputForEnqueryChange}
+                            />
+                          </div>
+                          <div className="mb-3">
+                            <label>Phone</label>
+                            <input
+                              style={{
+                                backgroundColor: "#0d1527",
+                                background: "rgba(255, 255, 255s, 0.9)",
+                                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                                backdropFilter: "blur(5px)",
+                              }}
+                              placeholder="Contact Number"
+                              className="form-control"
+                              value={formDataEnquery.phone}
+                              onChange={handleInputForEnqueryChange}
+                            />
+                          </div>
+                          <div className="mb-3">
+                            <label>Message</label>
+                            <textarea
+                              required
+                              style={{
+                                backgroundColor: "#0d1527",
+                                background: "rgba(255, 255, 255s, 0.9)",
+                                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                                backdropFilter: "blur(5px)",
+                              }}
+                              value={formDataEnquery.message}
+                              onChange={handleInputForEnqueryChange}
+                              className="form-control"
+                              rows="4"
+                              placeholder="Enter Message"
+                            ></textarea>
+                          </div>
+                        </form>
+                      </Modal.Body>
+                      <Modal.Footer
+                        style={{
+                          backgroundColor: "#0d1527",
+                          background: "rgba(255, 255, 255s, 0.9)",
+                          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                          backdropFilter: "blur(5px)",
+                        }}
+                      >
+                        <Button variant="danger" onClick={handleCloseModal}>
+                          Close
+                        </Button>
+                        <Button
+                          variant="primary"
+                          onClick={() => handleEnquery(hostelId)}
+                        >
+                          Submit Enquiry
+                        </Button>
+                      </Modal.Footer>
+                    </Modal>
+
+                    <Button
+                      onClick={handlePayment}
+                      style={{
+                        minWidth: "200px",
+                        marginLeft: "50px",
+                        padding: "10px",
+                      }}
+                      variant="primary"
+                    >
+                      Book Now
+                    </Button>
                   </Col>
                 </Row>
               </Card>

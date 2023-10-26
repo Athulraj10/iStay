@@ -44,9 +44,8 @@ const SellerHeader = () => {
         }
       }
     };
-  
     fetchSellerInfo();
-  }, []);
+  },[]);
 
   return (
     <>
