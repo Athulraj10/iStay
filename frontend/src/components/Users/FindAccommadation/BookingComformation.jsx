@@ -101,7 +101,7 @@ const BookingComformation = () => {
                     </h6>
                   </Col>
                 </Row>
-                <Row className="mt-4">
+                {/* <Row className="mt-4">
                   <Button
                     style={{
                       width: "300px",
@@ -112,7 +112,7 @@ const BookingComformation = () => {
                   >
                     Cancel Now
                   </Button>
-                </Row>
+                </Row> */}
               </Card>
             </div>
           </Button>

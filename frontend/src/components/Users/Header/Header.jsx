@@ -1,6 +1,7 @@
 import { Navbar, Nav, Container, Alert } from "react-bootstrap";
 import {
   FaSignOutAlt,
+  FaQuestionCircle, 
   FaHotel,
   FaPhone,
   FaInfoCircle,
@@ -60,16 +61,22 @@ const Header = () => {
             <Nav className="ms-auto">
               {userInfo ? (
                 <>
-                  <Nav>
-                    <Link to="/profile" className="nav-link">
+                  <Nav >
+                    <Link to="/profile" className="nav-link" >
                       <FaUser />
                       &nbsp; Profile
+                    </Link>
+                  </Nav>
+                  <Nav>
+                    <Link to="/Enquires" className="nav-link">
+                      <FaPhone />
+                      &nbsp; Enquries
                     </Link>
                   </Nav>
 
                   <Nav>
                     <Link to="/findAccommodation" className="nav-link">
-                      <FaPhone />
+                    <FaQuestionCircle />
                       &nbsp; Find Accommodation
                     </Link>
                   </Nav>

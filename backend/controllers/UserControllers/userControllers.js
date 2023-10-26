@@ -552,6 +552,22 @@ const makeEnquery = asyncHandler(async (req, res) => {
     res.status(500).json({ message: "Internal server error" });
   }
 });
+// ----------------------------Enquery listing-------------
+const listEnqueryReplyUser = asyncHandler(async(req,res)=>{
+  try {
+    console.log(req.user._id)
+    const userEnquery = await Enquiry.find({user:req.user._id})
+    console.log(userEnquery.length)
+    if(userEnquery){
+      res.status(200).json({enquery:true,userEnquery:userEnquery})
+    }else{
+      res.status(400).json({message:'No Enquery'})
+    }
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 // ----------------------------user mY booking-------------
 const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;
@@ -751,6 +767,7 @@ export {
   bookingConfirmation,
   myBookings,
   makeEnquery,
+  listEnqueryReplyUser,
   cancelBooking,
   addReview,
 };

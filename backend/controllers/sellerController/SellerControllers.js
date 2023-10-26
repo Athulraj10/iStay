@@ -418,6 +418,7 @@ const listEnqueryReply = asyncHandler(async (req, res) => {
       if (enqueryReply) {
         enqueryReply.isVerified = true;
         enqueryReply.sellerReply = message; 
+        enqueryReply.status = 'verified'; 
         await enqueryReply.save();
         res.status(200).json({updated:true})
       } 

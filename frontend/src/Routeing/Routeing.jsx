@@ -54,6 +54,7 @@ import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
 // ------------------Chat Components
 import UserChats from "../components/ChatPage/UsersChats";
 import SellerChat from "../components/Sellers/SellerChat/SellerChat";
+import Enquery from "../components/Users/Enquery/Enquery";
 
 
 const Routeing = () => {
@@ -73,6 +74,7 @@ const Routeing = () => {
       <Route path="/findAccommodation/singlePageView" element={<SinglePageView />}/>
       <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
       <Route path="/myBookings" element={<MyBookingScreen />} />
+      <Route path="/Enquires" element={<Enquery />} />
 
 
       <Route path="/chats/:hostelId" element={<UserChats />} />
