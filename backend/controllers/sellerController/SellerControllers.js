@@ -420,7 +420,7 @@ const listEnqueryReply = asyncHandler(async (req, res) => {
         enqueryReply.sellerReply = message; 
         enqueryReply.status = 'verified'; 
         await enqueryReply.save();
-        res.status(200).json({updated:true})
+        return res.status(200).json({updated:true})
       } 
     }
     else{

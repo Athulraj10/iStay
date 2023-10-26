@@ -16,6 +16,7 @@ import { Modal } from "react-bootstrap";
 import "./style.css";
 
 const SingleViewHostel = () => {
+  const userInfoLocalstorage = JSON.parse(localStorage.getItem('userInfo'))
   const location = useLocation();
   const hostel = location.state.hostel;
   const [showModal, setShowModal] = useState(false);
@@ -40,7 +41,11 @@ const SingleViewHostel = () => {
 
 
   const handleShowModal = () => {
-    setShowModalForEnquiry(true);
+    if(userInfoLocalstorage){
+      setShowModalForEnquiry(true);
+    }else{
+      return toast.error('Please Login')
+    }
   };
 
   const handleCloseModal = () => {
