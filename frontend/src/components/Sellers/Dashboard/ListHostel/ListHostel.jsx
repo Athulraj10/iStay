@@ -56,7 +56,7 @@ function ListHostel() {
   };
 
   return (
-    <div className="event-schedule-area-two p-4 rounded">
+    <div className="event-schedule-area-two p-4 rounded" style={{height:'100vh'}}>
       <Container>
         <Row>
           <Link to="/seller/listHostels/addhostel">

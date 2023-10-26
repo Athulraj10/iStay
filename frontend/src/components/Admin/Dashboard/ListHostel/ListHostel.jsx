@@ -44,7 +44,7 @@ function ListHostel() {
     const fetchData = async () => {
       try {
         const response = await USERSAPI.post("admin/listHostels");
-        const responseData = res.data.data;
+        const responseData = response.data.data;
         setData(responseData);
         setLoading(false);
       } catch (error) {
@@ -78,7 +78,7 @@ function ListHostel() {
                         <th className="text-center" scope="col">
                           Onwer
                         </th>
-                        <th className="text-center" scope="col">
+                        <th className="text-center" scope="col" style={{maxWidth:'50px'}}>
                           Hostel Details
                         </th>
 
