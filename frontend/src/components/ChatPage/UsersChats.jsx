@@ -3,6 +3,7 @@ import { createSelectorHook, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import io from 'socket.io-client'
+import { FaHandPointRight } from "react-icons/fa";
 // import io from 'socket.io-client'
 import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 
@@ -135,8 +136,9 @@ console.log("socketConnected is userchtas" + socketConnected)
                 style={{ background: "#141d39", outline: "1px solid gray" }}
               >
                 <h3 className="font-bold text-white">{chat.seller.name}</h3>
-                <span className="h-fit inline-flex items-center rounded-md bg-blue-50 px-2 py-2 text-xs font-bold text-blue-600 ring-1 ring-inset ring-blue-600/10">
+                <span className="h-fit inline-flex items-center rounded-md bg-blue-50 px-2 py-2 text-xs font-bold text-blue-600 ring-1 ring-inset ring-blue-600/10" style={{marginLeft:'10px',padding:"10px",fontSize:'20px'}}>
                     Contact No : {chat.seller.mobile}
+                   <span style={{marginLeft:'10px',padding:"10px",fontSize:'30px'}}><FaHandPointRight/></span>
                 </span>
               </div>
             ))
