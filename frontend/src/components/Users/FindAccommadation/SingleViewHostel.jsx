@@ -27,36 +27,40 @@ const SingleViewHostel = () => {
   const [reviews, setReviews] = useState([]);
   const [clickedImage, setClickedImage] = useState(null);
 
+  const handleEnquery = async (hostelId) =>{
+    const response = await USERSAPI.get('/users/enquery',{params:{hostelId}})
+  }
+
   const handlePayment = async () => {
     try {
       localStorage.setItem("bookingStarted", userInfo._id);
-    const stripe = await loadStripe(
-      "pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu"
-    );
-    const body = {
-      userId: userInfo._id,
-      hostel: hostel,
-    };
-    const headers = {
-      "Content-Type": "application/json",
-    };
-    const response = await fetch(
-      "http://localhost:3000/api/users/bookingHostel",
-      {
-        method: "POST",
-        headers: headers,
-        body: JSON.stringify(body),
+      const stripe = await loadStripe(
+        "pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu"
+      );
+      const body = {
+        userId: userInfo._id,
+        hostel: hostel,
+      };
+      const headers = {
+        "Content-Type": "application/json",
+      };
+      const response = await fetch(
+        "http://localhost:3000/api/users/bookingHostel",
+        {
+          method: "POST",
+          headers: headers,
+          body: JSON.stringify(body),
+        }
+      );
+      const session = await response.json();
+      const result = stripe.redirectToCheckout({
+        sessionId: session.id,
+      });
+      if (result.error) {
+        toast.error(result.error);
       }
-    );
-    const session = await response.json();
-    const result = stripe.redirectToCheckout({
-      sessionId: session.id,
-    });
-    if (result.error) {
-      toast.error(result.error);
-    }
     } catch (error) {
-     toast.error('Please Login')
+      toast.error("Please Login");
     }
   };
   const [formData, setFormData] = useState({
@@ -120,7 +124,7 @@ const SingleViewHostel = () => {
       console.error(error);
       // Display the error message as a toast notification
       toast.error(error.response.data.message, {
-        position: "top-right", 
+        position: "top-right",
         autoClose: 5000,
       });
     }
@@ -134,7 +138,7 @@ const SingleViewHostel = () => {
       element.scrollIntoView({ behavior: "smooth" });
     }
   };
-  
+
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
   };
@@ -287,17 +291,33 @@ const SingleViewHostel = () => {
                       </span>
                     </div>
                   </Col>
+                </Row>
+                <Row>
+                  <Col style={{display:'flex'}}>
+                  
+                  <Button
+                    onClick={()=>{handleEnquery(hostel._id)}}
+                    style={{
+                      minWidth: "300px",
+                      padding:"10px",
+                      color:'white'
+                    }}
+                    variant="info"
+                  >
+                    Have Any Enquery....?
+                  </Button>
                   <Button
                     onClick={handlePayment}
                     style={{
-                      width: "300px",
-                      marginLeft: "100px",
-                      marginTop: "10px",
+                     minWidth: "200px",
+                      marginLeft: "50px",
+                      padding:"10px"
                     }}
                     variant="primary"
                   >
                     Book Now
                   </Button>
+                  </Col>
                 </Row>
               </Card>
             </div>

@@ -21,7 +21,6 @@ app.use(express.static('backend/public'));
 // app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 
-app.use(cookieParser())
 app.use(cookieParser());
 
 app.use(express.json());

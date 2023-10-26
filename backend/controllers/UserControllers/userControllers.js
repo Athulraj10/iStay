@@ -519,6 +519,21 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
+
+// ----------------------------user mY booking-------------
+const makeEnquery = asyncHandler(async(req,res)=>{
+  try {
+      const {hostelId} = req.query;
+      const userId = req.user._id
+      if(hostelId&&userId){
+        
+      }else{
+        return res.status(404).json({message:'Something went Wrong please Login Again'})
+      }
+  } catch (error) {
+    console.log(error)
+  }
+})
 // ----------------------------user mY booking-------------
 const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;
@@ -717,6 +732,7 @@ export {
   bookHostel,
   bookingConfirmation,
   myBookings,
+  makeEnquery,
   cancelBooking,
   addReview,
 };

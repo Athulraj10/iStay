@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
-import User from "../../models/UserModels/userModel.js";
-import Chat from "../../models/chatModel.js";
+// import User from "../../models/UserModels/userModel.js";
+// import Chat from "../../models/chatModel.js";
 // import nodemailer from "nodemailer";
 // import {
 //   sessionSecret,
