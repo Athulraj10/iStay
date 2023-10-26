@@ -1,138 +1,115 @@
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
+import ChatLoading from "../../../ChatPage/ChatLoading";
 
-function ListSeller({ data }) {
+function ListSeller() {
+  const [enquery, setEnquery] = useState("");
+  const [sellerReply, setSellerReply] = useState("");
+  const [dataReset,setDataReset] = useState(false);
+  const [enqueryId, setEnqueryId] = useState("");
   // const location = useNavigate()
   // const handleBlockButton = async (userId) => {
   //   console.log(userId);
   //   try {
-  //     let res = await USERSAPI.post("admin/listSeller/block", userId);
-  //     if (res.data) {
+  //     let response = await USERSAPI.post("admin/listSeller/block", userId);
+  //     if (response.data) {
   //     }
   //   } catch (error) {
   //     toast.error(error);
   //   }
   // };
-  // const handleEditButton = async (sellerId) => {
-  //   let formData = {
-  //     id: sellerId,
-  //   };
-  //   try {
-  //     let res = await USERSAPI.post("admin/listSeller/edit", formData);
-  //     if (res.data.sellerData) {
-  //       const sellerData = res.data.sellerData;
-  //       console.log(sellerData)
-  //       location("/admin/listSeller/editSeller", { state: { sellerData } });
-  //     }
-  //   } catch (error) {
-  //     toast.error(error || 'Error in ListSeller React');
-  //   }
-  // };
+  const handleSubmitSellerReply = async (e, id) => {
+    try {
+      setDataReset(false)
+      e.preventDefault();
+      console.log(sellerReply);
+      let response = await USERSAPI.get(`/seller/listenqueryreply/${id}`, {
+        params: { message: sellerReply },
+      });
+      if(response.data.updated){
+        setDataReset(true)
+        toast.success('Response Sented')
+      }
+    } catch (error) {
+      toast.error(error || "Error in ListSeller React");
+    }
+  };
+  
+
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        let response = await USERSAPI.get("/seller/listenquery");
+
+        if (response.data.enqueryData) {
+          setEnquery(response.data.enqueryData);
+        }
+      } catch (error) {
+        toast.error(error || "Error in ListSeller React");
+      }
+    };
+    fetch();
+  }, [dataReset]);
+
+  console.log(enquery ? enquery : "no data");
   return (
     <div className="event-schedule-area-two p-4 rounded">
-      {/* <Container>
+      <Container>
         <Row>
-          <Col lg={12}>
-            <div className="tab-content" id="myTabContent">
-              <div
-                className="tab-pane fade active show"
-                id="home"
-                role="tabpanel"
-              >
-                <div className="table-responsive">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th className="text-center" scope="col">
-                          Name
-                        </th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">LastCheckIn</th>
-                        <th className="text-center" scope="col">
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Array.isArray(data) ? (
-                        data.map((item, index) => (
-                          <tr className="inner-box" key={index}>
-                            <td className="align-middle">
-                              <div className="event-date text-center">
-                                <p className="date-month">{item.name}</p>
-                              </div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="event-img">{item.email}</div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="event-wrap">
-                                <h6>
-                                  <a style={{ textDecoration: "none" }}>
-                                    {item.location ? item.location : "Kannur"}
-                                  </a>
-                                </h6>
+          <Col lg={12} style={{display:'flex'}}>
+            {enquery.length > 0 ? (
+              enquery.map((enquery, index) => (
+                <Card
+                  className="applicationCard"
+                  style={{ width: "18rem" ,margin:'10px'}}
+                  key={index}
+                >
+                  <Card.Body>
+                    <Card.Title>UserName: {enquery.name}</Card.Title>
+                    <Card.Text>Email: {enquery.email || "No Email"}</Card.Text>
+                    <Card.Text>
+                      Status:
+                      <span
+                        style={{ color: "red", textTransform: "capitalize" }}
+                      >
+                        {enquery.status}
+                      </span>
+                    </Card.Text>
+                    <Card.Text>
+                      Message:
+                      <span className="text-success">{enquery.message}</span>
+                    </Card.Text>
+                    {enquery.isVerified === false ? (
+                      <Form onSubmit={(e)=>{handleSubmitSellerReply(e,enquery._id)}}>
+<input
+  type="text"
+  onChange={(e) => setSellerReply(e.target.value)}
+  placeholder="Enter Your Reply"
+  style={{
+    padding: "15px",
+    border: "1px solid black",
+    borderRadius: "10px",
+    marginTop: "10px",
+  }}
+/>
 
-                                <div className="meta">
-                                  <div className="categories">
-                                    <a style={{ textDecoration: "none" }}>
-                                      Mobile : {item.mobile}
-                                    </a>
-                                  </div>
-                                  <div className="time">
-                                    <span>
-                                      Account Created :{" "}
-                                      {item.createdAt.substring(0, 10)}
-                                    </span>
-                                  </div>
-                                </div>
-                              </div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="r-no">
-                                <span>{item.updatedAt.slice(0, 10)}</span>
-                              </div>
-                            </td>
-                            <td className="align-middle text-center">
-                              <div className={`primary-btn`}>
-                                <button
-                                  onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
-                                  className={`btn ${
-                                    item.status ? "btn-primary" : "btn-danger"
-                                  }`}
-                                >
-                                  {item.status ? "Block" : "Active"}
-                                </button>
-                                <button
-                                  className="btn btn-primary mx-2"
-                                  onClick={() => handleEditButton(item._id)}
-                                >
-                                  Edit
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="5">Loading data...</td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+                        <Button type="submit" className="p-2 m-2">
+                          Send Reply
+                        </Button>
+                      </Form>
+                    ) : null}
+                  </Card.Body>
+                </Card>
+              ))
+            ) : (
+              <ChatLoading />
+            )}
           </Col>
         </Row>
-      </Container> */}
-
-
-      LIST QNWERY
+      </Container>
     </div>
   );
 }

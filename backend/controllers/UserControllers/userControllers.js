@@ -5,7 +5,7 @@ import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import Wallet from "../../models/UserModels/walletModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
-import enquery from "../../models/UserModels/enquery.js";
+import Enquiry from "../../models/UserModels/enquery.js";
 
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import HostelReview from "../../models/SellerModel/Review.js";
@@ -224,7 +224,7 @@ const authUser = asyncHandler(async (req, res) => {
 // -------------------Register New User with wallet function---------------------------
 const createNewUserWithWallet = async (name, email, password, mobile) => {
   try {
-    console.log(name,email,password,mobile)
+    console.log(name, email, password, mobile);
     const userRegistration = await User.create({
       name,
       email,
@@ -256,10 +256,14 @@ const registerUser = asyncHandler(async (req, res) => {
       res.status(400).json({ message: "User Already Exists" });
       return;
     }
-    
-    
-    const user = await createNewUserWithWallet(userName, email, password, mobile);
-    
+
+    const user = await createNewUserWithWallet(
+      userName,
+      email,
+      password,
+      mobile
+    );
+
     if (user) {
       genereateToken(res, user._id);
       res.status(201).json({
@@ -523,31 +527,31 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
 });
 
 // ----------------------------user mY booking-------------
-const makeEnquery = asyncHandler(async(req,res)=>{
+const makeEnquery = asyncHandler(async (req, res) => {
   try {
-      const {hostelId} = req.query;
-      const userId = req.user._id
-      if(hostelId&&userId){
-        const newEnquiry = new Enquiry({
-          name: 'John Doe',
-          email: 'john@example.com',
-          message: 'This is a test enquiry.',
-        });
-        
-        newEnquiry.save((err) => {
-          if (err) {
-            console.error(err);
-          } else {
-            console.log('Enquiry saved successfully.');
-          }
-        });
-      }else{
-        return res.status(404).json({message:'Something went Wrong please Login Again'})
-      }
+    const { formData, hostelId,sellerId } = req.body;
+    if (hostelId && formData) {
+      const newEnquiry = new Enquiry({
+        user:req.user._id,
+        hostel:hostelId,
+        seller:sellerId,
+        name: formData.name,
+        email: formData.phone,
+        message:formData.message,
+        userReques:'pending'
+      });
+      await newEnquiry.save();
+      res.status(200).json({updated:true, message: "Enquiry Successfully Sended." });
+    } else {
+      return res
+        .status(404)
+        .json({ message: "Something went wrong, please login again." });
+    }
   } catch (error) {
-    console.log(error)
+    console.error(error);
+    res.status(500).json({ message: "Internal server error" });
   }
-})
+});
 // ----------------------------user mY booking-------------
 const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;

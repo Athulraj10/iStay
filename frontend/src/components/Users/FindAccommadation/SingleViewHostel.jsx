@@ -19,24 +19,28 @@ const SingleViewHostel = () => {
   const location = useLocation();
   const hostel = location.state.hostel;
   const [showModal, setShowModal] = useState(false);
-
   const [added, setAdded] = useState(false);
   const [hostelData, setHostelData] = useState([]);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [userInfo, setUserInfo] = useState([]);
   const [reviews, setReviews] = useState([]);
   const [clickedImage, setClickedImage] = useState(null);
-  const [showDropdown, setShowDropdown] = useState(false);
-
   const [showModalForEnquery, setShowModalForEnquiry] = useState(false);
+  const [formData, setFormData] = useState({
+    userId: "",
+    hostelId: "",
+    hostelReview: "",
+    files: [],
+  });
+  const [formDataEnquery, setformDataEnquery] = useState({
+    name: '',
+    phone: '',
+    message: '',
+  });
 
-  const handleShowModal = (hostelId) => {
+
+  const handleShowModal = () => {
     setShowModalForEnquiry(true);
-    const handleEnquery = async (hostelId) => {
-      const response = await USERSAPI.get("/users/enquery", {
-        params: { hostelId },
-      });
-    };
   };
 
   const handleCloseModal = () => {
@@ -75,25 +79,20 @@ const SingleViewHostel = () => {
       toast.error("Please Login");
     }
   };
-  const [formData, setFormData] = useState({
-    userId: "",
-    hostelId: "",
-    hostelReview: "",
-    files: [],
-  });
 
-  const [formDataEnquery, setformDataEnquery] = useState({
-    name: '',
-    phone: '',
-    message: '',
-  });
-  const handleInputForEnqueryChange = (e) => {
-    const { name, value } = e.target;
-    setformDataEnquery({
-      ...formDataEnquery,
-      [name]: value,
-    });
-    console.log(formDataEnquery)
+  const handleEnquery = async (hostelId,sellerId) => {
+    const requestData = {
+      formData: formDataEnquery,
+      hostelId: hostelId,
+      sellerId:sellerId
+    };
+    console.log(requestData)
+      const response = await USERSAPI.post("/users/enquery",requestData);
+    if(response.data.updated){
+      toast.success(response.data.message)
+      setShowModalForEnquiry(false)
+      setformDataEnquery("")
+    }
   };
   
 
@@ -196,6 +195,15 @@ const SingleViewHostel = () => {
     };
     fetchData(hostel._id);
   }, [added]);
+
+
+  <style>
+  {`
+    .placeholder-white::placeholder {
+      color: white;
+    }
+  `}
+</style>
   return (
     <div>
       <Container style={{ color: "white", height: "100vh" }}>
@@ -312,13 +320,14 @@ const SingleViewHostel = () => {
                       >
                         READ ALL REVIEWS
                       </span>
+                      
                     </div>
                   </Col>
                 </Row>
                 <Row>
                   <Col style={{ display: "flex" }}>
                     <Button
-                      onClick={() => handleShowModal(hostel._id)}
+                      onClick={() => handleShowModal()}
                       style={{
                         minWidth: "300px",
                         padding: "10px",
@@ -360,17 +369,23 @@ const SingleViewHostel = () => {
                             <label>Name</label>
                             <input
                               type="text"
+                              placeholder="Enter Name"
                               style={{
                                 backgroundColor: "#0d1527",
                                 background: "rgba(255, 255, 255s, 0.9)",
                                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                                 backdropFilter: "blur(5px)",
+                                color:'white',
+                                '::placeholder': {
+                                  color: 'white'
+                                }
                               }}
                               required="true"
-                              placeholder="Enter Name"
-                              className="form-control"
+                              className="form-control placeholder-white"
+                              name='UserName'
                               value={formDataEnquery.name}
-                              onChange={handleInputForEnqueryChange}
+                              onChange={(e)=>setformDataEnquery({...formDataEnquery,name:e.target.value})}
+                              
                             />
                           </div>
                           <div className="mb-3">
@@ -381,13 +396,16 @@ const SingleViewHostel = () => {
                                 background: "rgba(255, 255, 255s, 0.9)",
                                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                                 backdropFilter: "blur(5px)",
+                                color:'white'
                               }}
                               placeholder="Contact Number"
                               className="form-control"
+                              name='phone'
                               value={formDataEnquery.phone}
-                              onChange={handleInputForEnqueryChange}
+                              onChange={(e)=>setformDataEnquery({...formDataEnquery,phone:e.target.value})}
                             />
                           </div>
+                          
                           <div className="mb-3">
                             <label>Message</label>
                             <textarea
@@ -397,11 +415,13 @@ const SingleViewHostel = () => {
                                 background: "rgba(255, 255, 255s, 0.9)",
                                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                                 backdropFilter: "blur(5px)",
+                                color:'white'
                               }}
                               value={formDataEnquery.message}
-                              onChange={handleInputForEnqueryChange}
+                              name='message'
                               className="form-control"
                               rows="4"
+                              onChange={(e)=>setformDataEnquery({...formDataEnquery,message:e.target.value})}
                               placeholder="Enter Message"
                             ></textarea>
                           </div>
@@ -420,7 +440,7 @@ const SingleViewHostel = () => {
                         </Button>
                         <Button
                           variant="primary"
-                          onClick={() => handleEnquery(hostelId)}
+                          onClick={()=>{handleEnquery(hostel._id,hostel.seller)}}
                         >
                           Submit Enquiry
                         </Button>

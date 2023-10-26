@@ -15,6 +15,8 @@ import {
   dashboardValues,
   sellerNotification,
   sellerNotificationDetails,
+  listEnquery,
+  listEnqueryReply,
 
   logoutSeller,
 } from "../../controllers/sellerController/SellerControllers.js";
@@ -46,6 +48,8 @@ sellerRoute.post("/resetPassword",sellersResetPassword);
 sellerRoute.get("/dashboard",sellerMiddleware,dashboardValues)
 sellerRoute.get("/notification",sellerMiddleware,sellerNotification)
 sellerRoute.get("/notificationDetails",sellerMiddleware,sellerNotificationDetails)
+sellerRoute.get("/listenquery",sellerMiddleware,listEnquery)
+sellerRoute.get("/listenqueryreply/:id",sellerMiddleware,listEnqueryReply)
 
 
 // -----------hostel Manageing-----------

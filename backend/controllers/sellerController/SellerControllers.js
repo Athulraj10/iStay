@@ -11,6 +11,7 @@ import OTP from "../../models/OTPModel.js";
 import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
+import Enquiry from "../../models/UserModels/enquery.js";
 
 //@desc forgetOTP
 //access Public
@@ -69,52 +70,51 @@ const aggregateBookingWithHostel = async (sellerId) => {
   try {
     const result = await Booking.aggregate([
       {
-        $match: { seller: new mongoose.Types.ObjectId(sellerId) }
+        $match: { seller: new mongoose.Types.ObjectId(sellerId) },
       },
       {
         $lookup: {
-          from: 'hostels', // Name of the Hostel collection
-          localField: 'hostel',
-          foreignField: '_id',
-          as: 'hostelDetails'
-        }
+          from: "hostels", // Name of the Hostel collection
+          localField: "hostel",
+          foreignField: "_id",
+          as: "hostelDetails",
+        },
       },
       {
-        $unwind: '$hostelDetails'
+        $unwind: "$hostelDetails",
       },
       {
         $lookup: {
-          from: 'users', // Name of the Sellers collection
-          localField: 'user',
-          foreignField: '_id',
-          as: 'userDetails'
-        }
+          from: "users", // Name of the Sellers collection
+          localField: "user",
+          foreignField: "_id",
+          as: "userDetails",
+        },
       },
       {
-        $unwind: '$userDetails'
+        $unwind: "$userDetails",
       },
       {
         $group: {
-          _id: '$_id',
+          _id: "$_id",
           // user: { $first: '$user' },
           // hostel: { $first: '$hostel' },
-          paymentMethod: { $first: '$paymentMethod' },
-          paymentVia: { $first: '$paymentVia' },
-          status: { $first: '$status' },
-          createdAt: { $first: '$createdAt' },
-          totalAmount: { $first: '$totalAmount' },
-          hostelDetails: { $first: '$hostelDetails' },
-          userDetails: { $first: '$userDetails' }
-        }
-      }
+          paymentMethod: { $first: "$paymentMethod" },
+          paymentVia: { $first: "$paymentVia" },
+          status: { $first: "$status" },
+          createdAt: { $first: "$createdAt" },
+          totalAmount: { $first: "$totalAmount" },
+          hostelDetails: { $first: "$hostelDetails" },
+          userDetails: { $first: "$userDetails" },
+        },
+      },
     ]);
 
     return result;
-
   } catch (error) {
     console.log(error);
   }
-}
+};
 
 // -------------------seller Authentication---------------------------
 // @desc Auth user/set token
@@ -152,8 +152,6 @@ const authSeller = asyncHandler(async (req, res) => {
 
 // Aggregate daily sales for a specific seller
 const aggregateDailySales = async (sellerId, startDate, endDate) => {
-  
-
   // Ensure that sellerId is a valid ObjectId
   const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
   const result = await Booking.aggregate([
@@ -251,7 +249,7 @@ const registerSeller = asyncHandler(async (req, res) => {
 //route POST// /api/users
 const sellerForget = asyncHandler(async (req, res) => {
   const { email } = req.body;
-  
+
   const seller = await Seller.findOne({ email });
   if (!seller) {
     return res.status(401).json({
@@ -321,7 +319,7 @@ const dashboardValues = asyncHandler(async (req, res) => {
     const bookingCount = await Booking.countDocuments({ seller: sellerId });
     const revenue = await Booking.aggregate([
       {
-        $match: { seller: new mongoose.Types.ObjectId(sellerId) }
+        $match: { seller: new mongoose.Types.ObjectId(sellerId) },
       },
       {
         $unwind: "$seller",
@@ -355,10 +353,9 @@ const dashboardValues = asyncHandler(async (req, res) => {
       endOfDay
     );
 
-
     return res.status(200).json({
-      bookingCount: bookingCount ? bookingCount:0,
-      revenue: revenue[0]?.totalAmount?revenue[0].totalAmount : 0,
+      bookingCount: bookingCount ? bookingCount : 0,
+      revenue: revenue[0]?.totalAmount ? revenue[0].totalAmount : 0,
       dailyRevenue: dailyRevenue ? dailyRevenue : 0,
       monthlyRevenue: monthlyRevenue ? monthlyRevenue : 0,
     });
@@ -371,12 +368,12 @@ const dashboardValues = asyncHandler(async (req, res) => {
 const sellerNotification = asyncHandler(async (req, res) => {
   try {
     const sellerInfo = req.query.sellerInfo;
-    const sellerBookings = await Booking.countDocuments({seller:sellerInfo});
-    if(sellerBookings){
-      return res.json({sellerBookings})
+    const sellerBookings = await Booking.countDocuments({ seller: sellerInfo });
+    if (sellerBookings) {
+      return res.json({ sellerBookings });
     }
-    if(!sellerBookings){
-      return res.status(502).json(null)
+    if (!sellerBookings) {
+      return res.status(502).json(null);
     }
   } catch (error) {
     console.error(error);
@@ -386,15 +383,66 @@ const sellerNotification = asyncHandler(async (req, res) => {
 const sellerNotificationDetails = asyncHandler(async (req, res) => {
   try {
     const sellerId = req.query.sellerId;
-    const sellerBookings = await aggregateBookingWithHostel(sellerId)
-    if(sellerBookings){
-      return res.json({sellerBookings})
+    const sellerBookings = await aggregateBookingWithHostel(sellerId);
+    if (sellerBookings) {
+      return res.json({ sellerBookings });
     }
-    if(!sellerBookings){
-      return res.status(502).json(null)
+    if (!sellerBookings) {
+      return res.status(502).json(null);
     }
   } catch (error) {
     console.error(error);
+  }
+});
+// ----------------------------List listEnquery-------------
+const listEnquery = asyncHandler(async (req, res) => {
+  try {
+    const sellerId = req.seller._id;
+    if (sellerId) {
+      const enquery = await Enquiry.find({ seller: sellerId, isVerified: false });
+      res.status(200).json({ enqueryData: enquery });
+    }
+  } catch (error) {
+    cosnole.error(error);
+  }
+});
+// ----------------------------List listEnquery-------------
+const listEnqueryReply = asyncHandler(async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { message } = req.query;
+
+    if (id && message) {
+      const enqueryReply = await Enquiry.findOne({ _id: id });
+
+      if (enqueryReply) {
+        enqueryReply.isVerified = true;
+        enqueryReply.sellerReply = message; 
+        await enqueryReply.save();
+        res.status(200).json({updated:true})
+      } 
+    }
+    else{
+      res.status(400).json({message:'Please fill the Field'})
+    }
+    //    const filter = {
+    //      id,
+    //   };
+
+    //   const update = {
+    //     $set: {
+    //       isVerified: true,
+    //       sellerReply: message,
+    //     },
+    //   };
+
+    //   const result = await Enquiry.updateMany(filter, update);
+    //   console.log(
+    //     `${result.n} documents matched and ${result.nModified} documents modified`
+    //   );
+    // }
+  } catch (error) {
+    cosnole.error(error);
   }
 });
 // ----------------------------List seller Hostels-------------
@@ -584,6 +632,8 @@ export {
   dashboardValues,
   sellerNotification,
   sellerNotificationDetails,
+  listEnquery,
+  listEnqueryReply,
 
   // LIST HOSTEL
   listHostels,
