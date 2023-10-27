@@ -163,7 +163,7 @@ const MyBookings = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      OnwerName: {hostel.sellerDetails.email}
+                      OnwerEmail: {hostel.sellerDetails.email}
                     </h6>
                     <h6
                       style={{
@@ -194,7 +194,7 @@ const MyBookings = () => {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => handleCancel(seller._id)}
+                      onClick={() => handleCancel(hostel.sellerDetails._id)}
                       style={{
                         width: "230px",
                         marginLeft: "30px",

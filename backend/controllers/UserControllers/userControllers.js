@@ -586,6 +586,7 @@ const myBookings = asyncHandler(async (req, res) => {
 // ----------------------------user Cancell booking-------------
 const cancelBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
+  console.log(id)
   try {
     const cancel_update = await Booking.findOneAndUpdate(
       { _id: id },
