@@ -16,7 +16,7 @@ import { Modal } from "react-bootstrap";
 import "./style.css";
 
 const SingleViewHostel = () => {
-  const userInfoLocalstorage = JSON.parse(localStorage.getItem('userInfo'))
+  const userInfoLocalstorage = JSON.parse(localStorage.getItem("userInfo"));
   const location = useLocation();
   const hostel = location.state.hostel;
   const [showModal, setShowModal] = useState(false);
@@ -34,17 +34,16 @@ const SingleViewHostel = () => {
     files: [],
   });
   const [formDataEnquery, setformDataEnquery] = useState({
-    name: '',
-    phone: '',
-    message: '',
+    name: "",
+    phone: "",
+    message: "",
   });
 
-
   const handleShowModal = () => {
-    if(userInfoLocalstorage){
+    if (userInfoLocalstorage) {
       setShowModalForEnquiry(true);
-    }else{
-      return toast.error('Please Login')
+    } else {
+      return toast.error("Please Login");
     }
   };
 
@@ -85,21 +84,20 @@ const SingleViewHostel = () => {
     }
   };
 
-  const handleEnquery = async (hostelId,sellerId) => {
+  const handleEnquery = async (hostelId, sellerId) => {
     const requestData = {
       formData: formDataEnquery,
       hostelId: hostelId,
-      sellerId:sellerId
+      sellerId: sellerId,
     };
-    console.log(requestData)
-      const response = await USERSAPI.post("/users/enquery",requestData);
-    if(response.data.updated){
-      toast.success(response.data.message)
-      setShowModalForEnquiry(false)
-      setformDataEnquery("")
+    console.log(requestData);
+    const response = await USERSAPI.post("/users/enquery", requestData);
+    if (response.data.updated) {
+      toast.success(response.data.message);
+      setShowModalForEnquiry(false);
+      setformDataEnquery("");
     }
   };
-  
 
   const [imageUrls, setImageUrls] = useState([]);
   const handleAddPhoto = (e) => {
@@ -201,14 +199,13 @@ const SingleViewHostel = () => {
     fetchData(hostel._id);
   }, [added]);
 
-
   <style>
-  {`
+    {`
     .placeholder-white::placeholder {
       color: white;
     }
   `}
-</style>
+  </style>;
   return (
     <div>
       <Container style={{ color: "white", height: "100vh" }}>
@@ -325,7 +322,6 @@ const SingleViewHostel = () => {
                       >
                         READ ALL REVIEWS
                       </span>
-                      
                     </div>
                   </Col>
                 </Row>
@@ -380,17 +376,21 @@ const SingleViewHostel = () => {
                                 background: "rgba(255, 255, 255s, 0.9)",
                                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                                 backdropFilter: "blur(5px)",
-                                color:'white',
-                                '::placeholder': {
-                                  color: 'white'
-                                }
+                                color: "white",
+                                "::placeholder": {
+                                  color: "white",
+                                },
                               }}
                               required="true"
                               className="form-control placeholder-white"
-                              name='UserName'
+                              name="UserName"
                               value={formDataEnquery.name}
-                              onChange={(e)=>setformDataEnquery({...formDataEnquery,name:e.target.value})}
-                              
+                              onChange={(e) =>
+                                setformDataEnquery({
+                                  ...formDataEnquery,
+                                  name: e.target.value,
+                                })
+                              }
                             />
                           </div>
                           <div className="mb-3">
@@ -401,16 +401,21 @@ const SingleViewHostel = () => {
                                 background: "rgba(255, 255, 255s, 0.9)",
                                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                                 backdropFilter: "blur(5px)",
-                                color:'white'
+                                color: "white",
                               }}
                               placeholder="Contact Number"
                               className="form-control"
-                              name='phone'
+                              name="phone"
                               value={formDataEnquery.phone}
-                              onChange={(e)=>setformDataEnquery({...formDataEnquery,phone:e.target.value})}
+                              onChange={(e) =>
+                                setformDataEnquery({
+                                  ...formDataEnquery,
+                                  phone: e.target.value,
+                                })
+                              }
                             />
                           </div>
-                          
+
                           <div className="mb-3">
                             <label>Message</label>
                             <textarea
@@ -420,13 +425,18 @@ const SingleViewHostel = () => {
                                 background: "rgba(255, 255, 255s, 0.9)",
                                 boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
                                 backdropFilter: "blur(5px)",
-                                color:'white'
+                                color: "white",
                               }}
                               value={formDataEnquery.message}
-                              name='message'
+                              name="message"
                               className="form-control"
                               rows="4"
-                              onChange={(e)=>setformDataEnquery({...formDataEnquery,message:e.target.value})}
+                              onChange={(e) =>
+                                setformDataEnquery({
+                                  ...formDataEnquery,
+                                  message: e.target.value,
+                                })
+                              }
                               placeholder="Enter Message"
                             ></textarea>
                           </div>
@@ -445,7 +455,9 @@ const SingleViewHostel = () => {
                         </Button>
                         <Button
                           variant="primary"
-                          onClick={()=>{handleEnquery(hostel._id,hostel.seller)}}
+                          onClick={() => {
+                            handleEnquery(hostel._id, hostel.seller);
+                          }}
                         >
                           Submit Enquiry
                         </Button>
@@ -462,6 +474,10 @@ const SingleViewHostel = () => {
                       variant="primary"
                     >
                       Book Now
+                      <span style={{ marginLeft: "10px" }}>
+                        Wallet Balance: 
+                        {/* Use the actual wallet balance variable or state here */}
+                      </span>
                     </Button>
                   </Col>
                 </Row>

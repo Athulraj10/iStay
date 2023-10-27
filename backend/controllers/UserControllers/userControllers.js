@@ -529,19 +529,21 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
 // ----------------------------user mY booking-------------
 const makeEnquery = asyncHandler(async (req, res) => {
   try {
-    const { formData, hostelId,sellerId } = req.body;
+    const { formData, hostelId, sellerId } = req.body;
     if (hostelId && formData) {
       const newEnquiry = new Enquiry({
-        user:req.user._id,
-        hostel:hostelId,
-        seller:sellerId,
+        user: req.user._id,
+        hostel: hostelId,
+        seller: sellerId,
         name: formData.name,
         email: formData.phone,
-        message:formData.message,
-        userReques:'pending'
+        message: formData.message,
+        userReques: "pending",
       });
       await newEnquiry.save();
-      res.status(200).json({updated:true, message: "Enquiry Successfully Sended." });
+      res
+        .status(200)
+        .json({ updated: true, message: "Enquiry Successfully Sended." });
     } else {
       return res
         .status(404)
@@ -553,20 +555,20 @@ const makeEnquery = asyncHandler(async (req, res) => {
   }
 });
 // ----------------------------Enquery listing-------------
-const listEnqueryReplyUser = asyncHandler(async(req,res)=>{
+const listEnqueryReplyUser = asyncHandler(async (req, res) => {
   try {
-    console.log(req.user._id)
-    const userEnquery = await Enquiry.find({user:req.user._id})
-    console.log(userEnquery.length)
-    if(userEnquery){
-      res.status(200).json({enquery:true,userEnquery:userEnquery})
-    }else{
-      res.status(400).json({message:'No Enquery'})
+    console.log(req.user._id);
+    const userEnquery = await Enquiry.find({ user: req.user._id });
+    console.log(userEnquery.length);
+    if (userEnquery) {
+      res.status(200).json({ enquery: true, userEnquery: userEnquery });
+    } else {
+      res.status(400).json({ message: "No Enquery" });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 
 // ----------------------------user mY booking-------------
 const myBookings = asyncHandler(async (req, res) => {
@@ -586,13 +588,11 @@ const myBookings = asyncHandler(async (req, res) => {
 // ----------------------------user Cancell booking-------------
 const cancelBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id)
+  console.log(id);
   try {
-    const cancel_update = await Booking.findOneAndUpdate(
-      { _id: id },
-      { cancelled: true }
-    );
+    const cancel_update = await Booking.findOne({ seller: id });
     cancel_update.status = "cancelled";
+    cancel_update.cancelled = true;
     const hostelId = cancel_update.hostel;
     await Hostel.findOneAndUpdate(
       { _id: hostelId },
@@ -612,6 +612,7 @@ const cancelBooking = asyncHandler(async (req, res) => {
       userWallet.transactions.push(newTransaction);
       const updated = await userWallet.save();
       if (updated) {
+        console.log(updated)
         return res
           .status(200)
           .json({ is_modified: true, message: "Hostel Cancel Successfully" });

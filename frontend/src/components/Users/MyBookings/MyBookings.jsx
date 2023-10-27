@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { FaUserCircle ,FaEnvelope,FaPhone ,FaCalendar} from "react-icons/fa";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 import "./Style.css";
 import { useNavigate } from "react-router-dom";
+
+
 
 const MyBookings = () => {
   const navigate = useNavigate();
@@ -11,13 +14,13 @@ const MyBookings = () => {
   const [hostelDataLoaded, setHostelDataLoaded] = useState(false);
 
   const handleCancel = async (id) => {
-    if (window.confirm("Are you sure you want to perform this action?")) {
+    if (window.confirm("Are you sure you want to perform this action? If Yes No Message Allowed")) {
       const response = await USERSAPI.patch(
         `/users/myBookings/cancelBooking/${id}`
       );
       if (response.data.is_modified) {
         toast.success(response.data.message);
-        setHostelDataLoaded(!hostelDataLoaded)
+        setHostelDataLoaded(!hostelDataLoaded);
       } else {
         toast.error(response.data.message);
       }
@@ -27,15 +30,15 @@ const MyBookings = () => {
     }
   };
 
-  const handleMessage = (hostelId)=>{
+  const handleMessage = (hostelId) => {
     try {
-      if(hostelId){
-        navigate(`/chats/${hostelId}`)
+      if (hostelId) {
+        navigate(`/chats/${hostelId}`);
       }
     } catch (error) {
-      toast.error(error)
+      toast.error(error);
     }
-  }
+  };
 
   useEffect(() => {
     const storedUserInfo = localStorage.getItem("userInfo");
@@ -72,7 +75,6 @@ const MyBookings = () => {
     };
     fetchData();
   }, [hostelDataLoaded]);
-
 
   return (
     <Container style={{ color: "white", minHeight: "100vh", height: "auto" }}>
@@ -147,44 +149,64 @@ const MyBookings = () => {
                   </Col>
 
                   <Col>
-                    <h6
-                      style={{
-                        margin: "20px",
-                        color: "gray",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      OnwerName: {hostel.sellerDetails.name}
+                    <h6 
+                    style={{
+                      margin: "20px",
+                      color: "gray",
+                      textTransform: "capitalize",
+                      display: "flex",
+                      justifyContent:'center'
+                    }}
+                    class="seller-name-and-icon">
+                      <FaUserCircle />
+                      <span style={{marginLeft:'5px'}}>{hostel.sellerDetails.name}</span>
                     </h6>
-                    <h6
-                      style={{
-                        margin: "20px",
-                        color: "gray",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      OnwerEmail: {hostel.sellerDetails.email}
+                    <h6 
+                    style={{
+                      margin: "20px",
+                      color: "gray",
+                      textTransform: "capitalize",
+                      display: "flex",
+                      justifyContent:'center'
+                    }}
+                    class="seller-name-and-icon">
+                      <FaEnvelope />
+                      <span style={{marginLeft:'5px'}}>{hostel.sellerDetails.email}</span>
                     </h6>
-                    <h6
-                      style={{
-                        margin: "20px",
-                        color: "gray",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      Onwer Number: {hostel.sellerDetails.mobile}
+                    <h6 
+                    style={{
+                      margin: "20px",
+                      color: "gray",
+                      textTransform: "capitalize",
+                      display: "flex",
+                      justifyContent:'center'
+                    }}
+                    class="seller-name-and-icon">
+                      <FaPhone />
+                      <span style={{marginLeft:'5px'}}>{hostel.sellerDetails.mobile}</span>
                     </h6>
-                    <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      <span style={{ color: "gray" }}>Booked : </span>
-                      {hostel.hostelDetails.updatedAt.split("T")[0]}
+                    <h6 
+                    style={{
+                      margin: "20px",
+                      color: "gray",
+                      textTransform: "capitalize",
+                      display: "flex",
+                      justifyContent:'center'
+                    }}
+                    class="seller-name-and-icon">
+                      <FaCalendar />
+                      <span style={{marginLeft:'5px'}}>{hostel.hostelDetails.updatedAt.split("T")[0]}</span>
                     </h6>
+
+
                   </Col>
                 </Row>
+           
                 <Row className="mt-4">
-                  {hostel.cancelled ? (
+                  {hostel.cancelled === true ? (
                     <Button
                       style={{
-                        width: "300px",
+                        width: "200px",
                         marginLeft: "30px",
                         marginTop: "10px",
                       }}
@@ -205,18 +227,30 @@ const MyBookings = () => {
                       Cancel Now
                     </Button>
                   )}
+                 {hostel.cancelled == true ?(
                    <Button
-                      onClick={() => handleMessage(hostel.sellerDetails._id)}
-                      style={{
-                        width: "200px",
-                        marginLeft: "30px",
-                        marginTop: "10px",
-                      }}
-                      variant="primary"
-                    >
-                      Message Now
-                    </Button>
-                    
+                   style={{
+                     width: "200px",
+                     marginLeft: "30px",
+                     marginTop: "10px",
+                   }}
+                   variant="danger"
+                 >
+                   Message Not Allowed
+                 </Button>
+                 ):(
+                  <Button
+                  onClick={() => handleMessage(hostel.sellerDetails._id)}
+                  style={{
+                    width: "200px",
+                    marginLeft: "30px",
+                    marginTop: "10px",
+                  }}
+                  variant="primary"
+                >
+                  Message Now
+                </Button>
+                 )}
                 </Row>
               </Card>
             </div>

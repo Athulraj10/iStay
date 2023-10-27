@@ -89,7 +89,7 @@ const BookingComformation = () => {
 
                   <Col>
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      <span style={{ color: "gray" }}>Address</span>{" "}
+                      <span style={{ color: "gray" }}>HostelName & Address</span>{" "}
                       {hostelData.fullDetails}
                       <h6 style={{ color: "gray" }}>
                         {hostelData.mainLocation}
