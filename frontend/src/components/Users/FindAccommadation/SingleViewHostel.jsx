@@ -95,16 +95,10 @@ const SingleViewHostel = () => {
          {
 
         localStorage.setItem("bookingStarted", userInfo._id);
-            const response = await USERSAPI.patch('/users/WalletConfirmation',{
-                hostelId:hostel._id,
-                userId:userInfoLocalstorage._id,
-                hostelTotalPrice:hostelTotalPrice
-            })
-            if (response.data.bookingCompleted) {
-              const userId = response.data.userId;
-              const hostelId = response.data.hostelId;
+              const userId = userInfo._id
+              const hostelId= hostel._id
               return navigate(`/bookingConfirmation?userId=${userId}&hostel=${hostelId}`);
-            }
+            // }
         }
       }
     } catch (error) {
