@@ -16,7 +16,6 @@ const StarRating = () => {
       {[...Array(5)].map((star, index) => {
         const currentRating = index + 1;
         return (
-
           <label>
             <input type="radio"
             onClick={()=>setRating(currentRating)} name="rating" 
