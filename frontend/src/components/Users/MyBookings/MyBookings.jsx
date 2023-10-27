@@ -216,7 +216,7 @@ const MyBookings = () => {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => handleCancel(hostel.sellerDetails._id)}
+                      onClick={() => handleCancel(hostel._id)}
                       style={{
                         width: "230px",
                         marginLeft: "30px",

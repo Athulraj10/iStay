@@ -64,7 +64,7 @@ const singleHostelFinding = async (hostelId) => {
     console.error(error);
   }
 };
-const aggregateBookingWithHostel = async (userId, sortOrder) => {
+const aggregateBookingWithHostel = async (userId) => {
   try {
     const result = await Booking.aggregate([
       {
@@ -105,11 +105,11 @@ const aggregateBookingWithHostel = async (userId, sortOrder) => {
           sellerDetails: { $first: "$sellerDetails" },
         },
       },
-      {
-        $sort: {
-          [sortOrder.field]: sortOrder.order, // This line sorts the results
-        },
-      },
+      // {
+      //   $sort: {
+      //     createdAt: -1, // Sort by lastUpdated field in descending order (latest first)
+      //   },
+      // }
     ]);
     return result;
   } catch (error) {
@@ -622,8 +622,7 @@ const listEnqueryReplyUser = asyncHandler(async (req, res) => {
 // ----------------------------user mY booking-------------
 const myBookings = asyncHandler(async (req, res) => {
   const userId = req.query.token;
-  const sortOrder = { field: "createdAt", order: -1 };
-  const response = await aggregateBookingWithHostel(userId, sortOrder);
+  const response = await aggregateBookingWithHostel(userId);
   try {
     if (response) {
       return res.status(200).json({
@@ -639,7 +638,7 @@ const cancelBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
   console.log(id);
   try {
-    const cancel_update = await Booking.findOne({ seller: id });
+    const cancel_update = await Booking.findOne({ _id: id });
     cancel_update.status = "cancelled";
     cancel_update.cancelled = true;
     const hostelId = cancel_update.hostel;
@@ -648,8 +647,8 @@ const cancelBooking = asyncHandler(async (req, res) => {
       { $inc: { bedAvailableNow: 1 } },
       { new: true }
     );
-    await cancel_update.save();
-    if (cancel_update) {
+  const i=await cancel_update.save();
+  if (cancel_update) {
       const userWallet = await Wallet.findOne({ user_id: cancel_update.user });
       userWallet.balance = userWallet.balance + cancel_update.totalAmount;
       const newTransaction = {
