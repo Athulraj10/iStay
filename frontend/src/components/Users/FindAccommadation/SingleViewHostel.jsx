@@ -41,8 +41,6 @@ const SingleViewHostel = () => {
     files: [],
   });
   const [formDataEnquery, setformDataEnquery] = useState({
-    name: "",
-    phone: "",
     message: "",
   });
 
@@ -372,7 +370,7 @@ const SingleViewHostel = () => {
                     >
                       Wallet Balance :
                       <span style={{ marginLeft: "10px" }}>
-                        {walletBalance}
+                        {walletBalance?walletBalance:0}
                       </span>
                     </Button>
 
@@ -761,7 +759,7 @@ const SingleViewHostel = () => {
         >
           <form>
             <div className="mb-3">
-              <label>Name</label>
+              <span style={{color:'gray'}}>Readonly</span>
               <input
                 type="text"
                 placeholder="Enter Name"
@@ -778,17 +776,12 @@ const SingleViewHostel = () => {
                 required="true"
                 className="form-control placeholder-white"
                 name="UserName"
-                value={formDataEnquery.name}
-                onChange={(e) =>
-                  setformDataEnquery({
-                    ...formDataEnquery,
-                    name: e.target.value,
-                  })
-                }
+                value={userInfo.name}
+                readOnly
               />
             </div>
             <div className="mb-3">
-              <label>Phone</label>
+               <span style={{color:'gray'}}>Readonly</span>
               <input
                 style={{
                   backgroundColor: "#0d1527",
@@ -800,13 +793,7 @@ const SingleViewHostel = () => {
                 placeholder="Contact Number"
                 className="form-control"
                 name="phone"
-                value={formDataEnquery.phone}
-                onChange={(e) =>
-                  setformDataEnquery({
-                    ...formDataEnquery,
-                    phone: e.target.value,
-                  })
-                }
+                value={userInfo.email}
               />
             </div>
 

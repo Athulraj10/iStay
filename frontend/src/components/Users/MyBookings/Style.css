@@ -188,3 +188,25 @@
       transform: scale(0.25) rotate(45deg);
     }
   }
+
+  /* .star-rating {
+    display: inline-block;
+    font-size: 35px;
+    color: #ccc;
+    cursor: pointer;
+  }
+  
+  .star {
+    display: inline-block;
+    transition: color 0.2s;
+  } */
+
+
+  input[type=radio]{
+    display: none;
+  }
+  .star{
+    cursor: pointer;
+  }
+
+  

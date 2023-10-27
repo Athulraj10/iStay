@@ -1,20 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { FaUserCircle ,FaEnvelope,FaPhone ,FaCalendar} from "react-icons/fa";
+import { FaUserCircle, FaEnvelope, FaPhone, FaCalendar } from "react-icons/fa";
 import { Container, Row, Col, Button, Card } from "react-bootstrap";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 import "./Style.css";
 import { useNavigate } from "react-router-dom";
-
-
+import StarRating from "./StarRating";
 
 const MyBookings = () => {
   const navigate = useNavigate();
   const [hostelData, setHostelData] = useState([]);
   const [hostelDataLoaded, setHostelDataLoaded] = useState(false);
+  const [rating, setRating] = useState(0);
 
+
+  const handleStarClick = (starValue) => {
+    setRating(starValue);
+  };
+
+  const handleStarHover = (starValue) => {
+    // Add hover effect here if needed
+  };
+
+  const handleStarLeave = () => {
+    // Remove hover effect here if needed
+  };
   const handleCancel = async (id) => {
-    if (window.confirm("Are you sure you want to perform this action? If Yes No Message Allowed")) {
+    if (
+      window.confirm(
+        "Are you sure you want to perform this action? If Yes No Message Allowed"
+      )
+    ) {
       const response = await USERSAPI.patch(
         `/users/myBookings/cancelBooking/${id}`
       );
@@ -149,59 +165,80 @@ const MyBookings = () => {
                   </Col>
 
                   <Col>
-                    <h6 
-                    style={{
-                      margin: "20px",
-                      color: "gray",
-                      textTransform: "capitalize",
-                      display: "flex",
-                      justifyContent:'center'
-                    }}
-                    class="seller-name-and-icon">
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      class="seller-name-and-icon"
+                    >
                       <FaUserCircle />
-                      <span style={{marginLeft:'5px'}}>{hostel.sellerDetails.name}</span>
+                      <span style={{ marginLeft: "5px" }}>
+                        {hostel.sellerDetails.name}
+                      </span>
                     </h6>
-                    <h6 
-                    style={{
-                      margin: "20px",
-                      color: "gray",
-                      textTransform: "capitalize",
-                      display: "flex",
-                      justifyContent:'center'
-                    }}
-                    class="seller-name-and-icon">
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      class="seller-name-and-icon"
+                    >
                       <FaEnvelope />
-                      <span style={{marginLeft:'5px'}}>{hostel.sellerDetails.email}</span>
+                      <span style={{ marginLeft: "5px" }}>
+                        {hostel.sellerDetails.email}
+                      </span>
                     </h6>
-                    <h6 
-                    style={{
-                      margin: "20px",
-                      color: "gray",
-                      textTransform: "capitalize",
-                      display: "flex",
-                      justifyContent:'center'
-                    }}
-                    class="seller-name-and-icon">
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      class="seller-name-and-icon"
+                    >
                       <FaPhone />
-                      <span style={{marginLeft:'5px'}}>{hostel.sellerDetails.mobile}</span>
+                      <span style={{ marginLeft: "5px" }}>
+                        {hostel.sellerDetails.mobile}
+                      </span>
                     </h6>
-                    <h6 
-                    style={{
-                      margin: "20px",
-                      color: "gray",
-                      textTransform: "capitalize",
-                      display: "flex",
-                      justifyContent:'center'
-                    }}
-                    class="seller-name-and-icon">
+                    <h6
+                      style={{
+                        margin: "20px",
+                        color: "gray",
+                        textTransform: "capitalize",
+                        display: "flex",
+                        justifyContent: "center",
+                      }}
+                      class="seller-name-and-icon"
+                    >
                       <FaCalendar />
-                      <span style={{marginLeft:'5px'}}>{hostel.hostelDetails.updatedAt.split("T")[0]}</span>
+                      <span style={{ marginLeft: "5px" }}>
+                        {hostel.hostelDetails.updatedAt.split("T")[0]}
+                      </span>
                     </h6>
-
-
+                    <Col>
+                    <h5 style={{color:'gray'}}>Rate the Items</h5>
+                    <StarRating/>
+                      {/* <div class="star-rating" data-rating="0">
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                        <span class="star">&#9733;</span>
+                      </div> */}
+                    </Col>
                   </Col>
                 </Row>
-           
+
                 <Row className="mt-4">
                   {hostel.cancelled === true ? (
                     <Button
@@ -227,30 +264,30 @@ const MyBookings = () => {
                       Cancel Now
                     </Button>
                   )}
-                 {hostel.cancelled == true ?(
-                   <Button
-                   style={{
-                     width: "200px",
-                     marginLeft: "30px",
-                     marginTop: "10px",
-                   }}
-                   variant="danger"
-                 >
-                   Message Not Allowed
-                 </Button>
-                 ):(
-                  <Button
-                  onClick={() => handleMessage(hostel.sellerDetails._id)}
-                  style={{
-                    width: "200px",
-                    marginLeft: "30px",
-                    marginTop: "10px",
-                  }}
-                  variant="primary"
-                >
-                  Message Now
-                </Button>
-                 )}
+                  {hostel.cancelled == true ? (
+                    <Button
+                      style={{
+                        width: "200px",
+                        marginLeft: "30px",
+                        marginTop: "10px",
+                      }}
+                      variant="danger"
+                    >
+                      Message Not Allowed
+                    </Button>
+                  ) : (
+                    <Button
+                      onClick={() => handleMessage(hostel.sellerDetails._id)}
+                      style={{
+                        width: "200px",
+                        marginLeft: "30px",
+                        marginTop: "10px",
+                      }}
+                      variant="primary"
+                    >
+                      Message Now
+                    </Button>
+                  )}
                 </Row>
               </Card>
             </div>

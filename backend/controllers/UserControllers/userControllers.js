@@ -576,14 +576,15 @@ const WalletConfirmation = asyncHandler(async (req, res) => {
 // ----------------------------user mY booking-------------
 const makeEnquery = asyncHandler(async (req, res) => {
   try {
+    console.log(req.body)
     const { formData, hostelId, sellerId } = req.body;
     if (hostelId && formData) {
       const newEnquiry = new Enquiry({
         user: req.user._id,
         hostel: hostelId,
         seller: sellerId,
-        name: formData.name,
-        email: formData.phone,
+        name: req.user.name,
+        email: req.user.email,
         message: formData.message,
         userReques: "pending",
       });

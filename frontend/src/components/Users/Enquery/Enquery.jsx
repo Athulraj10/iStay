@@ -85,7 +85,7 @@ const Enquery = () => {
                         </span>
                       )}
                     </Card.Text>
-                    {enquery.isVerified === false ? (
+                    {/* {enquery.isVerified === false ? (
                       <Form
                         onSubmit={(e) => {
                           handleSubmitSellerReply(e, enquery._id);
@@ -107,7 +107,7 @@ const Enquery = () => {
                           Send Reply
                         </Button>
                       </Form>
-                    ) : null}
+                    ) : null} */}
                   </Card.Body>
                 </Card>
               ))
