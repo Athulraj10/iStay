@@ -25,7 +25,6 @@ const StarRating = () => {
             color={currentRating<=(rating) ? 'gold':'white'}
             onMouseEnter={()=>handleStarClick(currentRating)}
             size={30}/>
-            
           </label>
         );
       })}
