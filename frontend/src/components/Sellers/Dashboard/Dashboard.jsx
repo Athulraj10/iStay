@@ -14,6 +14,7 @@ function Dashboard() {
 
   const [bookingCount, setBookingCount] = useState(0);
   const [revenue, setRevenue] = useState(0);
+  const [totalSale, setTotalSale] = useState(0);
   const [enquery, setEnquery] = useState(0);
   const [dailyRevenue, setDailyRevenue] = useState([0]);
   const [monthlyRevenue, setMonthlyRevenue] = useState([0]);
@@ -35,12 +36,15 @@ function Dashboard() {
             params: sellerInfo,
           });
           if (response) {
-            const { bookingCount, revenue, dailyRevenue, monthlyRevenue } =
+            const { bookingCount, revenue,messages ,dailyRevenue, totalSale ,enquery,monthlyRevenue } =
               response.data;
             setBookingCount(bookingCount);
             setRevenue(revenue);
+            setTotalSale(totalSale);
             setMonthlyRevenue(monthlyRevenue);
             setDailyRevenue(dailyRevenue);
+            setEnquery(enquery);
+            setMessages(messages);
           }
         }
       } catch (error) {
@@ -181,6 +185,14 @@ function Dashboard() {
                 Revenue
               </h4>
               <h4 style={{ color: "green" }}> {revenue}</h4>
+            </Link>
+          </Col>
+          <Col xs lg="2" style={style}>
+            <Link to="/admin/listHostels" style={{ textDecoration: "none" }}>
+              <h4 className="text-center" style={{ color: "white" }}>
+                TotalSale
+              </h4>
+              <h4 style={{ color: "green" }}> {totalSale?totalSale:0}</h4>
             </Link>
           </Col>
           <Col xs lg="2" style={style}>

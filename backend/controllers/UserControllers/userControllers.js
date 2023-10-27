@@ -224,7 +224,6 @@ const authUser = asyncHandler(async (req, res) => {
 // -------------------Register New User with wallet function---------------------------
 const createNewUserWithWallet = async (name, email, password, mobile) => {
   try {
-    console.log(name, email, password, mobile);
     const userRegistration = await User.create({
       name,
       email,
@@ -577,7 +576,6 @@ const WalletConfirmation = asyncHandler(async (req, res) => {
 // ----------------------------user mY booking-------------
 const makeEnquery = asyncHandler(async (req, res) => {
   try {
-    console.log(req.user._id)
     const { formData, hostelId, sellerId } = req.body;
     if (hostelId && formData) {
       const newEnquiry = new Enquiry({
@@ -606,9 +604,7 @@ const makeEnquery = asyncHandler(async (req, res) => {
 // ----------------------------Enquery listing-------------
 const listEnqueryReplyUser = asyncHandler(async (req, res) => {
   try {
-    console.log(req.user._id);
     const userEnquery = await Enquiry.find({ user: req.user._id });
-    console.log(userEnquery.length);
     if (userEnquery) {
       res.status(200).json({ enquery: true, userEnquery: userEnquery });
     } else {
@@ -636,7 +632,6 @@ const myBookings = asyncHandler(async (req, res) => {
 // ----------------------------user Cancell booking-------------
 const cancelBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  console.log(id);
   try {
     const cancel_update = await Booking.findOne({ _id: id });
     cancel_update.status = "cancelled";
@@ -660,7 +655,6 @@ const cancelBooking = asyncHandler(async (req, res) => {
       userWallet.transactions.push(newTransaction);
       const updated = await userWallet.save();
       if (updated) {
-        console.log(updated)
         return res
           .status(200)
           .json({ is_modified: true, message: "Hostel Cancel Successfully" });

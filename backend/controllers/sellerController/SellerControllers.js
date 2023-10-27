@@ -12,6 +12,7 @@ import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import Enquiry from "../../models/UserModels/enquery.js";
+import RoomChat from "../../models/chatRoom.js";
 
 //@desc forgetOTP
 //access Public
@@ -317,12 +318,12 @@ const dashboardValues = asyncHandler(async (req, res) => {
   try {
     const sellerId = req.query._id;
     const bookingCount = await Booking.countDocuments({ seller: sellerId });
+    console.log(sellerId)
+    const enquery = await Enquiry.countDocuments({ seller: sellerId, isVerified: false });
+    const totalMessages = await RoomChat.countDocuments({ seller: sellerId });
     const revenue = await Booking.aggregate([
       {
-        $match: { seller: new mongoose.Types.ObjectId(sellerId) },
-      },
-      {
-        $unwind: "$seller",
+        $match: { seller: new mongoose.Types.ObjectId(sellerId)},
       },
       {
         $group: {
@@ -331,7 +332,21 @@ const dashboardValues = asyncHandler(async (req, res) => {
         },
       },
     ]);
-
+    console.log(revenue)
+    const totalSale = await Booking.aggregate([
+      {
+        $match: { seller: new mongoose.Types.ObjectId(sellerId)},
+      },
+      {
+        $group: {
+          _id: "$seller",
+          totalAmount: { $sum: "$totalAmount" },
+        },
+      },{
+        $unwind:'$totalAmount'
+      }
+    ]);
+    
     const today = new Date(); // Current date
     const dayBeforeYesterday = new Date(today);
     dayBeforeYesterday.setDate(today.getDate() - 1);
@@ -358,6 +373,9 @@ const dashboardValues = asyncHandler(async (req, res) => {
       revenue: revenue[0]?.totalAmount ? revenue[0].totalAmount : 0,
       dailyRevenue: dailyRevenue ? dailyRevenue : 0,
       monthlyRevenue: monthlyRevenue ? monthlyRevenue : 0,
+      totalSale:totalSale[0].totalAmount,
+      enquery:enquery,
+      messages:totalMessages
     });
   } catch (error) {
     console.error(error);

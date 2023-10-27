@@ -93,6 +93,8 @@ const SingleViewHostel = () => {
         } 
         else if(walletBalance>=hostelTotalPrice)
          {
+
+        localStorage.setItem("bookingStarted", userInfo._id);
             const response = await USERSAPI.patch('/users/WalletConfirmation',{
                 hostelId:hostel._id,
                 userId:userInfoLocalstorage._id,
