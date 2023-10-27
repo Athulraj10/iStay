@@ -12,9 +12,10 @@ const StarRating = () => {
 
   const handleStarHover = (starValue) => {};
 
+  
   const handleStarLeave = () => {};
 
-  
+
   return (
     <div className="star-rating">
       {[...Array(5)].map((star, index) => {
