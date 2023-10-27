@@ -8,7 +8,7 @@ const chatMessageSchema = new mongoose.Schema({
   sender: {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
-    refPath: 'senderType', // Use dynamic reference based on senderType
+    refPath: 'senderType',
   },
   senderType: {
     type: String,
