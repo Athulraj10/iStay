@@ -9,7 +9,6 @@ const StarRating = () => {
     setRating(starValue);
     console.log(rating)
   };
-
   return (
     <div className="star-rating">
       {[...Array(5)].map((star, index) => {
