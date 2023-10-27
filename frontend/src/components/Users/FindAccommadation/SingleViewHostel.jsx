@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Spinner } from "@chakra-ui/react";
+import { useLocation,useNavigate} from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import {
   Container,
@@ -14,11 +15,17 @@ import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import { Modal } from "react-bootstrap";
 import "./style.css";
-
 const SingleViewHostel = () => {
   const userInfoLocalstorage = JSON.parse(localStorage.getItem("userInfo"));
   const location = useLocation();
+  const navigate = useNavigate();
   const hostel = location.state.hostel;
+
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("stripe");
+  const [walletBalance, setWalletBalance] = useState(0);
+  // const [etIsLoading] = useState(false);
+
+  const [imageUrls, setImageUrls] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [added, setAdded] = useState(false);
   const [hostelData, setHostelData] = useState([]);
@@ -43,44 +50,64 @@ const SingleViewHostel = () => {
     if (userInfoLocalstorage) {
       setShowModalForEnquiry(true);
     } else {
-      return toast.error("Please Login");
+      return toast.error("Please Login for Enquery");
     }
   };
-
   const handleCloseModal = () => {
     setShowModalForEnquiry(false);
   };
 
   const handlePayment = async () => {
     try {
-      localStorage.setItem("bookingStarted", userInfo._id);
-      const stripe = await loadStripe(
-        "pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu"
-      );
-      const body = {
-        userId: userInfo._id,
-        hostel: hostel,
-      };
-      const headers = {
-        "Content-Type": "application/json",
-      };
-      const response = await fetch(
-        "http://localhost:3000/api/users/bookingHostel",
-        {
-          method: "POST",
-          headers: headers,
-          body: JSON.stringify(body),
+      if (selectedPaymentMethod === "stripe") {
+        localStorage.setItem("bookingStarted", userInfo._id);
+        const stripe = await loadStripe(
+          "pk_test_51O1TtASDbPUS3oyQDNpHh5XMGfwO8v93QDIBAthCvHn8dXX962vKX9euL8yYSbISjZ8Ve4kJsawFzOiaxvb9Giz500urN4xHeu"
+        );
+        const body = {
+          userId: userInfo._id,
+          hostel: hostel,
+        };
+        const headers = {
+          "Content-Type": "application/json",
+        };
+        const response = await fetch(
+          "http://localhost:3000/api/users/bookingHostel",
+          {
+            method: "POST",
+            headers: headers,
+            body: JSON.stringify(body),
+          }
+        );
+        const session = await response.json();
+        const result = stripe.redirectToCheckout({
+          sessionId: session.id,
+        });
+        if (result.error) {
+          toast.error(result.error);
         }
-      );
-      const session = await response.json();
-      const result = stripe.redirectToCheckout({
-        sessionId: session.id,
-      });
-      if (result.error) {
-        toast.error(result.error);
+      } else if (selectedPaymentMethod == "wallet") {
+        let hostelTotalPrice = hostel.price+hostel.extraPrice
+        if (walletBalance < hostelTotalPrice) {
+        return toast.error('Insufficient Wallet Amount')
+        } 
+        else if(walletBalance>=hostelTotalPrice)
+         {
+            const response = await USERSAPI.patch('/users/WalletConfirmation',{
+                hostelId:hostel._id,
+                userId:userInfoLocalstorage._id,
+                hostelTotalPrice:hostelTotalPrice
+            })
+            if (response.data.bookingCompleted) {
+              const userId = response.data.userId;
+              const hostelId = response.data.hostelId;
+              return navigate(`/bookingConfirmation?userId=${userId}&hostel=${hostelId}`);
+            }
+        }
       }
     } catch (error) {
-      toast.error("Please Login");
+      console.log(error)
+      toast.error("Please Login for Booking");
     }
   };
 
@@ -90,7 +117,6 @@ const SingleViewHostel = () => {
       hostelId: hostelId,
       sellerId: sellerId,
     };
-    console.log(requestData);
     const response = await USERSAPI.post("/users/enquery", requestData);
     if (response.data.updated) {
       toast.success(response.data.message);
@@ -99,7 +125,6 @@ const SingleViewHostel = () => {
     }
   };
 
-  const [imageUrls, setImageUrls] = useState([]);
   const handleAddPhoto = (e) => {
     const files = e.target.files;
     const selectedFiles = Array.from(files).slice(0, 10);
@@ -180,13 +205,14 @@ const SingleViewHostel = () => {
     const fetchData = async (id) => {
       const response = await USERSAPI.post(
         "users/findAccommodation/singlePageView",
-        { id: id }
+        { id: id, user_id: userInfoLocalstorage._id }
       );
       try {
         if (response.data) {
           console.log(response.data);
           setHostelData(response.data.data);
           setReviews(response.data.review);
+          setWalletBalance(response.data.userWallet);
           setFormData({
             ...formData,
             hostelId: response.data.data[0]._id,
@@ -326,159 +352,73 @@ const SingleViewHostel = () => {
                   </Col>
                 </Row>
                 <Row>
+                  <Button
+                    onClick={() => handleShowModal()}
+                    style={{
+                      minWidth: "200px",
+                      padding: "10px",
+                      color: "white",
+                    }}
+                    variant="info"
+                  >
+                    Have Any Enquiry....?
+                  </Button>
+
                   <Col style={{ display: "flex" }}>
-                    <Button
-                      onClick={() => handleShowModal()}
-                      style={{
-                        minWidth: "300px",
-                        padding: "10px",
-                        color: "white",
-                      }}
-                      variant="info"
-                    >
-                      Have Any Enquiry....?
-                    </Button>
-
-                    <Modal
-                      style={{
-                        background: "rgba(255, 255, 255s, 0.1)",
-                        boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                        backdropFilter: "blur(5px)",
-                        color: "white",
-                      }}
-                      show={showModalForEnquery}
-                      onHide={handleCloseModal}
-                    >
-                      <Modal.Header
-                        style={{
-                          backgroundColor: "#0d1427",
-                          background: "rgba(255, 255, 255s, 1)",
-                        }}
-                      >
-                        <Modal.Title className="text-white">
-                          Enquiry Form
-                        </Modal.Title>
-                      </Modal.Header>
-                      <Modal.Body
-                        style={{
-                          backgroundColor: "#0d1427",
-                          background: "rgba(255, 255, 255s, 0.1)",
-                        }}
-                      >
-                        <form>
-                          <div className="mb-3">
-                            <label>Name</label>
-                            <input
-                              type="text"
-                              placeholder="Enter Name"
-                              style={{
-                                backgroundColor: "#0d1527",
-                                background: "rgba(255, 255, 255s, 0.9)",
-                                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                                backdropFilter: "blur(5px)",
-                                color: "white",
-                                "::placeholder": {
-                                  color: "white",
-                                },
-                              }}
-                              required="true"
-                              className="form-control placeholder-white"
-                              name="UserName"
-                              value={formDataEnquery.name}
-                              onChange={(e) =>
-                                setformDataEnquery({
-                                  ...formDataEnquery,
-                                  name: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-                          <div className="mb-3">
-                            <label>Phone</label>
-                            <input
-                              style={{
-                                backgroundColor: "#0d1527",
-                                background: "rgba(255, 255, 255s, 0.9)",
-                                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                                backdropFilter: "blur(5px)",
-                                color: "white",
-                              }}
-                              placeholder="Contact Number"
-                              className="form-control"
-                              name="phone"
-                              value={formDataEnquery.phone}
-                              onChange={(e) =>
-                                setformDataEnquery({
-                                  ...formDataEnquery,
-                                  phone: e.target.value,
-                                })
-                              }
-                            />
-                          </div>
-
-                          <div className="mb-3">
-                            <label>Message</label>
-                            <textarea
-                              required
-                              style={{
-                                backgroundColor: "#0d1527",
-                                background: "rgba(255, 255, 255s, 0.9)",
-                                boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                                backdropFilter: "blur(5px)",
-                                color: "white",
-                              }}
-                              value={formDataEnquery.message}
-                              name="message"
-                              className="form-control"
-                              rows="4"
-                              onChange={(e) =>
-                                setformDataEnquery({
-                                  ...formDataEnquery,
-                                  message: e.target.value,
-                                })
-                              }
-                              placeholder="Enter Message"
-                            ></textarea>
-                          </div>
-                        </form>
-                      </Modal.Body>
-                      <Modal.Footer
-                        style={{
-                          backgroundColor: "#0d1527",
-                          background: "rgba(255, 255, 255s, 0.9)",
-                          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
-                          backdropFilter: "blur(5px)",
-                        }}
-                      >
-                        <Button variant="danger" onClick={handleCloseModal}>
-                          Close
-                        </Button>
-                        <Button
-                          variant="primary"
-                          onClick={() => {
-                            handleEnquery(hostel._id, hostel.seller);
-                          }}
-                        >
-                          Submit Enquiry
-                        </Button>
-                      </Modal.Footer>
-                    </Modal>
-
                     <Button
                       onClick={handlePayment}
                       style={{
                         minWidth: "200px",
-                        marginLeft: "50px",
                         padding: "10px",
+                        margin: "10px 10px 0 0",
                       }}
                       variant="primary"
                     >
-                      Book Now
+                      Wallet Balance :
                       <span style={{ marginLeft: "10px" }}>
-                        Wallet Balance: 
-                        {/* Use the actual wallet balance variable or state here */}
+                        {walletBalance}
                       </span>
                     </Button>
+
+                    <div
+                      className="booking-form"
+                      style={{
+                        border: "1px solid #0fb6db",
+                        color: "white",
+                        margin: "10px 10px 0 0",
+                        borderRadius: "10px",
+                      }}
+                    >
+                      <div className="payment-options">
+                        <label className="payment-option">
+                          <input
+                            type="radio"
+                            value="stripe"
+                            checked={selectedPaymentMethod === "stripe"}
+                            onChange={() => setSelectedPaymentMethod("stripe")}
+                          />
+                          Pay with Stripe
+                        </label>
+                        <label className="payment-option">
+                          <input
+                            type="radio"
+                            value="wallet"
+                            checked={selectedPaymentMethod === "wallet"}
+                            onChange={() => setSelectedPaymentMethod("wallet")}
+                          />
+                          Pay with Wallet Balance
+                        </label>
+                      </div>
+                      <Button
+                        className="book-button"
+                        onClick={handlePayment}
+                        isLoading={selectedPaymentMethod === "wallet"}
+                        // Start spinner when wallet payment is selected
+                        spinner={<Spinner />}
+                      >
+                        Book Now
+                      </Button>
+                    </div>
                   </Col>
                 </Row>
               </Card>
@@ -798,6 +738,129 @@ const SingleViewHostel = () => {
           </div>
         )}
       </Container>
+
+      <Modal
+        style={{
+          background: "rgba(255, 255, 255s, 0.1)",
+          boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+          backdropFilter: "blur(5px)",
+          color: "white",
+        }}
+        show={showModalForEnquery}
+        onHide={handleCloseModal}
+      >
+        <Modal.Header
+          style={{
+            backgroundColor: "#0d1427",
+            background: "rgba(255, 255, 255s, 1)",
+          }}
+        >
+          <Modal.Title className="text-white">Enquiry Form</Modal.Title>
+        </Modal.Header>
+        <Modal.Body
+          style={{
+            backgroundColor: "#0d1427",
+            background: "rgba(255, 255, 255s, 0.1)",
+          }}
+        >
+          <form>
+            <div className="mb-3">
+              <label>Name</label>
+              <input
+                type="text"
+                placeholder="Enter Name"
+                style={{
+                  backgroundColor: "#0d1527",
+                  background: "rgba(255, 255, 255s, 0.9)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                  backdropFilter: "blur(5px)",
+                  color: "white",
+                  "::placeholder": {
+                    color: "white",
+                  },
+                }}
+                required="true"
+                className="form-control placeholder-white"
+                name="UserName"
+                value={formDataEnquery.name}
+                onChange={(e) =>
+                  setformDataEnquery({
+                    ...formDataEnquery,
+                    name: e.target.value,
+                  })
+                }
+              />
+            </div>
+            <div className="mb-3">
+              <label>Phone</label>
+              <input
+                style={{
+                  backgroundColor: "#0d1527",
+                  background: "rgba(255, 255, 255s, 0.9)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                  backdropFilter: "blur(5px)",
+                  color: "white",
+                }}
+                placeholder="Contact Number"
+                className="form-control"
+                name="phone"
+                value={formDataEnquery.phone}
+                onChange={(e) =>
+                  setformDataEnquery({
+                    ...formDataEnquery,
+                    phone: e.target.value,
+                  })
+                }
+              />
+            </div>
+
+            <div className="mb-3">
+              <label>Message</label>
+              <textarea
+                required
+                style={{
+                  backgroundColor: "#0d1527",
+                  background: "rgba(255, 255, 255s, 0.9)",
+                  boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+                  backdropFilter: "blur(5px)",
+                  color: "white",
+                }}
+                value={formDataEnquery.message}
+                name="message"
+                className="form-control"
+                rows="4"
+                onChange={(e) =>
+                  setformDataEnquery({
+                    ...formDataEnquery,
+                    message: e.target.value,
+                  })
+                }
+                placeholder="Enter Message"
+              ></textarea>
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer
+          style={{
+            backgroundColor: "#0d1527",
+            background: "rgba(255, 255, 255s, 0.9)",
+            boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
+            backdropFilter: "blur(5px)",
+          }}
+        >
+          <Button variant="danger" onClick={handleCloseModal}>
+            Close
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() => {
+              handleEnquery(hostel._id, hostel.seller);
+            }}
+          >
+            Submit Enquiry
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

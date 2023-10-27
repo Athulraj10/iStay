@@ -798,3 +798,46 @@
     color:'white';
     background-color: #ffffff;
 }
+
+/* Add these CSS rules to your project's styles */
+.booking-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.payment-options {
+  display: flex;
+  flex-direction: column;
+  /* margin-bottom: 20px; */
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.payment-option input {
+  margin-right: 10px;
+}
+
+.book-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.book-button:hover {
+  background-color: #0056b3;
+}
+/* Add this CSS rule to your project's styles to increase the size of the radio buttons */
+.payment-option input[type="radio"] {
+  width: 20px; /* Set the desired width */
+  height: 20px; /* Set the desired height */
+  margin-right: 10px;
+}

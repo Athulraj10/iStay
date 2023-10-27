@@ -10,7 +10,7 @@ import {
     
     singlePageView,
     findAccommodation,high,low,search,
-    bookHostel,bookingConfirmation,myBookings,makeEnquery,listEnqueryReplyUser,cancelBooking,addReview
+    bookHostel,WalletConfirmation,bookingConfirmation,myBookings,makeEnquery,listEnqueryReplyUser,cancelBooking,addReview
 }
     from "../../controllers/UserControllers/userControllers.js";
 import { protect } from "../../middleware/UserMiddleware/authMiddleware.js";
@@ -47,6 +47,7 @@ router.get('/findAccommodation/low',low)
 router.get('/findAccommodation/search',search)
 router.post('/bookingHostel',protect,bookHostel)
 router.get('/bookingConfirmation/',protect,bookingConfirmation)
+router.patch('/WalletConfirmation/',protect,WalletConfirmation)
 router.post('/addReview',protect,upload.array('files',3),addReview)
 
 router.post('/enquery',protect,makeEnquery)

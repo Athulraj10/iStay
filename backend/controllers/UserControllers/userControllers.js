@@ -436,8 +436,14 @@ const search = asyncHandler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 const singlePageView = asyncHandler(async (req, res) => {
   try {
+    let userWalletAmount=0;
     const hostel = await Hostel.find({ _id: req.body.id });
     const review = await HostelReview.find({ hostel: req.body.id });
+    const wallet = await Wallet.findOne({user_id:req.body.user_id})
+    
+    if(wallet){
+      userWalletAmount=wallet.balance
+    }
     if (!hostel) {
       return res
         .status(404)
@@ -446,7 +452,8 @@ const singlePageView = asyncHandler(async (req, res) => {
     if (hostel) {
       const responseData = {
         data: hostel,
-        review: review || null, // Send review data if available, or null if not
+        review: review || null,
+        userWallet : userWalletAmount
       };
       res.status(200).json(responseData);
     }
@@ -525,10 +532,52 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
+// ----------------------------Wallet Booking -------------
+const WalletConfirmation = asyncHandler(async (req, res) => {
+  try {
+    const {hostelId,userId,hostelTotalPrice}=req.body
+    await Wallet.findOneAndUpdate(
+      {user_id:req.body.userId},{$inc:{balance:-Number(hostelTotalPrice)}},{new:true}
+    )
+    const hostelDatas = await singleHostelFinding(hostelId);
+    let price = parseFloat(hostelDatas.price);
+    let extraPrice = parseFloat(hostelDatas.extraPrice);
+    let sellerId = hostelDatas.seller;
+    let totalAmount = price + extraPrice;
+    hostelDatas.bedAvailableNow--;
+    await hostelDatas.save();
+
+    if (userId && hostelId) {
+      const conformBooking = new Booking({
+        user: userId,
+        status: "confirmed",
+        hostel: hostelId,
+        seller: sellerId,
+        date: new Date(),
+        totalAmount: totalAmount,
+        paymentMethod: "Wallet",
+        paymentVia: "Wallet",
+      });
+      const booked = await conformBooking.save();
+      if (booked) {
+        res.status(200).json({
+          bookingCompleted: true,
+          hostelId:hostelId,
+          userId:userId
+        });
+      } else {
+        res.status(404).json({ bookingCompleted: false ,});
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
 
 // ----------------------------user mY booking-------------
 const makeEnquery = asyncHandler(async (req, res) => {
   try {
+    console.log(req.user._id)
     const { formData, hostelId, sellerId } = req.body;
     if (hostelId && formData) {
       const newEnquiry = new Enquiry({
@@ -767,6 +816,7 @@ export {
   singlePageView,
   bookHostel,
   bookingConfirmation,
+  WalletConfirmation,
   myBookings,
   makeEnquery,
   listEnqueryReplyUser,
