@@ -34,11 +34,13 @@ const bookingModel = mongoose.Schema({
   },
   totalAmount: {
     type: Number,
+    default:0,
     required: true
   },
   cancelled: {
     type: Boolean,
-    required: false
+    required: false,
+    default:false
   },
   expirationDate: {
     type: Date, // Field to track the expiration date

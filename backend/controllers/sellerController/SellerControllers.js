@@ -318,12 +318,15 @@ const dashboardValues = asyncHandler(async (req, res) => {
   try {
     const sellerId = req.query._id;
     const bookingCount = await Booking.countDocuments({ seller: sellerId });
-    console.log(sellerId)
     const enquery = await Enquiry.countDocuments({ seller: sellerId, isVerified: false });
     const totalMessages = await RoomChat.countDocuments({ seller: sellerId });
+    
     const revenue = await Booking.aggregate([
       {
-        $match: { seller: new mongoose.Types.ObjectId(sellerId)},
+        $match: {
+          seller: new mongoose.Types.ObjectId(sellerId),
+          cancelled: false,
+        },
       },
       {
         $group: {
@@ -332,6 +335,7 @@ const dashboardValues = asyncHandler(async (req, res) => {
         },
       },
     ]);
+    
     console.log(revenue)
     const totalSale = await Booking.aggregate([
       {
@@ -373,9 +377,9 @@ const dashboardValues = asyncHandler(async (req, res) => {
       revenue: revenue[0]?.totalAmount ? revenue[0].totalAmount : 0,
       dailyRevenue: dailyRevenue ? dailyRevenue : 0,
       monthlyRevenue: monthlyRevenue ? monthlyRevenue : 0,
-      totalSale:totalSale[0].totalAmount,
-      enquery:enquery,
-      messages:totalMessages
+      totalSale:totalSale[0]?.totalAmount || 0,
+      enquery:enquery ? enquery :0,
+      messages:totalMessages ? totalMessages :0
     });
   } catch (error) {
     console.error(error);
