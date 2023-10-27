@@ -12,7 +12,6 @@ const StarRating = () => {
 
   const handleStarHover = (starValue) => {};
 
-  
   const handleStarLeave = () => {};
 
 
