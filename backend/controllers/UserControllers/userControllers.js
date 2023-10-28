@@ -857,8 +857,8 @@ const transporter = nodemailer.createTransport({
 
 try {
   cron.schedule('* * * * *', () => {
-    console.log('CRON Cheaking')
-    sendReminderEmails()
+    console.log('CRON Cheaking');
+    sendReminderEmails();
     console.log('Scheduled task: Reminder emails sent.');
   });
 } catch (error) {
