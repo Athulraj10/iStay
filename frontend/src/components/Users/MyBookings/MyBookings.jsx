@@ -90,7 +90,6 @@ const MyBookings = () => {
     };
     fetchData();
   }, [hostelDataLoaded]);
-
   return (
     <Container style={{ color: "white", minHeight: "100vh", height: "auto" }}>
       {hostelData.length > 0 ? ( // Check if hostelData has data
@@ -109,7 +108,6 @@ const MyBookings = () => {
                 style={{ height: "300px", width: "500px" }}
               />
             </div>
-
             {/* Right Side: Hostel Details */}
             <div style={{ flex: 4, marginLeft: "20px" }}>
               <Card
@@ -192,6 +190,7 @@ const MyBookings = () => {
                       <FaEnvelope />
                       <span style={{ marginLeft: "5px" }}>
                         {booking.sellerDetails.email}
+                        {booking.hostelDetails.status}
                       </span>
                     </h6>
                     <h6
@@ -224,15 +223,15 @@ const MyBookings = () => {
                         {booking.hostelDetails.updatedAt.split("T")[0]}
                       </span>
                     </h6>
-                    <Col style={{color:'white'}}>
+                    <Col style={{ color: "white" }}>
                       <h5 style={{ color: "gray" }}>Rate the Items</h5>
                       <StarRating bookingId={booking._id} />
                     </Col>
                   </Col>
                 </Row>
-
                 <Row className="mt-4">
-                  {booking.cancelled === true ? (
+                  {booking.cancelled === true ||
+                  booking.status === "expired" ? (
                     <Button
                       style={{
                         width: "200px",
@@ -241,7 +240,7 @@ const MyBookings = () => {
                       }}
                       variant="danger"
                     >
-                      Cancelled
+                      {booking.cancelled === true ? 'cancelled' : booking.status == "expired" ? 'expired' : "active"}
                     </Button>
                   ) : (
                     <Button
@@ -256,7 +255,7 @@ const MyBookings = () => {
                       Cancel Now
                     </Button>
                   )}
-                  {booking.cancelled == true ? (
+                  {booking.cancelled == true || booking.status == "expired" ? (
                     <Button
                       style={{
                         width: "200px",
@@ -269,7 +268,9 @@ const MyBookings = () => {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => handleMessage(booking.sellerDetails._id,booking._id)}
+                      onClick={() =>
+                        handleMessage(booking.sellerDetails._id, booking._id)
+                      }
                       style={{
                         width: "200px",
                         marginLeft: "30px",

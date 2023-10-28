@@ -102,6 +102,7 @@ const aggregateBookingWithHostel = async (userId) => {
           user: { $first: "$user" },
           cancelled: { $first: "$cancelled" },
           hostel: { $first: "$hostel" },
+          status: { $first: "$status" },
           paymentMethod: { $first: "$paymentMethod" },
           paymentVia: { $first: "$paymentVia" },
           totalAmount: { $first: "$totalAmount" },
@@ -856,7 +857,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 try {
   cron.schedule("* * * * *", () => {
     console.log("CRON Cheaking");
-    sendReminderEmails();
+    // sendReminderEmails();
     updateExpiredBookings();
     console.log("Scheduled task: Reminder emails sent.");
   });
