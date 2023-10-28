@@ -32,7 +32,8 @@ const bookingModel = mongoose.Schema({
   },
   status: {
     type: String,
-    required: false
+    required: false,
+    default: 'active'
   },
   seller: {
     type: mongoose.Schema.Types.ObjectId,
@@ -63,8 +64,8 @@ const bookingModel = mongoose.Schema({
     default:false
   },
   expirationDate: {
-    type: Date, // Field to track the expiration date
-    required: false // You can make this field required or adjust validation as needed
+    type: Date,
+    required: false 
   }
 }, {
   timestamps: true

@@ -12,7 +12,7 @@ import HostelReview from "../../models/SellerModel/Review.js";
 import genereateToken from "../../utils/generateToken.js";
 // ----------Models Ended
 import nodemailer from "nodemailer";
-import  cron from 'node-cron'
+import cron from "node-cron";
 import { Stripe } from "stripe";
 import {
   sessionSecret,
@@ -20,6 +20,7 @@ import {
   NewAppPassword,
 } from "../../config/config.js";
 import sendReminderEmails from "./sendRemainder.js";
+import updateExpiredBookings from "./CRONsetExpire.js";
 
 //@desc forgetOTP
 //access Public
@@ -509,6 +510,8 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     await hostelDatas.save();
 
     if (userId && hostelId) {
+      const thirtyDaysFromNow = new Date();
+      thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
       const conformBooking = new Booking({
         user: userId,
         userEmail: req.user.email,
@@ -520,6 +523,7 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
         totalAmount: totalAmount,
         paymentMethod: "Card",
         paymentVia: "Stripe",
+        expirationDate: thirtyDaysFromNow
       });
       const booked = await conformBooking.save();
       if (booked) {
@@ -637,17 +641,20 @@ const myBookings = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
-const getRating = asyncHandler(async(req,res)=>{
+const getRating = asyncHandler(async (req, res) => {
   try {
-    const userBooking = await Booking.findById(
-      { _id: req.query.bookingId.bookingId } );
+    const userBooking = await Booking.findById({
+      _id: req.query.bookingId.bookingId,
+    });
     if (userBooking) {
-      return res.status(200).json({ updated:true,ratingValue: userBooking.rating });
-    }  
+      return res
+        .status(200)
+        .json({ updated: true, ratingValue: userBooking.rating });
+    }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-})
+});
 const userRating = asyncHandler(async (req, res) => {
   try {
     const userBooking = await Booking.findOneAndUpdate(
@@ -656,15 +663,17 @@ const userRating = asyncHandler(async (req, res) => {
       { new: true }
     );
     const hostel = await Hostel.findOneAndUpdate(
-      {_id:userBooking.hostel},
+      { _id: userBooking.hostel },
       { $inc: { rating: Number(req.body.rating) } },
-      {new:true}
-    )
+      { new: true }
+    );
     if (userBooking) {
-      return res.status(200).json({ updated:true,ratingValue: userBooking.rating });
+      return res
+        .status(200)
+        .json({ updated: true, ratingValue: userBooking.rating });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(400).json(error);
   }
 });
@@ -802,7 +811,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       user.password = req.body.password;
     }
     const updatedUser = await user.save();
-    console.log(updatedUser)
+    console.log(updatedUser);
     res.status(200).json({
       updated: true,
       _id: updatedUser._id,
@@ -845,13 +854,14 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // }
 
 try {
-  cron.schedule('* * * * *', () => {
-    console.log('CRON Cheaking');
+  cron.schedule("* * * * *", () => {
+    console.log("CRON Cheaking");
     sendReminderEmails();
-    console.log('Scheduled task: Reminder emails sent.');
+    updateExpiredBookings();
+    console.log("Scheduled task: Reminder emails sent.");
   });
 } catch (error) {
-  console.log(error)
+  console.log(error);
 }
 
 // --------------------------Logout clearing JWT---------------------------
