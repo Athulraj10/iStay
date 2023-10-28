@@ -8,6 +8,7 @@ async function updateExpiredBookings() {
         {
           expirationDate: { $lte: thirtyDaysAgo },
         //   status: 'active' || "confirmed",
+        
         },
         { $set: { status: 'expired' } }
       );
