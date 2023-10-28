@@ -843,17 +843,6 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 //     console.error('Error sending reminder emails:', error);
 //   }
 // }
-const transporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  secure: false,
-  requireTLS: true,
-  auth: {
-    user: emailUser, // Use environment variables or config for email credentials
-    pass: NewAppPassword, // Use environment variables or config for email credentials
-  },
-});
-// Function to send reminder emails
 
 try {
   cron.schedule('* * * * *', () => {

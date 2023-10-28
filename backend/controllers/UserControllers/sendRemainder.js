@@ -1,4 +1,16 @@
+import { NewAppPassword, emailUser } from "../../config/config.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
+import nodemailer from "nodemailer";
+const transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false,
+    requireTLS: true,
+    auth: {
+      user: emailUser,
+      pass: NewAppPassword,
+          },
+  });
 
 async function sendReminderEmails() {
     try {
@@ -22,10 +34,10 @@ async function sendReminderEmails() {
           from: process.env.EMAIL_USER,
           to: booking.userEmail,
           subject: 'Reminder: Your Booking',
-          html: `<p>Hi ${booking.userName}, <br> This is a reminder for your booking made 30 days ago.</p>`,
+          html: `<p>Hi ${booking.userName}, <br> This is a reminder from iStay for your booking made 30 days ago.</p>`,
         };
   
-        const sentMessage = await transporter.sendMail(mailOptions);
+        await transporter.sendMail(mailOptions);
         booking.notified = true;
         await booking.save();
         console.log(`Reminder email sent to ${booking.userEmail}`);
