@@ -4,7 +4,7 @@ import "./style.css";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 import { Col, Container, Button, Form, Row, FormGroup } from "react-bootstrap";
-import { useToast } from "@chakra-ui/react";
+import { Avatar, useToast } from "@chakra-ui/react";
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -35,7 +35,6 @@ export default function UserProfile() {
   };
 
   const handleImage = async (pic) => {
-    console.log(pic)
     setImageLoading(true);
     if (pic === undefined) {
       toasty({
@@ -50,31 +49,33 @@ export default function UserProfile() {
     if (pic.type === "image/jpeg" || pic.type === "image/png") {
       const userImage = new FormData();
       userImage.append("file", pic);
-      userImage.append("upload_preset","chat-app");
+      userImage.append("upload_preset", "chat-app");
       // userImage.append("cloud_name","istayprocess");
       // console.log(userImage)
-       fetch("https://api.cloudinary.com/v1_1/istayprocess/image/upload",{
+      fetch("https://api.cloudinary.com/v1_1/istayprocess/image/upload", {
         method: "POST",
         body: userImage,
       })
         .then((res) => res.json())
-        .then((value)=>{
+        .then((value) => {
           setImage(value.url.toString());
-          setImageLoading(false)
-        }).catch((error)=>{
+          setImageLoading(false);
+          toast.success('Image uploaded')
+        })
+        .catch((error) => {
           console.error(error);
           setImageLoading(false);
-        })
-    }else{
+        });
+    } else {
       toasty({
-        title:'Please Select an Image',
-        status:'warning',
-        duration:3000,
-        isClosable:true,
-        position:'bottom'
-      })
+        title: "Please Select an Image",
+        status: "warning",
+        duration: 3000,
+        isClosable: true,
+        position: "bottom",
+      });
       setImageLoading(false);
-      return
+      return;
     }
   };
 
@@ -84,16 +85,17 @@ export default function UserProfile() {
       name,
       email,
       mobile,
-      image
+      image:image,
     };
     const response = await USERSAPI.put("users/profile", dataToUpdate, {
       params: { userId: userData[0]?._id },
     });
-    console.log(response.data)
+    console.log(response.data);
     if (response.data.updated) {
       setName(response.data.name);
       setEmail(response.data.email);
       setMobile(response.data.mobile);
+      setImage(response.data.image);
       toast.success(`${name} Profile Updated`);
     }
   };
@@ -144,7 +146,13 @@ export default function UserProfile() {
         <Row>
           <Col sm={12} className="content">
             <div>
-              <h3 className="head text-white">My Profile</h3>
+              <h3 className="head text-white">
+                My Profile
+                <span style={{ marginLeft: "20px", alignItems: "center" }}>
+                  <Avatar src={userData[0]?.pic} alt="User Avatar" />
+                </span>
+              </h3>
+
               <div className="formDiv">
                 {userData ? (
                   <Form>
@@ -198,8 +206,8 @@ export default function UserProfile() {
                       </Form.Label>
                       <input
                         type="file"
-                        // readOnly={!isEditable}
-                        accept='image/*'
+                        readOnly={!isEditable}
+                        accept="image/*"
                         // value={mobile}
                         onChange={(e) => handleImage(e.target.files[0])}
                       />
