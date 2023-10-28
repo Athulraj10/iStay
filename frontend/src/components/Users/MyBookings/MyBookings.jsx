@@ -45,10 +45,10 @@ const MyBookings = () => {
     }
   };
 
-  const handleMessage = (hostelId) => {
+  const handleMessage = (seller_id, booking_id) => {
     try {
-      if (hostelId) {
-        navigate(`/chats/${hostelId}`);
+      if (seller_id && booking_id) {
+        navigate(`/chats?seller_id=${seller_id}&booking_id=${booking_id}`);
       }
     } catch (error) {
       toast.error(error);
@@ -94,7 +94,7 @@ const MyBookings = () => {
   return (
     <Container style={{ color: "white", minHeight: "100vh", height: "auto" }}>
       {hostelData.length > 0 ? ( // Check if hostelData has data
-        hostelData.map((hostel, index) => (
+        hostelData.map((booking, index) => (
           <Button
             key={index}
             className="m-3 p-5 btn-info"
@@ -103,7 +103,7 @@ const MyBookings = () => {
             <div style={{ flex: 6 }}>
               {/* Update the image source */}
               <img
-                src={`http://localhost:5000/images/${hostel.hostelDetails.images[0]}`}
+                src={`http://localhost:5000/images/${booking.hostelDetails.images[0]}`}
                 alt={`Image`}
                 className="event-image rounded-3"
                 style={{ height: "300px", width: "500px" }}
@@ -126,19 +126,19 @@ const MyBookings = () => {
 
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
                       <h6 style={{ color: "gray" }}>HostelName & Address</h6>
-                      {hostel.hostelDetails.fullDetails}
+                      {booking.hostelDetails.fullDetails}
                       <h6 style={{ color: "gray" }}>
-                        {hostel.hostelDetails.mainLocation}
+                        {booking.hostelDetails.mainLocation}
                       </h6>
                     </h6>
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      Category: {hostel.hostelDetails.category}
+                      Category: {booking.hostelDetails.category}
                     </h6>
                     <h6 style={{ margin: "20px", color: "#408B88" }}>
-                      Total Price ₹{hostel.totalAmount}
+                      Total Price ₹{booking.totalAmount}
                     </h6>
                     {/* <h6 style={{ margin: "20px", color: "gray" }}>
-                      Bed Available: {hostel.hostelDetails.bedAvailableNow}
+                      Bed Available: {booking.hostelDetails.bedAvailableNow}
                     </h6> */}
                     <h6
                       style={{
@@ -147,7 +147,7 @@ const MyBookings = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      WIFI: {hostel.hostelDetails.Wifi}
+                      WIFI: {booking.hostelDetails.Wifi}
                     </h6>
                     <h6
                       style={{
@@ -156,10 +156,10 @@ const MyBookings = () => {
                         textTransform: "capitalize",
                       }}
                     >
-                      Restrictions: {hostel.hostelDetails.restrictions}
+                      Restrictions: {booking.hostelDetails.restrictions}
                     </h6>
                     {/* <h6 style={{ margin: "20px", color: "gray",textTransform:'capitalize' }}>
-                      Food: {hostel.hostelDetails.food}
+                      Food: {booking.hostelDetails.food}
                     </h6> */}
                   </Col>
 
@@ -176,7 +176,7 @@ const MyBookings = () => {
                     >
                       <FaUserCircle />
                       <span style={{ marginLeft: "5px" }}>
-                        {hostel.sellerDetails.name}
+                        {booking.sellerDetails.name}
                       </span>
                     </h6>
                     <h6
@@ -191,7 +191,7 @@ const MyBookings = () => {
                     >
                       <FaEnvelope />
                       <span style={{ marginLeft: "5px" }}>
-                        {hostel.sellerDetails.email}
+                        {booking.sellerDetails.email}
                       </span>
                     </h6>
                     <h6
@@ -206,7 +206,7 @@ const MyBookings = () => {
                     >
                       <FaPhone />
                       <span style={{ marginLeft: "5px" }}>
-                        {hostel.sellerDetails.mobile}
+                        {booking.sellerDetails.mobile}
                       </span>
                     </h6>
                     <h6
@@ -221,18 +221,18 @@ const MyBookings = () => {
                     >
                       <FaCalendar />
                       <span style={{ marginLeft: "5px" }}>
-                        {hostel.hostelDetails.updatedAt.split("T")[0]}
+                        {booking.hostelDetails.updatedAt.split("T")[0]}
                       </span>
                     </h6>
                     <Col style={{color:'white'}}>
                       <h5 style={{ color: "gray" }}>Rate the Items</h5>
-                      <StarRating bookingId={hostel._id} />
+                      <StarRating bookingId={booking._id} />
                     </Col>
                   </Col>
                 </Row>
 
                 <Row className="mt-4">
-                  {hostel.cancelled === true ? (
+                  {booking.cancelled === true ? (
                     <Button
                       style={{
                         width: "200px",
@@ -245,7 +245,7 @@ const MyBookings = () => {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => handleCancel(hostel._id)}
+                      onClick={() => handleCancel(booking._id)}
                       style={{
                         width: "230px",
                         marginLeft: "30px",
@@ -256,7 +256,7 @@ const MyBookings = () => {
                       Cancel Now
                     </Button>
                   )}
-                  {hostel.cancelled == true ? (
+                  {booking.cancelled == true ? (
                     <Button
                       style={{
                         width: "200px",
@@ -269,7 +269,7 @@ const MyBookings = () => {
                     </Button>
                   ) : (
                     <Button
-                      onClick={() => handleMessage(hostel.sellerDetails._id)}
+                      onClick={() => handleMessage(booking.sellerDetails._id,booking._id)}
                       style={{
                         width: "200px",
                         marginLeft: "30px",

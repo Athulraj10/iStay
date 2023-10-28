@@ -77,7 +77,7 @@ const Routeing = () => {
       <Route path="/Enquires" element={<Enquery />} />
 
 
-      <Route path="/chats/:hostelId" element={<UserChats />} />
+      <Route path="/chats" element={<UserChats />} />
 
 
       <Route path="/seller/message" element={<SellerChat />} />
