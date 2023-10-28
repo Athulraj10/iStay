@@ -4,7 +4,6 @@ async function updateExpiredBookings() {
     try {
       const thirtyDaysAgo = new Date();
       thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 1);
-  
       const result = await Booking.updateMany(
         {
           expirationDate: { $lte: thirtyDaysAgo },
