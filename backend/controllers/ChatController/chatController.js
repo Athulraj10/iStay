@@ -282,7 +282,7 @@ const chatController = {
         .json({
           roomDetails: roomDetails,
           aggregateBookingDetails: aggregateBookingDetails,
-          firstMessage: firstMessage ? firstMessage : "No message",
+          firstMessage: firstMessage,
         });
     } catch (error) {
       console.log(error);

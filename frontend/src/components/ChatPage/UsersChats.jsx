@@ -149,7 +149,7 @@ const UserChats = () => {
                   style={{ background: "#141d39", outline: "1px solid gray" }}
                 >
                   <h5 className="font-bold text-white">{chat.seller.name}</h5>
-                  <h5 style={{color:'gray'}}>{firstMessage.content ? `New Message<span> {firstMessage.content}</span>` :  'No Message'}</h5>
+                  <h5 style={{color:'gray'}}>{firstMessage.content ?` New Message: ${firstMessage.content}` :  'No Message'}</h5>
                   <h6
                     className="h-fit inline-flex items-center rounded-md bg-blue-50 px-2 py-2 text-xs font-bold text-blue-600 ring-1 ring-inset ring-blue-600/10"
                     style={{
