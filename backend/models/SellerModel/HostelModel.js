@@ -19,6 +19,11 @@ const hostelModel = mongoose.Schema({
         default:false,
         required:false
     },
+    rating: {
+        type: Number,
+        default:0,
+        required: false
+      },
     category:{
         type:String,
         required:true

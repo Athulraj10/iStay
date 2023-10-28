@@ -201,12 +201,8 @@
     transition: color 0.2s;
   } */
 
+/* Apply a class to the radio buttons you want to hide */
+.hidden-radio {
+  display: none;
+}
 
-  input[type=radio]{
-    display: none;
-  }
-  .star{
-    cursor: pointer;
-  }
-
-  

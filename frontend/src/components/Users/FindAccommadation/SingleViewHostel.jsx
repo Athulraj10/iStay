@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Spinner } from "@chakra-ui/react";
-import { useLocation,useNavigate} from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import {
   Container,
@@ -15,7 +15,26 @@ import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import { Modal } from "react-bootstrap";
 import "./style.css";
+import StarRating from "../MyBookings/StarRating";
+import { FaStar } from "react-icons/fa";
 const SingleViewHostel = () => {
+  const [rating, setRating] = useState(null);
+  //   const [hover, setHover] = useState(null);
+
+  const handleStarClick = (starValue) => {
+    const fetchRating = async (rating) => {
+      const response = await USERSAPI.put("/users/rating", { rating });
+      if (response.data.updated) {
+        setRating(response.data.ratingValue);
+        toast.success(`Rating 5 out of ${response.data.ratingValue}`);
+        return;
+      } else {
+        return toast.error(response.error.data.error);
+      }
+    };
+    fetchRating(starValue);
+  };
+
   const userInfoLocalstorage = JSON.parse(localStorage.getItem("userInfo"));
   const location = useLocation();
   const navigate = useNavigate();
@@ -85,22 +104,21 @@ const SingleViewHostel = () => {
           toast.error(result.error);
         }
       } else if (selectedPaymentMethod == "wallet") {
-        let hostelTotalPrice = hostel.price+hostel.extraPrice
+        let hostelTotalPrice = hostel.price + hostel.extraPrice;
         if (walletBalance < hostelTotalPrice) {
-        return toast.error('Insufficient Wallet Amount')
-        } 
-        else if(walletBalance>=hostelTotalPrice)
-         {
-
-        localStorage.setItem("bookingStarted", userInfo._id);
-              const userId = userInfo._id
-              const hostelId= hostel._id
-              return navigate(`/bookingConfirmation?userId=${userId}&hostel=${hostelId}`);
-            // }
+          return toast.error("Insufficient Wallet Amount");
+        } else if (walletBalance >= hostelTotalPrice) {
+          localStorage.setItem("bookingStarted", userInfo._id);
+          const userId = userInfo._id;
+          const hostelId = hostel._id;
+          return navigate(
+            `/bookingConfirmation?userId=${userId}&hostel=${hostelId}`
+          );
+          // }
         }
       }
     } catch (error) {
-      console.log(error)
+      console.log(error);
       toast.error("Please Login for Booking");
     }
   };
@@ -307,7 +325,7 @@ const SingleViewHostel = () => {
                         textAlign: "center",
                       }}
                     >
-                      <p
+                      {/* <p
                         style={{
                           padding: "5px",
                           fontSize: "1.2rem",
@@ -316,8 +334,32 @@ const SingleViewHostel = () => {
                           color: "#0084FF",
                         }}
                       >
-                        Very Good 4.1
-                      </p>
+                        Rating
+                      </p> */}
+                      <div className="star-rating">
+                        {[...Array(5)].map((_, index) => {
+                          const currentRating = index + 1;
+                          return (
+                            <label key={currentRating}>
+                              <input
+                                type="radio"
+                                name="rating"
+                                value={currentRating}
+                                className="hidden-radio"
+                              />
+                              <FaStar
+                                className="star"
+                                color={
+                                  currentRating <= hostel.rating / 5
+                                    ? "gold"
+                                    : "white"
+                                }
+                                size={15}
+                              />
+                            </label>
+                          );
+                        })}
+                      </div>
                       <p
                         style={{
                           padding: "5px",
@@ -326,7 +368,7 @@ const SingleViewHostel = () => {
                           margin: "0",
                         }}
                       >
-                        (31 Ratings)
+                        See all Reviews {Math.round(hostel.rating / 5)}
                       </p>
                       <span
                         href="#"
@@ -345,19 +387,23 @@ const SingleViewHostel = () => {
                     </div>
                   </Col>
                 </Row>
-                <Row>
-                  <Button
-                    onClick={() => handleShowModal()}
-                    style={{
-                      minWidth: "200px",
-                      padding: "10px",
-                      color: "white",
-                    }}
-                    variant="info"
-                  >
-                    Have Any Enquiry....?
-                  </Button>
+                <Button
+                  onClick={() => handleShowModal()}
+                  style={{
+                    maxWidth: "420px",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    padding: "10px",
+                    textAlign: "center",
+                    color: "white",
+                  }}
+                  variant="info"
+                >
+                  Have Any Enquiry....?
+                </Button>
 
+                <Row>
                   <Col style={{ display: "flex" }}>
                     <Button
                       onClick={handlePayment}
@@ -370,7 +416,7 @@ const SingleViewHostel = () => {
                     >
                       Wallet Balance :
                       <span style={{ marginLeft: "10px" }}>
-                        {walletBalance?walletBalance:0}
+                        {walletBalance ? walletBalance : 0}
                       </span>
                     </Button>
 
@@ -446,7 +492,7 @@ const SingleViewHostel = () => {
       <Container>
         {/* Hostel Details */}
 
-        <Row style={{ marginTop: "50px" }}>
+        <Row style={{ marginTop: "200px" }}>
           <Col md={12}>
             <div
               className="btn-info"
@@ -759,7 +805,7 @@ const SingleViewHostel = () => {
         >
           <form>
             <div className="mb-3">
-              <span style={{color:'gray'}}>Readonly</span>
+              <span style={{ color: "gray" }}>Readonly</span>
               <input
                 type="text"
                 placeholder="Enter Name"
@@ -781,7 +827,7 @@ const SingleViewHostel = () => {
               />
             </div>
             <div className="mb-3">
-               <span style={{color:'gray'}}>Readonly</span>
+              <span style={{ color: "gray" }}>Readonly</span>
               <input
                 style={{
                   backgroundColor: "#0d1527",

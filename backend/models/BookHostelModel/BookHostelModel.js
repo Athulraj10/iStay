@@ -37,6 +37,11 @@ const bookingModel = mongoose.Schema({
     default:0,
     required: true
   },
+  rating: {
+    type: Number,
+    default:0,
+    required: false
+  },
   cancelled: {
     type: Boolean,
     required: false,

@@ -13,7 +13,6 @@ const MyBookings = () => {
   const [hostelDataLoaded, setHostelDataLoaded] = useState(false);
   const [rating, setRating] = useState(0);
 
-
   const handleStarClick = (starValue) => {
     setRating(starValue);
   };
@@ -225,16 +224,9 @@ const MyBookings = () => {
                         {hostel.hostelDetails.updatedAt.split("T")[0]}
                       </span>
                     </h6>
-                    <Col>
-                    <h5 style={{color:'gray'}}>Rate the Items</h5>
-                    <StarRating/>
-                      {/* <div class="star-rating" data-rating="0">
-                        <span class="star">&#9733;</span>
-                        <span class="star">&#9733;</span>
-                        <span class="star">&#9733;</span>
-                        <span class="star">&#9733;</span>
-                        <span class="star">&#9733;</span>
-                      </div> */}
+                    <Col style={{color:'white'}}>
+                      <h5 style={{ color: "gray" }}>Rate the Items</h5>
+                      <StarRating bookingId={hostel._id} />
                     </Col>
                   </Col>
                 </Row>

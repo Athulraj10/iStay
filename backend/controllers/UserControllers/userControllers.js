@@ -435,13 +435,13 @@ const search = asyncHandler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 const singlePageView = asyncHandler(async (req, res) => {
   try {
-    let userWalletAmount=0;
+    let userWalletAmount = 0;
     const hostel = await Hostel.find({ _id: req.body.id });
     const review = await HostelReview.find({ hostel: req.body.id });
-    const wallet = await Wallet.findOne({user_id:req.body.user_id})
-    
-    if(wallet){
-      userWalletAmount=wallet.balance
+    const wallet = await Wallet.findOne({ user_id: req.body.user_id });
+
+    if (wallet) {
+      userWalletAmount = wallet.balance;
     }
     if (!hostel) {
       return res
@@ -452,7 +452,7 @@ const singlePageView = asyncHandler(async (req, res) => {
       const responseData = {
         data: hostel,
         review: review || null,
-        userWallet : userWalletAmount
+        userWallet: userWalletAmount,
       };
       res.status(200).json(responseData);
     }
@@ -534,10 +534,12 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
 // ----------------------------Wallet Booking -------------
 const WalletConfirmation = asyncHandler(async (req, res) => {
   try {
-    const {hostelId,userId,hostelTotalPrice}=req.body
+    const { hostelId, userId, hostelTotalPrice } = req.body;
     await Wallet.findOneAndUpdate(
-      {user_id:req.body.userId},{$inc:{balance:-Number(hostelTotalPrice)}},{new:true}
-    )
+      { user_id: req.body.userId },
+      { $inc: { balance: -Number(hostelTotalPrice) } },
+      { new: true }
+    );
     const hostelDatas = await singleHostelFinding(hostelId);
     let price = parseFloat(hostelDatas.price);
     let extraPrice = parseFloat(hostelDatas.extraPrice);
@@ -561,11 +563,11 @@ const WalletConfirmation = asyncHandler(async (req, res) => {
       if (booked) {
         res.status(200).json({
           bookingCompleted: true,
-          hostelId:hostelId,
-          userId:userId
+          hostelId: hostelId,
+          userId: userId,
         });
       } else {
-        res.status(404).json({ bookingCompleted: false ,});
+        res.status(404).json({ bookingCompleted: false });
       }
     }
   } catch (error) {
@@ -576,7 +578,7 @@ const WalletConfirmation = asyncHandler(async (req, res) => {
 // ----------------------------user mY booking-------------
 const makeEnquery = asyncHandler(async (req, res) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const { formData, hostelId, sellerId } = req.body;
     if (hostelId && formData) {
       const newEnquiry = new Enquiry({
@@ -630,6 +632,37 @@ const myBookings = asyncHandler(async (req, res) => {
     console.error(error);
   }
 });
+const getRating = asyncHandler(async(req,res)=>{
+  try {
+    const userBooking = await Booking.findById(
+      { _id: req.query.bookingId.bookingId } );
+    if (userBooking) {
+      return res.status(200).json({ updated:true,ratingValue: userBooking.rating });
+    }  
+  } catch (error) {
+    console.log(error)
+  }
+})
+const userRating = asyncHandler(async (req, res) => {
+  try {
+    const userBooking = await Booking.findOneAndUpdate(
+      { _id: req.query.bookingId.bookingId },
+      { $set: { rating: Number(req.body.rating) } },
+      { new: true }
+    );
+    const hostel = await Hostel.findOneAndUpdate(
+      {_id:userBooking.hostel},
+      { $inc: { rating: Number(req.body.rating) } },
+      {new:true}
+    )
+    if (userBooking) {
+      return res.status(200).json({ updated:true,ratingValue: userBooking.rating });
+    }
+  } catch (error) {
+    console.log(error)
+    return res.status(400).json(error);
+  }
+});
 // ----------------------------user Cancell booking-------------
 const cancelBooking = asyncHandler(async (req, res) => {
   const { id } = req.params;
@@ -643,8 +676,8 @@ const cancelBooking = asyncHandler(async (req, res) => {
       { $inc: { bedAvailableNow: 1 } },
       { new: true }
     );
-  const i=await cancel_update.save();
-  if (cancel_update) {
+    const i = await cancel_update.save();
+    if (cancel_update) {
       const userWallet = await Wallet.findOne({ user_id: cancel_update.user });
       userWallet.balance = userWallet.balance + cancel_update.totalAmount;
       const newTransaction = {
@@ -812,6 +845,8 @@ export {
   bookingConfirmation,
   WalletConfirmation,
   myBookings,
+  getRating,
+  userRating,
   makeEnquery,
   listEnqueryReplyUser,
   cancelBooking,
