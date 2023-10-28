@@ -15,6 +15,21 @@ const bookingModel = mongoose.Schema({
     type: Date,
     required: true
   },
+  notified: {
+    type: Boolean,
+    required: false,
+    default:false
+  },
+  userEmail: {
+    type: String,
+    required: false,
+    default:""
+  },
+  userName: {
+    type: String,
+    required: false,
+    default:""
+  },
   status: {
     type: String,
     required: false

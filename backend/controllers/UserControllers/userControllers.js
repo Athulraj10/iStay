@@ -12,12 +12,15 @@ import HostelReview from "../../models/SellerModel/Review.js";
 import genereateToken from "../../utils/generateToken.js";
 // ----------Models Ended
 import nodemailer from "nodemailer";
+import  cron from 'node-cron'
 import { Stripe } from "stripe";
 import {
   sessionSecret,
   emailUser,
   NewAppPassword,
 } from "../../config/config.js";
+import sendReminderEmails from "./sendRemainder.js";
+
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
@@ -508,6 +511,8 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
     if (userId && hostelId) {
       const conformBooking = new Booking({
         user: userId,
+        userEmail: req.user.email,
+        userName: req.user.name,
         status: "confirmed",
         hostel: hostelId,
         seller: sellerId,
@@ -811,6 +816,54 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     throw new Error("User Not Found");
   }
 });
+
+// async function sendReminderEmails() {
+//   try {
+//     const thirtyDaysAgo = new Date();
+//     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 1);
+
+//     const bookings = await Booking.find({
+//       date: { $lte: thirtyDaysAgo },
+//       notified: false,
+//     });
+//     // Send reminder emails
+//     bookings.forEach(async (booking) => {
+//       const mailOptions = {
+//         from: 'your-email@gmail.com',
+//         to: booking.userEmail,
+//         subject: 'Reminder: Your Booking',
+//         text: 'This is a reminder for your booking made 30 days ago.',
+//       };
+
+//       await transporter.sendMail(mailOptions);
+//       booking.notified = true;
+//       await booking.save();
+//     });
+//   } catch (error) {
+//     console.error('Error sending reminder emails:', error);
+//   }
+// }
+const transporter = nodemailer.createTransport({
+  host: 'smtp.gmail.com',
+  port: 587,
+  secure: false,
+  requireTLS: true,
+  auth: {
+    user: emailUser, // Use environment variables or config for email credentials
+    pass: NewAppPassword, // Use environment variables or config for email credentials
+  },
+});
+// Function to send reminder emails
+
+try {
+  cron.schedule('* * * * *', () => {
+    console.log('CRON Cheaking')
+    sendReminderEmails()
+    console.log('Scheduled task: Reminder emails sent.');
+  });
+} catch (error) {
+  console.log(error)
+}
 
 // --------------------------Logout clearing JWT---------------------------
 //@desc logout USer
