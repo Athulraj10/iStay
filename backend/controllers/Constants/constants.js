@@ -1,5 +1,5 @@
 const constants = {
-    CANCELLED_MESSAGE: "Cancelled",
+    USER_ALREADY_EXIST:'User already exist',
     EXPIRED_MESSAGE: "Expired",
   };
   
