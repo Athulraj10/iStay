@@ -1,13 +1,17 @@
+// importing from modules
 import asyncHandler from "express-async-handler";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
+// importing models
 import Seller from "../../models/SellerModel/SellerModel.js";
 import OTP from "../../models/OTPModel.js";
-import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import Enquiry from "../../models/UserModels/enquery.js";
 import RoomChat from "../../models/chatRoom.js";
+// importing JWT token sellerside
+import generateTokenSeller from "../../utils/generateTokenSeller.js";
+import constants from "../Constants/constants.js";
 
 //@desc forgetOTP
 //access Public
@@ -121,12 +125,12 @@ const authSeller = asyncHandler(async (req, res) => {
   const seller = await Seller.findOne({ email });
   if (!seller) {
     return res.status(401).json({
-      message: "Invalid Email or Password",
+      message: constants.EMAIL_PASSWORD_INCORRECT,
     });
   }
   if (seller.isBlock) {
     return res.status(401).json({
-      message: "Seller Is blocked",
+      message: constants.SELLER_BLOCKED,
     });
   }
   if (seller && (await seller.matchPassword(password))) {
@@ -142,7 +146,7 @@ const authSeller = asyncHandler(async (req, res) => {
   }
   // If the password doesn't match
   return res.status(401).json({
-    message: "Invalid Email or Password",
+    message: constants.EMAIL_PASSWORD_INCORRECT,
   });
 });
 
@@ -215,7 +219,7 @@ const registerSeller = asyncHandler(async (req, res) => {
   const sellerExists = await Seller.findOne({ email });
 
   if (sellerExists) {
-    const error = new Error("Seller Already Exists");
+    const error = new Error(constants.SELLER_ALREADY_EXISTS);
     res.status(400);
     error.status = 400;
     throw error;
@@ -249,7 +253,7 @@ const sellerForget = asyncHandler(async (req, res) => {
   const seller = await Seller.findOne({ email });
   if (!seller) {
     return res.status(401).json({
-      message: "Invalid Email",
+      message: constants.INVALID_EMAIL,
     });
   }
   if (seller) {
@@ -270,13 +274,13 @@ const sellerVerifyOTP = asyncHandler(async (req, res) => {
   try {
     const seller = await OTP.findOne({ email });
     if (!seller) {
-      return res.json({ message: "Invalid Expired" });
+      return res.json({ message: constants.OTP_EXPIRED });
     }
     if (seller) {
       const enterOTP = parseInt(otp);
       const databaseOTP = parseInt(seller.otp);
       if (enterOTP !== databaseOTP) {
-        return res.status(401).json({ message: "Invalid OTP" });
+        return res.status(401).json({ message: constants.INVALID_OTP });
       }
       if (enterOTP === databaseOTP) {
         return res.status(200).json({ seller: seller.email });
@@ -296,16 +300,16 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
     if (!seller) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (seller) {
       seller.password = password;
       await seller.save();
-      res.status(200).json({ message: "Password reset successfully" });
+      res.status(200).json({ message: constants.PASSWORD_RESET_SUCCESSFULLY });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // -------------------Dashboard Values page---------------------------
@@ -378,7 +382,7 @@ const dashboardValues = asyncHandler(async (req, res) => {
     });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // -------------------Seller Notificaition Count Page---------------------------
@@ -441,7 +445,7 @@ const listEnqueryReply = asyncHandler(async (req, res) => {
       } 
     }
     else{
-      res.status(400).json({message:'Please fill the Field'})
+      res.status(400).json({message:constants.BODY_EMPTY})
     }
     //    const filter = {
     //      id,
@@ -495,13 +499,13 @@ const editHostelDetails = asyncHandler(async (req, res) => {
     if (!formDataObject) {
       return res
         .status(400)
-        .json({ message: "Bad request. Request body is empty" });
+        .json({ message: constants.BODY_EMPTY});
     }
 
     const hostel = await Hostel.findOne({ _id: formDataObject.id });
 
     if (!hostel) {
-      return res.status(404).json({ message: "Hostel not found." });
+      return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
     }
 
     const editedDetails = {
@@ -551,11 +555,11 @@ const editHostelDetails = asyncHandler(async (req, res) => {
         updatedHostel,
       });
     } else {
-      return res.status(500).json({ message: "Failed to update hostel." });
+      return res.status(500).json({ message: constants.FAILED_TO_UPDATE_HOSTEL });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error." });
+    res.status(500).json({ message:constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------Seller Add Hostel-------------
@@ -566,7 +570,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     if (!formDataObject) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
 
     if (formDataObject) {
@@ -612,12 +616,12 @@ const addHostelDetails = asyncHandler(async (req, res) => {
       if (!hosteldetails) {
         return res
           .status(404)
-          .json({ message: "Something Wrong Please Try Again" });
+          .json({ message: constants.INTERNAL_SERVER_ERROR });
       }
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Some Field Missing or Server Error" });
+    res.status(500).json({ message: constants.BODY_EMPTY});
   }
 });
 // --------------------------Logout clearing JWT---------------------------
@@ -634,7 +638,7 @@ const logoutSeller = asyncHandler(async (req, res) => {
     sameSite: "none", // Set to "none" for cross-site cookies
   });
 
-  res.status(200).json({ status: "User Logout" });
+  res.status(200).json({ status: constants.SELLER_LOGOUT });
 });
 
 export {

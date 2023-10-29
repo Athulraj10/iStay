@@ -1,7 +1,7 @@
 const constants = {
   // --------------User Side Constants Values
     USER_ALREADY_EXIST:'User already exists',
-    PLEASE_LOGIN: "Please login",
+    PLEASE_LOGIN: "PLEASE login",
     USER_BLOCKED: "User Blocked",
     API_FAILED:"User Creation Failed",
     INTERNAL_SERVER_ERROR:'Internal Server Error',
@@ -23,6 +23,7 @@ const constants = {
     EMAIL_PASSWORD_INCORRECT:'Invalid Email or Password',
     HOSTEL_NOT_FOUND:'Hostel not found',
     INVALID_SELLER_ID:'Invalid Seller ID',
+    ADMIN_NOT_FOUND:'Admin Not found',
     SELLER_NOT_FOUND:'Seller Not found',
 
     // -------------------Seller Constants Variable
@@ -31,6 +32,7 @@ const constants = {
     FILL_ALL_FIELD:'Please fill the Field',
     BODY_EMPTY:'Bad request. Request body is empty',
     FAILED_TO_UPDATE_HOSTEL:'Failed to update hostel',
+    SELLER_LOGOUT:'Seller logout Successfully',
 
 
 
