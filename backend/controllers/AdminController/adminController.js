@@ -18,6 +18,8 @@ import Seller from "../../models/SellerModel/SellerModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import constants from "../Constants/constants.js";
+import { aggregateRevenue } from "./aggregateRevenue.js";
+import { aggregateAllHostels } from "./aggregateHostel.js";
 
 // // -------------------Register New admin---------------------------
 // //@desc createing new  user
@@ -50,73 +52,6 @@ const registerSeller = asyncHandler(async (req, res) => {
   //   }
 });
 
-// **
-//  * Function Hostel Aggregating Function
-//  * This function is responsible for get the all hostel details with sellers
-// with the response to the approprite referance of seller
-
-//  * It allows To take all hostel datas
-//  *
-//  * @param {return} res - Express response object.
-//  * @returns {Object} - return all the hostel details with appropite values
-//  *
-//  * @throws {Error} - If any error occurs during the process, an internal server error message is returned.
-//  */
-const aggregateAllHostels = async () => {
-  try {
-    const aggregatedData = await Hostel.aggregate([
-      {
-        $lookup: {
-          from: "sellers", // The name of the Seller collection
-          localField: "seller",
-          foreignField: "_id",
-          as: "sellerDetails",
-        },
-      },
-      {
-        $unwind: "$sellerDetails", // Deconstruct the array created by $lookup
-      },
-      {
-        $project: {
-          _id: 1,
-          hostelName: 1,
-          category: 1,
-          images: 1,
-          mainLocation: 1,
-          description: 1,
-          fullDetails: 1,
-          contactNumber: 1,
-          // mapLink: 1,
-          // additionalAboutHostel: 1,
-          // nearByLocation: 1,
-          // restrictions: 1,
-          // descriptionAboutHostel: 1,
-          // guestProfile: 1,
-          price: 1,
-          isBlock: 1,
-          // extraPrice: 1,
-          // totalBedInRoom: 1,
-          // bedAvailableNow: 1,
-          // Wifi: 1,
-          // food: 1,
-          // parking: 1,
-          // drinkingWater: 1,
-          // Include other fields you need from the Hostel collection
-          // Include seller fields you need from the Seller collection
-          // For example:
-          "sellerDetails.name": 1,
-          "sellerDetails.email": 1,
-          "sellerDetails.location": 1,
-          "sellerDetails.mobile": 1,
-          // Include all other fields you need
-        },
-      },
-    ]);
-    return aggregatedData;
-  } catch (error) {
-    console.error("Error aggregating data:", error);
-  }
-};
 
 /**
  * Send Forget Password Email
@@ -412,33 +347,7 @@ const revenueFunction = asyncHandler(async () => {
   }
 });
 
-const aggregateRevenue = asyncHandler(async () => {
-  const sixMonthsAgo = new Date();
-  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 8);
-  const result = Booking.aggregate([
-    {
-      $match: {
-        date: { $gte: sixMonthsAgo },
-      },
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$date" },
-          month: { $month: "$date" },
-        },
-        totalRevenue: { $sum: "$totalAmount" },
-      },
-    },
-    {
-      $sort: {
-        "_id.year": 1,
-        "_id.month": 1,
-      },
-    },
-  ]);
-  return result;
-});
+
 /**
  * Dashboard Values Count Function
  *
@@ -463,17 +372,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const hostelBlockCount = await Hostel.countDocuments({ isBlock: true });
     const revenue = await revenueFunction();
     // const totalSales = Booking.aggregate(aggregationPipeline)
-    const totalSales = await aggregateRevenue()
-    console.log(totalSales)
-      // .then((result) => {
-      //   console.log(result);
-      //   // The result will contain monthly revenue for the last 6 months
-      // })
-      // .catch((error) => {
-      //   console.error(error);
-      //   // Handle any errors here
-      // });
-
+    const totalSales = await aggregateRevenue() 
     // Check if user count is available, and return the count statistics as a JSON response
     if (!userCount) {
       return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
@@ -594,9 +493,7 @@ const listUser = asyncHandler(async (req, res) => {
 
 /**
  * Block or Unblock a User
- *
  * This function allows an admin to block or unblock a user by toggling the "isBlock" status. It checks the validity of the provided user ID, retrieves the user's record, and updates their "isBlock" status accordingly. It then sends back a message indicating whether the user was blocked or unblocked.
- *
  * @param {Object} req - The request object containing user input, including the user ID.
  * @param {Object} res - The response object used to send back results.
  *
@@ -608,34 +505,26 @@ const blockUser = asyncHandler(async (req, res) => {
   try {
     // Extract the user ID from the request parameters
     const id = req.params.id;
-
     // Check if the provided ID is a valid MongoDB ObjectId
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: constants.INVALID_SELLER_ID });
     }
-
     // Find the user by ID and exclude the password field from the result
     const user = await User.findOne({ _id: id }).select("-password");
-
     // If no user is found, return a user not found response
     if (!user) {
       return res.status(404).json({ message: constants.SELLER_NOT_FOUND });
     }
-
     // Toggle the "isBlock" status of the user
     user.isBlock = !user.isBlock;
-
     // Save the updated user record
     await user.save();
-
     // Generate a message indicating the user's new status
     const message = `User ${user.name} is ${
       user.isBlock ? "blocked" : "UnBlock SuccessFully"
     }`;
-
     // Get the current status of the user's "isBlock" property
     const status = user.isBlock;
-
     // Return a success response with the message and status
     return res.status(200).json({ message, status });
   } catch (error) {
@@ -647,14 +536,10 @@ const blockUser = asyncHandler(async (req, res) => {
 
 /**
  * List All Sellers
- *
  * This function retrieves a list of all sellers and sends it as a JSON response. It queries the database to fetch all seller records and returns them to the client, or an internal server error message if an issue occurs.
- *
  * @param {Object} req - The request object containing optional query parameters.
  * @param {Object} res - The response object used to send back results.
- *
  * @returns {Object} - A JSON object containing the list of seller data.
- *
  * @throws {Error} - If any errors occur during the execution of this function, they are logged, and an internal server error message is returned.
  */
 const listSellers = asyncHandler(async (req, res) => {
@@ -680,50 +565,41 @@ const listSellers = asyncHandler(async (req, res) => {
   }
 });
 
+
+
+
 /**
  * Block or Unblock Seller
- *
  * This function allows you to block or unblock a seller's account by toggling the "isBlock" field in the seller's record. It takes the seller's ID as a parameter from the request and toggles the "isBlock" status accordingly. The function returns a response message and the updated status of the seller's account. If the seller is successfully blocked or unblocked, a success message is sent; otherwise, an internal server error message is returned.
- *
  * @param {Object} req - The request object containing the seller's ID.
  * @param {Object} res - The response object used to send back results.
- *
  * @returns {Object} - A JSON object containing the response message and the updated status of the seller's account.
- *
  * @throws {Error} - If any errors occur during the execution of this function, they are logged, and an internal server error message is returned.
  */
 const blockSeller = asyncHandler(async (req, res) => {
   try {
     // Extract the seller's ID from the request parameters
     const id = req.params.id;
-
     // Check if the provided seller ID is valid
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ message: constants.INVALID_SELLER_ID });
     }
-
     // Find the seller by their ID, excluding their password field
     const seller = await Seller.findOne({ _id: id }).select("-password");
-
     // If no seller is found with the provided ID, return a not found response
     if (!seller) {
       return res.status(404).json({ message: constants.INVALID_SELLER_ID });
     }
-
     // Toggle the "isBlock" status of the seller
     seller.isBlock = !seller.isBlock;
-
     // Save the updated seller's record
     await seller.save();
-
     // Compose a message indicating the seller's status change
     const message = `Seller ${seller.name} is ${
       seller.isBlock ? "blocked" : "Unblock Successfully"
     }`;
-
     // Extract and return the updated status of the seller
     const status = seller.isBlock;
-
     // Return a success response with the message and seller's status
     return res.status(200).json({ message, status });
   } catch (error) {
@@ -763,15 +639,23 @@ export {
   // updateUserProfile,
   adminVerifyOTP,
   adminResetPassword,
-  // -----------------------------User Management
+
+
+  // ------------------------------User Management
   listUser,
   blockUser,
+
+
   // ------------------------------Dashboard Management
   dashboardValuesCount,
-  // --------------------------------Hostel Management
+
+
+  // ------------------------------Hostel Management
   listHostelsAdmin,
   BlockHostelsAdmin,
-  // ---------------------------------Seller Management
+
+
+  // -------------------------------Seller Management
   listSellers,
   blockSeller,
   logoutAdmin,

@@ -12,6 +12,7 @@ import RoomChat from "../../models/chatRoom.js";
 // importing JWT token sellerside
 import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import constants from "../Constants/constants.js";
+import { sellerAggregateRevenue } from "./SellerRevenue.js";
 
 //@desc forgetOTP
 //access Public
@@ -323,7 +324,7 @@ const dashboardValues = asyncHandler(async (req, res) => {
     const revenue = await Booking.aggregate([
       {
         $match: {
-          seller: mongoose.Types.ObjectId(sellerId),
+          seller: new mongoose.Types.ObjectId(sellerId),
           cancelled: false,
         },
       },
@@ -334,7 +335,10 @@ const dashboardValues = asyncHandler(async (req, res) => {
         },
       },
     ]);
-    
+
+    const sellerRevenue = await sellerAggregateRevenue(sellerId)
+    console.log(sellerRevenue)
+
 
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount : 0,
