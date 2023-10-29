@@ -151,65 +151,7 @@ const authSeller = asyncHandler(async (req, res) => {
   });
 });
 
-// Aggregate daily sales for a specific seller
-const aggregateDailySales = async (sellerId, startDate, endDate) => {
-  // Ensure that sellerId is a valid ObjectId
-  const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
-  const result = await Booking.aggregate([
-    {
-      $match: {
-        seller: sellerObjectId,
-        date: {
-          $gte: startDate,
-          $lte: endDate,
-        },
-      },
-    },
-    {
-      $group: {
-        _id: {
-          year: { $year: "$date" },
-          month: { $month: "$date" },
-          day: { $dayOfMonth: "$date" },
-        },
-        totalAmount: { $sum: "$totalAmount" },
-      },
-    },
-  ]);
 
-  return result;
-};
-
-// Aggregate monthly sales for a specific seller
-const aggregateMonthlySales = async (sellerId, startDate, endDate) => {
-  try {
-    const sellerObjectId = new mongoose.Types.ObjectId(sellerId);
-    const result = await Booking.aggregate([
-      {
-        $match: {
-          seller: sellerObjectId,
-          date: {
-            $gte: startDate,
-            $lte: endDate,
-          },
-        },
-      },
-      {
-        $group: {
-          _id: {
-            year: { $year: "$date" },
-            month: { $month: "$date" },
-          },
-          totalAmount: { $sum: "$totalAmount" },
-        },
-      },
-    ]);
-    return result;
-  } catch (error) {
-    console.error("Error in aggregateMonthlySales:", error);
-    throw error;
-  }
-};
 
 // -------------------Register New seller---------------------------
 //@desc createing new  user
