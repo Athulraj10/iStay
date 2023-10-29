@@ -12,7 +12,7 @@ import RoomChat from "../../models/chatRoom.js";
 // importing JWT token sellerside
 import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import constants from "../Constants/constants.js";
-import { sellerAggregateRevenue } from "./SellerRevenue.js";
+import { sellerAggregateRevenue, sellerRevenueAmount } from "./SellerRevenue.js";
 
 //@desc forgetOTP
 //access Public
@@ -321,30 +321,15 @@ const dashboardValues = asyncHandler(async (req, res) => {
       isVerified: false,
     });
     const totalMessages = await RoomChat.countDocuments({ seller: sellerId });
-    const revenue = await Booking.aggregate([
-      {
-        $match: {
-          seller: new mongoose.Types.ObjectId(sellerId),
-          cancelled: false,
-        },
-      },
-      {
-        $group: {
-          _id: null,
-          totalAmount: { $sum: "$totalAmount" },
-        },
-      },
-    ]);
-
+    const revenue = await sellerRevenueAmount(sellerId)
     const sellerRevenue = await sellerAggregateRevenue(sellerId)
-    console.log(sellerRevenue)
-
 
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount : 0,
       revenue: revenue[0]?.totalAmount ? revenue[0].totalAmount : 0,
       enquery: enquery ? enquery : 0,
       messages: totalMessages ? totalMessages : 0,
+      chartValues:sellerRevenue
     });
   } catch (error) {
     console.error(error);
