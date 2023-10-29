@@ -12,7 +12,7 @@ import RoomChat from "../../models/chatRoom.js";
 // importing JWT token sellerside
 import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import constants from "../Constants/constants.js";
-import { sellerAggregateRevenue, sellerRevenueAmount } from "./SellerRevenue.js";
+import { sellerAggregateRevenue, sellerRevenueAmount, sellerTotal } from "./SellerRevenue.js";
 
 //@desc forgetOTP
 //access Public
@@ -295,7 +295,6 @@ const sellerVerifyOTP = asyncHandler(async (req, res) => {
 // ----------------------------Reset Password-------------
 const sellersResetPassword = asyncHandler(async (req, res) => {
   const { userId, password } = req.body;
-
   try {
     const seller = await Seller.findOne({ email: userId });
     if (!seller) {
@@ -322,14 +321,15 @@ const dashboardValues = asyncHandler(async (req, res) => {
     });
     const totalMessages = await RoomChat.countDocuments({ seller: sellerId });
     const revenue = await sellerRevenueAmount(sellerId)
-    const sellerRevenue = await sellerAggregateRevenue(sellerId)
-
+    const totalSale = await sellerTotal(sellerId)
+    const sellerRevenueMonthlyBase = await sellerAggregateRevenue(sellerId)
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount : 0,
-      revenue: revenue[0]?.totalAmount ? revenue[0].totalAmount : 0,
+      revenue: revenue[0]?.totalAmount,
+      totalSale: totalSale[0]?.totalAmount,
       enquery: enquery ? enquery : 0,
       messages: totalMessages ? totalMessages : 0,
-      chartValues:sellerRevenue
+      chartValues:sellerRevenueMonthlyBase
     });
   } catch (error) {
     console.error(error);

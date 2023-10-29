@@ -47,3 +47,19 @@ export const sellerRevenueAmount = asyncHandler(
       },
     ])
 );
+export const sellerTotal = asyncHandler(
+  async (sellerId) => await Booking.aggregate([
+      {
+        $match: {
+          seller: new mongoose.Types.ObjectId(sellerId),
+          // cancelled: false,
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$totalAmount" },
+        },
+      },
+    ])
+);

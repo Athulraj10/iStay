@@ -7,26 +7,27 @@ import { toast } from "react-toastify";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import Chart from "chart.js/auto";
 import React from "react";
+import { Stack, Spinner } from "@chakra-ui/react";
 
 function Dashboard() {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [sellerInfo, setSellerInfo] = useState([]);
 
   const [bookingCount, setBookingCount] = useState(0);
-  const [revenue, setRevenue] = useState(0);
   const [totalSale, setTotalSale] = useState(0);
   const [enquery, setEnquery] = useState(0);
-  const [dailyRevenue, setDailyRevenue] = useState([0]);
-  const [monthlyRevenue, setMonthlyRevenue] = useState([0]);
   const [messages, setMessages] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [chartValues, setChartValues] = useState([]);
+  const [revenue, setRevenue] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   useEffect(() => {
+    setLoading(true);
     const fetchData = async () => {
       try {
         const storedSellerInfo = localStorage.getItem("sellerInfo");
         const sellerInfo = JSON.parse(storedSellerInfo);
         if (!sellerInfo) {
-          navigate('/seller/login')
+          navigate("/seller/login");
         }
         if (sellerInfo) {
           setSellerInfo(sellerInfo);
@@ -36,19 +37,25 @@ function Dashboard() {
             params: sellerInfo,
           });
           if (response) {
-            const { bookingCount, revenue,messages ,dailyRevenue, totalSale ,enquery,monthlyRevenue } =
-              response.data;
+            const {
+              bookingCount,
+              chartValues,
+              enquery,
+              messages,
+              revenue,
+              totalSale,
+            } = response.data;
             setBookingCount(bookingCount);
-            setRevenue(revenue);
-            setTotalSale(totalSale);
-            setMonthlyRevenue(monthlyRevenue);
-            setDailyRevenue(dailyRevenue);
+            setChartValues(chartValues);
             setEnquery(enquery);
             setMessages(messages);
+            setTotalSale(totalSale);
+            setRevenue(revenue);
+            setLoading(false);
           }
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
         toast.error(error.message);
         setLoading(false);
       }
@@ -56,48 +63,34 @@ function Dashboard() {
     fetchData();
   }, []);
 
-
   const chartRef = React.createRef();
 
-  const firstLabel =
-    dailyRevenue.length && dailyRevenue[0]._id
-      ? `${dailyRevenue[0]._id.day}/${dailyRevenue[0]._id.month}/${dailyRevenue[0]._id.year} Daily Revenue`
-      : "No Revenue";
-  const secondLabel =
-    monthlyRevenue.length && monthlyRevenue[0]._id
-      ? `${monthlyRevenue[0]._id.month}/${monthlyRevenue[0]._id.year} Monthly Revenue`
-      : "No Revenue";
-
-  const firstData =
-    dailyRevenue.length && dailyRevenue[0]
-      ? `${dailyRevenue[0].totalAmount}`
-      : 0.1;
-  const secondData =
-    monthlyRevenue.length && monthlyRevenue[0]
-      ? `${monthlyRevenue[0].totalAmount}`
-      : 0.1;
-
-  const today = new Date();
-  const labels = [today];
-  for (let i = 1; i < 4; i++) {
-    const date = new Date(today);
-    date.setDate(today.getDate() - i);
-    labels.push(date);
-  }
-  const formattedLabels = labels.map((date) => {
-    const day = date.getDate();
-    const month = date.getMonth() + 1;
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+  const labels = chartValues?.map((items) => {
+    const monthNames = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    return monthNames[items._id.month];
   });
 
+  const revenueAmount = chartValues?.map((items) => items.totalRevenue);
 
   const data = {
-    labels: formattedLabels,
+    labels: labels,
     datasets: [
       {
         label: "Revenue",
-        data: [firstData, secondData, 0.1, 0.1, 0.1, 0.1],
+        data: revenueAmount,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -127,21 +120,19 @@ function Dashboard() {
   };
 
   React.useEffect(() => {
-    // Create the chart on component mount
-    const ctx = chartRef.current.getContext("2d");
+    const ctx = chartRef?.current?.getContext("2d");
     let myChart = new Chart(ctx, {
       type: "bar",
       data: data,
       options: options,
     });
 
-    // Make sure to destroy the previous chart if it exists
     return () => {
       if (myChart) {
         myChart.destroy();
       }
     };
-  }, [dailyRevenue, monthlyRevenue]);
+  }, [chartValues]);
 
   const style = {
     margin: "10px", // Adjust margin as needed
@@ -153,50 +144,54 @@ function Dashboard() {
     color: "white", // Text color
     textAlign: "center", // Center text
   };
-  return (
+  return isLoading ? (
+    <Stack style={{ display: "flex",alignItems:"center",justifyContent:'center',height:'90vh' }} direction="row" spacing={4}>
+      <Spinner
+        thickness="4px"
+        speed="0.15s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    </Stack>
+  ) : (
     <div>
       <Container style={{ height: "auto" }}>
         <Row className="justify-content-md-center">
           <Col xs lg="2" style={style}>
-            <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
+            <Link to="/seller/message" style={{ textDecoration: "none" }}>
               <h4 className="text-center" style={{ color: "white" }}>
                 Messages
               </h4>
               <h4 style={{ color: "green" }}>
-                {messages !== null ? messages : 0}{" "}
+                {messages !== null ? messages : 0}
               </h4>
-              {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
           <Col xs lg="2" style={style}>
-            <Link to="/admin/listSellers" style={{ textDecoration: "none" }}>
+            <Link to="/seller/listEnquery" style={{ textDecoration: "none" }}>
               <h4 className="text-center" style={{ color: "white" }}>
                 Enquery
               </h4>
               <h4 style={{ color: "green" }}>
                 {enquery !== null ? enquery : 0}
               </h4>
-              {/* <h4 style={{ color: "white" }}>Blocked : 0</h4> */}
             </Link>
           </Col>
           <Col xs lg="2" style={style}>
-            <Link to="/admin/listHostels" style={{ textDecoration: "none" }}>
-              <h4 className="text-center" style={{ color: "white" }}>
-                Revenue
-              </h4>
-              <h4 style={{ color: "green" }}> {revenue}</h4>
-            </Link>
+            <h4 className="text-center" style={{ color: "white" }}>
+              Revenue
+            </h4>
+            <h4 style={{ color: "green" }}> {revenue}</h4>
           </Col>
           <Col xs lg="2" style={style}>
-            <Link to="/admin/listHostels" style={{ textDecoration: "none" }}>
-              <h4 className="text-center" style={{ color: "white" }}>
-                TotalSale
-              </h4>
-              <h4 style={{ color: "green" }}> {totalSale?totalSale:0}</h4>
-            </Link>
+            <h4 className="text-center" style={{ color: "white" }}>
+              TotalSale
+            </h4>
+            <h4 style={{ color: "green" }}> {totalSale ? totalSale : 0}</h4>
           </Col>
           <Col xs lg="2" style={style}>
-            <Link to="/admin/listUsers" style={{ textDecoration: "none" }}>
+            <Link to="/seller/notification" style={{ textDecoration: "none" }}>
               <h4 className="text-center" style={{ color: "white" }}>
                 Booking
               </h4>
@@ -214,10 +209,11 @@ function Dashboard() {
             width: "1000px",
           }}
         >
-          <canvas ref={chartRef}></canvas>
+          <canvas ref={chartRef ? chartRef : "null"}></canvas>
         </div>
       </Container>
     </div>
   );
 }
+
 export default Dashboard;

@@ -74,14 +74,9 @@ function dashboardValues() {
 
   const chartRef = React.createRef();
 
-  // const firstLabel = totalRevenue.length && totalRevenue[0]._id ? `${totalRevenue[0]._id.day}/${totalRevenue[0]._id.month}/${totalRevenue[0]._id.year} Daily Revenue` : "No Revenue";
-  // const secondLabel = monthlyRevenue.length && monthlyRevenue[0]._id ? `${monthlyRevenue[0]._id.month}/${monthlyRevenue[0]._id.year} Monthly Revenue` : "No Revenue";
-  // const firstData = totalRevenue ? totalRevenue : 0.1;
-  // const secondData = monthlyRevenue.length && monthlyRevenue[0] ? `${monthlyRevenue[0].totalAmount}` : 0.1;
-
   const labels = chatData?.map(item => {
     const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-    return monthNames[item._id.month - 1]; // -1 because months are zero-indexed
+    return monthNames[item._id.month - 1]; 
   });
   const data = chatData.map(item => item.totalRevenue);
   
