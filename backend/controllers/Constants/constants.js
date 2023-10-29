@@ -24,8 +24,12 @@ const constants = {
     INVALID_SELLER_ID:'Invalid Seller ID',
     SELLER_NOT_FOUND:'Seller Not found',
 
-
-
+    // -------------------Seller Constants Variable
+    SELLER_BLOCKED:'Seller Is blocked',
+    SELLER_ALREADY_EXISTS:'Seller Already Exists',
+    FILL_ALL_FIELD:'Please fill the Field',
+    BODY_EMPTY:'Bad request. Request body is empty',
+    FAILED_TO_UPDATE_HOSTEL:'Failed to update hostel',
 
 
 

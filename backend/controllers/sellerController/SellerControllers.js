@@ -1,11 +1,6 @@
 import asyncHandler from "express-async-handler";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
-import {
-  sessionSecret,
-  emailUser,
-  NewAppPassword,
-} from "../../config/config.js";
 import Seller from "../../models/SellerModel/SellerModel.js";
 import OTP from "../../models/OTPModel.js";
 import generateTokenSeller from "../../utils/generateTokenSeller.js";
@@ -26,12 +21,12 @@ const sendForgetPassword = async (name, email, OTP) => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: emailUser,
-        pass: NewAppPassword,
+        user: process.env.EMAIL_USER,
+        pass: process.env.NEW_APP_PASSWORD,
       },
     });
     const mailOptions = {
-      from: emailUser,
+      from: process.env.EMAIL_USER,
       to: email,
       subject: "Reset your Password",
       html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
@@ -75,7 +70,7 @@ const aggregateBookingWithHostel = async (sellerId) => {
       },
       {
         $lookup: {
-          from: "hostels", // Name of the Hostel collection
+          from: "hostels",
           localField: "hostel",
           foreignField: "_id",
           as: "hostelDetails",
@@ -86,7 +81,7 @@ const aggregateBookingWithHostel = async (sellerId) => {
       },
       {
         $lookup: {
-          from: "users", // Name of the Sellers collection
+          from: "users",
           localField: "user",
           foreignField: "_id",
           as: "userDetails",
@@ -500,7 +495,7 @@ const editHostelDetails = asyncHandler(async (req, res) => {
     if (!formDataObject) {
       return res
         .status(400)
-        .json({ message: "Bad request. Request body is empty." });
+        .json({ message: "Bad request. Request body is empty" });
     }
 
     const hostel = await Hostel.findOne({ _id: formDataObject.id });
