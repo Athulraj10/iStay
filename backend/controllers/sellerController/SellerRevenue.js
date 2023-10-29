@@ -1,13 +1,15 @@
 import asyncHandler from 'express-async-handler'
 import Booking from '../../models/BookHostelModel/BookHostelModel.js';
+import { mongoose } from 'mongoose';
 
 export const sellerAggregateRevenue = asyncHandler(async (sellerId) => {
-  const sixMonthsAgo = new Date();
+  console.log(sellerId)
+    const sixMonthsAgo = new Date();
   sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 8);
   const result = Booking.aggregate([
     {
       $match: {
-        // seller: sellerId,
+        seller: new mongoose.Types.ObjectId(sellerId),
         date: { $gte: sixMonthsAgo },
       },
     },
