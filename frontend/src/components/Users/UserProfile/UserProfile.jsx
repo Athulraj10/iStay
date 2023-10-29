@@ -102,8 +102,7 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    const storedUserInfo = localStorage.getItem("userInfo");
-    const userInfo = JSON.parse(storedUserInfo);
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
     if (userInfo) {
       const fetchUserDetails = async () => {
         try {
@@ -225,7 +224,7 @@ export default function UserProfile() {
                             className="m-2"
                             variant="primary"
                             onClick={handleSave}
-                            // isLoading={imageLoading}
+                            // isLoading={true}
                           >
                             Save
                           </Button>
