@@ -5,7 +5,7 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import ChatLoading from "../../../ChatPage/ChatLoading";
 import { SpinnerChakra } from "../../../loadingState/SpinnerChakra";
-import ProgressChakra from "../../../loadingState/ProgressChakra";
+import {ProgressChakra} from "../../../loadingState/ProgressChakra";
 
 function ListSeller() {
   const [enquery, setEnquery] = useState("");

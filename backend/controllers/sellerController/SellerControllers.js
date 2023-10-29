@@ -323,6 +323,7 @@ const dashboardValues = asyncHandler(async (req, res) => {
     const revenue = await sellerRevenueAmount(sellerId)
     const totalSale = await sellerTotal(sellerId)
     const sellerRevenueMonthlyBase = await sellerAggregateRevenue(sellerId)
+    console.log(sellerAggregateRevenue)
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount : 0,
       revenue: revenue[0]?.totalAmount,
