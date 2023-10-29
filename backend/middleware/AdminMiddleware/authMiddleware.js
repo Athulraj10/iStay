@@ -8,13 +8,11 @@ const adminMiddleware = asyncHandler(async (req, res, next) => {
   if (token) {
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
-      console.log(decodedToken)
       let adminFound = await Admin.findById(decodedToken.admin_id).select('-password');
       if (!adminFound) {
         return res.status(401).json({ message: 'Admin not found' });
       }
       req.admin = adminFound;
-      console.log(adminFound)
       next();
       
     } catch (error) {

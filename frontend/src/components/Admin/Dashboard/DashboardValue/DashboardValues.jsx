@@ -17,9 +17,10 @@ function dashboardValues() {
   const [totalBlockSeller, setTotalBlockSeller] = useState(0);
   const [totalHostel, setTotalHostel] = useState(0);
   const [totalBlockHostel, setTotalBlockHostel] = useState(0);
-
   const [totalBookingCount, setBookingCount] = useState(0);
   const [totalRevenue, setRevenue] = useState(0);
+  const [chatData,setChartData]=useState([])
+
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -27,7 +28,7 @@ function dashboardValues() {
       const adminData = localStorage.getItem("adminInfo");
       if (adminData) {
         try {
-          const response = await USERSAPI.post("admin/dashboard");
+          const response = await USERSAPI.get("admin/dashboard");
           const {
             userCount,
             userBlockCount,
@@ -37,6 +38,7 @@ function dashboardValues() {
             hostelBlockCount,
             bookingCount,
             revenue,
+            totalSales
           } = response.data;
           setTotalSeller(sellerCount);
           setTotalBlockSeller(sellerBlockCount);
@@ -46,6 +48,7 @@ function dashboardValues() {
           settotalBlockUsers(userBlockCount);
           setBookingCount(bookingCount);
           setRevenue(revenue);
+          setChartData(totalSales);
           setLoading(false);
         } catch (error) {
           toast.error(error.response.data.message || 'Internal Error');
@@ -73,15 +76,21 @@ function dashboardValues() {
 
   // const firstLabel = totalRevenue.length && totalRevenue[0]._id ? `${totalRevenue[0]._id.day}/${totalRevenue[0]._id.month}/${totalRevenue[0]._id.year} Daily Revenue` : "No Revenue";
   // const secondLabel = monthlyRevenue.length && monthlyRevenue[0]._id ? `${monthlyRevenue[0]._id.month}/${monthlyRevenue[0]._id.year} Monthly Revenue` : "No Revenue";
-  const firstData = totalRevenue ? totalRevenue : 0.1;
+  // const firstData = totalRevenue ? totalRevenue : 0.1;
   // const secondData = monthlyRevenue.length && monthlyRevenue[0] ? `${monthlyRevenue[0].totalAmount}` : 0.1;
 
-  const data = {
-    labels: ["September", "Octobar", "November"],
+  const labels = chatData?.map(item => {
+    const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    return monthNames[item._id.month - 1]; // -1 because months are zero-indexed
+  });
+  const data = chatData.map(item => item.totalRevenue);
+  
+  const transformedData = {
+    labels:labels,
     datasets: [
       {
         label: "Revenue",
-        data: [0.1, firstData, firstData],
+        data: data,
         backgroundColor: [
           "rgba(255, 99, 132, 0.2)",
           "rgba(54, 162, 235, 0.2)",
@@ -111,15 +120,13 @@ function dashboardValues() {
   };
 
   React.useEffect(() => {
-    // Create the chart on component mount
     const ctx = chartRef.current.getContext("2d");
     let myChart = new Chart(ctx, {
-      type: "line",
-      data: data,
+      type: "bar",
+      data: transformedData,
       options: options,
     });
 
-    // Make sure to destroy the previous chart if it exists
     return () => {
       if (myChart) {
         myChart.destroy();

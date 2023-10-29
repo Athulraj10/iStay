@@ -25,39 +25,35 @@ import constants from "../Constants/constants.js";
 // //route POST// /api/register
 
 const registerSeller = asyncHandler(async (req, res) => {
-//   const { name, email, password, mobile } = req.body;
-//   const sellerExists = await Admin.findOne({ email });
-
-//   if (sellerExists) {
-//     const error = new Error("Admin Already Exists");
-//     res.status(400);
-//     error.status = 400;
-//     throw error;
-//   }
-
-//   // If admin does not exist, create a new admin
-//   const sellerRegister = await Admin.create({
-//     name,
-//     email,
-//     password,
-//     mobile,
-//   });
-
-//   if(sellerRegister){
-//     generateToken(res,sellerRegister._id);
-//     res.status(201).json({
-//       _id:sellerRegister._id,
-//       name:sellerRegister.name,
-//       email:sellerRegister.email
-//     })
-//   }
+  //   const { name, email, password, mobile } = req.body;
+  //   const sellerExists = await Admin.findOne({ email });
+  //   if (sellerExists) {
+  //     const error = new Error("Admin Already Exists");
+  //     res.status(400);
+  //     error.status = 400;
+  //     throw error;
+  //   }
+  //   // If admin does not exist, create a new admin
+  //   const sellerRegister = await Admin.create({
+  //     name,
+  //     email,
+  //     password,
+  //     mobile,
+  //   });
+  //   if(sellerRegister){
+  //     generateToken(res,sellerRegister._id);
+  //     res.status(201).json({
+  //       _id:sellerRegister._id,
+  //       name:sellerRegister.name,
+  //       email:sellerRegister.email
+  //     })
+  //   }
 });
 
-
 // **
-//  * Function Hostel Aggregating Function 
+//  * Function Hostel Aggregating Function
 //  * This function is responsible for get the all hostel details with sellers
-// with the response to the approprite referance of seller 
+// with the response to the approprite referance of seller
 
 //  * It allows To take all hostel datas
 //  *
@@ -71,14 +67,14 @@ const aggregateAllHostels = async () => {
     const aggregatedData = await Hostel.aggregate([
       {
         $lookup: {
-          from: 'sellers', // The name of the Seller collection
-          localField: 'seller',
-          foreignField: '_id',
-          as: 'sellerDetails',
+          from: "sellers", // The name of the Seller collection
+          localField: "seller",
+          foreignField: "_id",
+          as: "sellerDetails",
         },
       },
       {
-        $unwind: '$sellerDetails', // Deconstruct the array created by $lookup
+        $unwind: "$sellerDetails", // Deconstruct the array created by $lookup
       },
       {
         $project: {
@@ -97,7 +93,7 @@ const aggregateAllHostels = async () => {
           // descriptionAboutHostel: 1,
           // guestProfile: 1,
           price: 1,
-          isBlock:1,
+          isBlock: 1,
           // extraPrice: 1,
           // totalBedInRoom: 1,
           // bedAvailableNow: 1,
@@ -108,20 +104,19 @@ const aggregateAllHostels = async () => {
           // Include other fields you need from the Hostel collection
           // Include seller fields you need from the Seller collection
           // For example:
-          'sellerDetails.name': 1,
-          'sellerDetails.email': 1,
-          'sellerDetails.location': 1,
-          'sellerDetails.mobile': 1,
+          "sellerDetails.name": 1,
+          "sellerDetails.email": 1,
+          "sellerDetails.location": 1,
+          "sellerDetails.mobile": 1,
           // Include all other fields you need
         },
       },
     ]);
-    return aggregatedData
+    return aggregatedData;
   } catch (error) {
-    console.error('Error aggregating data:', error);
+    console.error("Error aggregating data:", error);
   }
 };
-
 
 /**
  * Send Forget Password Email
@@ -262,7 +257,7 @@ const adminForget = asyncHandler(async (req, res) => {
   try {
     // Extract the email from the request body
     const { email } = req.body;
-    
+
     // Search for an admin user with the provided email
     const admin = await Admin.findOne({ email });
 
@@ -275,7 +270,7 @@ const adminForget = asyncHandler(async (req, res) => {
 
     // If the admin is found, generate a one-time password (OTP)
     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
-    
+
     // Send the OTP to the admin's registered email
     sendForgetPassword(admin.name, admin.email, OTPgenerated);
 
@@ -344,7 +339,6 @@ const adminVerifyOTP = asyncHandler(async (req, res) => {
   }
 });
 
-
 /**
  * Admin Reset Password Function
  *
@@ -389,8 +383,6 @@ const adminResetPassword = asyncHandler(async (req, res) => {
   }
 });
 
-
-
 /**
  * Revenue Calculation Function
  *
@@ -407,9 +399,9 @@ const revenueFunction = asyncHandler(async () => {
       {
         $group: {
           _id: null,
-          totalAmount: { $sum: "$totalAmount" }
-        }
-      }
+          totalAmount: { $sum: "$totalAmount" },
+        },
+      },
     ]);
 
     // Return the total revenue generated, or 0 if no revenue is found
@@ -420,7 +412,33 @@ const revenueFunction = asyncHandler(async () => {
   }
 });
 
-
+const aggregateRevenue = asyncHandler(async () => {
+  const sixMonthsAgo = new Date();
+  sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 8);
+  const result = Booking.aggregate([
+    {
+      $match: {
+        date: { $gte: sixMonthsAgo },
+      },
+    },
+    {
+      $group: {
+        _id: {
+          year: { $year: "$date" },
+          month: { $month: "$date" },
+        },
+        totalRevenue: { $sum: "$totalAmount" },
+      },
+    },
+    {
+      $sort: {
+        "_id.year": 1,
+        "_id.month": 1,
+      },
+    },
+  ]);
+  return result;
+});
 /**
  * Dashboard Values Count Function
  *
@@ -444,7 +462,17 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     const sellerBlockCount = await Seller.countDocuments({ isBlock: true });
     const hostelBlockCount = await Hostel.countDocuments({ isBlock: true });
     const revenue = await revenueFunction();
-    console.error(revenue);
+    // const totalSales = Booking.aggregate(aggregationPipeline)
+    const totalSales = await aggregateRevenue()
+    console.log(totalSales)
+      // .then((result) => {
+      //   console.log(result);
+      //   // The result will contain monthly revenue for the last 6 months
+      // })
+      // .catch((error) => {
+      //   console.error(error);
+      //   // Handle any errors here
+      // });
 
     // Check if user count is available, and return the count statistics as a JSON response
     if (!userCount) {
@@ -459,7 +487,8 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
         hostelCount,
         hostelBlockCount,
         bookingCount,
-        revenue: revenue[0]?.totalAmount || 0, // Ensure a default value of 0 if revenue is not available
+        revenue: revenue[0]?.totalAmount || 0,
+        totalSales:totalSales  
       });
     }
   } catch (error) {
@@ -495,7 +524,6 @@ const listHostelsAdmin = asyncHandler(async (req, res) => {
   }
 });
 
-
 /**
  * Block or Unblock Hostel for Admin
  *
@@ -516,12 +544,14 @@ const BlockHostelsAdmin = asyncHandler(async (req, res) => {
     if (!hostel) {
       return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
     }
-    hostel.isBlock = !hostel.isBlock;  // Toggle the isBlock status
+    hostel.isBlock = !hostel.isBlock; // Toggle the isBlock status
     const updatedHostel = await hostel.save(); // Save the updated hostel
     if (updatedHostel) {
-      const message = `Hostel ${hostel.hostelName} is ${hostel.isBlock ? "blocked" : 'UnBlock SuccessFully'}`
+      const message = `Hostel ${hostel.hostelName} is ${
+        hostel.isBlock ? "blocked" : "UnBlock SuccessFully"
+      }`;
       const status = hostel.isBlock;
-      return res.status(200).json({ message, status })
+      return res.status(200).json({ message, status });
     } else {
       return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
     }
@@ -531,7 +561,6 @@ const BlockHostelsAdmin = asyncHandler(async (req, res) => {
     res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
-
 
 /**
  * List All Users for Admin
@@ -549,9 +578,7 @@ const listUser = asyncHandler(async (req, res) => {
   try {
     const allUsers = await User.find();
     if (!allUsers) {
-      return res
-        .status(404)
-        .json({ message: constants.INTERNAL_SERVER_ERROR });
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (allUsers) {
       return res.status(200).json({
@@ -564,7 +591,6 @@ const listUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
-
 
 /**
  * Block or Unblock a User
@@ -618,8 +644,6 @@ const blockUser = asyncHandler(async (req, res) => {
     res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
-
-
 
 /**
  * List All Sellers
@@ -709,9 +733,6 @@ const blockSeller = asyncHandler(async (req, res) => {
   }
 });
 
-
-
-
 /**
  * Logout Admin
  *
@@ -734,8 +755,6 @@ const logoutAdmin = asyncHandler(async (req, res) => {
   // Respond with a success status indicating the admin's successful logout
   res.status(200).json({ status: constants.ADMIN_LOGOUT });
 });
-
-
 
 export {
   adminAuthentication,
