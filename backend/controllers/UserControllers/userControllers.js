@@ -603,7 +603,7 @@ const makeEnquery = asyncHandler(async (req, res) => {
       await newEnquiry.save();
       res
         .status(200)
-        .json({ updated: true, message: "Enquiry Successfully Sended." });
+        .json({ updated: true, message: "Enquiry Successfully Sended" });
     } else {
       return res
         .status(404)
