@@ -1,15 +1,16 @@
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import nodemailer from "nodemailer";
-import {
-  sessionSecret,
-  emailUser,
-  NewAppPassword,
-} from "../../config/config.js";
+// import {
+//   process.env.EMAIL_USER,
+//   process.env.NEW_APP_PASSWORD,
+// } from "../../config/config.js";
+import generateTokenAdmin from "../../utils/generateTokenAdmin.js";
+
+// ----------Importing Models
 import Admin from "../../models/AdminModel/adminModel.js";
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
-import generateTokenAdmin from "../../utils/generateTokenAdmin.js";
 import Seller from "../../models/SellerModel/SellerModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
@@ -118,15 +119,15 @@ const sendForgetPassword = async (name, email, OTP) => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: emailUser,
-        pass: NewAppPassword,
+        user: process.env.EMAIL_USER,
+        pass: process.env.NEW_APP_PASSWORD,
       },
     });
     const mailOptions = {
-      from: emailUser,
+      from: process.env.EMAIL_USER,
       to: email,
       subject: "Reset your Password",
-      html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
+      html: `<p>Hi ${name}, <br> This Message from Istay <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
     };
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
@@ -166,7 +167,6 @@ const adminAuthentication = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
     const admin = await Admin.findOne({ email });
     if (!admin) {
-      console.error("admin not found");
       return res.status(401).json({
         message: "Invalid Email or Password",
       });

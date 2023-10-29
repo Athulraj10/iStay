@@ -1,4 +1,5 @@
 const constants = {
+  // --------------User Side Constants Values
     USER_ALREADY_EXIST:'User already exists',
     PLEASE_LOGIN: "Please login",
     API_FAILED:"User creation failed",
@@ -16,8 +17,12 @@ const constants = {
     USER_NOT_FOUND:'User Not Found',
     USER_LOGOUT_SUCCESSFULLY:'User Logout',
     
-
-
+    // -----------------Admin Constants Variables
+    PASSWORD_RESET_EMAIL_SUBJECT:'Reset your Password',
+    EMAIL_PASSWORD_INCORRECT:'Invalid Email or Password',
+    HOSTEL_NOT_FOUND:'Hostel not found',
+    INVALID_SELLER_ID:'Invalid Seller ID',
+    SELLER_NOT_FOUND:'Seller Not found',
 
 
 
