@@ -1,27 +1,21 @@
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
+import nodemailer from "nodemailer";
+import cron from "node-cron";
+import { Stripe } from "stripe";
 // -----------Models
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
 import Wallet from "../../models/UserModels/walletModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Enquiry from "../../models/UserModels/enquery.js";
-
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import HostelReview from "../../models/SellerModel/Review.js";
 import genereateToken from "../../utils/generateToken.js";
 // ----------Models Ended
-import nodemailer from "nodemailer";
-import cron from "node-cron";
-import { Stripe } from "stripe";
-import {
-  sessionSecret,
-  emailUser,
-  NewAppPassword,
-} from "../../config/config.js";
 import sendReminderEmails from "./sendRemainder.js";
 import updateExpiredBookings from "./CRONsetExpire.js";
-
+import constants from "../Constants/constants.js";
 //@desc forgetOTP
 //access Public
 //route POST// users/forget
@@ -34,12 +28,12 @@ const sendForgetPassword = async (name, email, OTP) => {
       secure: false,
       requireTLS: true,
       auth: {
-        user: emailUser,
-        pass: NewAppPassword,
+        user: process.env.EMAIL_USER,
+        pass: process.env.NEW_APP_PASSWORD,
       },
     });
     const mailOptions = {
-      from: emailUser,
+      from: process.env.EMAIL_USER,
       to: email,
       subject: "Reset your Password",
       html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
@@ -121,65 +115,6 @@ const aggregateBookingWithHostel = async (userId) => {
     console.error(error);
   }
 };
-// const userProfile = asyncHandler(async(req,res)=>{
-//   try {
-//     const token = req.headers.authorization; // Get the token from the request header
-
-//   if (!token) {
-//     return res.status(401).json({ message: 'Unauthorized' });
-//   }
-
-//   // Verify the token
-//   jwt.verify(token.replace('Bearer ', ''), secretKey, (err, decoded) => {
-//     if (err) {
-//       return res.status(401).json({ message: 'Token is invalid' });
-//     }
-
-//     // Token is valid, you can access the user data from decoded
-//     const userData = decoded;
-
-//     // Do something with userData, e.g., retrieve the user profile
-//     res.json({ message: 'User profile retrieved', user: userData });
-//   });
-
-//   } catch (error) {
-//     console.error(error)
-//   }
-// })
-
-// async function getUserBookings(userId) {
-//   return new Promise((resolve, reject) => {
-//     Booking.aggregate([
-//       {
-//         $match: {
-//           user: new ObjectId(userId)
-//         }
-//       },
-//       {
-//         $lookup: {
-//           from: 'User', // Replace with the actual collection name for users
-//           localField: 'user',
-//           foreignField: '_id',
-//           as: 'user'
-//         }
-//       },
-//       {
-//         $lookup: {
-//           from: 'Hostel', // Replace with the actual collection name for hostels
-//           localField: 'hostel',
-//           foreignField: '_id',
-//           as: 'hostel'
-//         }
-//       }
-//     ]).exec((err, result) => {
-//       if (err) {
-//         reject(err);
-//       } else {
-//         resolve(result);
-//       }
-//     });
-//   });
-// }
 
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
@@ -207,12 +142,12 @@ const authUser = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email });
   if (!user) {
     res.status(401).json({
-      message: "Invalid Email or Password",
+      message: constants.EMAIL_PASSWORD_INCORRECT,
     });
-    throw new Error("Invalid Email or Password");
+    throw new Error(constants.EMAIL_PASSWORD_INCORRECT);
   }
   if (user.isBlock) {
-    return res.status(401).json({ message: "User Is Blocked" });
+    return res.status(401).json({ message:constants.USER_BLOCKED });
   }
   if (user && (await user.matchPassword(password))) {
     genereateToken(res, user._id);
@@ -223,7 +158,7 @@ const authUser = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(401);
-    throw new Error("Invalid Email or Password");
+    throw new Error(constants.EMAIL_PASSWORD_INCORRECT);
   }
 });
 // -------------------Register New User with wallet function---------------------------
@@ -257,7 +192,7 @@ const registerUser = asyncHandler(async (req, res) => {
     const { userName, email, password, mobile } = req.body;
     const userExists = await User.findOne({ email });
     if (userExists) {
-      res.status(400).json({ message: "User Already Exists" });
+      res.status(400).json({ message: constants.USER_ALREADY_EXIST });
       return;
     }
 
@@ -276,11 +211,11 @@ const registerUser = asyncHandler(async (req, res) => {
         email: user.email,
       });
     } else {
-      res.status(401).json({ message: "User creation failed" });
+      res.status(401).json({ message: constants.USER_ALREADY_EXIST });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 
@@ -293,7 +228,7 @@ const forget = asyncHandler(async (req, res) => {
   const user = await User.findOne({ email: email });
   if (!user) {
     return res.status(401).json({
-      message: "Invalid Email",
+      message: constants.INVALID_EMAIL,
     });
   }
   if (user) {
@@ -313,13 +248,13 @@ const verifyOTP = asyncHandler(async (req, res) => {
   try {
     const user = await OTP.findOne({ email });
     if (!user) {
-      return res.json({ message: "Invalid Expired" });
+      return res.json({ message: constants.OTP_EXPIRED });
     }
     if (user) {
       const enterOTP = parseInt(otp);
       const databaseOTP = parseInt(user.otp);
       if (enterOTP !== databaseOTP) {
-        return res.status(401).json({ message: "Invalid OTP" });
+        return res.status(401).json({ message: constants.INVALID_OTP });
       }
       if (enterOTP === databaseOTP) {
         return res.json({ user: user.email });
@@ -337,16 +272,16 @@ const resetPassword = asyncHandler(async (req, res) => {
     if (!user) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (user) {
       user.password = password;
       await user.save();
-      res.status(200).json({ message: "Password reset successfully" });
+      res.status(200).json({ message: constants.PASSWORD_RESET_SUCCESSFULLY });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------FindAccommodation-------------
@@ -357,14 +292,14 @@ const findAccommodation = asyncHandler(async (req, res) => {
     if (!hostels) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (hostels) {
       res.status(200).json({ data: hostels });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------FindAccommodation-------------
@@ -377,14 +312,14 @@ const high = asyncHandler(async (req, res) => {
     if (!hostels) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (hostels) {
       res.status(200).json({ data: hostels });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 const low = asyncHandler(async (req, res) => {
@@ -396,14 +331,14 @@ const low = asyncHandler(async (req, res) => {
     if (!hostels) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (hostels) {
       res.status(200).json({ data: hostels });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 const search = asyncHandler(async (req, res) => {
@@ -427,14 +362,14 @@ const search = asyncHandler(async (req, res) => {
     if (!hostels) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (hostels) {
       res.status(200).json({ data: hostels });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------singlePageView hostel-------------
@@ -451,7 +386,7 @@ const singlePageView = asyncHandler(async (req, res) => {
     if (!hostel) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (hostel) {
       const responseData = {
@@ -463,7 +398,7 @@ const singlePageView = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------singlePageView hostel-------------
@@ -495,7 +430,7 @@ const bookHostel = asyncHandler(async (req, res) => {
     res.json({ id: session.id });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------Stripe Booking -------------
@@ -603,15 +538,15 @@ const makeEnquery = asyncHandler(async (req, res) => {
       await newEnquiry.save();
       res
         .status(200)
-        .json({ updated: true, message: "Enquiry Successfully Sended" });
+        .json({ updated: true, message: constants.ENQUERY_SUCCESSFULLY });
     } else {
       return res
         .status(404)
-        .json({ message: "Something went wrong, please login again." });
+        .json({ message: constants.PLEASE_LOGIN });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------Enquery listing-------------
@@ -621,7 +556,7 @@ const listEnqueryReplyUser = asyncHandler(async (req, res) => {
     if (userEnquery) {
       res.status(200).json({ enquery: true, userEnquery: userEnquery });
     } else {
-      res.status(400).json({ message: "No Enquery" });
+      res.status(400).json({ message: constants.NO_ENQUERY });
     }
   } catch (error) {
     console.log(error);
@@ -706,9 +641,9 @@ const cancelBooking = asyncHandler(async (req, res) => {
       if (updated) {
         return res
           .status(200)
-          .json({ is_modified: true, message: "Hostel Cancel Successfully" });
+          .json({ is_modified: true, message: constants.HOSTEL_CANCELTION_SUCCESSFULLY });
       } else {
-        return res.status(400).json({ message: "Internal Server Error" });
+        return res.status(400).json({ message: constants.INTERNAL_SERVER_ERROR });
       }
     }
   } catch (error) {
@@ -735,12 +670,12 @@ const addReview = asyncHandler(async (req, res) => {
     }
     const hostelReviewAdded = await review.save();
     if (!hostelReviewAdded) {
-      return res.status(404).json({ review: false, message: "Internal Error" });
+      return res.status(404).json({ review: false, message: constants.INTERNAL_SERVER_ERROR });
     }
     if (hostelReviewAdded) {
       return res
         .status(200)
-        .json({ review: true, message: "Review Added Successfully" });
+        .json({ review: true, message: constants.REVIEW_ADDING_SUCCESSFULLY });
     }
   } catch (error) {
     console.error(error);
@@ -786,7 +721,7 @@ const getUserProfile = asyncHandler(async (req, res) => {
       })
       .catch((error) => {
         console.error(error);
-        return res.status(404).json({ message: "User Fetching Error" });
+        return res.status(404).json({ message: constants.USER_NOT_FOUND });
       });
     // if (userDetails) {
     //   return res.status(200).json({ message: "User profile", userDetails });
@@ -823,7 +758,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     });
   } else {
     res.status(404);
-    throw new Error("User Not Found");
+    throw new Error(constants.USER_NOT_FOUND);
   }
 });
 
@@ -855,7 +790,7 @@ const updateUserProfile = asyncHandler(async (req, res) => {
 // }
 
 try {
-  cron.schedule("* * * * *", () => {
+  cron.schedule("0 0 * * *", () => {
     console.log("CRON Cheaking");
     // sendReminderEmails();
     updateExpiredBookings();
@@ -878,7 +813,7 @@ const logoutUser = asyncHandler(async (req, res) => {
     sameSite: "none", // Set to "none" for cross-site cookies
   });
 
-  res.status(200).json({ message: "User Logout" });
+  res.status(200).json({ message: constants.USER_LOGOUT_SUCCESSFULLY });
 });
 
 export {

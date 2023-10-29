@@ -2,7 +2,8 @@ const constants = {
   // --------------User Side Constants Values
     USER_ALREADY_EXIST:'User already exists',
     PLEASE_LOGIN: "Please login",
-    API_FAILED:"User creation failed",
+    USER_BLOCKED: "User Blocked",
+    API_FAILED:"User Creation Failed",
     INTERNAL_SERVER_ERROR:'Internal Server Error',
     INVALID_EMAIL:'Invalid Email',
     OTP_EXPIRED:'Invalid Expired',
