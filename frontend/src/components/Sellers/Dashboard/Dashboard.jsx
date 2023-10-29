@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import Chart from "chart.js/auto";
 import React from "react";
-import { Stack, Spinner } from "@chakra-ui/react";
+import SpinnerChakra from "../../loadingState/SpinnerChakra";
 
 function Dashboard() {
   const navigate = useNavigate();
@@ -145,15 +145,7 @@ function Dashboard() {
     textAlign: "center", // Center text
   };
   return isLoading ? (
-    <Stack style={{ display: "flex",alignItems:"center",justifyContent:'center',height:'90vh' }} direction="row" spacing={4}>
-      <Spinner
-        thickness="4px"
-        speed="0.15s"
-        emptyColor="gray.200"
-        color="blue.500"
-        size="xl"
-      />
-    </Stack>
+   <SpinnerChakra/>
   ) : (
     <div>
       <Container style={{ height: "auto" }}>

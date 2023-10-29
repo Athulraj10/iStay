@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
-
-import io from 'socket.io-client'
+import io from "socket.io-client";
+import SpinnerChakra from "../../loadingState/SpinnerChakra";
 
 const ENDPOINT = "http://localhost:5000/";
 var socket, selectedChatCompare;
@@ -18,15 +17,16 @@ const SellerChat = () => {
   const [content, setContent] = useState("");
   const [messageSent, setMessageSent] = useState(false);
   const [socketConnected, setSocketConnected] = useState(false);
+  const [isLoading, setisLoading] = useState(false);
 
-  useEffect(()=>{
-      socket = io(ENDPOINT);
-      socket.emit("setup",sellerInfo)
-      socket.on('connection',()=>{setSocketConnected(true)
-        console.log("oooooooooooo");
-      })
-  },[])
-  console.log("socketConnected"+ socketConnected)
+  useEffect(() => {
+    socket = io(ENDPOINT);
+    socket.emit("setup", sellerInfo);
+    socket.on("connection", () => {
+      setSocketConnected(true);
+    });
+  }, []);
+  console.log("socketConnected" + socketConnected);
 
   const sendHandler = async () => {
     if (content === "") {
@@ -41,7 +41,7 @@ const SellerChat = () => {
       if (res) {
         setContent("");
         setMessageSent(true);
-        socket.emit('new message',res.data)
+        socket.emit("new message", res.data);
       }
     } catch (error) {
       console.log(error.message);
@@ -56,7 +56,7 @@ const SellerChat = () => {
         console.log(res.data);
         setChats(res.data);
         setMessageSent(false);
-        socket.emit("join chat",chatId)
+        socket.emit("join chat", chatId);
       }
     };
     if (chatId) {
@@ -66,29 +66,31 @@ const SellerChat = () => {
   }, [chatId, messageSent]);
 
   useEffect(() => {
-      socket.on('message received',(newMessageReceived)=>{
-          if(!selectedChatCompare || chatId!==newMessageReceived.room._id){
-
-          }else{
-              setChats([...chats,newMessageReceived])
-          }
-      })
-  })
+    socket.on("message received", (newMessageReceived) => {
+      if (!selectedChatCompare || chatId !== newMessageReceived.room._id) {
+      } else {
+        setChats([...chats, newMessageReceived]);
+      }
+    });
+  });
 
   useEffect(() => {
-    console.log("74");
+    setisLoading(true)
     if (sellerInfo._id) {
       let fetchRooms = async () => {
         let res = await USERSAPI.get(
           `/chats/get-seller-rooms/${sellerInfo._id}`
         );
         setRooms(res.data);
+        setisLoading(false)
       };
       fetchRooms();
     }
   }, []);
 
-  return (
+  return isLoading ? (
+    <SpinnerChakra />
+  ) : (
     <section
       style={{ height: "100vh" }}
       className="container h-screen flex-col h-5/6"
@@ -173,7 +175,7 @@ const SellerChat = () => {
                     onChange={(e) => setContent(e.target.value)}
                     className="h-full w-full p-3 rounded-lg"
                     type="text"
-                    style={{ backgroundColor: "black" ,color:"white"}}
+                    style={{ backgroundColor: "black", color: "white" }}
                     placeholder="Enter your text"
                   />
                 </div>
