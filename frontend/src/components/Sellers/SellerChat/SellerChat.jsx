@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import io from "socket.io-client";
-import SpinnerChakra from "../../loadingState/SpinnerChakra";
+import {SpinnerChakra} from "../../loadingState/SpinnerChakra";
 
 const ENDPOINT = "http://localhost:5000/";
 var socket, selectedChatCompare;

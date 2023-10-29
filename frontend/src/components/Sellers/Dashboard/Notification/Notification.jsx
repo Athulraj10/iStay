@@ -12,8 +12,8 @@ function Notification() {
   const [sellerInfo, setSellerInfo] = useState(null);
   const [sellerIdStored, setSellerId] = useState("");
   const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [dataReceived, setDataReceived] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const storedSellerInfo = localStorage.getItem("sellerInfo");
@@ -28,6 +28,7 @@ function Notification() {
   }, [dataReceived]);
 
   useEffect(() => {
+    setLoading(true);
     if (dataReceived) {
       const fetchdata = async () => {
         const res = await USERSAPI.get("seller/notificationDetails", {
@@ -41,21 +42,28 @@ function Notification() {
     }
   }, [dataReceived, sellerIdStored]);
 
-  //   const handleEditButton = async (hostelId)=>{
-  //       if (hostelId) {
-  //           const res = await USERSAPI.post("seller/listHostels/editHostel", {
-  //             _id:hostelId,
-  //           });
-  //           const responseData = res.data.data;
-  //           if(responseData){
-  //             navigate('/seller/listHostels/editHostelDetails',{state:{responseData}})
-  //           }
-  //     }
-  //   }
-
-  return (
-    <div className="event-schedule-area-two p-4 rounded" style={{height:'100vh'}}>
-      <Container>
+  return loading ? (
+    <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'90vh'}}>
+      <div class="spinner-container">
+        <div class="spinner">
+          <div class="spinner">
+            <div class="spinner">
+              <div class="spinner">
+                <div class="spinner">
+                  <div class="spinner"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  ) : (
+    <div
+      className="event-schedule-area-two p-4 rounded"
+      style={{ height: "100vh" }}
+    >
+      <Container >
         <Row>
           <Col lg={12}>
             <div className="tab-content" id="myTabContent">
@@ -64,8 +72,8 @@ function Notification() {
                 id="home"
                 role="tabpanel"
               >
-                <div className="table-responsive">
-                  <table className="table table-bordered transparent-table">
+                <div className="table-responsive" style={{borderRadius:'10px'}}>
+                  <table className="table table-bordered transparent-table" >
                     <thead>
                       <tr>
                         <th className="text-center" scope="col">
@@ -144,25 +152,11 @@ function Notification() {
                                   {item.status}
                                 </Button>
                               </td>
-                              
                             </tr>
                           ))
                         : null}
                     </tbody>
                   </table>
-                  <div class="spinner-container">
-                    <div class="spinner">
-                      <div class="spinner">
-                        <div class="spinner">
-                          <div class="spinner">
-                            <div class="spinner">
-                              <div class="spinner"></div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>

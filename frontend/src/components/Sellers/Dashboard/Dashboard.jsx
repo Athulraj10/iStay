@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import Chart from "chart.js/auto";
 import React from "react";
-import SpinnerChakra from "../../loadingState/SpinnerChakra";
+import {SpinnerChakra} from "../../loadingState/SpinnerChakra";
 
 function Dashboard() {
   const navigate = useNavigate();
