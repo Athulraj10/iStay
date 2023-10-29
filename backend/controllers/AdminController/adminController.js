@@ -54,10 +54,18 @@ import constants from "../Constants/constants.js";
 // });
 
 
-//@desc forget Password Email Nodemailer
-//access Private
-//route POST// admin/forget
+// **
+//  * Function Hostel Aggregating Function 
+//  * This function is responsible for get the all hostel details with sellers
+// with the response to the approprite referance of seller 
 
+//  * It allows To take all hostel datas
+//  *
+//  * @param {return} res - Express response object.
+//  * @returns {Object} - return all the hostel details with appropite values
+//  *
+//  * @throws {Error} - If any error occurs during the process, an internal server error message is returned.
+//  */
 /////////////////////////////// Hostel Management //////////////////
 const aggregateAllHostels = async () => {
   try {
@@ -114,9 +122,22 @@ const aggregateAllHostels = async () => {
     console.error('Error aggregating data:', error);
   }
 };
-// -------------------------Admin forget SENT OTP NodeMailer---------------------------------------
+
+
+/**
+ * Send Forget Password Email
+ *
+ * This function is responsible for sending a forget password email to a user. It contains essential information for the password reset process, including the user's name and a one-time password (OTP).
+ *
+ * @param {string} name - The user's name to personalize the email.
+ * @param {string} email - The recipient's email address.
+ * @param {string} OTP - The one-time password for password reset.
+ *
+ * @throws {Error} - If any error occurs during the email sending process, it is logged.
+ */
 const sendForgetPassword = async (name, email, OTP) => {
   try {
+    // Create a transporter for sending email using Gmail's SMTP server
     const transporter = nodemailer.createTransport({
       host: "smtp.gmail.com",
       port: 587,
@@ -127,58 +148,86 @@ const sendForgetPassword = async (name, email, OTP) => {
         pass: process.env.NEW_APP_PASSWORD,
       },
     });
+
+    // Compose the email with recipient details, subject, and HTML content
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to: email,
       subject: "Reset your Password",
-      html: `<p>Hi ${name}, <br> This Message from Istay <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
+      html: `<p>Hi ${name}, <br> This Message from iStay <br> Did you request a password reset...?<br>If Yes...<br> Your OTP for password reset is ${OTP}`,
     };
+
+    // Send the email and log success or error
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         console.error(error);
       } else {
-        console.error("email successfully", info.response);
+        console.log("Email sent successfully", info.response);
       }
     });
   } catch (error) {
     console.error(error.message);
   }
 };
-// -------------------Save OTP Function with UserEmail---------------------------
+
+/**
+ * OTP Save Function
+ * This function is responsible for managing and saving one-time passwords (OTPs) for email-based operations, such as user registration, password reset, or other authentication-related processes. It ensures that only the latest OTP associated with an email address is saved.
+ * @param {string} email - The email address to which the OTP is associated.
+ * @param {string} otp - The one-time password to be saved.
+ * @throws {Error} - If any error occurs during the OTP saving process, it is logged.
+ */
 const OTPsaveFunction = async (email, otp) => {
   try {
+    // Check if an OTP already exists for the provided email and delete it
     const existingOTP = await OTP.findOne({ email });
     if (existingOTP) {
       await OTP.deleteOne({ email });
     }
+
+    // Create a new OTP document and save it
     const saveOTP = new OTP({
       email: email,
       otp: otp,
     });
     const OTPsaved = await saveOTP.save();
-    return;
+
+    return; // Indicate successful OTP saving
   } catch (error) {
     console.error(error.message);
   }
 };
-// -------------------admin Authentication---------------------------
-// @desc Auth user/set token
-// access Public
-// route POST// /api/admin
+/**
+ * Admin Authentication Function
+ *
+ * This function handles the authentication process for administrators. It verifies the provided email and password, and upon successful authentication, it generates an authentication token for the administrator's session.
+ *
+ * @param {Object} req - The request object containing user input.
+ * @param {Object} res - The response object used to send back results.
+ *
+ * @throws {Error} - If any errors occur during the authentication process, they are logged.
+ */
 const adminAuthentication = asyncHandler(async (req, res) => {
   try {
-    console.error(req.body);
+    // Extract email and password from the request body
     const { email, password } = req.body;
+
+    // Search for an admin user with the provided email
     const admin = await Admin.findOne({ email });
+
+    // If no admin is found with the provided email, return an unauthorized response
     if (!admin) {
       return res.status(401).json({
         message: constants.EMAIL_PASSWORD_INCORRECT,
       });
     }
 
+    // If the admin is found, check if the provided password matches
     if (admin && (await admin.matchPassword(password))) {
-      // Assuming generateToken is a valid function
+      // Assuming generateTokenAdmin is a valid function, generate an authentication token
       const token = generateTokenAdmin(res, admin._id);
+
+      // Return a successful response with user details and the generated token
       return res.status(201).json({
         _id: admin._id,
         name: admin.name,
@@ -187,7 +236,7 @@ const adminAuthentication = asyncHandler(async (req, res) => {
       });
     }
 
-    // If the password doesn't match
+    // If the password doesn't match, return an unauthorized response
     return res.status(401).json({
       message: constants.EMAIL_PASSWORD_INCORRECT,
     });
@@ -195,10 +244,11 @@ const adminAuthentication = asyncHandler(async (req, res) => {
     // Handle any errors that occur during the execution of this function
     console.error(error);
     return res.status(500).json({
-      message: constants.INTERNAL_SERVER_ERROR});
+      message: constants.INTERNAL_SERVER_ERROR,
+    });
   }
 });
-// -------------------Forget Password Admin Verification---------------------------
+
 const adminForget = asyncHandler(async (req, res) => {
   const { email } = req.body;
   console.error(req.body);
