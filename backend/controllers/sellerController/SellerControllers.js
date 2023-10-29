@@ -298,9 +298,7 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
   try {
     const seller = await Seller.findOne({ email: userId });
     if (!seller) {
-      return res
-        .status(404)
-        .json({ message: constants.INTERNAL_SERVER_ERROR });
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (seller) {
       seller.password = password;
@@ -317,68 +315,32 @@ const dashboardValues = asyncHandler(async (req, res) => {
   try {
     const sellerId = req.query._id;
     const bookingCount = await Booking.countDocuments({ seller: sellerId });
-    const enquery = await Enquiry.countDocuments({ seller: sellerId, isVerified: false });
+    const enquery = await Enquiry.countDocuments({
+      seller: sellerId,
+      isVerified: false,
+    });
     const totalMessages = await RoomChat.countDocuments({ seller: sellerId });
-    
     const revenue = await Booking.aggregate([
       {
         $match: {
-          seller: new mongoose.Types.ObjectId(sellerId),
+          seller: mongoose.Types.ObjectId(sellerId),
           cancelled: false,
         },
       },
       {
         $group: {
-          _id: "$seller",
+          _id: null,
           totalAmount: { $sum: "$totalAmount" },
         },
       },
     ]);
     
-    console.log(revenue)
-    const totalSale = await Booking.aggregate([
-      {
-        $match: { seller: new mongoose.Types.ObjectId(sellerId)},
-      },
-      {
-        $group: {
-          _id: "$seller",
-          totalAmount: { $sum: "$totalAmount" },
-        },
-      },{
-        $unwind:'$totalAmount'
-      }
-    ]);
-    
-    const today = new Date(); // Current date
-    const dayBeforeYesterday = new Date(today);
-    dayBeforeYesterday.setDate(today.getDate() - 1);
-    const startOfDay = new Date(dayBeforeYesterday);
-
-    const lastMonth = new Date(today);
-    lastMonth.setDate(today.getDate() - 20);
-    const last20days = new Date(lastMonth);
-
-    const endOfDay = new Date(today);
-    const dailyRevenue = await aggregateDailySales(
-      sellerId,
-      startOfDay,
-      endOfDay
-    );
-    const monthlyRevenue = await aggregateMonthlySales(
-      sellerId,
-      last20days,
-      endOfDay
-    );
 
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount : 0,
       revenue: revenue[0]?.totalAmount ? revenue[0].totalAmount : 0,
-      dailyRevenue: dailyRevenue ? dailyRevenue : 0,
-      monthlyRevenue: monthlyRevenue ? monthlyRevenue : 0,
-      totalSale:totalSale[0]?.totalAmount || 0,
-      enquery:enquery ? enquery :0,
-      messages:totalMessages ? totalMessages :0
+      enquery: enquery ? enquery : 0,
+      messages: totalMessages ? totalMessages : 0,
     });
   } catch (error) {
     console.error(error);
@@ -420,7 +382,10 @@ const listEnquery = asyncHandler(async (req, res) => {
   try {
     const sellerId = req.seller._id;
     if (sellerId) {
-      const enquery = await Enquiry.find({ seller: sellerId, isVerified: false });
+      const enquery = await Enquiry.find({
+        seller: sellerId,
+        isVerified: false,
+      });
       res.status(200).json({ enqueryData: enquery });
     }
   } catch (error) {
@@ -438,14 +403,13 @@ const listEnqueryReply = asyncHandler(async (req, res) => {
 
       if (enqueryReply) {
         enqueryReply.isVerified = true;
-        enqueryReply.sellerReply = message; 
-        enqueryReply.status = 'verified'; 
+        enqueryReply.sellerReply = message;
+        enqueryReply.status = "verified";
         await enqueryReply.save();
-        return res.status(200).json({updated:true})
-      } 
-    }
-    else{
-      res.status(400).json({message:constants.BODY_EMPTY})
+        return res.status(200).json({ updated: true });
+      }
+    } else {
+      res.status(400).json({ message: constants.BODY_EMPTY });
     }
     //    const filter = {
     //      id,
@@ -497,9 +461,7 @@ const editHostelDetails = asyncHandler(async (req, res) => {
   const formDataObject = req.body;
   try {
     if (!formDataObject) {
-      return res
-        .status(400)
-        .json({ message: constants.BODY_EMPTY});
+      return res.status(400).json({ message: constants.BODY_EMPTY });
     }
 
     const hostel = await Hostel.findOne({ _id: formDataObject.id });
@@ -555,11 +517,13 @@ const editHostelDetails = asyncHandler(async (req, res) => {
         updatedHostel,
       });
     } else {
-      return res.status(500).json({ message: constants.FAILED_TO_UPDATE_HOSTEL });
+      return res
+        .status(500)
+        .json({ message: constants.FAILED_TO_UPDATE_HOSTEL });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message:constants.INTERNAL_SERVER_ERROR });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------Seller Add Hostel-------------
@@ -568,9 +532,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
   // ---------save value to database--------
   try {
     if (!formDataObject) {
-      return res
-        .status(404)
-        .json({ message: constants.INTERNAL_SERVER_ERROR });
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
     }
 
     if (formDataObject) {
@@ -621,7 +583,7 @@ const addHostelDetails = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: constants.BODY_EMPTY});
+    res.status(500).json({ message: constants.BODY_EMPTY });
   }
 });
 // --------------------------Logout clearing JWT---------------------------
