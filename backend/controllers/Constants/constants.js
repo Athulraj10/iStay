@@ -24,6 +24,7 @@ const constants = {
     HOSTEL_NOT_FOUND:'Hostel not found',
     INVALID_SELLER_ID:'Invalid Seller ID',
     ADMIN_NOT_FOUND:'Admin Not found',
+    ADMIN_LOGOUT:'Admin Not found',
     SELLER_NOT_FOUND:'Seller Not found',
 
     // -------------------Seller Constants Variable

@@ -1,3 +1,4 @@
+// importing library from npm
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import nodemailer from "nodemailer";
@@ -5,6 +6,8 @@ import nodemailer from "nodemailer";
 //   process.env.EMAIL_USER,
 //   process.env.NEW_APP_PASSWORD,
 // } from "../../config/config.js";
+
+// importing JWT from utils
 import generateTokenAdmin from "../../utils/generateTokenAdmin.js";
 
 // ----------Importing Models
@@ -14,6 +17,7 @@ import OTP from "../../models/OTPModel.js";
 import Seller from "../../models/SellerModel/SellerModel.js";
 import Hostel from "../../models/SellerModel/HostelModel.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
+import constants from "../Constants/constants.js";
 
 // // -------------------Register New admin---------------------------
 // //@desc createing new  user
@@ -168,7 +172,7 @@ const adminAuthentication = asyncHandler(async (req, res) => {
     const admin = await Admin.findOne({ email });
     if (!admin) {
       return res.status(401).json({
-        message: "Invalid Email or Password",
+        message: constants.EMAIL_PASSWORD_INCORRECT,
       });
     }
 
@@ -185,14 +189,13 @@ const adminAuthentication = asyncHandler(async (req, res) => {
 
     // If the password doesn't match
     return res.status(401).json({
-      message: "Invalid Email or Password",
+      message: constants.EMAIL_PASSWORD_INCORRECT,
     });
   } catch (error) {
     // Handle any errors that occur during the execution of this function
     console.error(error);
     return res.status(500).json({
-      message: "Internal Server Error",
-    });
+      message: constants.INTERNAL_SERVER_ERROR});
   }
 });
 // -------------------Forget Password Admin Verification---------------------------
@@ -202,7 +205,7 @@ const adminForget = asyncHandler(async (req, res) => {
   const admin = await Admin.findOne({ email });
   if (!admin) {
     return res.status(401).json({
-      message: "Invalid Email",
+      message: constants.INVALID_EMAIL,
     });
   }
   if (admin) {
@@ -222,13 +225,13 @@ const adminVerifyOTP = asyncHandler(async (req, res) => {
   try {
     const admin = await OTP.findOne({ email });
     if (!admin) {
-      return res.json({ message: "Invalid Expired" });
+      return res.json({ message: constants.INVALID_EMAIL });
     }
     if (admin) {
       const enterOTP = parseInt(otp);
       const databaseOTP = parseInt(admin.otp);
       if (enterOTP !== databaseOTP) {
-        return res.status(401).json({ message: "Invalid OTP" });
+        return res.status(401).json({ message: constants.INVALID_OTP });
       }
       if (enterOTP === databaseOTP) {
         return res.status(200).json({ admin: admin.email });
@@ -247,16 +250,16 @@ const adminResetPassword = asyncHandler(async (req, res) => {
     if (!admin) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (admin) {
       admin.password = password;
       await admin.save();
-      res.status(200).json({ message: "Password reset successfully" });
+      res.status(200).json({ message: constants.PASSWORD_RESET_SUCCESSFULLY });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 
@@ -292,7 +295,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     if (!userCount) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR});
     }
     if (userCount) {
       return res.status(200).json({
@@ -310,7 +313,7 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 /////////////////////////////// Admin Management Completed //////////////////
@@ -343,7 +346,7 @@ const BlockHostelsAdmin = asyncHandler(async (req, res) => {
     // Find the hostel by ID
     const hostel = await Hostel.findById(id);
     if (!hostel) {
-      return res.status(404).json({ message: 'Hostel not found' });
+      return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
     }
     hostel.isBlock = !hostel.isBlock;  // Toggle the isBlock status
     const updatedHostel = await hostel.save(); // Save the updated hostel
@@ -352,11 +355,11 @@ const BlockHostelsAdmin = asyncHandler(async (req, res) => {
       const status = hostel.isBlock;
       return res.status(200).json({message,status})
     } else {
-      return res.status(404).json({ message: 'Hostel not found' });
+      return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 /////////////////////////////// Hostel Management Completed //////////////////
@@ -378,7 +381,7 @@ const listUser = asyncHandler(async (req, res) => {
     if (!AllUser) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR});
     }
     if (AllUser) {
       return res.status(200).json({
@@ -387,7 +390,7 @@ const listUser = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // ----------------------------Block User------------------------------
@@ -395,11 +398,11 @@ const blockUser = asyncHandler(async (req, res) => {
     try {
       const id = req.params.id;
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        return res.status(400).json({ message: "Invalid Seller ID" });
+        return res.status(400).json({ message: constants.INVALID_SELLER_ID });
       }
       const user = await User.findOne({ _id: id }).select("-password");
       if (!user) {
-        return res.status(404).json({ message: "Seller Not found" });
+        return res.status(404).json({ message: constants.SELLER_NOT_FOUND });
       }
       user.isBlock = !user.isBlock;
       await user.save();
@@ -408,7 +411,7 @@ const blockUser = asyncHandler(async (req, res) => {
       return res.status(200).json({message,status})
     } catch (error) {
       console.error(error);
-      res.status(500).json({ message: "Internal server Error" });
+      res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
     }
   });
 /////////////////////////////// User Management Completed //////////////////
@@ -423,7 +426,7 @@ const listSellers = asyncHandler(async (req, res) => {
     if (!allSeller) {
       return res
         .status(404)
-        .json({ message: "Something Wrong Please Try Again" });
+        .json({ message: constants.INTERNAL_SERVER_ERROR });
     }
     if (allSeller) {
       return res.status(200).json({
@@ -432,7 +435,7 @@ const listSellers = asyncHandler(async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 // --------------------------Block Seller---------------------------
@@ -440,11 +443,11 @@ const blockSeller = asyncHandler(async (req, res) => {
   try {
     const id = req.params.id;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-      return res.status(400).json({ message: "Invalid Seller ID" });
+      return res.status(400).json({ message: constants.INVALID_SELLER_ID });
     }
     const seller = await Seller.findOne({ _id: id }).select("-password");
     if (!seller) {
-      return res.status(404).json({ message: "Seller Not found" });
+      return res.status(404).json({ message: constants.INVALID_SELLER_ID });
     }
     seller.isBlock = !seller.isBlock;
     await seller.save();
@@ -453,7 +456,7 @@ const blockSeller = asyncHandler(async (req, res) => {
     return res.status(200).json({message,status})
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Internal server Error" });
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
   }
 });
 /////////////////////////////// Seller Management Completed ///////////////
@@ -465,7 +468,7 @@ const blockSeller = asyncHandler(async (req, res) => {
 //access Public
 //route POST// /api/logout
 const logoutAdmin = asyncHandler(async (req, res) => {
-  console.error("logout");
+  console.log("logout");
   // Set the SameSite attribute to None and Secure to true for cross-site cookies
   res.cookie("jwt", "", {
     httpOnly: true,
@@ -474,7 +477,7 @@ const logoutAdmin = asyncHandler(async (req, res) => {
     sameSite: "none", // Set to "none" for cross-site cookies
   });
 
-  res.status(200).json({ status: "User Logout" });
+  res.status(200).json({ status: constants.ADMIN_LOGOUT });
 });
 
 // ---------------------------Get User Profile---------------------------
