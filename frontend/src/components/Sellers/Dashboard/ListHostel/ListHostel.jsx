@@ -5,7 +5,8 @@ import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import "./style.css";
 import { SpinnerChakra } from "../../../loadingState/SpinnerChakra";
-import {ProgressChakra} from "../../../loadingState/ProgressChakra";
+import { ProgressChakra } from "../../../loadingState/ProgressChakra";
+import ChatLoading from "../../../ChatPage/ChatLoading";
 
 function ListHostel() {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ function ListHostel() {
   }, [dataReceived]);
 
   useEffect(() => {
-    setLoading(true)
+    setLoading(true);
     if (dataReceived) {
       const fetchdata = async () => {
         const res = await USERSAPI.post("seller/listHostels", {
@@ -46,13 +47,13 @@ function ListHostel() {
 
   const handleEditButton = async (hostelId) => {
     if (hostelId) {
-      setLoading(true)
+      setLoading(true);
       const response = await USERSAPI.post("seller/listHostels/editHostel", {
         _id: hostelId,
       });
       const responseData = response.data.data;
       if (responseData) {
-        setLoading(false)
+        setLoading(false);
         navigate("/seller/listHostels/editHostelDetails", {
           state: { responseData },
         });
@@ -60,117 +61,118 @@ function ListHostel() {
     }
   };
 
-  return loading ?  (
-     <SpinnerChakra/>
-  ):(
-  <div className="event-schedule-area-two p-4 rounded" style={{height:'100vh'}}>
-  <Container>
-    <Row>
-      <Link to="/seller/listHostels/addhostel">
-        <Col>
-          <Button className="mb-3 p-2" variant="dark">
-            Add New Hostels
-          </Button>
-        </Col>
-      </Link>
-    </Row>
+  return loading ? (
+    <SpinnerChakra />
+  ) : (
+    <div
+      className="event-schedule-area-two p-4 rounded"
+      style={{ height: "100vh" }}
+    >
+      <Container>
+        <Row>
+          <Link to="/seller/listHostels/addhostel">
+            <Col>
+              <Button className="mb-3 p-2" variant="dark">
+                Add New Hostels
+              </Button>
+            </Col>
+          </Link>
+        </Row>
 
-    <Row>
-      <Col lg={12}>
-        <div className="tab-content" id="myTabContent">
-          <div
-            className="tab-pane fade active show"
-            id="home"
-            role="tabpanel"
-          >
-            <div className="table-responsive">
-              <table className="table table-bordered transparent-table">
-                <thead>
-                  <tr>
-                    <th className="text-center" scope="col">
-                      Hostel Name
-                    </th>
-                    <th scope="col">Place</th>
-                    <th scope="col">Photos</th>
-                    <th scope="col">Rate</th>
-                    <th className="text-center" scope="col">
-                      Status
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {Array.isArray(data) ? (
-                    data.map((item, index) => (
-                      <tr className="inner-box" key={index}>
-                        <td className="align-middle">
-                          <div className="event-date text-center">
-                            <p className="date-month">{item.hostelName}</p>
-                          </div>
-                        </td>
-                        <td className="align-middle">
-                          <div className="event-img">
-                            {item.mainLocation}
-                          </div>
-                        </td>
-
-                        <td className="align-middle">
-                          <div className="event-wrap">
-                            {item.images.map((image, index) => (
-                              <img
-                                key={index}
-                                src={`http://localhost:5000/images/${image}`}
-                                // src={`/public/${image}`}
-                                alt={`Image ${index}`}
-                                className="event-image"
-                                style={{
-                                  height: "100px",
-                                  width: "100px",
-                                  margin: "10px",
-                                }}
-                              />
-                            ))}
-                          </div>
-                        </td>
-
-                        <td className="align-middle">
-                          <div className="r-no">
-                            <span>{item.price}</span>
-                          </div>
-                        </td>
-                        <td className="align-middle text-center">
-                          <div className={`primary-btn`}>
-                            <button
-                              className={`btn ${
-                                item.isBlock ? "btn-danger" : "btn-success"
-                              }`}
-                            >
-                              {item.isBlock ? "Admin Blocked" : "Live"}
-                            </button>
-                            <button
-                              className="m-1 btn btn-primary"
-                              onClick={() => handleEditButton(item._id)} // Pass item._id as a parameter
-                            >
-                              Edit
-                            </button>
-                          </div>
-                        </td>
+        <Row>
+          <Col lg={12}>
+            <div className="tab-content" id="myTabContent">
+              <div
+                className="tab-pane fade active show"
+                id="home"
+                role="tabpanel"
+              >
+                <div className="table-responsive">
+                  <table className="table table-bordered transparent-table">
+                    <thead>
+                      <tr>
+                        <th className="text-center" scope="col">
+                          Hostel Name
+                        </th>
+                        <th scope="col">Place</th>
+                        <th scope="col">Photos</th>
+                        <th scope="col">Rate</th>
+                        <th className="text-center" scope="col">
+                          Status
+                        </th>
                       </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan="5">Loading data...</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+                    </thead>
+                    <tbody>
+                      {Array.isArray(data) ? (
+                        data.map((item, index) => (
+                          <tr className="inner-box" key={index}>
+                            <td className="align-middle">
+                              <div className="event-date text-center">
+                                <p className="date-month">{item.hostelName}</p>
+                              </div>
+                            </td>
+                            <td className="align-middle">
+                              <div className="event-img">
+                                {item.mainLocation}
+                              </div>
+                            </td>
+
+                            <td className="align-middle">
+                              <div className="event-wrap">
+                                {item.images.map((image, index) => (
+                                  <img
+                                    key={index}
+                                    src={`http://localhost:5000/images/${image}`}
+                                    // src={`/public/${image}`}
+                                    alt={`Image ${index}`}
+                                    className="event-image"
+                                    style={{
+                                      height: "100px",
+                                      width: "100px",
+                                      margin: "10px",
+                                    }}
+                                  />
+                                ))}
+                              </div>
+                            </td>
+
+                            <td className="align-middle">
+                              <div className="r-no">
+                                <span>{item.price}</span>
+                              </div>
+                            </td>
+                            <td className="align-middle text-center">
+                              <div className={`primary-btn`}>
+                                <button
+                                  className={`btn ${
+                                    item.isBlock ? "btn-danger" : "btn-success"
+                                  }`}
+                                >
+                                  {item.isBlock ? "Admin Blocked" : "Live"}
+                                </button>
+                                <button
+                                  className="m-1 btn btn-primary"
+                                  onClick={() => handleEditButton(item._id)} // Pass item._id as a parameter
+                                >
+                                  Edit
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <ChatLoading />
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </Col>
-    </Row>
-  </Container>
-</div>
-)
+          </Col>
+        </Row>
+      </Container>
+    </div>
+  );
 }
 
 export default ListHostel;

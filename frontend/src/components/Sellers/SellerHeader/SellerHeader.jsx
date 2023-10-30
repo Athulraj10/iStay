@@ -37,7 +37,9 @@ const SellerHeader = () => {
           params: { sellerInfo: parsedSellerInfo._id },
         });
         if (response.data.sellerBookings) {
+          window.location.reload(false);
           setNotification(response.data.sellerBookings);
+
         } else {
           setNotification(null);
         }
