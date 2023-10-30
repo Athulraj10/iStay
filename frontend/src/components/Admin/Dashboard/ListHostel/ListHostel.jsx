@@ -18,7 +18,7 @@ function ListHostel() {
 
   const indexOfLastItem = (currentPage + 1) * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = data.slice(indexOfFirstItem, indexOfLastItem);
+  const currentItems = data?.slice(indexOfFirstItem, indexOfLastItem);
 
 
 
@@ -26,10 +26,10 @@ function ListHostel() {
     try {
       let res = await USERSAPI.patch(`admin/listHostel/block/${hostelId}`);
       if (res.data) {
-        if(res.data.status){
-          toast.error(res.data.message)
+        if(res?.data?.status){
+          toast.error(res?.data?.message)
         }else{
-          toast.success(res.data.message)
+          toast.success(res?.data?.message)
         }
       }
     } catch (error) {
@@ -189,7 +189,7 @@ function ListHostel() {
           previousLabel={"Previous"}
           nextLabel={"Next"}
           breakLabel={"..."}
-          pageCount={Math.ceil(data.length / itemsPerPage)}
+          pageCount={Math.ceil(data?.length / itemsPerPage)}
           marginPagesDisplayed={2}
           pageRangeDisplayed={5}
           onPageChange={handlePageChange}
