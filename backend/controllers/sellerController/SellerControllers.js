@@ -318,6 +318,7 @@ const listEnquery = asyncHandler(async (req, res) => {
         seller: sellerId,
         isVerified: false,
       });
+      console.log(sellerId)
       res.status(200).json({ enqueryData: enquery });
     }
   } catch (error) {

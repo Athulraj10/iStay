@@ -39,6 +39,7 @@ function ListSeller() {
         if (response.data.enqueryData) {
           setEnquery(response.data.enqueryData);
           setIsLoading(false);
+          console.log(setIsLoading)
         }
       } catch (error) {
         toast.error(error || "Error in ListSeller React");
@@ -101,7 +102,7 @@ function ListSeller() {
                           Send Reply
                         </Button>
                       </Form>
-                    ) : null}
+                    ) : ""}
                   </Card.Body>
                 </Card>
               ))

@@ -30,8 +30,7 @@ const SellerHeader = () => {
 
   useEffect(() => {
     const fetchSellerInfo = async () => {
-      const storedSellerInfo = localStorage.getItem("sellerInfo");
-      const parsedSellerInfo = JSON.parse(storedSellerInfo);
+      const parsedSellerInfo = JSON.parse(localStorage.getItem("sellerInfo"));
       if (parsedSellerInfo) {
         setsellerInfo(parsedSellerInfo);
         const response = await USERSAPI.get("seller/notification", {
@@ -100,47 +99,7 @@ const SellerHeader = () => {
                   </Nav.Link>
                 </>
               ) : (
-                <>
-                  <LinkContainer to="/seller/login">
-                    <>
-            
-                      {/* <Link to="/seller/message" className="nav-link">
-                        <FaStore /> List Messge
-                      </Link>
-
-                      <Link to="/seller/listEnquery" className="nav-link">
-                        <FaUser /> List Enquery
-                      </Link>
-
-
-                      <Link to="/seller/listHostels" className="nav-link">
-                        <FaHome /> List Hostel
-                      </Link> */}
-
-
-                      {/* <Link to="/seller/notification" className="nav-link">
-                    <FaBell /> Notification
-                    {notification != null ? (
-                      <span
-                        style={{
-                          color: "red",
-                          borderRadius: "5px",
-                          padding: "3px",
-                          margin: "5px",
-                        }}
-                      >
-                      {notification}
-                      </span>
-                    ) : null}
-                  </Link> */}
-
-
-                      {/* <Nav.Link onClick={handleLogout}>
-                        <FaSignOutAlt /> Logout
-                      </Nav.Link> */}
-                    </>
-                  </LinkContainer>
-                </>
+              null
               )}
             </Nav>
           </Navbar.Collapse>
