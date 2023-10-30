@@ -1,6 +1,8 @@
+import Hostel from "../../models/SellerModel/HostelModel.js";
 //  * Function Hostel Aggregating Function
 //  * This function is responsible for get the all hostel details with sellers
 // with the response to the approprite referance of seller
+
 
 //  * It allows To take all hostel datas
 //  *
