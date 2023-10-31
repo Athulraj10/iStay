@@ -27,6 +27,11 @@ app.use(express.json());
 // app.use(cors());
 app.use(express.urlencoded({extended:true}))
 
+app.use(cors({
+  origin: ["https://hexashop.shop","https://www.hexashop.shop"],
+  credentials: true
+}));
+
 app.use('/api/users',userRoutes)
 app.use('/api/seller',sellerRoutes)
 app.use('/api/admin',adminRoutes)
@@ -57,7 +62,7 @@ import { Server } from 'socket.io'
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: ["https://hexashop.shop","https://www.hexashop.shop"],
   },
 }); 
 
