@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import cookieParser from "cookie-parser";
 import path from 'path';
 import colors from 'colors'
+import cors from 'cors'
 const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
 dotenv.config();
@@ -21,16 +22,16 @@ app.use(express.static('backend/public'));
 // app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 
-app.use(cookieParser());
 
+app.use(cookieParser());
 app.use(express.json());
 // app.use(cors());
 app.use(express.urlencoded({extended:true}))
+app.use(cors({
+  origin: ["https://hexashop.shop","https://www.hexashop.shop"],
+  credentials: true
+}));
 
-// app.use(cors({
-//   origin: ["https://medicarez.online","https://www.medicarez.online"],
-//   credentials: true
-// }));
 
 app.use('/api/users',userRoutes)
 app.use('/api/seller',sellerRoutes)
