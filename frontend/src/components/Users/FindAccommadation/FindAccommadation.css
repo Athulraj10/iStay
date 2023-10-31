@@ -1,14 +1,14 @@
 /* For medium screens (up to 768px) */
 @media screen and (max-width: 768px) {
     .event-wrap img {
-      /* max-width: 50%; Adjust the percentage as needed */
+      max-width: 50%;
     }
   }
   
   /* For small screens (up to 576px) */
   @media screen and (max-width: 576px) {
     .event-wrap img {
-      /* max-width: 100%; Full width for smaller screens */
+      max-width: 100%; 
       /* height: 100px; */
     }
   }
