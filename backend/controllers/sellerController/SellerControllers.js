@@ -201,7 +201,7 @@ const sellerForget = asyncHandler(async (req, res) => {
   }
   if (seller) {
     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
-    // sendForgetPassword(seller.name, seller.email, OTPgenerated);
+    sendForgetPassword(seller.name, seller.email, OTPgenerated);
     console.log(OTPgenerated);
     const saveOrNot = await OTPsaveFunction(seller.email, OTPgenerated);
     return res.json({
