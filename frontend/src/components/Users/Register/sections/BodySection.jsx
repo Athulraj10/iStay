@@ -1,5 +1,4 @@
 import { Button, Container, Col, Form, Row } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import premiumLogo from "./premiumLogo.png";
 const BodySection = () => {
   const rightSection = {
@@ -16,7 +15,7 @@ const BodySection = () => {
     <main>
       <Container>
         <Row className="justify-content-md-center mt-5">
-          <Col xs={12} md={6} style={leftSection} className="card p-5">
+          <Col xs={12} md={6} style={leftSection}   className="card p-5 mx-auto">
             <h5 style={{ color: "gray" }}>ANALYTICS</h5>
             <h2 style={{ fontWeight: "900", width: "350px", fontSize: "50px" }}>
               Premium Key Feature
@@ -34,10 +33,10 @@ const BodySection = () => {
           </Col>
 
           <Col
-            xs={12}
+            xs={4}
             md={5}
             style={rightSection}
-            className="card p-5"
+            className="card p-5 mx-auto"
           ></Col>
         </Row>
       </Container>

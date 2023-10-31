@@ -72,7 +72,7 @@ const FindAccommodation = () => {
   return isLoading ? (
     <ProgressChakra/>
   ):(
-  <Container style={{height:'100vh'}}>
+  <Container style={{minHeight:'100vh' , height:'auto'}}>
     <div>
       <Navbar style={{background:"white"}} className="rounded-2" expand="lg">
         <Navbar.Collapse id="basic-navbar-nav">
@@ -196,7 +196,8 @@ const FindAccommodation = () => {
         </div>
       </Button>
     ))}
-  </Container>)
+  </Container>
+  )
 };
 
 export default FindAccommodation;

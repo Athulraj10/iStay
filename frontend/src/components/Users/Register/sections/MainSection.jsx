@@ -2,13 +2,15 @@ import { Container, Row, Col } from "react-bootstrap";
 
 const MainSection = () => {
   const pContainer = {
-    width: "500px",
+    minWidth: "500px",
+    width:'auto',
     textTransform: "capitalize",
     textAlign: "center",
     height: "auto",
   };
   const headerSecondContainer = {
-    width: "500px",
+    minWidth: "500px",
+    width:'auto',
     textTransform: "capitalize",
     textAlign: "center",
     height: "auto",
@@ -22,13 +24,14 @@ const MainSection = () => {
     alignItems: "center",
     justifyContent: "center",
     height: "100%",
-    width: "93%",
+    minWidth: "93%",
+    width:"auto",
   };
   return (
     <>
-      <Container>
-        <Row className="justify-content-md-center mt-5">
-          <Col xs={12} md={6} className="card p-5" style={styleSteet}>
+      <Container className="p-5 mx-auto">
+        <Row className="justify-content-md-center mt-5 mx-auto">
+          <Col xs={4} md={6} className="card p-5 mx-auto" style={styleSteet}>
             {/* <Col className="" style={centerContainer}> */}
             <p style={pContainer}>are you struggling for quarters?</p>
             <h1 style={headerSecondContainer}>
