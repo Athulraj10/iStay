@@ -210,10 +210,8 @@ const registerUser = asyncHandler(async (req, res) => {
 // -------------------Forget Password User Verification---------------------------
 /**
  * Handle Forget Password Request
- *
- * This function is responsible for handling a forget password request. It checks if the user with the provided email exists, generates a one-time password (OTP) for password reset, sends it to the user via email, and saves it in the database.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for handling a forget password request. It checks if the user with the provided email exists, generates a one-time password (OTP) for password reset, sends it to the user via email, and saves it in the database.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const forget = asyncHandler(async (req, res) => {
@@ -252,10 +250,8 @@ const forget = asyncHandler(async (req, res) => {
 // -----------------------------Verify OTP ---------------------------
 /**
  * Verify One-Time Password (OTP)
- *
- * This function is responsible for verifying a One-Time Password (OTP) entered by the user. It checks if the provided OTP matches the OTP stored in the database for the given email.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for verifying a One-Time Password (OTP) entered by the user. It checks if the provided OTP matches the OTP stored in the database for the given email.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const verifyOTP = asyncHandler(async (req, res) => {
@@ -336,10 +332,8 @@ const resetPassword = asyncHandler(async (req, res) => {
 // ----------------------------FindAccommodation-------------
 /**
  * Find Accommodations
- *
- * This function is responsible for finding accommodations (hostels) that are not blocked. It retrieves a list of hostels from the database and responds with the data if found.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for finding accommodations (hostels) that are not blocked. It retrieves a list of hostels from the database and responds with the data if found.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const findAccommodation = asyncHandler(async (req, res) => {
@@ -369,10 +363,8 @@ const findAccommodation = asyncHandler(async (req, res) => {
 // ----------------------------High to Low sorting-------------
 /**
  * Find High-Priced Accommodations
- *
- * This function is responsible for finding high-priced accommodations (hostels) that are not blocked. It retrieves a list of hostels from the database and sorts them by price in descending order, responding with the data if found.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for finding high-priced accommodations (hostels) that are not blocked. It retrieves a list of hostels from the database and sorts them by price in descending order, responding with the data if found.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const high = asyncHandler(async (req, res) => {
@@ -403,10 +395,8 @@ const high = asyncHandler(async (req, res) => {
 // ----------------------------Low to High sorting-------------
 /**
  * Find Low-Priced Accommodations
- *
- * This function is responsible for finding low-priced accommodations (hostels) that are not blocked. It retrieves a list of hostels from the database and sorts them by price in ascending order, responding with the data if found.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for finding low-priced accommodations (hostels) that are not blocked. It retrieves a list of hostels from the database and sorts them by price in ascending order, responding with the data if found.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const low = asyncHandler(async (req, res) => {
@@ -436,10 +426,8 @@ const low = asyncHandler(async (req, res) => {
 // ----------------------------Search using Regex-------------
 /**
  * Search for Accommodations
- *
- * This function is responsible for searching and retrieving accommodations (hostels) based on search criteria. It filters hostels that are not blocked and match the search criteria, including hostel name, category, and full details.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for searching and retrieving accommodations (hostels) based on search criteria. It filters hostels that are not blocked and match the search criteria, including hostel name, category, and full details.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const search = asyncHandler(async (req, res) => {
@@ -485,10 +473,8 @@ const search = asyncHandler(async (req, res) => {
 // ----------------------------singlePageView hostel-------------
 /**
  * View Single Hostel Page
- *
- * This function is responsible for viewing a single hostel's page. It retrieves information about the specified hostel, its reviews, and the user's wallet balance (if available).
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for viewing a single hostel's page. It retrieves information about the specified hostel, its reviews, and the user's wallet balance (if available).
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const singlePageView = asyncHandler(async (req, res) => {
@@ -585,10 +571,8 @@ const bookHostel = asyncHandler(async (req, res) => {
 // ----------------------------Conform Booking -------------
 /**
  * Booking Confirmation
- *
- * This function is responsible for confirming a booking, updating hostel data, and creating a booking record in the database.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for confirming a booking, updating hostel data, and creating a booking record in the database.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const bookingConfirmation = asyncHandler(async (req, res) => {
@@ -725,10 +709,8 @@ const WalletConfirmation = asyncHandler(async (req, res) => {
 // ----------------------------user mY booking-------------
 /**
  * Make Enquiry
- *
- * This function is responsible for allowing a user to make an enquiry for a hostel. It creates an enquiry record in the database with user details and the enquiry message.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for allowing a user to make an enquiry for a hostel. It creates an enquiry record in the database with user details and the enquiry message.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const makeEnquery = asyncHandler(async (req, res) => {
@@ -770,10 +752,8 @@ const makeEnquery = asyncHandler(async (req, res) => {
 // ----------------------------Enquery listing-------------
 /**
  * List User Enquiry Replies
- *
- * This function is responsible for listing enquiries made by the user and their replies, if available.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for listing enquiries made by the user and their replies, if available.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const listEnqueryReplyUser = asyncHandler(async (req, res) => {
@@ -827,10 +807,8 @@ const myBookings = asyncHandler(async (req, res) => {
 // ----------------------------Get user Rating-------------
 /**
  * Get Booking Rating
- *
- * This function is responsible for retrieving the rating value for a specific booking based on the booking ID.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for retrieving the rating value for a specific booking based on the booking ID.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const getRating = asyncHandler(async (req, res) => {
@@ -959,10 +937,8 @@ const cancelBooking = asyncHandler(async (req, res) => {
 // ---------------------------Add Reviews ---------------------------
 /**
  * Add Review
- *
- * This function is responsible for allowing a user to add a review for a hostel, including the review's content and optionally uploaded images.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for allowing a user to add a review for a hostel, including the review's content and optionally uploaded images.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const addReview = asyncHandler(async (req, res) => {
@@ -1010,10 +986,8 @@ const addReview = asyncHandler(async (req, res) => {
 // ---------------------------Aggregate with wallet ---------------------------
 /**
  * User Profile with Wallet Aggregation
- *
- * This function aggregates user profile information with their associated wallet details.
- *
- * @param {string} userId - The user's ID for which the profile and wallet information will be aggregated.
+ ** This function aggregates user profile information with their associated wallet details.
+ ** @param {string} userId - The user's ID for which the profile and wallet information will be aggregated.
  * @returns {Object} - Aggregated user profile and wallet information.
  */
 const userProfileWithWalletAggregate = asyncHandler(async (userId) => {
@@ -1052,10 +1026,8 @@ const userProfileWithWalletAggregate = asyncHandler(async (userId) => {
 
 /**
  * Get User Profile
- *
- * This function is responsible for retrieving a user's profile information, including their associated wallet details, based on the provided user ID.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for retrieving a user's profile information, including their associated wallet details, based on the provided user ID.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const getUserProfile = asyncHandler(async (req, res) => {
@@ -1086,10 +1058,8 @@ const getUserProfile = asyncHandler(async (req, res) => {
 // ---------------------------Update User Profile---------------------------
 /**
  * Update User Profile
- *
- * This function is responsible for updating a user's profile information, including name, email, mobile, and password, based on the provided user ID.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for updating a user's profile information, including name, email, mobile, and password, based on the provided user ID.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const updateUserProfile = asyncHandler(async (req, res) => {
@@ -1152,10 +1122,8 @@ try {
 // --------------------------Logout clearing JWT---------------------------
 /**
  * Logout User
- *
- * This function is responsible for logging out a user by clearing their JWT cookie and sending a success message.
- *
- * @param {Object} req - Express request object.
+ ** This function is responsible for logging out a user by clearing their JWT cookie and sending a success message.
+ ** @param {Object} req - Express request object.
  * @param {Object} res - Express response object.
  */
 const logoutUser = asyncHandler(async (req, res) => {
