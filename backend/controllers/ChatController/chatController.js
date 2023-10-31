@@ -246,7 +246,7 @@
 import asyncHandler from "express-async-handler";
 import ChatRoom from "../../models/chatRoom.js";
 import ChatMessage from "../../models/chatMessage.js";
-import aggregateBookingWithHostel from "../UserControllers/aggregateBookingWithHostel.js";
+import {aggregateBookingWithHostel} from "../UserControllers/aggregateBookingWithHostel.js";
 
 const chatController = {
   createRoom: asyncHandler(async (req, res) => {

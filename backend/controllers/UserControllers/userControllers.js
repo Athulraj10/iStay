@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
-import nodemailer from "nodemailer";
 import cron from "node-cron";
 import { Stripe } from "stripe";
 // -----------Models
@@ -16,39 +15,9 @@ import genereateToken from "../../utils/generateToken.js";
 import sendReminderEmails from "./sendRemainder.js";
 import updateExpiredBookings from "./CRONsetExpire.js";
 import constants from "../Constants/constants.js";
-//@desc forgetOTP
-//access Public
-//route POST// users/forget
-// -------------------------SENT OTP NodeMailer---------------------------------------
-const sendForgetPassword = async (name, email, OTP) => {
-  try {
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: 587,
-      secure: false,
-      requireTLS: true,
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.NEW_APP_PASSWORD,
-      },
-    });
-    const mailOptions = {
-      from: process.env.EMAIL_USER,
-      to: email,
-      subject: "Reset your Password",
-      html: `<p>Hi ${name}, <br> Did you requsted for a Password reset...?<br>If Yes...<br> Your OTP For reset password is ${OTP}`,
-    };
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-      } else {
-        console.error("email successfully", info.response);
-      }
-    });
-  } catch (error) {
-    console.error(error.message);
-  }
-};
+import { sendForgetPassword } from "./nodeMailer.js";
+import { aggregateBookingWithHostel } from "./aggregateUserBooking.js";
+
 
 const singleHostelFinding = async (hostelId) => {
   try {
@@ -62,59 +31,7 @@ const singleHostelFinding = async (hostelId) => {
     console.error(error);
   }
 };
-const aggregateBookingWithHostel = async (userId) => {
-  try {
-    const result = await Booking.aggregate([
-      {
-        $match: { user: new mongoose.Types.ObjectId(userId) },
-      },
-      {
-        $lookup: {
-          from: "hostels",
-          localField: "hostel",
-          foreignField: "_id",
-          as: "hostelDetails",
-        },
-      },
-      {
-        $unwind: "$hostelDetails",
-      },
-      {
-        $lookup: {
-          from: "sellers",
-          localField: "hostelDetails.seller",
-          foreignField: "_id",
-          as: "sellerDetails",
-        },
-      },
-      {
-        $unwind: "$sellerDetails",
-      },
-      {
-        $group: {
-          _id: "$_id",
-          user: { $first: "$user" },
-          cancelled: { $first: "$cancelled" },
-          hostel: { $first: "$hostel" },
-          status: { $first: "$status" },
-          paymentMethod: { $first: "$paymentMethod" },
-          paymentVia: { $first: "$paymentVia" },
-          totalAmount: { $first: "$totalAmount" },
-          hostelDetails: { $first: "$hostelDetails" },
-          sellerDetails: { $first: "$sellerDetails" },
-        },
-      },
-      // {
-      //   $sort: {
-      //     createdAt: -1, // Sort by lastUpdated field in descending order (latest first)
-      //   },
-      // }
-    ]);
-    return result;
-  } catch (error) {
-    console.error(error);
-  }
-};
+
 
 // -------------------Save OTP with UserEmail---------------------------
 const OTPsaveFunction = async (email, otp) => {
@@ -233,7 +150,7 @@ const forget = asyncHandler(async (req, res) => {
   }
   if (user) {
     let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
-    sendForgetPassword(user.name, user.email, OTPgenerated);
+    sendForgetPassword(user.name,user.email,OTPgenerated);
     console.log(OTPgenerated);
     const saveOrNot = await OTPsaveFunction(user.email, OTPgenerated);
     return res.json({
@@ -723,11 +640,6 @@ const getUserProfile = asyncHandler(async (req, res) => {
         console.error(error);
         return res.status(404).json({ message: constants.USER_NOT_FOUND });
       });
-    // if (userDetails) {
-    //   return res.status(200).json({ message: "User profile", userDetails });
-    // } else {
-    //   return res.status(404).json({ message: "No User Found" });
-    // }
   } catch (error) {
     console.error(error);
   }
@@ -762,37 +674,10 @@ const updateUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-// async function sendReminderEmails() {
-//   try {
-//     const thirtyDaysAgo = new Date();
-//     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 1);
-
-//     const bookings = await Booking.find({
-//       date: { $lte: thirtyDaysAgo },
-//       notified: false,
-//     });
-//     // Send reminder emails
-//     bookings.forEach(async (booking) => {
-//       const mailOptions = {
-//         from: 'your-email@gmail.com',
-//         to: booking.userEmail,
-//         subject: 'Reminder: Your Booking',
-//         text: 'This is a reminder for your booking made 30 days ago.',
-//       };
-
-//       await transporter.sendMail(mailOptions);
-//       booking.notified = true;
-//       await booking.save();
-//     });
-//   } catch (error) {
-//     console.error('Error sending reminder emails:', error);
-//   }
-// }
-
 try {
   cron.schedule("0 0 * * *", () => {
     console.log("CRON Cheaking");
-    // sendReminderEmails();
+    sendReminderEmails();
     updateExpiredBookings();
     console.log("Scheduled task: Reminder emails sent.");
   });

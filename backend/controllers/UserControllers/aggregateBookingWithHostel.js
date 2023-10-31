@@ -1,7 +1,7 @@
 import mongoose from 'mongoose'
 import Booking from '../../models/BookHostelModel/BookHostelModel.js';
 
-const aggregateBookingWithHostel = async (booking_id) => {
+export const aggregateBookingWithHostel = async (booking_id) => {
     try {
         const result = await Booking.aggregate([
           {
@@ -54,6 +54,3 @@ const aggregateBookingWithHostel = async (booking_id) => {
         console.error(error);
       }
 };
-
-export default
-  aggregateBookingWithHostel
