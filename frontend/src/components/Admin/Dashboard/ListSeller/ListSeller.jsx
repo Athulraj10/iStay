@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { useNavigate } from "react-router-dom";
 import ReactPaginate from "react-paginate";
+import { SpinnerChakra } from "../../../loadingState/SpinnerChakra";
 
 function ListSeller() {
   const navigate = useNavigate()
@@ -65,114 +66,116 @@ function ListSeller() {
   },[handleBlockButton]);
 
 
-  return (
+  return loading ? (
+    <SpinnerChakra/>
+  ):(
     <div style={{minHeight:'100vh'}} className="event-schedule-area-two p-4 rounded">
-      <Container >
-        <Row>
-          <Col lg={12}>
-            <div className="tab-content" id="myTabContent">
-              <div
-                className="tab-pane fade active show"
-                id="home"
-                role="tabpanel"
-              >
-                <div className="table-responsive">
-                  <table className="table table-bordered">
-                    <thead>
-                      <tr>
-                        <th className="text-center" scope="col">
-                          Name
-                        </th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Location</th>
-                        <th scope="col">LastCheckIn</th>
-                        <th className="text-center" scope="col">
-                          Status
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {Array.isArray(data) ? (
-                        data.map((item, index) => (
-                          <tr className="inner-box" key={index}>
-                            <td className="align-middle">
-                              <div className="event-date text-center">
-                                <p className="date-month">{item.name}</p>
-                              </div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="event-img">{item.email}</div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="event-wrap">
-                                <h6>
-                                  <a style={{ textDecoration: "none" }}>
-                                    {item.location ? item.location : "Kannur"}
-                                  </a>
-                                </h6>
+    <Container >
+      <Row>
+        <Col lg={12}>
+          <div className="tab-content" id="myTabContent">
+            <div
+              className="tab-pane fade active show"
+              id="home"
+              role="tabpanel"
+            >
+              <div className="table-responsive">
+                <table className="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th className="text-center" scope="col">
+                        Name
+                      </th>
+                      <th scope="col">Email</th>
+                      <th scope="col">Location</th>
+                      <th scope="col">LastCheckIn</th>
+                      <th className="text-center" scope="col">
+                        Status
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {Array.isArray(data) ? (
+                      data.map((item, index) => (
+                        <tr className="inner-box" key={index}>
+                          <td className="align-middle">
+                            <div className="event-date text-center">
+                              <p className="date-month">{item.name}</p>
+                            </div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="event-img">{item.email}</div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="event-wrap">
+                              <h6>
+                                <a style={{ textDecoration: "none" }}>
+                                  {item.location ? item.location : "Kannur"}
+                                </a>
+                              </h6>
 
-                                <div className="meta">
-                                  <div className="categories">
-                                    <a style={{ textDecoration: "none" }}>
-                                      Mobile : {item.mobile}
-                                    </a>
-                                  </div>
-                                  <div className="time">
-                                    <span>
-                                      Account Created :{" "}
-                                      {item.createdAt.substring(0, 10)}
-                                    </span>
-                                  </div>
+                              <div className="meta">
+                                <div className="categories">
+                                  <a style={{ textDecoration: "none" }}>
+                                    Mobile : {item.mobile}
+                                  </a>
+                                </div>
+                                <div className="time">
+                                  <span>
+                                    Account Created :{" "}
+                                    {item.createdAt.substring(0, 10)}
+                                  </span>
                                 </div>
                               </div>
-                            </td>
-                            <td className="align-middle">
-                              <div className="r-no">
-                                <span>{item.updatedAt.slice(0, 10)}</span>
-                              </div>
-                            </td>
-                            <td className="align-middle text-center">
-                              
-                            <Button
-                            type="button"
-                                  onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
-                                  className={`btn ${ item.isBlock ? "btn-outline-danger" : "btn-outline-success"}`}
-                                >
-                               {item.isBlock ? 'Blocked' : 'Block' }
-                                </Button>
+                            </div>
+                          </td>
+                          <td className="align-middle">
+                            <div className="r-no">
+                              <span>{item.updatedAt.slice(0, 10)}</span>
+                            </div>
+                          </td>
+                          <td className="align-middle text-center">
+                            
+                          <Button
+                          type="button"
+                                onClick={() => handleBlockButton(item._id)} // Pass item._id as a parameter
+                                className={`btn ${ item.isBlock ? "btn-outline-danger" : "btn-outline-success"}`}
+                              >
+                             {item.isBlock ? 'Blocked' : 'Block' }
+                              </Button>
 
-                               </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan="5">Loading data...</td>
+                             </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan="5">Loading data...</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
-          </Col>
-        </Row>
-       <Row>
-       <ReactPaginate
-          previousLabel={"Previous"}
-          nextLabel={"Next"}
-          breakLabel={"..."}
-          pageCount={Math.ceil(data.length / itemsPerPage)}
-          marginPagesDisplayed={2}
-          pageRangeDisplayed={5}
-          onPageChange={handlePageChange}
-          containerClassName={"pagination"}
-          subContainerClassName={"pages pagination"}
-          activeClassName={"active"}
-        />
-       </Row>
-      </Container>
-    </div>
-  );
+          </div>
+        </Col>
+      </Row>
+     <Row>
+     <ReactPaginate
+        previousLabel={"Previous"}
+        nextLabel={"Next"}
+        breakLabel={"..."}
+        pageCount={Math.ceil(data.length / itemsPerPage)}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={"pagination"}
+        subContainerClassName={"pages pagination"}
+        activeClassName={"active"}
+      />
+     </Row>
+    </Container>
+  </div>
+  )
 }
 
 export default ListSeller;

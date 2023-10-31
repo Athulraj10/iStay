@@ -4,12 +4,12 @@ import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import ReactPaginate from "react-paginate";
+import { SpinnerChakra } from "../../../loadingState/SpinnerChakra";
 
 function UserList() {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
-  const [loadingState, setLoadingState] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loadingState, setLoadingState] = useState(true);
   const [currentPage, setCurrentPage] = useState(0); // Add currentPage state
   const itemsPerPage = 10; // Number of items to display per page
 
@@ -26,9 +26,7 @@ function UserList() {
       let response = await USERSAPI.patch(`admin/listUser/block/${userId}`);
       if (response.data) {
         if (response.data.status) {
-          setLoadingState(false)
           toast.error(response.data.message);
-          setLoadingState(true)
         } else {
           toast.success(response.data.message);
         }
@@ -39,27 +37,29 @@ function UserList() {
   };
 
   useEffect(() => {
-    const adminInfo = localStorage.getItem("adminInfo")
-    if(adminInfo){
+    const adminInfo = localStorage.getItem("adminInfo");
+
+    if (adminInfo) {
       const fetchData = async () => {
         try {
           const response = await USERSAPI.get("admin/listUser");
           const responseData = response.data.data;
+          setLoadingState(false);
           setData(responseData);
-          setLoading(true);
         } catch (error) {
           toast.error(error.response.data.message);
           setLoading(false);
         }
       };
-      
       fetchData();
-    }else{
-      navigate('/admin')
+    } else {
+      navigate("/admin");
     }
   }, [handleBlockButton]);
 
-  return (
+  return loadingState ? (
+    <SpinnerChakra />
+  ) : (
     <div
       className="event-schedule-area-two p-4 rounded"
       style={{ minHeight: "100vh" }}
