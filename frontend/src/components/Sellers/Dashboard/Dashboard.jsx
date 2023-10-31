@@ -19,9 +19,8 @@ function Dashboard() {
   const [messages, setMessages] = useState(0);
   const [chartValues, setChartValues] = useState([]);
   const [revenue, setRevenue] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
   useEffect(() => {
-    setLoading(true);
     const fetchData = async () => {
       try {
         const storedSellerInfo = localStorage.getItem("sellerInfo");

@@ -66,7 +66,7 @@ function ListHostel() {
   ) : (
     <div
       className="event-schedule-area-two p-4 rounded"
-      style={{ height: "100vh" }}
+      style={{ minHeight: "100vh",height:'auto', color:'whte'}}
     >
       <Container>
         <Row>
@@ -87,17 +87,14 @@ function ListHostel() {
                 id="home"
                 role="tabpanel"
               >
-                <div className="table-responsive">
-                  <table className="table table-bordered transparent-table">
+                <div className="table table-responsive">
+                  <table id="tables" className="table table-bordered" style={{border:'2px solid black' }}>
                     <thead>
                       <tr>
-                        <th className="text-center" scope="col">
-                          Hostel Name
-                        </th>
-                        <th scope="col">Place</th>
-                        <th scope="col">Photos</th>
-                        <th scope="col">Rate</th>
-                        <th className="text-center" scope="col">
+                        <th style={{border:'2px solid black'}}>Hostel Name</th>
+                        <th style={{border:'2px solid black'}}>Photos</th>
+                        <th style={{border:'2px solid black'}}>Rate</th>
+                        <th className="text-center" style={{border:'2px solid black'}}>
                           Status
                         </th>
                       </tr>
@@ -105,20 +102,20 @@ function ListHostel() {
                     <tbody>
                       {Array.isArray(data) ? (
                         data.map((item, index) => (
-                          <tr className="inner-box" key={index}>
-                            <td className="align-middle">
-                              <div className="event-date text-center">
+                          <tr style={{border:'2px solid black'}} className="inner-box" key={index}>
+                            <td className="align-middle" style={{border:'2px solid black'}}>
+                              <div className="event-date text-center" >
                                 <p className="date-month">{item.hostelName}</p>
                               </div>
                             </td>
-                            <td className="align-middle">
+                            {/* <td className="align-middle">
                               <div className="event-img">
                                 {item.mainLocation}
                               </div>
-                            </td>
+                            </td> */}
 
-                            <td className="align-middle">
-                              <div className="event-wrap">
+                            <td style={{border:'2px solid black'}}>
+                              <div style={{display:'flex',flexWrap:"wrap",margin:'50px 0 50px 0'}}>
                                 {item.images.map((image, index) => (
                                   <img
                                     key={index}
@@ -129,19 +126,19 @@ function ListHostel() {
                                     style={{
                                       height: "100px",
                                       width: "100px",
-                                      margin: "10px",
+                                      margin: "5px",
                                     }}
                                   />
                                 ))}
                               </div>
                             </td>
 
-                            <td className="align-middle">
-                              <div className="r-no">
+                            <td className="align-middle" style={{border:'2px solid black'}}>
+                              <div className="r-no m-5">
                                 <span>{item.price}</span>
                               </div>
                             </td>
-                            <td className="align-middle text-center">
+                            <td className="align-middle text-center" >
                               <div className={`primary-btn`}>
                                 <button
                                   className={`btn ${

@@ -62,7 +62,7 @@ function ListHostel() {
     <SpinnerChakra/>
   ):(
     <div
-    style={{ background: "transparent",minHeight:'100vh', height:'auto' }}
+    style={{ background: "transparent",height:'auto' }}
     className="event-schedule-area-two p-4 rounded"
   >
     <Container>

@@ -1,0 +1,15 @@
+/*  */
+  .image-container {
+    display: flex; /* Display items in a row */
+    margin:'35px';
+  }
+  
+  .img-item {
+    margin-right: 10px; /* Adjust the margin as needed */
+  }
+  
+  /* The last item should not have margin-right */
+  .img-item:last-child {
+    margin-right: 0;
+  }
+  

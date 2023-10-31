@@ -3,28 +3,23 @@ import { Container, Form, Row, Col, Button, Toast } from "react-bootstrap";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
 import { toast } from "react-toastify";
 // import { useNavigate } from "react-router-dom";
-import { Navigate, useLocation, useNavigate } from 'react-router-dom'
-
+import { useLocation, useNavigate } from "react-router-dom";
+import "./editHostel.css";
 const EditHostel = () => {
-  const location = useLocation()
+  const location = useLocation();
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  
-  
-  const [sellerInfo, setSellerInfo] = useState(null);
   const [imageUrls, setImageUrls] = useState([]);
   const [imageInitial, setImageInitial] = useState([]);
-  const [sellerIdStored,setsellerId] = useState("");
-  const [receivedData,setDataReceived] = useState(location.state.responseData)
+  const [receivedData, setDataReceived] = useState(location.state.responseData);
 
-  useEffect(()=>{
-    setImageInitial(receivedData.images)
-  },[])
-
+  useEffect(() => {
+    setImageInitial(receivedData.images);
+  }, []);
 
   const [formData, setFormData] = useState({
-    sellerID:"",
-    id:receivedData._id,
+    sellerID: "",
+    id: receivedData._id,
     files: [],
     category: receivedData.category,
     hostelName: receivedData.hostelName,
@@ -72,7 +67,7 @@ const EditHostel = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formDataToSend = new FormData();
-    formDataToSend.append("id",formData.id);
+    formDataToSend.append("id", formData.id);
     formData.files.forEach((file) => formDataToSend.append("files", file));
     formDataToSend.append("category", formData.category);
     formDataToSend.append("hostelName", formData.hostelName);
@@ -115,7 +110,9 @@ const EditHostel = () => {
 
       if (response) {
         if (response.data.hostelUpdated) {
-          navigate("/seller/listHostels",{state:{responseData:"HostelUpdated"}});
+          navigate("/seller/listHostels", {
+            state: { responseData: "HostelUpdated" },
+          });
         } else {
           toast.error("Something went wrong in Adding hostel");
         }
@@ -138,29 +135,35 @@ const EditHostel = () => {
         <Row className="photoAddContainer m-5">
           <Col
             lg={12}
-            className="d-flex align-items-center justify-content-center"
+            className="align-items-center justify-content-center"
             style={{
-              backgroundImage: `url(${imageInitial[0]})`,
+              backgroundImage: `url(http://localhost:5000/images/${imageInitial[0]})`, // Correct the interpolation
               backgroundSize: "cover",
               backgroundPosition: "center",
+              height: "auto",
+              width: "100%",
             }}
           >
-            <Button className="primaryPhotoText primaryPhotoButton">
+            <Button
+              className="primaryPhotoText primaryPhotoButton"
+              style={{ textAlign: "center" }}
+            >
               Primary Image will Show here
             </Button>
           </Col>
         </Row>
 
-        <Row>
-        {imageInitial.map((url, index) => (
-                <div key={index} className="me-2">
-                  <img
-                    src={url}
-                    alt={`Image ${index}`}
-                    style={{ height: "200px", width: "200px" }}
-                  />
-                </div>
-              ))}
+        <Row style={{marginBottom:'40px'}}>
+          <div className="image-container">
+            {imageInitial.map((url, index) => (
+              <div key={index} className="img-item">
+                <img
+                  src={`http://localhost:5000/images/${url}`}
+                  alt={`Image ${index}`}
+                />
+              </div>
+            ))}
+          </div>
         </Row>
 
         <Row>
@@ -200,7 +203,7 @@ const EditHostel = () => {
               />
             </Form.Group>
 
-                {/* <input type="hidden" 
+            {/* <input type="hidden" 
                 value={sellerIdStored}
                 onChange={()=>{}}
                 /> */}
@@ -474,10 +477,7 @@ const EditHostel = () => {
           </Col>
         </Row>
         <Row className="m-4">
-          <Col
-            lg={12}
-            className="d-flex align-items-center justify-content-center"
-          >
+          <Col lg={12} className="text-center">
             <Button className="primaryPhotoText myCustomButton" type="submit">
               Submit Data
             </Button>

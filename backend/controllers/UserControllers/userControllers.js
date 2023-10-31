@@ -734,7 +734,7 @@ const makeEnquery = asyncHandler(async (req, res) => {
       await newEnquiry.save();
 
       // Respond with a success message
-      res.status(200).json({ updated: true, message: constants.ENQUIRY_SUCCESSFULLY });
+      res.status(200).json({ updated: true, message: constants.ENQUERY_SUCCESSFULLY});
     } else {
       // If required data is missing, respond with an error message
       return res.status(404).json({ message: constants.PLEASE_LOGIN });

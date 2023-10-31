@@ -1,5 +1,8 @@
-
-.transparent-table {
-    background-color: transparent;
-  }
-  
+#tables{
+  color: white !important;
+  background:#0f192d !important;
+}
+.table{
+  color: white !important;
+  background:#0f192d !important;
+}

@@ -15,11 +15,11 @@ import { toast } from "react-toastify";
 import { loadStripe } from "@stripe/stripe-js";
 import { Modal } from "react-bootstrap";
 import "./style.css";
-import StarRating from "../MyBookings/StarRating";
+// import StarRating from "../MyBookings/StarRating";
 import { FaStar } from "react-icons/fa";
 import { ProgressChakra } from "../../loadingState/ProgressChakra";
 const SingleViewHostel = () => {
-  const [rating, setRating] = useState(null);
+  // const [rating, setRating] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const userInfoLocalstorage = JSON.parse(localStorage.getItem("userInfo"));
     const location = useLocation();
@@ -45,19 +45,6 @@ const SingleViewHostel = () => {
     const [formDataEnquery, setformDataEnquery] = useState({
       message: "",
     });
-  // const handleStarClick = (starValue) => {
-  //   const fetchRating = async (rating) => {
-  //     const response = await USERSAPI.put("/users/rating", { rating });
-  //     if (response.data.updated) {
-  //       setRating(response.data.ratingValue);
-  //       toast.success(`Rating 5 out of ${response.data.ratingValue}`);
-  //       return;
-  //     } else {
-  //       return toast.error(response.error.data.error);
-  //     }
-  //   };
-  //   fetchRating(starValue);
-  // };
 
 
 
@@ -102,6 +89,9 @@ const SingleViewHostel = () => {
           toast.error(result.error);
         }
       } else if (selectedPaymentMethod == "wallet") {
+        if(!userInfoLocalstorage){
+          return toast.error('Please Login')
+        }
         let hostelTotalPrice = hostel.price + hostel.extraPrice;
         if (walletBalance < hostelTotalPrice) {
           return toast.error("Insufficient Wallet Amount");
@@ -199,6 +189,14 @@ const SingleViewHostel = () => {
     }
   };
 
+  const openModal = () => {
+    if(!userInfoLocalstorage){
+      toast.error('Please Login')
+    }else{
+      setShowModal(true);
+    }
+  };
+
   const handleThumbnailClick = (index) => {
     setSelectedImageIndex(index);
   };
@@ -216,7 +214,7 @@ const SingleViewHostel = () => {
       setIsLoading(true)
       const response = await USERSAPI.post(
         "users/findAccommodation/singlePageView",
-        { id: id, user_id: userInfoLocalstorage._id }
+        { id: id, user_id: userInfoLocalstorage?._id }
       );
       try {
         if (response.data) {
@@ -260,7 +258,7 @@ const SingleViewHostel = () => {
             src={`http://localhost:5000/images/${hostel.images[selectedImageIndex]}`}
             alt={`Image ${selectedImageIndex}`}
             className="event-image rounded-3"
-            style={{ height: "400px", width: "100%" }}
+            style={{ minHeight: "400px", width: "92%",height:"auto" }}
           />
         </div>
 
@@ -657,7 +655,7 @@ const SingleViewHostel = () => {
           <input
             type="file"
             accept="image/*"
-            multiple
+            // multiple
             onChange={handleAddPhoto}
           />
           <textarea
@@ -688,7 +686,7 @@ const SingleViewHostel = () => {
         margin: "20px",
       }}
     >
-      <Button onClick={() => setShowModal(true)}>Add review</Button>
+        <Button onClick={openModal}>Add review</Button>
     </div>
 
     <div id="reviewsContainer" style={{ display: "flex" }}>

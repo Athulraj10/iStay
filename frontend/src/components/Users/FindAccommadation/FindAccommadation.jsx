@@ -71,7 +71,8 @@ const FindAccommodation = () => {
 
   return isLoading ? (
     <ProgressChakra/>
-  ):( <Container>
+  ):(
+  <Container style={{height:'100vh'}}>
     <div>
       <Navbar style={{background:"white"}} className="rounded-2" expand="lg">
         <Navbar.Collapse id="basic-navbar-nav">

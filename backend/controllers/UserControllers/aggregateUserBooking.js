@@ -1,3 +1,5 @@
+import { mongoose } from "mongoose";
+import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 export const aggregateBookingWithHostel = async (userId) => {
     try {
       const result = await Booking.aggregate([
