@@ -787,9 +787,6 @@ const addHostelDetails = asyncHandler(async (req, res) => {
 
 
 // --------------------------Logout clearing JWT---------------------------
-//@desc logout USer
-//access Public
-//route POST// /api/logout
 /**
  * Seller Logout
  * This function handles the seller's logout by clearing the authentication cookie.
