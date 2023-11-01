@@ -2,7 +2,7 @@ import express from "express"
 const router = express.Router();
 import chatController from "../../controllers/ChatController/chatController.js";
 // import  {protect}  from "../../middleware/ChatMiddleware/authMiddleware.js";
-import  {protect}  from "../../middleware/UserMiddleware/authMiddleware.js";
+// import  {protect}  from "../../middleware/UserMiddleware/authMiddleware.js";
 
 
 // router.get('/', AllUsers)
