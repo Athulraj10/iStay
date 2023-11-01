@@ -170,7 +170,7 @@ const MyBookings = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="seller-name-and-icon"
+                      className="seller-name-and-icon"
                     >
                       <FaUserCircle />
                       <span style={{ marginLeft: "5px" }}>
@@ -185,7 +185,7 @@ const MyBookings = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="seller-name-and-icon"
+                      className="seller-name-and-icon"
                     >
                       <FaEnvelope />
                       <span style={{ marginLeft: "5px" }}>
@@ -201,7 +201,7 @@ const MyBookings = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="seller-name-and-icon"
+                      className="seller-name-and-icon"
                     >
                       <FaPhone />
                       <span style={{ marginLeft: "5px" }}>
@@ -216,7 +216,7 @@ const MyBookings = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="seller-name-and-icon"
+                      className="seller-name-and-icon"
                     >
                       <FaCalendar />
                       <span style={{ marginLeft: "5px" }}>

@@ -44,13 +44,13 @@ function Notification() {
 
   return loading ? (
     <div style={{display:'flex',justifyContent:'center',alignItems:'center',height:'90vh'}}>
-      <div class="spinner-container">
-        <div class="spinner">
-          <div class="spinner">
-            <div class="spinner">
-              <div class="spinner">
-                <div class="spinner">
-                  <div class="spinner"></div>
+      <div className="spinner-container">
+        <div className="spinner">
+          <div className="spinner">
+            <div className="spinner">
+              <div className="spinner">
+                <div className="spinner">
+                  <div className="spinner"></div>
                 </div>
               </div>
             </div>

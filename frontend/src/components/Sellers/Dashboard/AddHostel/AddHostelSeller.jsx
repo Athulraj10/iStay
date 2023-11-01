@@ -198,7 +198,7 @@ const AddHostelSeller = () => {
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="Category Ex: Gents or Womens"
                 type="text"
@@ -259,7 +259,7 @@ const AddHostelSeller = () => {
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="Provide Full Details with Pincode"
                 type="text"
@@ -317,7 +317,7 @@ const AddHostelSeller = () => {
               {/* <Form.Label className="ms-3" >Near By Location</Form.Label> */}
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="Enter Famous Shop or anything"
                 type="text"
@@ -331,7 +331,7 @@ const AddHostelSeller = () => {
               {/* <Form.Label className="ms-3" >Restrictions</Form.Label> */}
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="Enter Any Restrictions"
                 type="text"
@@ -344,7 +344,7 @@ const AddHostelSeller = () => {
             <Form.Group controlId="descriptionAboutHostel">
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="Descriptions About Hostel"
                 type="text"
@@ -357,7 +357,7 @@ const AddHostelSeller = () => {
             <Form.Group controlId="guestProfile">
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="Guest Profile"
                 type="text"
@@ -374,7 +374,7 @@ const AddHostelSeller = () => {
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="Enter Price"
                 type="text"
@@ -430,7 +430,7 @@ const AddHostelSeller = () => {
               {/* <Form.Label>Category</Form.Label> */}
               <Form.Control
                 // id="custom-input-bg"
-                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input class here
+                className="ms-3 m-2 form-input custom-input-bg" // Add the form-input className here
                 required
                 placeholder="WIFI Availble or Not"
                 type="text"

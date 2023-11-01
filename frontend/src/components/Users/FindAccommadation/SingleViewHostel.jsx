@@ -258,7 +258,7 @@ const SingleViewHostel = () => {
             src={`https://www.hexashop.shop/images/${hostel.images[selectedImageIndex]}`}
             alt={`Image ${selectedImageIndex}`}
             className="event-image rounded-3"
-            style={{ minHeight: "400px", width: "92%",height:"auto" }}
+            style={{ height: "400px", width: "100%" }}
           />
         </div>
 
@@ -359,7 +359,6 @@ const SingleViewHostel = () => {
                     See all Reviews {Math.round(hostel.rating / 5)}
                   </p>
                   <span
-                    href="#"
                     style={{
                       padding: "5px",
                       textDecoration: "none",

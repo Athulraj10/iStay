@@ -278,7 +278,7 @@ export default function UserProfile() {
                 </h1>
                 <div className="wallet-balance">
                   <h1 className="balance-amount p-1 text-white text-center">
-                    {/* Use text-center class */}
+                    {/* Use text-center className */}
                     {userData[0]?.wallet?.balance || 0}
                   </h1>
                 </div>

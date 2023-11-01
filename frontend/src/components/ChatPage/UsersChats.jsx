@@ -215,7 +215,7 @@ const UserChats = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="sellerDetails[0]?.sellerDetails.name?-name-and-icon"
+                      className="sellerDetails[0]?.sellerDetails.name?-name-and-icon"
                     >
                       <FaUserCircle />
                       <span style={{ marginLeft: "5px" }}>
@@ -230,7 +230,7 @@ const UserChats = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="seller-name-and-icon"
+                      className="seller-name-and-icon"
                     >
                       <FaEnvelope />
                       <span style={{ marginLeft: "5px" }}>
@@ -245,7 +245,7 @@ const UserChats = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="sellerDetails[0]?.sellerDetails.name?-name-and-icon"
+                      className="sellerDetails[0]?.sellerDetails.name?-name-and-icon"
                     >
                       <FaPhone />
                       <span style={{ marginLeft: "5px" }}>
@@ -260,7 +260,7 @@ const UserChats = () => {
                         display: "flex",
                         justifyContent: "center",
                       }}
-                      class="seller-name-and-icon"
+                      className="seller-name-and-icon"
                     >
                       <FaCalendar />
                       <span style={{ marginLeft: "5px" }}>
