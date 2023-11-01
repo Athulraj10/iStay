@@ -5,7 +5,7 @@ const generateToken = (res, userId) => {
       expiresIn: "30d",
     });
 
-    res.cookie("jwt_User",token, {
+    res.cookie("jwt_User", token, {
       httpOnly: true,
       secure: process.env.NODE_ENV !== "development",
       sameSite: "strict",
@@ -15,4 +15,5 @@ const generateToken = (res, userId) => {
     console.log(error);
   }
 };
+
 export default generateToken;
