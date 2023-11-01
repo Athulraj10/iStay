@@ -15,6 +15,7 @@ import {
     from "../../controllers/UserControllers/userControllers.js";
 import { protect } from "../../middleware/UserMiddleware/authMiddleware.js";
 
+
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
         cb(null, 'backend/public/image');
@@ -37,6 +38,7 @@ router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
 router.get('/profile',protect,getUserProfile)
 router.put('/profile',updateUserProfile)
+
 // router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 
 
