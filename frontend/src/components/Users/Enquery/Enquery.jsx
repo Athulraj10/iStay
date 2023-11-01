@@ -8,26 +8,6 @@ import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const Enquery = () => {
   const [enquery, setEnquery] = useState("");
-  const [sellerReply, setSellerReply] = useState("");
-  const [dataReset, setDataReset] = useState(false);
-  const [enqueryId, setEnqueryId] = useState("");
-
-  const handleSubmitSellerReply = async (e, id) => {
-    try {
-      setDataReset(false);
-      e.preventDefault();
-      console.log(sellerReply);
-      let response = await USERSAPI.get(`/users/listenqueryreplyuser/${id}`, {
-        params: { message: sellerReply },
-      });
-      if (response.data.updated) {
-        setDataReset(true);
-        toast.success("Response Sented");
-      }
-    } catch (error) {
-      toast.error(error || "Error in ListSeller React");
-    }
-  };
 
   useEffect(() => {
     const fetch = async () => {
@@ -41,13 +21,13 @@ const Enquery = () => {
       }
     };
     fetch();
-  }, [dataReset]);
+  }, []);
 
   return (
     <div className="event-schedule-area-two p-4 rounded " style={{height:'100vh'}}>
       <Container>
         <Row>
-          <Col lg={12} style={{ display: "flex" }}>
+          <Col lg={12} md={6} style={{ display: "flex" }}>
             {enquery.length > 0 ? (
               enquery.map((enquery, index) => (
                 <Card
