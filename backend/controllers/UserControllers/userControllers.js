@@ -105,7 +105,6 @@ const authUser = asyncHandler(async (req, res) => {
     generateToken(res,user._id);
     console.log('user logged in');
     res.status(201).json({
-      token:generateToken(res,user._id),
       verified:true,
       _id: user._id,
       name: user.name,
@@ -190,7 +189,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
       // If the user is successfully registered, generate a token and respond with user data
-      generateToken(res, user._i);
+      generateToken(res, user._id);
       res.status(201).json({
         _id: user._id,
         name: user.name,
