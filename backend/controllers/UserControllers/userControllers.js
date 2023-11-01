@@ -97,7 +97,7 @@ const authUser = asyncHandler(async (req, res) => {
      });
    }
    if (user.isBlock) {
-     res.status(401).json({ message: constants.USER_BLOCKED });
+     res.status(401).json({ message: constants.USER_BLOCKED});
    }
    if (user && (await user.matchPassword(password))) {
      // If the password matches, generate a token and respond with user data
