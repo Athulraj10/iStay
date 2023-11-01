@@ -21,9 +21,9 @@ const app =express();
 app.use(express.static('backend/public'));
 
 app.use(cors({
-  origin: 'https://hexashop.shop', // or specify the origins you want to allow
-  credentials: true,
-}));
+    origin: ["https://hexashop.shop","https://www.hexashop.shop"],
+    credentials: true
+  }));
 
 
 app.use(cookieParser());
