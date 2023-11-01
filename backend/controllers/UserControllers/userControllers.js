@@ -95,7 +95,6 @@ const authUser = asyncHandler(async (req, res) => {
      res.status(401).json({
        message: constants.EMAIL_PASSWORD_INCORRECT,
      });
-     throw new Error(constants.EMAIL_PASSWORD_INCORRECT);
    }
  
    if (user.isBlock) {
