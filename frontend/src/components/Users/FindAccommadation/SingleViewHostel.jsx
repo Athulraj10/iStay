@@ -777,7 +777,7 @@ const SingleViewHostel = () => {
         <img
           src={`https://www.hexashop.shop/image/${clickedImage}`}
           alt="Full Size Image"
-          style={{ maxHeight: "90%", maxWidth: "90%", height: "100vh" }}
+          style={{ maxHeight: "40%", maxWidth: "50%", height: "300px" }}
         />
       </div>
     )}
