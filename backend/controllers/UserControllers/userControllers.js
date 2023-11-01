@@ -10,7 +10,7 @@ import Hostel from "../../models/SellerModel/HostelModel.js";
 import Enquiry from "../../models/UserModels/enquery.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import HostelReview from "../../models/SellerModel/Review.js";
-import genereateToken from "../../tils/generateToken.js";
+import genereateToken from "../../utils/generateToken.js";
 // ----------Models Ended
 import sendReminderEmails from "./sendRemainder.js";
 import updateExpiredBookings from "./CRONsetExpire.js";
