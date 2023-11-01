@@ -19,6 +19,10 @@ const app =express();
 
 
 app.use(express.static('backend/public'));
+app.use(cookieParser());
+app.use(express.json());
+// app.use(cors());
+app.use(express.urlencoded({extended:true}))
 
 app.use(cors({
     origin: ["https://hexashop.shop","https://www.hexashop.shop"],
@@ -26,10 +30,6 @@ app.use(cors({
   }));
 
 
-app.use(cookieParser());
-app.use(express.json());
-// app.use(cors());
-app.use(express.urlencoded({extended:true}))
 
 
 app.use('/api/users',userRoutes)

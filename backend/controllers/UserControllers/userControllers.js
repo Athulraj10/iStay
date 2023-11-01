@@ -86,35 +86,35 @@ const OTPsaveFunction = async (email, otp) => {
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
   
-  // Find the user in the database by their email
-  const user = await User.findOne({ email });
+ try {
+   // Find the user in the database by their email
+   const user = await User.findOne({ email });
 
-  if (!user) {
-    // If no user is found, respond with an error message and status code
-    res.status(401).json({
-      message: constants.EMAIL_PASSWORD_INCORRECT,
-    });
-    throw new Error(constants.EMAIL_PASSWORD_INCORRECT);
-  }
-
-  if (user.isBlock) {
-    // If the user is blocked, respond with an error message and status code
-    return res.status(401).json({ message: constants.USER_BLOCKED });
-  }
-
-  if (user && (await user.matchPassword(password))) {
-    // If the password matches, generate a token and respond with user data
-    genereateToken(res, user._id);
-    res.status(201).json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-    });
-  } else {
-    // If the password doesn't match, respond with an error message and status code
-    res.status(401);
-    throw new Error(constants.EMAIL_PASSWORD_INCORRECT);
-  }
+   if (!user) {
+     // If no user is found, respond with an error message and status code
+     res.status(401).json({
+       message: constants.EMAIL_PASSWORD_INCORRECT,
+     });
+     throw new Error(constants.EMAIL_PASSWORD_INCORRECT);
+   }
+ 
+   if (user.isBlock) {
+     // If the user is blocked, respond with an error message and status code
+     return res.status(401).json({ message: constants.USER_BLOCKED });
+   }
+ 
+   if (user && (await user.matchPassword(password))) {
+     // If the password matches, generate a token and respond with user data
+     genereateToken(res, user._id);
+     res.status(201).json({
+       _id: user._id,
+       name: user.name,
+       email: user.email,
+     });
+   }
+ } catch (error) {
+  console.log(error)
+ }
 });
 
 
