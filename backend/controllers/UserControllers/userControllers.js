@@ -86,7 +86,6 @@ const OTPsaveFunction = async (email, otp) => {
  */
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  console.log(req.body)
  try {
    // Find the user in the database by their email
    const user = await User.findOne({ email });
@@ -103,10 +102,10 @@ const authUser = asyncHandler(async (req, res) => {
   }
   if (user && (await user.matchPassword(password))) {
     // If the password matches, generate a token and respond with user data
-    generateToken(res, user._id);
+    generateToken(res,user._id);
     console.log('user logged in');
     res.status(201).json({
-      
+      token:generateToken(res,user._id),
       verified:true,
       _id: user._id,
       name: user.name,
