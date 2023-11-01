@@ -85,6 +85,7 @@ const OTPsaveFunction = async (email, otp) => {
  */
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
+  console.log(req.body)
  try {
    // Find the user in the database by their email
    const user = await User.findOne({ email });
@@ -95,7 +96,7 @@ const authUser = asyncHandler(async (req, res) => {
      });
    }
    console.log(user)
-   if (user.isBlock == true) {
+   if (user.isBlock) {
      return res.status(401).json({ message: constants.USER_BLOCKED });
    }
    if (user && (await user.matchPassword(password))) {
