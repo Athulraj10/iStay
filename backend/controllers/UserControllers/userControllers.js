@@ -95,10 +95,12 @@ const authUser = asyncHandler(async (req, res) => {
      res.status(401).json({
        message: constants.EMAIL_PASSWORD_INCORRECT,
      });
+     return
    }
    if (user.isBlock) {
-     res.status(401).json({ message: constants.USER_BLOCKED});
-   }
+    res.status(401).json({ message: constants.USER_BLOCKED});
+    return
+  }
    if (user && (await user.matchPassword(password))) {
      // If the password matches, generate a token and respond with user data
      genereateToken(res,user._id);
