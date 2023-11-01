@@ -10,7 +10,7 @@ import Hostel from "../../models/SellerModel/HostelModel.js";
 import Enquiry from "../../models/UserModels/enquery.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import HostelReview from "../../models/SellerModel/Review.js";
-import genereateToken from "../../utils/generateToken.js";
+import generateToken from "../../utils/generateToken.js";
 
 // ----------Models Ended
 import sendReminderEmails from "./sendRemainder.js";
@@ -101,16 +101,17 @@ const authUser = asyncHandler(async (req, res) => {
     res.status(401).json({ message: constants.USER_BLOCKED});
     return
   }
-   if (user && (await user.matchPassword(password))) {
-     // If the password matches, generate a token and respond with user data
-     genereateToken(res,user._id);
-     console.log('user logined')
-     res.status(201).json({
-       _id: user._id,
-       name: user.name,
-       email: user.email,
-     });
-   }
+  if (user && (await user.matchPassword(password))) {
+    // If the password matches, generate a token and respond with user data
+    generateToken(res, user._id);
+    console.log('user logged in');
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+    });
+  }
+  
  } catch (error) {
   console.log(error)
  }
@@ -188,7 +189,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
       // If the user is successfully registered, generate a token and respond with user data
-      genereateToken(res, user._i);
+      generateToken(res, user._i);
       res.status(201).json({
         _id: user._id,
         name: user.name,
