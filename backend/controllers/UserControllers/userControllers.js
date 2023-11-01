@@ -10,7 +10,7 @@ import Hostel from "../../models/SellerModel/HostelModel.js";
 import Enquiry from "../../models/UserModels/enquery.js";
 import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import HostelReview from "../../models/SellerModel/Review.js";
-import genereateToken from "../../utils/generateToken.js";
+import genereateToken from "../../tils/generateToken.js";
 // ----------Models Ended
 import sendReminderEmails from "./sendRemainder.js";
 import updateExpiredBookings from "./CRONsetExpire.js";
@@ -85,25 +85,22 @@ const OTPsaveFunction = async (email, otp) => {
  */
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  
  try {
    // Find the user in the database by their email
    const user = await User.findOne({ email });
-
    if (!user) {
      // If no user is found, respond with an error message and status code
      res.status(401).json({
        message: constants.EMAIL_PASSWORD_INCORRECT,
      });
    }
-   if (user.isBlock) {
+   if (user.isBlock == true) {
      // If the user is blocked, respond with an error message and status code
      return res.status(401).json({ message: constants.USER_BLOCKED });
    }
- 
    if (user && (await user.matchPassword(password))) {
      // If the password matches, generate a token and respond with user data
-     genereateToken(res, user._id);
+     genereateToken(res,user._id);
      res.status(201).json({
        _id: user._id,
        name: user.name,
@@ -187,7 +184,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
       // If the user is successfully registered, generate a token and respond with user data
-      genereateToken(res, user._id);
+      genereateToken(res, user._i);
       res.status(201).json({
         _id: user._id,
         name: user.name,
