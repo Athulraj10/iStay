@@ -31,7 +31,6 @@ app.use(cors({
 
 
 
-
 app.use('/api/users',userRoutes)
 app.use('/api/seller',sellerRoutes)
 app.use('/api/admin',adminRoutes)
