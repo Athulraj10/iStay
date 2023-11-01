@@ -32,12 +32,12 @@ const HeaderRightSection = () => {
         password: password,
       };
       let res = await USERSAPI.post("users/login", formData);
-      if (res.data) {
+      if (res.data.verified) {
         localStorage.setItem("userInfo",JSON.stringify(res.data));
-        return (window.location.reload(false), navigate("/"));
+        // (window.location.reload(false)
+        navigate("/");
       } else {
-        location.windowReload()
-        return navigate("/login");
+        navigate("/login");
       }
     } catch (error) {
       return toast.error(error.response.data.message);

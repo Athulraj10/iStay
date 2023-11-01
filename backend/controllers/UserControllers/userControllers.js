@@ -106,6 +106,7 @@ const authUser = asyncHandler(async (req, res) => {
     generateToken(res, user._id);
     console.log('user logged in');
     res.status(201).json({
+      verified:true,
       _id: user._id,
       name: user.name,
       email: user.email,
