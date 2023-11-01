@@ -104,7 +104,8 @@ const authUser = asyncHandler(async (req, res) => {
     // If the password matches, generate a token and respond with user data
     generateToken(res,user._id);
     console.log('user logged in');
-    console.log(res.cookie);
+    console.log(req.cookies.jwt_User);
+    console.log(res.cookie.jwt_User);
     res.status(201).json({
       verified:true,
       _id: user._id,
