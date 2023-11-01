@@ -4,7 +4,7 @@ import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 import io from "socket.io-client";
 import {SpinnerChakra} from "../../loadingState/SpinnerChakra";
 
-const ENDPOINT = "http://localhost:5000/";
+const ENDPOINT = "https://www.hexashop.shop/";
 var socket, selectedChatCompare;
 
 const SellerChat = () => {
