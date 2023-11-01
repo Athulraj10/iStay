@@ -60,7 +60,6 @@ import Enquery from "../components/Users/Enquery/Enquery";
 const Routeing = () => {
   return (
     <Routes>
-
       {/* ------------------------------UserScreen */}
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
