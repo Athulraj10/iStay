@@ -90,13 +90,12 @@ const authUser = asyncHandler(async (req, res) => {
    const user = await User.findOne({ email });
    if (!user) {
      // If no user is found, respond with an error message and status code
-     res.status(401).json({
+     return res.status(401).json({
        message: constants.EMAIL_PASSWORD_INCORRECT,
      });
    }
    console.log(user)
    if (user.isBlock == true) {
-     // If the user is blocked, respond with an error message and status code
      return res.status(401).json({ message: constants.USER_BLOCKED });
    }
    if (user && (await user.matchPassword(password))) {
