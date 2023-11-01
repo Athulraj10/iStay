@@ -1,5 +1,5 @@
 import axios from 'axios';
 
 export const USERSAPI = axios.create({
-  baseURL : "https://hexashop.shop/api/"
+  baseURL : "https://www.hexashop.shop/api/"
 })

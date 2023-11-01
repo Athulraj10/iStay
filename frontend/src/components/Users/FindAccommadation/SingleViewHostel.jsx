@@ -74,7 +74,7 @@ const SingleViewHostel = () => {
           "Content-Type": "application/json",
         };
         const response = await fetch(
-          "http://localhost:3000/api/users/bookingHostel",
+          "https://hexashop.shop/api/users/bookingHostel",
           {
             method: "POST",
             headers: headers,
