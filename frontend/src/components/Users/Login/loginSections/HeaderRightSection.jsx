@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import "./Login.css";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
-
+import Cookies from "js-cookie";
 // import { useDispatch, useSelector } from "react-redux";
 // import { useLoginMutation } from "../../../slices/usersApiSlice";
 // import { setCredentials } from "../../../slices/authSlice";
@@ -35,7 +35,12 @@ const HeaderRightSection = () => {
       if (res.data.verified) {
         localStorage.setItem("userInfo",JSON.stringify(res.data));
         // (window.location.reload(false)
-        navigate("/");
+        Cookies.set('jwt_User', res.data.userToken);
+        const userToken = Cookies.get('jwt_User');
+      //  const userToken = Cookies.get('userToken');
+       if (userToken) {
+         navigate("/");
+       }
       } else {
         navigate("/login");
       }

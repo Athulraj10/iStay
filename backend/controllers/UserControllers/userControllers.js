@@ -102,10 +102,21 @@ const authUser = asyncHandler(async (req, res) => {
   }
   if (user && (await user.matchPassword(password))) {
     // If the password matches, generate a token and respond with user data
-    generateToken(res,user._id);
+
+    // jwt.sign(
+    //   { id: isUserExist._id, role: isUserExist.role, isBlock:isUserExist.isBlock },
+    //   process.env.JWT_SECRET,
+    //   { expiresIn: "2d" },
+    //   (err, token) => {
+    //     if (err) throw err;
+    //     res.status(200).cookie('userToken', token).json({ message: "Login Successfull", ...otherDetails,token });
+    //   }
+    // );
+    const userToken =await generateToken(res,user._id);
     console.log(res);
     res.status(201).json({
       verified:true,
+      userToken:userToken,
       _id: user._id,
       name: user.name,
       email: user.email,
