@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema({
     isBlock:{
         type:Boolean,
         default:false,
+        required:false
     },
     email:{
         type:String,
