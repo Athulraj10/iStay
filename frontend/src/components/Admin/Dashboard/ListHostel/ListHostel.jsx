@@ -130,12 +130,14 @@ function ListHostel() {
                             </div>
                           </td>
 
+                          
+
                           <td className="align-middle">
                             <div className="event-wrap">
                               {item.images.map((image, index) => (
                                 <img
                                   key={index}
-                                  src={`http://localhost:5000/images/${image}`}
+                                  src={`https://www.hexashop.shop/images/${image}`}
                                   // src={`/public/${image}`}
                                   alt={`Image ${index}`}
                                   className="event-image"

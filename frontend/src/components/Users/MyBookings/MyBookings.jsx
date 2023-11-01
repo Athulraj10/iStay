@@ -102,7 +102,7 @@ const MyBookings = () => {
             <div style={{ flex: 6 }}>
               {/* Update the image source */}
               <img
-                src={`http://localhost:5000/images/${booking.hostelDetails.images[0]}`}
+                src={`https://www.hexashop.shop/images/${booking.hostelDetails.images[0]}`}
                 alt={`Image`}
                 className="event-image rounded-3"
                 style={{ height: "300px", width: "500px" }}

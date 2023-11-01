@@ -255,7 +255,7 @@ const SingleViewHostel = () => {
         {/* Left Side: Primary Image */}
         <div style={{ flex: 6 }}>
           <img
-            src={`http://localhost:5000/images/${hostel.images[selectedImageIndex]}`}
+            src={`https://www.hexashop.shop/images/${hostel.images[selectedImageIndex]}`}
             alt={`Image ${selectedImageIndex}`}
             className="event-image rounded-3"
             style={{ minHeight: "400px", width: "92%",height:"auto" }}
@@ -492,7 +492,7 @@ const SingleViewHostel = () => {
         hostelData[0].images.map((image, index) => (
           <img
             key={index}
-            src={`http://localhost:5000/images/${image}`}
+            src={`https://www.hexashop.shop/images/${image}`}
             alt={`Image ${index}`}
             className={`m-3  thumbnail-image ${
               selectedImageIndex === index ? "selected" : ""
@@ -715,7 +715,7 @@ const SingleViewHostel = () => {
                   ? review.images.map((image, imageIndex) => (
                       <img
                         key={imageIndex}
-                        src={`http://localhost:5000/image/${image}`}
+                        src={`https://www.hexashop.shop/image/${image}`}
                         alt={`Image`}
                         className="event-image rounded-3"
                         style={{
@@ -775,7 +775,7 @@ const SingleViewHostel = () => {
         onClick={() => setClickedImage(null)}
       >
         <img
-          src={`http://localhost:5000/image/${clickedImage}`}
+          src={`https://www.hexashop.shop/image/${clickedImage}`}
           alt="Full Size Image"
           style={{ maxHeight: "90%", maxWidth: "90%", height: "100vh" }}
         />

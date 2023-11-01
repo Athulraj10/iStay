@@ -137,7 +137,7 @@ const EditHostel = () => {
             lg={12}
             className="align-items-center justify-content-center"
             style={{
-              backgroundImage: `url(http://localhost:5000/images/${imageInitial[0]})`, // Correct the interpolation
+              backgroundImage: `url(https://www.hexashop.shop/images/${imageInitial[0]})`, // Correct the interpolation
               backgroundSize: "cover",
               backgroundPosition: "center",
               height: "auto",
@@ -158,7 +158,7 @@ const EditHostel = () => {
             {imageInitial.map((url, index) => (
               <div key={index} className="img-item">
                 <img
-                  src={`http://localhost:5000/images/${url}`}
+                  src={`https://www.hexashop.shop/images/${url}`}
                   alt={`Image ${index}`}
                 />
               </div>
