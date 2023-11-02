@@ -4,10 +4,7 @@ import User from "../../models/UserModels/userModel.js";
 
 const protect = asyncHandler(async (req, res, next) => {
   let token;
-  token = req.headers.cookie
-  .split('; ')
-  .find(cookie => cookie.startsWith('user_JWT_token='))
-  .split('=')[1];
+  token = req.headers.cookie.split('; ').find(cookie => cookie.startsWith('user_JWT_token=')).split('=')[1];
 console.log(token)
 
   // // Check for the token in headers and cookies
