@@ -36,7 +36,7 @@ const HeaderRightSection = () => {
         Cookies.set('seller_JWT_token',res.data.token)
         return (window.location.reload(false),navigate("/seller/dashboard"))
       } else {
-        return navigate("seller/login");
+        return navigate("/seller/login");
       }
     } catch (error) {
       return toast.error(error.response.data.message);
