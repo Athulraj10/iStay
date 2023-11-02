@@ -9,6 +9,7 @@ const sellerMiddleware = asyncHandler(async (req, res, next) => {
   if (token) {
     console.log("token seller received")
     try {
+      console.log(token)
       token = token.split(' ')[1];
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       let seller = await Seller.findById(decodedToken.sellerId).select('-password');
