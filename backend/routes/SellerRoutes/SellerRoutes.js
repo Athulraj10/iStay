@@ -45,20 +45,20 @@ sellerRoute.post("/resetPassword",sellersResetPassword);
 
 
 // -----------Dashboard Manageing-----------
-sellerRoute.get("/dashboard",sellerMiddleware,dashboardValues)
-sellerRoute.get("/notification",sellerMiddleware,sellerNotification)
-sellerRoute.get("/notificationDetails",sellerMiddleware,sellerNotificationDetails)
-sellerRoute.get("/listenquery",sellerMiddleware,listEnquery)
-sellerRoute.get("/listenqueryreply/:id",sellerMiddleware,listEnqueryReply)
+sellerRoute.get("/dashboard",dashboardValues)
+sellerRoute.get("/notification",sellerNotification)
+sellerRoute.get("/notificationDetails",sellerNotificationDetails)
+sellerRoute.get("/listenquery",listEnquery)
+sellerRoute.get("/listenqueryreply/:id",listEnqueryReply)
 
 
 // -----------hostel Manageing-----------
-sellerRoute.post("/listHostels",sellerMiddleware,listHostels);
-sellerRoute.post("/listHostels/editHostel",sellerMiddleware,editHostel);
-sellerRoute.post("/listHostels/edithostelDetails",sellerMiddleware,
+sellerRoute.post("/listHostels",listHostels);
+sellerRoute.post("/listHostels/editHostel",editHostel);
+sellerRoute.post("/listHostels/edithostelDetails",
 upload.array('files',10),editHostelDetails);
 sellerRoute.post(
-  '/listHostels/addhostelDetails',sellerMiddleware,
+  '/listHostels/addhostelDetails',
   upload.array('files', 10), 
     addHostelDetails
 );
