@@ -12,7 +12,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 const AdminHeader = () => {
   const location = useNavigate();
