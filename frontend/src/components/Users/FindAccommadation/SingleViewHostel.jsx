@@ -73,22 +73,22 @@ const SingleViewHostel = () => {
         const headers = {
           "Content-Type": "application/json",
         };
-        // const response = await fetch(
-        //   "https://hexashop.shop/api/users/bookingHostel",
-        //   {
-        //     method: "POST",
-        //     headers: headers,
-        //     body: JSON.stringify(body),
-        //   }
-        // );
         const response = await fetch(
-          USERSAPI+"users/bookingHostel",
+          "https://hexashop.shop/api/users/bookingHostel",
           {
             method: "POST",
             headers: headers,
             body: JSON.stringify(body),
           }
         );
+        // const response = await fetch(
+        //   USERSAPI+"users/bookingHostel",
+        //   {
+        //     method: "POST",
+        //     headers: headers,
+        //     body: JSON.stringify(body),
+        //   }
+        // );
         
         const session = await response.json();
         const result = stripe.redirectToCheckout({
