@@ -102,21 +102,19 @@ const authUser = asyncHandler(async (req, res) => {
   }
   if (user && (await user.matchPassword(password))) {
     // If the password matches, generate a token and respond with user data
-
-    // jwt.sign(
-    //   { id: isUserExist._id, role: isUserExist.role, isBlock:isUserExist.isBlock },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: "2d" },
-    //   (err, token) => {
-    //     if (err) throw err;
-    //     res.status(200).cookie('userToken', token).json({ message: "Login Successfull", ...otherDetails,token });
-    //   }
-    // );
-    const userToken =await generateToken(res,user._id);
-    console.log(res);
+    const token = jwt .sign({ userId: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
+  
+    res.cookie("jwt_User", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
+    console.log(token)
     res.status(201).json({
-      verified:true,
-      userToken:userToken,
+      userToken: token,
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -777,7 +775,7 @@ const listEnqueryReplyUser = asyncHandler(async (req, res) => {
       res.status(200).json({ enquiry: true, userEnquiry: userEnquiry });
     } else {
       // If no user enquiries are found, respond with a message
-      res.status(400).json({ message: constants.NO_ENQUIRY });
+      res.status(400).json({ message: constants.NO_ENQUERY});
     }
   } catch (error) {
     // Handle errors, such as database connection issues

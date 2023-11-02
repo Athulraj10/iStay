@@ -175,9 +175,16 @@ const authSeller = asyncHandler(async (req, res) => {
   }
 
   if (seller && (await seller.matchPassword(password))) {
-    // Assuming generateTokenSeller is a valid function that generates a token for the seller
-    const token = generateTokenSeller(res, seller._id); // Pass res as the first argument
-
+    const token = jwt.sign({ sellerId:seller._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
+  
+    res.cookie("jwt_Seller", token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV !== "development",
+      sameSite: "strict",
+      maxAge: 30 * 24 * 60 * 60 * 1000,
+    });
     return res.status(201).json({
       _id: seller._id,
       name: seller.name,
