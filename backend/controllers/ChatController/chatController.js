@@ -32,7 +32,6 @@ const chatController = {
         .exec();
       let messageFiler = chatRoom.messages[chatRoom.messages.length - 1];
       const firstMessage = await ChatMessage.findOne(messageFiler);
-      console.log(firstMessage);
       res
         .status(200)
         .json({

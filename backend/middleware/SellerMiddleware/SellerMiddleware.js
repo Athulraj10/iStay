@@ -5,14 +5,11 @@ import Seller from "../../models/SellerModel/SellerModel.js";
 
 const sellerMiddleware = asyncHandler(async (req, res, next) => {
   let token;
-  token = req.headers.cookie
-  .split('; ')
-  .find(cookie => cookie.startsWith('seller_JWT_token='))
-  .split('=')[1];
-  
+  token = req.headers.authorization
   if (token) {
-    console.log("token received")
+    console.log("token seller received")
     try {
+      token = token.split(' ')[1];
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       let seller = await Seller.findById(decodedToken.sellerId).select('-password');
       if (!seller) {

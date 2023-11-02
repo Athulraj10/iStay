@@ -69,13 +69,13 @@ io.on("connection",(socket)=>{
   console.log("connected with socket io");
 
   socket.on("setup",(userData)=>{
-    socket.join(userData._id);
+    socket.join(userData?._id);
     socket.emit("connected");
   });
 
   socket.on('join chat',(room)=>{
     socket.join(room);
-    console.log("User Joined room:"+room);
+    console.log("User Joined room:");
   })
   socket.on('new message',(newMessageReceived)=>{
     var chat = newMessageReceived.room;

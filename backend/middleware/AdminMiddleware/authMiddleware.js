@@ -5,12 +5,10 @@ import Admin from "../../models/AdminModel/adminModel.js";
 
 const adminMiddleware = asyncHandler(async (req, res, next) => {
   let token;
-  token = req.headers.cookie
-  .split('; ')
-  .find(cookie => cookie.startsWith('admin_JWT_token='))
-  .split('=')[1];
+  token = req.headers.authorization
   if (token) {
     try {
+      token = token.split(' ')[1];
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
       let adminFound = await Admin.findById(decodedToken.admin_id).select('-password');
       if (!adminFound) {

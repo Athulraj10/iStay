@@ -191,7 +191,7 @@ const authSeller = asyncHandler(async (req, res) => {
       _id: seller._id,
       name: seller.name,
       email: seller.email,
-      token, // Send the token back to the client
+      token,
     });
   }
 
