@@ -143,7 +143,7 @@ export default function UserProfile() {
       navigate("/login");
     }
   }, [mobile]);
-  console.log(Cookies.get('user_JWT_token'))
+  console.log("COOKIEEESS IS "+Cookies.get('user_JWT_token'))
   return isLoading ? (
     <SpinnerChakra />
   ) : (
