@@ -29,9 +29,7 @@ const HeaderRightSection = () => {
       let res = await USERSAPI.post("admin/listUsers/editUserDetails", formData);
       if (res.data) {
         navigate("/admin/listUsers");
-        } else {
-       
-      }
+        } 
     } catch (error) {
       return toast.error(error.response.data.message);
     }
