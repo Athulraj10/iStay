@@ -36,7 +36,7 @@ const HeaderRightSection = () => {
       if (res.data.verified) {
         localStorage.setItem("userInfo",JSON.stringify(res.data));
         Cookies.set('user_JWT_token',res.data.userToken)
-        // window.location.reload(false),
+        window.location.reload(false),
         navigate("/");
         return
       } else {
