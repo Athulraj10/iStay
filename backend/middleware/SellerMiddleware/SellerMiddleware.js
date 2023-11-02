@@ -15,6 +15,7 @@ const sellerMiddleware = asyncHandler(async (req, res, next) => {
       if (!seller) {
         return res.status(401).json({ message: 'Seller not found' });
       }
+      console.log('seller Token Verified')
       req.seller = seller;
       next();
       
