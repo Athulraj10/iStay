@@ -36,7 +36,7 @@ router.post('/login',authUser)
 router.post('/forget',forget)
 router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
-router.get('/profile',protect,getUserProfile)
+router.get('/profile',getUserProfile)
 router.put('/profile',updateUserProfile)
 
 // router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
