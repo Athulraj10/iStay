@@ -387,31 +387,23 @@ const dashboardValues = asyncHandler(async (req, res) => {
   try {
     // Retrieve the seller's ID from the request
     const sellerId = req.query._id;
-
     // Count the number of bookings for the seller
     const bookingCount = await Booking.countDocuments({ seller: sellerId });
-
     // Calculate the seller's total revenue
     const revenue = await sellerRevenueAmount(sellerId);
-
     // Calculate the seller's total sales
     const totalSale = await sellerTotal(sellerId);
-
     // Count the number of unverified enquiries for the seller
     const enquery = await Enquiry.countDocuments({
       seller: sellerId,
       isVerified: false,
     });
-
     // Count the total messages in the chat room for the seller
     const totalMessages = await RoomChat.countDocuments({ seller: sellerId });
-
     // Fetch monthly revenue data for chart representation
     const sellerRevenueMonthlyBase = await sellerAggregateRevenue(sellerId);
-
     // Log sellerAggregateRevenue function for debugging purposes
     console.log(sellerAggregateRevenue);
-
     return res.status(200).json({
       bookingCount: bookingCount ? bookingCount : 0,
       revenue: revenue[0]?.totalAmount,
@@ -455,7 +447,7 @@ const sellerNotification = asyncHandler(async (req, res) => {
 
     if (!sellerBookings) {
       // If there are no bookings, return a status code 502 (Bad Gateway)
-      return res.status(502).json(null);
+      return res.status(502)
     }
   } catch (error) {
     console.error(error);

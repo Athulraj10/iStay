@@ -12,7 +12,7 @@ import {SpinnerChakra} from "../../loadingState/SpinnerChakra";
 function Dashboard() {
   const navigate = useNavigate();
   const [sellerInfos, setSellerInfo] = useState(JSON.parse(localStorage.getItem("sellerInfo")));
-
+console.log(sellerInfos)
   const [bookingCount, setBookingCount] = useState(0);
   const [totalSale, setTotalSale] = useState(0);
   const [enquery, setEnquery] = useState(0);

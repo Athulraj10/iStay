@@ -37,10 +37,10 @@ const upload = multer({ storage });
 
 const sellerRoute = express.Router();
 
-sellerRoute.post("/register", registerSeller);
+sellerRoute.post("/register",registerSeller);
 sellerRoute.post("/login", authSeller);
 sellerRoute.post("/forget", sellerForget);
-sellerRoute.post("/verifyOTP", sellerVerifyOTP);
+sellerRoute.post("/verifyOTP",sellerVerifyOTP);
 sellerRoute.post("/resetPassword",sellersResetPassword);
 
 

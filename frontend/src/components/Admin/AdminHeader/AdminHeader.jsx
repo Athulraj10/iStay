@@ -12,6 +12,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
+import Cookies from "js-cookie";
 
 const AdminHeader = () => {
   const location = useNavigate();
@@ -21,6 +22,7 @@ const AdminHeader = () => {
     let res = await USERSAPI.post("/admin/logout");
     if (res.status) {
       localStorage.removeItem("adminInfo");
+      Cookies.remove('admin_JWT_token')
       setadminInfo(null);
       location("/admin");
     }
