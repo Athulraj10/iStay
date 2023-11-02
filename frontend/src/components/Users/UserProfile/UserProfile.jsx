@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import { Col, Container, Button, Form, Row, FormGroup } from "react-bootstrap";
 import { Avatar, useToast } from "@chakra-ui/react";
 import { SpinnerChakra } from "../../loadingState/SpinnerChakra";
+import Cookies from "js-cookie";
 
 export default function UserProfile() {
   const navigate = useNavigate();
@@ -142,6 +143,7 @@ export default function UserProfile() {
       navigate("/login");
     }
   }, [mobile]);
+  console.log(Cookies.get('user_JWT_token'))
   return isLoading ? (
     <SpinnerChakra />
   ) : (
