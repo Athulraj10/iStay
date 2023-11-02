@@ -34,7 +34,8 @@ const HeaderRightSection = () => {
       if (res.data) {
         localStorage.setItem("sellerInfo", JSON.stringify(res.data));
         Cookies.set('seller_JWT_token',res.data.token)
-        return (window.location.reload(false),navigate("/seller/dashboard"))
+        window.location.reload(false)
+        navigate("/seller/dashboard")
       } else {
         return navigate("/seller/login");
       }

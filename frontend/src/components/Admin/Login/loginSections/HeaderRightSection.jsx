@@ -37,9 +37,10 @@ const HeaderRightSection = () => {
         window.location.reload(false)
         navigate("/admin/dashboard");
         return;  
-      } else {
-        return navigate("admin/login");
-      }
+      } 
+      // else {
+      //   return navigate("/admin");
+      // }
     } catch (error) {
       console.log(error)
       if (error.response.status === 401) {

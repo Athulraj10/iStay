@@ -23,11 +23,11 @@ const sellerMiddleware = asyncHandler(async (req, res, next) => {
       
     } catch (error) {
       console.log('invalid token')
-      return res.status(401).json({ message: 'Invalid Token',redirect:'/login'});
+      return res.status(401).json({ message: 'Invalid Token'});
     }
   } else {
     console.log('no Token')
-    return res.status(401).json({ message: 'Not authorized, Please login',redirect:'/login' });
+    return res.status(401).json({ message: 'Not authorized, Please login' });
   }
 });
 

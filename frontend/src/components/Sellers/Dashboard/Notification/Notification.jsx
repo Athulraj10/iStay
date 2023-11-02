@@ -22,9 +22,7 @@ function Notification() {
       const seller = JSON.parse(storedSellerInfo);
       setSellerId(seller._id);
       setDataReceived(true);
-    } else {
-      navigate("/seller/login");
-    }
+    } 
   }, [dataReceived]);
 
   useEffect(() => {

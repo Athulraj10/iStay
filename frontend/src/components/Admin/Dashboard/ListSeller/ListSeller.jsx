@@ -60,9 +60,10 @@ function ListSeller() {
         }
       };
       fetchData();
-    }else{
-      navigate('/admin')
     }
+    // else{
+    //   navigate('/admin')
+    // }
   },[handleBlockButton]);
 
 

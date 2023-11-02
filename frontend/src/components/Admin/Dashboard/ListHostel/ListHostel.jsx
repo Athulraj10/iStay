@@ -54,9 +54,10 @@ function ListHostel() {
       }
     };
     fetchData();
-   }else{
-    navigate('/admin')
    }
+  //  else{
+  //   navigate('/admin')
+  //  }
   },[handleBlockButton]);
   return loading ? (
     <SpinnerChakra/>

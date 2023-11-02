@@ -16,7 +16,8 @@ const AddHostelSeller = () => {
         setSellerInfo(storedsellerInfo);
         const seller = JSON.parse(storedsellerInfo);
         setsellerId(seller._id)
-      }else{
+      }
+      else{
         navigate('/seller/login')
       }
     }; 

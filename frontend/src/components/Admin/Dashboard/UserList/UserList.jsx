@@ -52,9 +52,10 @@ function UserList() {
         }
       };
       fetchData();
-    } else {
-      navigate("/admin");
-    }
+    } 
+    // else {
+    //   navigate("/admin");
+    // }
   }, [handleBlockButton]);
 
   return loadingState ? (

@@ -54,8 +54,6 @@ function dashboardValues() {
           toast.error(error.response.data.message || 'Internal Error');
           setLoading(false);
         }
-      }else{
-        navigate('/admin')
       }
     };
     fetchData();
