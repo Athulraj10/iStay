@@ -36,8 +36,9 @@ const HeaderRightSection = () => {
       if (res.data.verified) {
         localStorage.setItem("userInfo",JSON.stringify(res.data));
         Cookies.set('user_JWT_token',res.data.userToken)
-        console.log(res.data)
-        return (window.location.reload(false),navigate("/"));
+        // window.location.reload(false),
+        navigate("/");
+        return
       } else {
         navigate("/login");
       }
