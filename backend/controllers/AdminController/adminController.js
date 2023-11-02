@@ -160,12 +160,12 @@ const adminAuthentication = asyncHandler(async (req, res) => {
         expiresIn: "30d",
       });
     
-      res.cookie('jwt_Admin', token ,{
-        httpOnly:true,
-        secure:process.env.NODE_ENV !== 'development',
-        sameSite : 'strict',
-        maxAge: 30 * 24 * 60 * 60 * 1000,
-    })
+    //   res.cookie('jwt_Admin', token ,{
+    //     httpOnly:true,
+    //     secure:process.env.NODE_ENV !== 'development',
+    //     sameSite : 'strict',
+    //     maxAge: 30 * 24 * 60 * 60 * 1000,
+    // })
   
 
       // Return a successful response with user details and the generated token

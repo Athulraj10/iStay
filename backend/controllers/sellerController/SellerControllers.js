@@ -181,12 +181,12 @@ const authSeller = asyncHandler(async (req, res) => {
       expiresIn: "30d",
     });
   
-    res.cookie("jwt_Seller", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    // res.cookie("jwt_Seller", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV !== "development",
+    //   sameSite: "strict",
+    //   maxAge: 30 * 24 * 60 * 60 * 1000,
+    // });
     return res.status(201).json({
       _id: seller._id,
       name: seller.name,
