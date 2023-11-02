@@ -12,6 +12,7 @@ const protect = asyncHandler(async (req, res, next) => {
   // // Check for the token in headers and cookies
   // token = req.headers.authorization || req.cookies.jwt_User;
   token = req.headers.authorization
+  console.log(token)
   if (token) {
     try {
       // Verify and decode the token
