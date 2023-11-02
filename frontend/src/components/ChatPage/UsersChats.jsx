@@ -137,7 +137,7 @@ const UserChats = () => {
           style={{ background: "#141d39", outline: "1px solid gray" }}
         >
           {roomDetails ? (
-            roomDetails.map((chat, index) => (
+            roomDetails?.map((chat, index) => (
               <div>
                 <div
                   key={index}
@@ -149,7 +149,7 @@ const UserChats = () => {
                   style={{ background: "#141d39", outline: "1px solid gray" }}
                 >
                   <h5 className="font-bold text-white">{chat.seller.name}</h5>
-                  <h5 style={{color:'gray'}}>{firstMessage.content ?` New Message: ${firstMessage.content}` :  'No Message'}</h5>
+                  <h5 style={{color:'gray'}}>{firstMessage?.content ?` New Message: ${firstMessage.content}` :  'No Message'}</h5>
                   <h6
                     className="h-fit inline-flex items-center rounded-md bg-blue-50 px-2 py-2 text-xs font-bold text-blue-600 ring-1 ring-inset ring-blue-600/10"
                     style={{
@@ -292,14 +292,14 @@ const UserChats = () => {
               </div>
               <div className=" h-4/6 w-full overflow-y-auto p-5">
                 {chats && chats.length > 0 ? (
-                  chats.map((chat, index) =>
+                  chats?.map((chat, index) =>
                     chat.senderType === "User" ? (
                       <div key={index} className="w-full flex my-2 justify-end">
                         <div
                           style={{ background: "#112A46" }}
                           className="max-w-1/2 w-fit text-white p-3 rounded-tl-lg rounded-tr-lg rounded-bl-lg"
                         >
-                          {chat.content}
+                          {chat?.content}
                         </div>
                       </div>
                     ) : (
@@ -308,7 +308,7 @@ const UserChats = () => {
                           style={{ background: "#253a59", color: "white" }}
                           className="bg-blue-200 max-w-1/2 w-fit p-3 rounded-tl-lg rounded-tr-lg rounded-br-lg"
                         >
-                          {chat.content}
+                          {chat?.content}
                         </div>
                       </div>
                     )
