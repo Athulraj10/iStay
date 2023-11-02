@@ -154,7 +154,17 @@ const adminAuthentication = asyncHandler(async (req, res) => {
     // If the admin is found, check if the provided password matches
     if (admin && (await admin.matchPassword(password))) {
       // Assuming generateTokenAdmin is a valid function, generate an authentication token
-      const token = generateTokenAdmin(res, admin._id);
+      const token = jwt.sign({ admin_id:admin._id }, process.env.JWT_SECRET, {
+        expiresIn: "30d",
+      });
+    
+      res.cookie('jwt_Admin', token ,{
+        httpOnly:true,
+        secure:process.env.NODE_ENV !== 'development',
+        sameSite : 'strict',
+        maxAge: 30 * 24 * 60 * 60 * 1000,
+    })
+  
 
       // Return a successful response with user details and the generated token
       return res.status(201).json({

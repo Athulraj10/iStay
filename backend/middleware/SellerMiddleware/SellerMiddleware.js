@@ -5,7 +5,11 @@ import Seller from "../../models/SellerModel/SellerModel.js";
 
 const sellerMiddleware = asyncHandler(async (req, res, next) => {
   let token;
-  token = req.cookies.jwt_Seller;
+  token = req.headers.cookie
+  .split('; ')
+  .find(cookie => cookie.startsWith('seller_JWT_token='))
+  .split('=')[1];
+  
   if (token) {
     console.log("token received")
     try {

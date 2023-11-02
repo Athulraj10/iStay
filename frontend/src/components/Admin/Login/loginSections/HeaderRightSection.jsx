@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
+import Cookies from "js-cookie";
 
 // import { useDispatch, useSelector } from "react-redux";
 // import { useLoginMutation } from "../../../slices/usersApiSlice";
@@ -32,8 +33,9 @@ const HeaderRightSection = () => {
       let response = await USERSAPI.post("admin/login", formData);
       if (response.data) {
         localStorage.setItem("adminInfo", JSON.stringify(response.data));
+        Cookies.set('admin_JWT_token',response.data.token)
         return (window.location.reload(false),navigate("/admin/dashboard"));
-      } else {
+        } else {
         return navigate("admin/login");
       }
     } catch (error) {

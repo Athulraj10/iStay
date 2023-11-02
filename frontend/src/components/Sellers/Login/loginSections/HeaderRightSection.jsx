@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { USERSAPI } from "../../../AxiosAPI/AxiosInstance";
+import Cookies from "js-cookie";
 
 // import { useDispatch, useSelector } from "react-redux";
 // import { useLoginMutation } from "../../../slices/usersApiSlice";
@@ -32,6 +33,7 @@ const HeaderRightSection = () => {
       let res = await USERSAPI.post("seller/login", formData);
       if (res.data) {
         localStorage.setItem("sellerInfo", JSON.stringify(res.data));
+        Cookies.set('seller_JWT_token',res.data.token)
         return (window.location.reload(false),navigate("/seller/dashboard"))
       } else {
         return navigate("seller/login");

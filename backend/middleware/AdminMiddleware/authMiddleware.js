@@ -4,7 +4,10 @@ import Admin from "../../models/AdminModel/adminModel.js";
 
 const adminMiddleware = asyncHandler(async (req, res, next) => {
   let token;
-  token = req.cookies.jwt_Admin;
+  token = req.headers.cookie
+  .split('; ')
+  .find(cookie => cookie.startsWith('admin_JWT_token='))
+  .split('=')[1];
   if (token) {
     try {
       const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
