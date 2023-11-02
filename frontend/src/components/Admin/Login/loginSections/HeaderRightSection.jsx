@@ -34,7 +34,7 @@ const HeaderRightSection = () => {
       if (response.data) {
         localStorage.setItem("adminInfo", JSON.stringify(response.data));
         Cookies.set('admin_JWT_token',response.data.token)
-        window.location.reload(false)
+        // window.location.reload(false)
         navigate("/admin/dashboard");
         return;  
       } 
