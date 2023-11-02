@@ -115,6 +115,7 @@ const authUser = asyncHandler(async (req, res) => {
       maxAge: 30 * 24 * 60 * 60 * 1000,
     });
     res.status(201).json({
+      verified:true,
       userToken: token,
       _id: user._id,
       name: user.name,
