@@ -503,12 +503,13 @@ const sellerNotificationDetails = asyncHandler(async (req, res) => {
 const listEnquery = asyncHandler(async (req, res) => {
   try {
     // Retrieve the seller's ID from the request
-    const sellerId = req.seller._id;
+    // const sellerId = req.seller._id;
+    const sellerId = true;
 
     if (sellerId) {
       // Retrieve enquiries associated with the seller where isVerified is false
       const enquery = await Enquiry.find({
-        seller: sellerId,
+        // seller: sellerId,
         isVerified: false,
       });
 
