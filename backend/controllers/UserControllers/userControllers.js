@@ -662,7 +662,7 @@ const WalletConfirmation = asyncHandler(async (req, res) => {
     // Update the user's wallet balance by deducting the hostel total price
     await Wallet.findOneAndUpdate(
       { user_id: userId },
-      { $inc: { balance: -Number(hostelTotalPrice) } },
+      { $inc: { balance: - Number(hostelTotalPrice) } },
       { new: true }
     );
 
