@@ -13,6 +13,7 @@ import { LinkContainer } from "react-router-bootstrap";
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
+import Cookies from "js-cookie";
 
 const SellerHeader = () => {
   const location = useNavigate();
@@ -23,6 +24,7 @@ const SellerHeader = () => {
     let res = await USERSAPI.post("/seller/logout");
     if (res.status) {
       localStorage.removeItem("sellerInfo");
+      Cookies.remove('seller_JWT_token')
       setsellerInfo(null);
       location("/seller/login");
     }
