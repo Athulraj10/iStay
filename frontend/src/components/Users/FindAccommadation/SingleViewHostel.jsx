@@ -82,7 +82,7 @@ const SingleViewHostel = () => {
         //   }
         // );
         const response = await fetch(
-          USERSAPI + "bookingHostel", // Use USERSAPI as the base URL
+          USERSAPI+"users/bookingHostel",
           {
             method: "POST",
             headers: headers,

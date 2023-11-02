@@ -39,7 +39,6 @@ function ListSeller() {
         if (response.data.enqueryData) {
           setEnquery(response.data.enqueryData);
           setIsLoading(false);
-          console.log(setIsLoading)
         }
       } catch (error) {
         toast.error(error || "Error in ListSeller React");
