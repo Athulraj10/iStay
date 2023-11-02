@@ -20,6 +20,8 @@ import Booking from "../../models/BookHostelModel/BookHostelModel.js";
 import constants from "../Constants/constants.js";
 import { aggregateRevenue } from "./aggregateRevenue.js";
 import { aggregateAllHostels } from "./aggregateHostel.js";
+import jwt from "jsonwebtoken";
+
 
 // // -------------------Register New admin---------------------------
 // //@desc createing new  user

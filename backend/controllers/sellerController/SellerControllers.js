@@ -2,6 +2,8 @@
 import asyncHandler from "express-async-handler";
 import mongoose from "mongoose";
 import nodemailer from "nodemailer";
+import jwt from "jsonwebtoken";
+
 // importing models
 import Seller from "../../models/SellerModel/SellerModel.js";
 import OTP from "../../models/OTPModel.js";

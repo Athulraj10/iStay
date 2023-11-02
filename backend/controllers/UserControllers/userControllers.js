@@ -2,6 +2,8 @@ import mongoose from "mongoose";
 import asyncHandler from "express-async-handler";
 import cron from "node-cron";
 import { Stripe } from "stripe";
+import jwt from "jsonwebtoken";
+
 // -----------Models
 import User from "../../models/UserModels/userModel.js";
 import OTP from "../../models/OTPModel.js";
@@ -102,7 +104,7 @@ const authUser = asyncHandler(async (req, res) => {
   }
   if (user && (await user.matchPassword(password))) {
     // If the password matches, generate a token and respond with user data
-    const token = jwt .sign({ userId: user._id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: "30d",
     });
   
