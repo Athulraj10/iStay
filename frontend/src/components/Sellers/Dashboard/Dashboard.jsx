@@ -11,7 +11,7 @@ import {SpinnerChakra} from "../../loadingState/SpinnerChakra";
 
 function Dashboard() {
   const navigate = useNavigate();
-  const [sellerInfo, setSellerInfo] = useState([]);
+  const [sellerInfos, setSellerInfo] = useState([]);
 
   const [bookingCount, setBookingCount] = useState(0);
   const [totalSale, setTotalSale] = useState(0);
@@ -22,16 +22,15 @@ function Dashboard() {
   const [isLoading, setLoading] = useState(true);
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        const storedSellerInfo = localStorage.getItem("sellerInfo");
-        const sellerInfo = JSON.parse(storedSellerInfo);
-        if (!sellerInfo) {
-          navigate("/seller/login");
-        }
+      try {;
+        const sellerInfo = JSON.parse(localStorage.getItem("sellerInfo"));
         if (sellerInfo) {
           setSellerInfo(sellerInfo);
         }
-        if (sellerInfo) {
+        if (!sellerInfos) {
+          navigate("/seller/login");
+        }
+        if (sellerInfos) {
           const response = await USERSAPI.get("/seller/dashboard", {
             params: sellerInfo,
           });
