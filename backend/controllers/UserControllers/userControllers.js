@@ -108,12 +108,12 @@ const authUser = asyncHandler(async (req, res) => {
       expiresIn: "30d",
     });
   
-    res.cookie("jwt_User", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV !== "development",
-      sameSite: "strict",
-      maxAge: 30 * 24 * 60 * 60 * 1000,
-    });
+    // res.cookie("jwt_User", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV !== "development",
+    //   sameSite: "strict",
+    //   maxAge: 30 * 24 * 60 * 60 * 1000,
+    // });
     res.status(201).json({
       verified:true,
       userToken: token,
