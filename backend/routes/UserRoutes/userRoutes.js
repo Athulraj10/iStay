@@ -28,7 +28,6 @@ const storage = multer.diskStorage({
   const upload = multer({ storage });
 
 const router = express.Router()
-// router.use(protect);
 
 
 router.post('/register',registerUser)
