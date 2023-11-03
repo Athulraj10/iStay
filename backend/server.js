@@ -28,9 +28,6 @@ app.use(cors({
     origin: ["https://hexashop.shop","https://www.hexashop.shop"],
     credentials: true
   }));
-
-
-
 app.use('/api/users',userRoutes)
 app.use('/api/seller',sellerRoutes)
 app.use('/api/admin',adminRoutes)
