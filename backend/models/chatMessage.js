@@ -23,7 +23,6 @@ const chatMessageSchema = new mongoose.Schema({
     default: Date.now,
   },
 });
-
 const ChatMessage = mongoose.model('ChatMessage', chatMessageSchema);
 
 export default ChatMessage;
