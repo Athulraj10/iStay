@@ -23,7 +23,6 @@ app.use(cookieParser());
 app.use(express.json());
 // app.use(cors());
 app.use(express.urlencoded({extended:true}))
-
 app.use(cors({
     origin: ["https://hexashop.shop","https://www.hexashop.shop"],
     credentials: true
