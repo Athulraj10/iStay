@@ -53,8 +53,6 @@ router.get('/myBookings',protect,myBookings)
 router.get('/getRating',getRating)
 router.put('/rating',userRating)
 router.patch('/myBookings/cancelBooking/:id',cancelBooking)
-
-// router.post('/',)
 router.post('/logout',logoutUser)
 
 
