@@ -46,7 +46,6 @@ if (process.env.NODE_ENV === 'production') {
 
 app.get('/',(req,res)=>res.send("server is ready"))
 
-
 app.use(notFound)
 app.use(errorHandler)
 const server = app.listen(port,()=>console.log(`server start port ${port}`.yellow.bold))
