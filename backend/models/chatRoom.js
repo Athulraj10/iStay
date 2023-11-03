@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-
 const chatRoom = mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
