@@ -1,6 +1,4 @@
 import mongoose from "mongoose";
-
-
 //here time stamp was added with the mongoose inbuild function
 const OTPschema = mongoose.Schema({
     email:{
