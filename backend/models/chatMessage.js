@@ -1,5 +1,4 @@
 import mongoose from 'mongoose';
-
 const chatMessageSchema = new mongoose.Schema({
   room: {
     type: mongoose.Schema.Types.ObjectId,
