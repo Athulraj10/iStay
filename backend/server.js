@@ -31,8 +31,6 @@ app.use('/api/users',userRoutes)
 app.use('/api/seller',sellerRoutes)
 app.use('/api/admin',adminRoutes)
 app.use('/api/chats',chatRoutes)
-
-
 if (process.env.NODE_ENV === 'production') {
     const __dirname = path.resolve();
     app.use(express.static(path.join(__dirname, '/frontend/dist')));
