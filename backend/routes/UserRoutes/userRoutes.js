@@ -7,7 +7,6 @@ import {
     getUserProfile,
     updateUserProfile,
     forget,verifyOTP,resetPassword,
-    
     singlePageView,
     findAccommodation,high,low,search,
     bookHostel,WalletConfirmation,bookingConfirmation,myBookings,getRating,userRating,makeEnquery,listEnqueryReplyUser,cancelBooking,addReview
@@ -37,10 +36,7 @@ router.post('/verifyOTP',verifyOTP)
 router.post('/resetPassword',resetPassword)
 router.get('/profile',protect,getUserProfile)
 router.put('/profile',updateUserProfile)
-
 // router.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
-
-
 router.post('/findAccommodation',findAccommodation)
 router.post('/findAccommodation/singlePageView',singlePageView)
 router.get('/findAccommodation/high',high)
