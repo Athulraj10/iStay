@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import bcrypt from 'bcryptjs';
 
 
 //here time stamp was added with the mongoose inbuild function
