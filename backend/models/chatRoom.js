@@ -11,5 +11,4 @@ const chatRoom = mongoose.Schema({
   messages: [{ type: mongoose.Schema.Types.ObjectId, ref: "ChatMessage" }],
 });
 const ChatRoom = mongoose.model("chatRoom", chatRoom);
-
 export default ChatRoom;
