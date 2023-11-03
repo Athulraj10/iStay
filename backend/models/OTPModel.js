@@ -15,6 +15,5 @@ const OTPschema = mongoose.Schema({
         index:{expires:300}
     }
 })
-
 const OTP = mongoose.model('OTP',OTPschema);
 export default OTP;
