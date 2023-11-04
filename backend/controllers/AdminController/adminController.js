@@ -663,5 +663,12 @@ export {
   // ------------------------------User Management
   listUser,
   blockUser,
+
+
+  // ------------------------------Dashboard Management
+  dashboardValuesCount,
+
+
+
 };
 
