@@ -584,4 +584,45 @@ const listSellers = asyncHandler(async (req, res) => {
 
 
 
+/**
+ * Block or Unblock Seller
+ * This function allows you to block or unblock a seller's account by toggling the "isBlock" field in the seller's record. It takes the seller's ID as a parameter from the request and toggles the "isBlock" status accordingly. The function returns a response message and the updated status of the seller's account. If the seller is successfully blocked or unblocked, a success message is sent; otherwise, an internal server error message is returned.
+ * @param {Object} req - The request object containing the seller's ID.
+ * @param {Object} res - The response object used to send back results.
+ * @returns {Object} - A JSON object containing the response message and the updated status of the seller's account.
+ * @throws {Error} - If any errors occur during the execution of this function, they are logged, and an internal server error message is returned.
+ */
+const blockSeller = asyncHandler(async (req, res) => {
+  try {
+    // Extract the seller's ID from the request parameters
+    const id = req.params.id;
+    // Check if the provided seller ID is valid
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: constants.INVALID_SELLER_ID });
+    }
+    // Find the seller by their ID, excluding their password field
+    const seller = await Seller.findOne({ _id: id }).select("-password");
+    // If no seller is found with the provided ID, return a not found response
+    if (!seller) {
+      return res.status(404).json({ message: constants.INVALID_SELLER_ID });
+    }
+    // Toggle the "isBlock" status of the seller
+    seller.isBlock = !seller.isBlock;
+    // Save the updated seller's record
+    await seller.save();
+    // Compose a message indicating the seller's status change
+    const message = `Seller ${seller.name} is ${
+      seller.isBlock ? "blocked" : "Unblock Successfully"
+    }`;
+    // Extract and return the updated status of the seller
+    const status = seller.isBlock;
+    // Return a success response with the message and seller's status
+    return res.status(200).json({ message, status });
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
 
