@@ -100,3 +100,32 @@ const sendForgetPassword = async (name, email, OTP) => {
     console.error(error.message);
   }
 };
+
+/**
+ * OTP Save Function
+ * This function is responsible for managing and saving one-time passwords (OTPs) for email-based operations, such as user registration, password reset, or other authentication-related processes. It ensures that only the latest OTP associated with an email address is saved.
+ * @param {string} email - The email address to which the OTP is associated.
+ * @param {string} otp - The one-time password to be saved.
+ * @throws {Error} - If any error occurs during the OTP saving process, it is logged.
+ */
+const OTPsaveFunction = async (email, otp) => {
+  try {
+    // Check if an OTP already exists for the provided email and delete it
+    const existingOTP = await OTP.findOne({ email });
+    if (existingOTP) {
+      await OTP.deleteOne({ email });
+    }
+
+    // Create a new OTP document and save it
+    const saveOTP = new OTP({
+      email: email,
+      otp: otp,
+    });
+    const OTPsaved = await saveOTP.save();
+
+    return; // Indicate successful OTP saving
+  } catch (error) {
+    console.error(error.message);
+  }
+};
+
