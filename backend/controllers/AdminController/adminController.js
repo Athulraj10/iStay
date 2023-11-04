@@ -637,3 +637,23 @@ const blockSeller = asyncHandler(async (req, res) => {
  *
  * @returns {Object} - A JSON object indicating the successful admin logout status.
  */
+
+const logoutAdmin = asyncHandler(async (req, res) => {
+  // Clear the JWT cookie to log out the admin
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    secure: false, // Set to true if you're using HTTPS
+    sameSite: "none", // Set to "none" for cross-site cookies
+  });
+
+  // Respond with a success status indicating the admin's successful logout
+  res.status(200).json({ status: constants.ADMIN_LOGOUT });
+});
+
+export {
+  adminAuthentication,
+  adminForget,
+  // getUserProfile,
+  // updateUserProfile,
+
