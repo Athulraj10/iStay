@@ -477,4 +477,34 @@ const BlockHostelsAdmin = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * List All Users for Admin
+ *
+ * This function retrieves a list of all users for an admin. It queries the database for user records and sends back the user data as a JSON response.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object used to send back results.
+ *
+ * @returns {Object} - A JSON object containing the list of all users or an error message if no users are found.
+ *
+ * @throws {Error} - If any errors occur during the execution of this function, they are logged.
+ */
+const listUser = asyncHandler(async (req, res) => {
+  try {
+    const allUsers = await User.find();
+    if (!allUsers) {
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
+    }
+    if (allUsers) {
+      return res.status(200).json({
+        data: allUsers,
+      });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
 
