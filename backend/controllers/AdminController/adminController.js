@@ -674,6 +674,10 @@ export {
   BlockHostelsAdmin,
 
 
+  // -------------------------------Seller Management
+  listSellers,
+  blockSeller,
+  logoutAdmin,
 
 };
 
