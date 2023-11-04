@@ -129,3 +129,65 @@ const OTPsaveFunction = async (email, otp) => {
   }
 };
 
+/**
+ * Admin Authentication Function
+ *
+ * This function handles the authentication process for administrators. It verifies the provided email and password, and upon successful authentication, it generates an authentication token for the administrator's session.
+ *
+ * @param {Object} req - The request object containing user input.
+ * @param {Object} res - The response object used to send back results.
+ *
+ * @throws {Error} - If any errors occur during the authentication process, they are logged.
+ */
+const adminAuthentication = asyncHandler(async (req, res) => {
+  try {
+    // Extract email and password from the request body
+    const { email, password } = req.body;
+
+    // Search for an admin user with the provided email
+    const admin = await Admin.findOne({ email });
+
+    // If no admin is found with the provided email, return an unauthorized response
+    if (!admin) {
+      return res.status(401).json({
+        message: constants.EMAIL_PASSWORD_INCORRECT,
+      });
+    }
+
+    // If the admin is found, check if the provided password matches
+    if (admin && (await admin.matchPassword(password))) {
+      // Assuming generateTokenAdmin is a valid function, generate an authentication token
+      const token = jwt.sign({ admin_id:admin._id }, process.env.JWT_SECRET, {
+        expiresIn: "30d",
+      });
+    
+    //   res.cookie('jwt_Admin', token ,{
+    //     httpOnly:true,
+    //     secure:process.env.NODE_ENV !== 'development',
+    //     sameSite : 'strict',
+    //     maxAge: 30 * 24 * 60 * 60 * 1000,
+    // })
+  
+
+      // Return a successful response with user details and the generated token
+      return res.status(201).json({
+        _id: admin._id,
+        name: admin.name,
+        email: admin.email,
+        token,
+      });
+    }
+
+    // If the password doesn't match, return an unauthorized response
+    return res.status(401).json({
+      message: constants.EMAIL_PASSWORD_INCORRECT,
+    });
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+    return res.status(500).json({
+      message: constants.INTERNAL_SERVER_ERROR,
+    });
+  }
+});
+
