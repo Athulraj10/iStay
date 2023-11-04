@@ -656,4 +656,12 @@ export {
   adminForget,
   // getUserProfile,
   // updateUserProfile,
+  adminVerifyOTP,
+  adminResetPassword,
+
+
+  // ------------------------------User Management
+  listUser,
+  blockUser,
+};
 
