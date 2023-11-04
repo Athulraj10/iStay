@@ -669,6 +669,11 @@ export {
   dashboardValuesCount,
 
 
+  // ------------------------------Hostel Management
+  listHostelsAdmin,
+  BlockHostelsAdmin,
+
+
 
 };
 
