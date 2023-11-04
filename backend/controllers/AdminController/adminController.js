@@ -626,3 +626,14 @@ const blockSeller = asyncHandler(async (req, res) => {
 });
 
 
+
+/**
+ * Logout Admin
+ *
+ * This function logs out an admin user by clearing their JSON Web Token (JWT) cookie. It sets the "jwt" cookie's expiration date to a past date, effectively invalidating the token and logging the admin out. The function responds with a JSON object indicating the successful logout status.
+ *
+ * @param {Object} req - The request object (unused in this function).
+ * @param {Object} res - The response object used to clear the JWT cookie and send back the logout status.
+ *
+ * @returns {Object} - A JSON object indicating the successful admin logout status.
+ */
