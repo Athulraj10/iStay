@@ -550,3 +550,38 @@ const blockUser = asyncHandler(async (req, res) => {
   }
 });
 
+
+/**
+ * List All Sellers
+ * This function retrieves a list of all sellers and sends it as a JSON response. It queries the database to fetch all seller records and returns them to the client, or an internal server error message if an issue occurs.
+ * @param {Object} req - The request object containing optional query parameters.
+ * @param {Object} res - The response object used to send back results.
+ * @returns {Object} - A JSON object containing the list of seller data.
+ * @throws {Error} - If any errors occur during the execution of this function, they are logged, and an internal server error message is returned.
+ */
+const listSellers = asyncHandler(async (req, res) => {
+  try {
+    // Query the database to fetch all seller records
+    const allSeller = await Seller.find();
+
+    // If no sellers are found, return a not found response
+    if (!allSeller) {
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
+    }
+
+    // Return a success response with the list of seller data
+    if (allSeller) {
+      return res.status(200).json({
+        data: allSeller,
+      });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
+
+
+
