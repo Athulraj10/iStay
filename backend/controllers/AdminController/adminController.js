@@ -507,4 +507,46 @@ const listUser = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * Block or Unblock a User
+ * This function allows an admin to block or unblock a user by toggling the "isBlock" status. It checks the validity of the provided user ID, retrieves the user's record, and updates their "isBlock" status accordingly. It then sends back a message indicating whether the user was blocked or unblocked.
+ * @param {Object} req - The request object containing user input, including the user ID.
+ * @param {Object} res - The response object used to send back results.
+ *
+ * @returns {Object} - A JSON object containing a message and the updated status of the user's "isBlock" property.
+ *
+ * @throws {Error} - If any errors occur during the execution of this function, they are logged, and an internal server error message is returned.
+ */
+const blockUser = asyncHandler(async (req, res) => {
+  try {
+    // Extract the user ID from the request parameters
+    const id = req.params.id;
+    // Check if the provided ID is a valid MongoDB ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ message: constants.INVALID_SELLER_ID });
+    }
+    // Find the user by ID and exclude the password field from the result
+    const user = await User.findOne({ _id: id }).select("-password");
+    // If no user is found, return a user not found response
+    if (!user) {
+      return res.status(404).json({ message: constants.SELLER_NOT_FOUND });
+    }
+    // Toggle the "isBlock" status of the user
+    user.isBlock = !user.isBlock;
+    // Save the updated user record
+    await user.save();
+    // Generate a message indicating the user's new status
+    const message = `User ${user.name} is ${
+      user.isBlock ? "blocked" : "UnBlock SuccessFully"
+    }`;
+    // Get the current status of the user's "isBlock" property
+    const status = user.isBlock;
+    // Return a success response with the message and status
+    return res.status(200).json({ message, status });
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
 
