@@ -411,4 +411,42 @@ const dashboardValuesCount = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * List Hostels for Admin
+ *
+ * This function retrieves a list of hostels for administrative purposes. It aggregates data from the database and sends a JSON response containing the list of hostels.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ *
+ * @returns {Object} - A JSON object containing the list of hostels, or an error message if the list cannot be retrieved.
+ *
+ * @throws {Error} - If any errors occur during the retrieval of the list, they are logged.
+ */
+const listHostelsAdmin = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve the list of hostels by aggregating data
+    const listHostels = await aggregateAllHostels();
+    res.status(200).json({ data: listHostels });
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error("listHostelAdmin");
+    res.status(500).json({
+      message: "Hostel List Error",
+    });
+  }
+});
+
+/**
+ * Block or Unblock Hostel for Admin
+ *
+ * This function is used by administrators to block or unblock a hostel based on the provided hostel ID. It toggles the 'isBlock' status of the hostel and sends a response with the updated status.
+ *
+ * @param {Object} req - The request object containing the hostel ID in the parameters.
+ * @param {Object} res - The response object used to send back results.
+ *
+ * @returns {Object} - A JSON object containing a message indicating whether the hostel is blocked or unblocked and the updated status, or an error message if the hostel is not found.
+ *
+ * @throws {Error} - If any errors occur during the execution of this function, they are logged.
+ */
 
