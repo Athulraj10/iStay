@@ -450,3 +450,31 @@ const listHostelsAdmin = asyncHandler(async (req, res) => {
  * @throws {Error} - If any errors occur during the execution of this function, they are logged.
  */
 
+
+const BlockHostelsAdmin = asyncHandler(async (req, res) => {
+  const id = req.params.id; // Assuming you receive the hostel ID in the request parameters
+  try {
+    // Find the hostel by ID
+    const hostel = await Hostel.findById(id);
+    if (!hostel) {
+      return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
+    }
+    hostel.isBlock = !hostel.isBlock; // Toggle the isBlock status
+    const updatedHostel = await hostel.save(); // Save the updated hostel
+    if (updatedHostel) {
+      const message = `Hostel ${hostel.hostelName} is ${
+        hostel.isBlock ? "blocked" : "UnBlock SuccessFully"
+      }`;
+      const status = hostel.isBlock;
+      return res.status(200).json({ message, status });
+    } else {
+      return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
+
