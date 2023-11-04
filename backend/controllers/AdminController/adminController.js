@@ -332,4 +332,83 @@ const adminResetPassword = asyncHandler(async (req, res) => {
 });
 
 
+/**
+ * Revenue Calculation Function
+ *
+ * This function calculates the total revenue generated from bookings. It aggregates the totalAmount field across all booking records and returns the result. If no revenue is found, it returns 0 as the default value.
+ *
+ * @returns {Number} - The total revenue generated from bookings or 0 if no revenue is found.
+ *
+ * @throws {Error} - If any errors occur during the revenue calculation process, they are logged.
+ */
+const revenueFunction = asyncHandler(async () => {
+  try {
+    // Aggregate the total revenue generated from bookings
+    const totalRevenueGenerate = await Booking.aggregate([
+      {
+        $group: {
+          _id: null,
+          totalAmount: { $sum: "$totalAmount" },
+        },
+      },
+    ]);
+
+    // Return the total revenue generated, or 0 if no revenue is found
+    return totalRevenueGenerate !== null ? totalRevenueGenerate : 0;
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+  }
+});
+
+
+/**
+ * Dashboard Values Count Function
+ *
+ * This function retrieves various count statistics for the dashboard. It calculates the total count of users, sellers, hostels, bookings, blocked users, blocked sellers, blocked hostels, and total revenue generated. These values are returned as a JSON response.
+ *
+ * @param {Object} req - The request object.
+ * @param {Object} res - The response object.
+ *
+ * @returns {Object} - A JSON object containing count statistics for the dashboard, or an error message if the counts cannot be retrieved.
+ *
+ * @throws {Error} - If any errors occur during the count retrieval process, they are logged.
+ */
+const dashboardValuesCount = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve counts for users, sellers, hostels, bookings, blocked users, blocked sellers, blocked hostels, and total revenue
+    const userCount = await User.countDocuments();
+    const sellerCount = await Seller.countDocuments();
+    const hostelCount = await Hostel.countDocuments();
+    const bookingCount = await Booking.countDocuments();
+    const userBlockCount = await User.countDocuments({ isBlock: true });
+    const sellerBlockCount = await Seller.countDocuments({ isBlock: true });
+    const hostelBlockCount = await Hostel.countDocuments({ isBlock: true });
+    const revenue = await revenueFunction();
+    // const totalSales = Booking.aggregate(aggregationPipeline)
+    const totalSales = await aggregateRevenue() 
+    // Check if user count is available, and return the count statistics as a JSON response
+    if (!userCount) {
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
+    }
+    if (userCount) {
+      return res.status(200).json({
+        userCount,
+        userBlockCount,
+        sellerCount,
+        sellerBlockCount,
+        hostelCount,
+        hostelBlockCount,
+        bookingCount,
+        revenue: revenue[0]?.totalAmount || 0,
+        totalSales:totalSales  
+      });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
 
