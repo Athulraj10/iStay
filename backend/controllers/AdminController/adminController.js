@@ -191,3 +191,53 @@ const adminAuthentication = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * Admin Forget Password Function
+ *
+ * This function initiates the password reset process for administrators. It verifies the provided email, generates a one-time password (OTP), and sends it to the administrator's registered email address for password recovery.
+ *
+ * @param {Object} req - The request object containing user input.
+ * @param {Object} res - The response object used to send back results.
+ *
+ * @throws {Error} - If any errors occur during the OTP generation and email sending process, they are logged.
+ */
+const adminForget = asyncHandler(async (req, res) => {
+  try {
+    // Extract the email from the request body
+    const { email } = req.body;
+
+    // Search for an admin user with the provided email
+    const admin = await Admin.findOne({ email });
+
+    // If no admin is found with the provided email, return an unauthorized response
+    if (!admin) {
+      return res.status(401).json({
+        message: constants.INVALID_EMAIL,
+      });
+    }
+
+    // If the admin is found, generate a one-time password (OTP)
+    let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
+
+    // Send the OTP to the admin's registered email
+    sendForgetPassword(admin.name, admin.email, OTPgenerated);
+
+    // Log the generated OTP
+    console.log(OTPgenerated);
+
+    // Save the generated OTP for later verification
+    const saveOrNot = await OTPsaveFunction(admin.email, OTPgenerated);
+
+    // Return a success response with the admin's email
+    return res.json({
+      email,
+    });
+  } catch (error) {
+    // Handle any errors that occur during the OTP generation and email sending process
+    console.error(error);
+    return res.status(500).json({
+      message: constants.INTERNAL_SERVER_ERROR,
+    });
+  }
+});
+
