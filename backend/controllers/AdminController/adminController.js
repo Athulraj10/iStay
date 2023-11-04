@@ -66,3 +66,37 @@ const registerSeller = asyncHandler(async (req, res) => {
  *
  * @throws {Error} - If any error occurs during the email sending process, it is logged.
  */
+const sendForgetPassword = async (name, email, OTP) => {
+  try {
+    // Create a transporter for sending email using Gmail's SMTP server
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.NEW_APP_PASSWORD,
+      },
+    });
+
+    // Compose the email with recipient details, subject, and HTML content
+    const mailOptions = {
+      from: process.env.EMAIL_USER,
+      to: email,
+      subject: "Reset your Password",
+      html: `<p>Hi ${name}, <br> This Message from iStay <br> Did you request a password reset...?<br>If Yes...<br> Your OTP for password reset is ${OTP}`,
+    };
+
+    // Send the email and log success or error
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.error(error);
+      } else {
+        console.log("Email sent successfully", info.response);
+      }
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
+};
