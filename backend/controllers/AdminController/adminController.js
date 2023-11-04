@@ -287,5 +287,49 @@ const adminVerifyOTP = asyncHandler(async (req, res) => {
   }
 });
 
+/**
+ * Admin Reset Password Function
+ *
+ * This function allows an administrator to reset their password. It takes the administrator's user ID (email) and the new password as input. If the user ID is found, it updates the password in the database and returns a "Password Reset Successfully" response. If the user ID is not found, it returns an "Internal Server Error" response.
+ *
+ * @param {Object} req - The request object containing user input.
+ * @param {Object} res - The response object used to send back results.
+ *
+ * @throws {Error} - If any errors occur during the password reset process, they are logged.
+ */
+const adminResetPassword = asyncHandler(async (req, res) => {
+  // Extract user ID (email) and new password from the request body
+  const { userId, password } = req.body;
+  console.error(req.body);
+
+  try {
+    // Find an administrator by the provided email (user ID)
+    const admin = await Admin.findOne({ email: userId });
+
+    // If no admin is found, return a "Not Found" response
+    if (!admin) {
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
+    }
+
+    // If an admin is found
+    if (admin) {
+      // Update the admin's password with the new password
+      admin.password = password;
+
+      // Save the changes in the database
+      await admin.save();
+
+      // Return a "Password Reset Successfully" response
+      res.status(200).json({ message: constants.PASSWORD_RESET_SUCCESSFULLY });
+    }
+  } catch (error) {
+    // Handle any errors that occur during the execution of this function
+    console.error(error);
+
+    // Return an "Internal Server Error" response in case of an error
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
 
 
