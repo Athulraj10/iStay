@@ -625,6 +625,93 @@ const editHostel = asyncHandler(async (req, res) => {
 
 
 
+// ----------------------------editHostel Details Hostel data receiving part-------------
+/**
+ * Edit Hostel Details
+ * This function handles the editing of hostel details, including the ability to update information
+ * and images for a specific hostel.
+ * @param {Object} req - The HTTP request object containing the updated hostel details and images.
+ * @param {Object} res - The HTTP response object to send the updated hostel details or error messages.
+ * @returns {Object} - An object indicating whether the hostel details were updated successfully or an error message.
+ * @throws {Error} - If there's an error during the process, it logs the error and returns an error response.
+ */
+const editHostelDetails = asyncHandler(async (req, res) => {
+  const formDataObject = req.body;
+
+  try {
+    // Check if the request body is empty
+    if (!formDataObject) {
+      return res.status(400).json({ message: constants.BODY_EMPTY });
+    }
+
+    // Find the hostel based on the provided ID
+    const hostel = await Hostel.findOne({ _id: formDataObject.id });
+
+    // If the hostel doesn't exist, return an error
+    if (!hostel) {
+      return res.status(404).json({ message: constants.HOSTEL_NOT_FOUND });
+    }
+
+    const editedDetails = {
+      seller: formDataObject.sellerID,
+      category: formDataObject.category,
+      hostelName: formDataObject.hostelName,
+      mainLocation: formDataObject.mainLocation,
+      description: formDataObject.descriptions,
+      fullDetails: formDataObject.fullDetails,
+      contactNumber: formDataObject.contactNumber,
+      mapLink: formDataObject.mapLink,
+      additionalAboutHostel: formDataObject.additionalAboutHostel,
+      nearByLocation: formDataObject.nearByLocation,
+      restrictions: formDataObject.restrictions,
+      descriptionAboutHostel: formDataObject.descriptionAboutHostel,
+      guestProfile: formDataObject.guestProfile,
+      price: formDataObject.price,
+      extraPrice: formDataObject.extraPrice,
+      totalBedInRoom: formDataObject.totalBedInRoom,
+      bedAvailableNow: formDataObject.bedAvailableNow,
+      Wifi: formDataObject.Wifi,
+      food: formDataObject.food,
+      parking: formDataObject.parking,
+      drinkingWater: formDataObject.drinkingWater,
+    };
+
+    if (req.files && req.files.length > 0) {
+      const uploadedFiles = req.files;
+      let fileUrls = [];
+      for (let file of uploadedFiles) {
+        const filePath = file.filename;
+        fileUrls.push(filePath);
+      }
+      editedDetails.images = fileUrls;
+    }
+
+    // Update the hostel document with the edited details
+    const updatedHostel = await Hostel.findOneAndUpdate(
+      { _id: formDataObject.id },
+      editedDetails,
+      { new: true } // Return the updated document
+    );
+
+    // Check if the hostel was updated successfully and send a response
+    if (updatedHostel) {
+      return res.status(200).json({
+        hostelUpdated: true,
+        updatedHostel,
+      });
+    } else {
+      return res
+        .status(500)
+        .json({ message: constants.FAILED_TO_UPDATE_HOSTEL });
+    }
+  } catch (error) {
+    // Log any errors that occur
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
+
 
 
 
