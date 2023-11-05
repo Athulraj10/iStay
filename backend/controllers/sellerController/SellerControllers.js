@@ -808,6 +808,28 @@ const logoutSeller = asyncHandler(async (req, res) => {
   res.status(200).json({ status: constants.SELLER_LOGOUT });
 });
 
+export {
+  // Admin AUthentication and more
+  authSeller,
+  registerSeller,
+  logoutSeller,
+  sellerForget,
+  sellerVerifyOTP,
+  sellersResetPassword,
+
+  //Dashboard Values
+  dashboardValues,
+  sellerNotification,
+  sellerNotificationDetails,
+  listEnquery,
+  listEnqueryReply,
+
+  // LIST HOSTEL
+  listHostels,
+  editHostel,
+  editHostelDetails,
+  addHostelDetails,
+};
 
 
 
