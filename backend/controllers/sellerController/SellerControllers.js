@@ -566,6 +566,39 @@ const listEnqueryReply = asyncHandler(async (req, res) => {
 
 
 
+// ----------------------------List seller Hostels-------------
+/**
+ * List Hostels
+ * This function retrieves a list of hostels owned by a specific seller.
+ * @param {Object} req - The HTTP request object containing the seller's ID.
+ * @param {Object} res - The HTTP response object to send the list of hostels.
+ * @returns {Object} - An object containing the list of hostels belonging to the seller.
+ * @throws {Error} - If there's an error during the process, it logs the error and returns an error response with a 500 status code.
+ */
+const listHostels = asyncHandler(async (req, res) => {
+  try {
+    // Extract the seller's ID from the request
+    const sellerID = req.body.sellerId;
+
+    if (sellerID) {
+      // Find hostels associated with the seller's ID
+      const listHostels = await Hostel.find({ seller: sellerID });
+
+      // Send a response with the list of hostels
+      res.status(200).json({ data: listHostels });
+    }
+  } catch (error) {
+    // Log any errors that occur
+    console.log("listHostelAdmin");
+    res.status(500).json({
+      message: "Hostel List Error",
+    });
+  }
+});
+
+
+
+
 
 
 
