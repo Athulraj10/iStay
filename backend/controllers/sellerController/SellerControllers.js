@@ -716,3 +716,76 @@ const editHostelDetails = asyncHandler(async (req, res) => {
 
 
 
+// ----------------------------Seller Add Hostel-------------
+/**
+ * Add Hostel Details
+ * This function handles the addition of hostel details, including information and images for a new hostel.
+ * @param {Object} req - The HTTP request object containing the new hostel details and images.
+ * @param {Object} res - The HTTP response object to send a success message or an error message.
+ * @returns {Object} - An object indicating whether the hostel details were added successfully or an error message.
+ * @throws {Error} - If there's an error during the process, it logs the error and returns an error response.
+ */
+const addHostelDetails = asyncHandler(async (req, res) => {
+  const formDataObject = req.body;
+  // ---------save value to database--------
+  try {
+    if (!formDataObject) {
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
+    }
+
+    if (formDataObject) {
+      const hostelData = new Hostel({
+        seller: formDataObject.sellerID,
+        category: formDataObject.category,
+        hostelName: formDataObject.hostelName,
+        mainLocation: formDataObject.mainLocation,
+        description: formDataObject.descriptions,
+        fullDetails: formDataObject.fullDetails,
+        contactNumber: formDataObject.contactNumber,
+        mapLink: formDataObject.mapLink,
+        additionalAboutHostel: formDataObject.additionalAboutHostel,
+        nearByLocation: formDataObject.nearByLocation,
+        restrictions: formDataObject.restrictions,
+        descriptionAboutHostel: formDataObject.descriptionAboutHostel,
+        guestProfile: formDataObject.guestProfile,
+        price: formDataObject.price,
+        extraPrice: formDataObject.extraPrice,
+        totalBedInRoom: formDataObject.totalBedInRoom,
+        bedAvailableNow: formDataObject.bedAvailableNow,
+        Wifi: formDataObject.Wifi,
+        food: formDataObject.food,
+        parking: formDataObject.parking,
+        drinkingWater: formDataObject.drinkingWater,
+      });
+      if (req.files) {
+        const uploadedFiles = req.files;
+        let fileUrls = [];
+        for (let file of uploadedFiles) {
+          const filePath = file.filename;
+          fileUrls.push(filePath);
+        }
+        hostelData.images = fileUrls;
+      }
+      const hosteldetails = await hostelData.save();
+
+      if (hosteldetails) {
+        return res.status(201).json({
+          hostelAdded: true,
+        });
+      }
+      if (!hosteldetails) {
+        return res
+          .status(404)
+          .json({ message: constants.INTERNAL_SERVER_ERROR });
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: constants.BODY_EMPTY });
+  }
+});
+
+
+
+
+
