@@ -787,5 +787,28 @@ const addHostelDetails = asyncHandler(async (req, res) => {
 
 
 
+// --------------------------Logout clearing JWT---------------------------
+/**
+ * Seller Logout
+ * This function handles the seller's logout by clearing the authentication cookie.
+ * @param {Object} req - The HTTP request object.
+ * @param {Object} res - The HTTP response object to send a success message.
+ * @returns {Object} - An object indicating a successful seller logout.
+ */
+const logoutSeller = asyncHandler(async (req, res) => {
+  console.log("logout");
+  // Clear the authentication cookie
+  res.cookie("jwt", "", {
+    httpOnly: true,
+    expires: new Date(0),
+    secure: false, // Set to true if you're using HTTPS
+    sameSite: "none", // Set to "none" for cross-site cookies
+  })
+  // Send a success message indicating the seller has been logged out
+  res.status(200).json({ status: constants.SELLER_LOGOUT });
+});
+
+
+
 
 
