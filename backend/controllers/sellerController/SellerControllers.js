@@ -522,3 +522,50 @@ const listEnquery = asyncHandler(async (req, res) => {
 });
 
 
+
+
+
+// ----------------------------List listEnquery-------------
+/**
+ * List Enquiry Replies
+ * This function handles the verification and replies to seller enquiries.
+ * @param {Object} req - The HTTP request object containing enquiry information and reply message.
+ * @param {Object} res - The HTTP response object to send the status of the verification and reply.
+ * @returns {Object} - An object containing the status of the verification and reply.
+ * @throws {Error} - If there's an error during the process, it logs the error and returns an error response with a 500 status code.
+ */
+const listEnqueryReply = asyncHandler(async (req, res) => {
+  try {
+    // Extract the ID and message from the request
+    const { id } = req.params;
+    const { message } = req.query;
+
+    if (id && message) {
+      // Find the enquiry by ID
+      const enqueryReply = await Enquiry.findOne({ _id: id });
+
+      if (enqueryReply) {
+        // Update the enquiry with verification and seller reply
+        enqueryReply.isVerified = true;
+        enqueryReply.sellerReply = message;
+        enqueryReply.status = "verified";
+        await enqueryReply.save();
+
+        // Send a response indicating that the update was successful
+        return res.status(200).json({ updated: true });
+      }
+    } else {
+      // If the ID or message is missing, return a bad request response
+      res.status(400).json({ message: constants.BODY_EMPTY });
+    }
+  } catch (error) {
+    // Log any errors that occur
+    console.error(error);
+  }
+});
+
+
+
+
+
+
