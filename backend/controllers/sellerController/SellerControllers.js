@@ -252,3 +252,42 @@ const registerSeller = asyncHandler(async (req, res) => {
 
 
 
+// -------------------Forget Password Seller Verification---------------------------
+/**
+ * Seller Forget Password
+ * This function is responsible for handling the "Forget Password" process for sellers. It takes the seller's email, checks if the email exists in the database, generates a one-time password (OTP), sends it to the seller's email, and saves the OTP in the database for verification.
+ * @param {Object} req - The HTTP request object containing the seller's email.
+ * @param {Object} res - The HTTP response object to send the result of the forget password process.
+ * @returns {Object} - An object containing the seller's email to confirm the email address the OTP was sent to.
+ * @throws {Error} - If the seller's email is not found in the database, it throws an error with a 401 status code.
+ */
+const sellerForget = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+
+  // Check if a seller with the provided email exists
+  const seller = await Seller.findOne({ email });
+
+  if (!seller) {
+    return res.status(401).json({
+      message: constants.INVALID_EMAIL,
+    });
+  }
+
+  if (seller) {
+    // Generate a one-time password (OTP) for the seller
+    let OTPgenerated = Math.floor(100000 + Math.random() * 900000);
+
+    // Send the OTP to the seller's email
+    sendForgetPassword(seller.name, seller.email, OTPgenerated);
+    console.log(OTPgenerated);
+
+    // Save the generated OTP in the database for verification
+    const saveOrNot = await OTPsaveFunction(seller.email, OTPgenerated);
+
+    return res.json({
+      email,
+    });
+  }
+});
+
+
