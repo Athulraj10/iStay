@@ -93,3 +93,10 @@ const OTPsaveFunction = async (email, otp) => {
 };
 
 
+// -------------------Aggrigate Booking---------------------------
+/**
+ * Aggregate Bookings with Hostel and User Details
+ * This function aggregates booking information along with hostel and user details for a given seller (hostel owner) based on their seller ID.
+ * @param {string} sellerId - The ID of the seller (hostel owner) for whom bookings are to be aggregated.
+ * @returns {Array} - An array of aggregated booking details with hostel and user information.
+ */
