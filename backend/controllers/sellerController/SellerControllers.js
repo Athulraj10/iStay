@@ -371,6 +371,50 @@ const sellersResetPassword = asyncHandler(async (req, res) => {
 
 
 
+// -------------------Dashboard Values page---------------------------
+/**
+ * Dashboard Values
+ * This function retrieves various statistics and data for a seller's dashboard, including the number of bookings, revenue, total sales, enquiries, and messages. It also fetches monthly revenue data for chart representation.
+ * @param {Object} req - The HTTP request object containing the seller's ID (as sellerId).
+ * @param {Object} res - The HTTP response object to send the retrieved data.
+ * @returns {Object} - An object containing various dashboard values, including booking count, revenue, total sales, enquiry count, message count, and monthly revenue data for charts.
+ * @throws {Error} - If there's an error during the process, it returns an error response with a 500 status code.
+ */
+const dashboardValues = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve the seller's ID from the request
+    const sellerId = req.query._id;
+    // Count the number of bookings for the seller
+    const bookingCount = await Booking.countDocuments({ seller: sellerId });
+    // Calculate the seller's total revenue
+    const revenue = await sellerRevenueAmount(sellerId);
+    // Calculate the seller's total sales
+    const totalSale = await sellerTotal(sellerId);
+    // Count the number of unverified enquiries for the seller
+    const enquery = await Enquiry.countDocuments({
+      seller: sellerId,
+      isVerified: false,
+    });
+    // Count the total messages in the chat room for the seller
+    const totalMessages = await RoomChat.countDocuments({ seller: sellerId });
+    // Fetch monthly revenue data for chart representation
+    const sellerRevenueMonthlyBase = await sellerAggregateRevenue(sellerId);
+    // Log sellerAggregateRevenue function for debugging purposes
+    console.log(sellerAggregateRevenue);
+    return res.status(200).json({
+      bookingCount: bookingCount ? bookingCount : 0,
+      revenue: revenue[0]?.totalAmount,
+      totalSale: totalSale[0]?.totalAmount,
+      enquery: enquery ? enquery : 0,
+      messages: totalMessages ? totalMessages : 0,
+      chartValues: sellerRevenueMonthlyBase,
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
 
 
 
