@@ -456,3 +456,38 @@ const sellerNotification = asyncHandler(async (req, res) => {
 
 
 
+
+// -------------------Seller notificaiton detail page---------------------------
+/**
+ * Seller Notification Details
+ * This function retrieves booking details associated with a seller and sends them as a notification.
+ * @param {Object} req - The HTTP request object containing the seller's ID (as sellerId).
+ * @param {Object} res - The HTTP response object to send the retrieved booking details as a notification.
+ * @returns {Object} - An object containing booking details as a notification for the seller.
+ * @throws {Error} - If there's an error during the process, it returns an error response with a 500 status code.
+ */
+const sellerNotificationDetails = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve the seller's ID from the request
+    const sellerId = req.query.sellerId;
+
+    // Retrieve booking details associated with the seller using the aggregateBookingWithHostel function
+    const sellerBookings = await aggregateBookingWithHostel(sellerId);
+
+    if (sellerBookings) {
+      // Return the booking details as a notification
+      return res.json({ sellerBookings });
+    }
+
+    if (!sellerBookings) {
+      // If there are no booking details, return a status code 502 (Bad Gateway)
+      return res.status(502).json(null);
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
+
+
