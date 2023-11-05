@@ -25,3 +25,38 @@ import { sellerAggregateRevenue, sellerRevenueAmount, sellerTotal } from "./Sell
  * @param {string} email - The recipient's email address.
  * @param {string} OTP - The one-time password for password reset.
  */
+ const sendForgetPassword = async (name, email, OTP) => {
+  try {
+    // Create a nodemailer transporter with SMTP settings
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      requireTLS: true,
+      auth: {
+        user: process.env.EMAIL_USER, // Your email user
+        pass: process.env.NEW_APP_PASSWORD, // Your email password or app-specific password
+      },
+    });
+
+    // Compose the email content
+    const mailOptions = {
+      from: process.env.EMAIL_USER, // Sender's email address
+      to: email, // Recipient's email address
+      subject: "Reset your Password", // Email subject
+      html: `<p>Hi ${name}, <br> Did you request a password reset...?<br>If Yes...<br> Your OTP for resetting the password is ${OTP}`, // Email content
+    };
+
+    // Send the email
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log("Email successfully sent", info.response);
+      }
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
