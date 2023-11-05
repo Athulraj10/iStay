@@ -597,6 +597,33 @@ const listHostels = asyncHandler(async (req, res) => {
 });
 
 
+// ----------------------------Edit Hostels Data senting Part-------------
+/**
+ * Edit Hostel
+ * This function retrieves details of a specific hostel based on its ID for editing purposes.
+ * @param {Object} req - The HTTP request object containing the hostel's ID.
+ * @param {Object} res - The HTTP response object to send the hostel details for editing.
+ * @returns {Object} - An object containing the details of the hostel for editing.
+ * @throws {Error} - If there's an error during the process, it logs the error.
+ */
+const editHostel = asyncHandler(async (req, res) => {
+  const id = req.body._id;
+  try {
+    // Find the hostel details based on the provided ID
+    const hostelDetails = await Hostel.findOne({ _id: id });
+
+    // Send a response with the hostel details
+    res.status(200).json({ data: hostelDetails });
+  } catch (error) {
+    // Log any errors that occur
+    console.log(error);
+  }
+});
+
+
+
+
+
 
 
 
