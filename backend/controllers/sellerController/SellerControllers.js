@@ -161,3 +161,47 @@ const aggregateBookingWithHostel = async (sellerId) => {
  * @throws {Error} - If any error occurs during the authentication process, it is logged.
  */
 
+const authSeller = asyncHandler(async (req, res) => {
+  const { email, password } = req.body;
+
+  // Find the seller by their email
+  const seller = await Seller.findOne({ email });
+
+  if (!seller) {
+    return res.status(401).json({
+      message: constants.EMAIL_PASSWORD_INCORRECT,
+    });
+  }
+
+  if (seller.isBlock) {
+    return res.status(401).json({
+      message: constants.SELLER_BLOCKED,
+    });
+  }
+
+  if (seller && (await seller.matchPassword(password))) {
+    const token = jwt.sign({ sellerId:seller._id }, process.env.JWT_SECRET, {
+      expiresIn: "30d",
+    });
+  
+    // res.cookie("jwt_Seller", token, {
+    //   httpOnly: true,
+    //   secure: process.env.NODE_ENV !== "development",
+    //   sameSite: "strict",
+    //   maxAge: 30 * 24 * 60 * 60 * 1000,
+    // });
+    return res.status(201).json({
+      _id: seller._id,
+      name: seller.name,
+      email: seller.email,
+      token,
+    });
+  }
+
+  // If the password doesn't match
+  return res.status(401).json({
+    message: constants.EMAIL_PASSWORD_INCORRECT,
+  });
+});
+
+
