@@ -150,3 +150,14 @@ const aggregateBookingWithHostel = async (sellerId) => {
 };
 
 
+
+// -------------------seller Authentication---------------------------
+/**
+ * Authenticate Seller
+ * This function is responsible for authenticating a seller by verifying their email and password. It checks if the provided email and password match any seller's credentials. If successful, it generates a token for the seller and sends their information along with the token in the response.
+ * @param {Object} req - The HTTP request object containing the seller's email and password.
+ * @param {Object} res - The HTTP response object to send the authentication result and token.
+ * @returns {Object} - An object containing seller information and a generated authentication token.
+ * @throws {Error} - If any error occurs during the authentication process, it is logged.
+ */
+
