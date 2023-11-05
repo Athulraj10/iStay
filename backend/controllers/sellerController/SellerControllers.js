@@ -489,5 +489,36 @@ const sellerNotificationDetails = asyncHandler(async (req, res) => {
 });
 
 
+// ----------------------------List listEnquery-------------
+/**
+ * List Enquiries for a Seller
+ * This function retrieves and lists enquiries that are associated with a seller.
+ * @param {Object} req - The HTTP request object containing seller information.
+ * @param {Object} res - The HTTP response object to send the list of enquiries for the seller.
+ * @returns {Object} - An object containing a list of enquiries for the seller.
+ * @throws {Error} - If there's an error during the process, it logs the error and returns an error response with a 500 status code.
+ */
+const listEnquery = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve the seller's ID from the request
+    // const sellerId = req.seller._id;
+    const sellerId = true;
+
+    if (sellerId) {
+      // Retrieve enquiries associated with the seller where isVerified is false
+      const enquery = await Enquiry.find({
+        // seller: sellerId,
+        isVerified: false,
+      });
+
+      // Log the seller's ID and send the list of enquiries in the response
+      console.log(sellerId);
+      res.status(200).json({ enqueryData: enquery });
+    }
+  } catch (error) {
+    // Log any errors that occur
+    console.error(error);
+  }
+});
 
 
