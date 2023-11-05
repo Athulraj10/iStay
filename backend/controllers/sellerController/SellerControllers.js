@@ -17,4 +17,11 @@ import generateTokenSeller from "../../utils/generateTokenSeller.js";
 import constants from "../Constants/constants.js";
 import { sellerAggregateRevenue, sellerRevenueAmount, sellerTotal } from "./SellerRevenue.js";
 
-
+// -------------------------SENT OTP NodeMailer---------------------------------------
+/**
+ * Send Forget Password Email
+ This function is responsible for sending a forget password email to a user, including the user's name and a one-time password (OTP) for password reset.
+ * @param {string} name - The user's name to personalize the email.
+ * @param {string} email - The recipient's email address.
+ * @param {string} OTP - The one-time password for password reset.
+ */
