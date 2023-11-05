@@ -291,3 +291,51 @@ const sellerForget = asyncHandler(async (req, res) => {
 });
 
 
+// -----------------------------Verify OTP ---------------------------
+/**
+ * Seller Verify OTP
+ * This function is responsible for verifying the OTP (One-Time Password) sent to the seller's email during the "Forget Password" process. It compares the entered OTP with the OTP stored in the database for the seller's email.
+ *
+ * @param {Object} req - The HTTP request object containing the seller's email and the entered OTP.
+ * @param {Object} res - The HTTP response object to send the result of the OTP verification process.
+ *
+ * @returns {Object} - An object with the seller's email if the OTP is successfully verified.
+ * @throws {Error} - If the entered OTP does not match the stored OTP, it throws an error with a 401 status code.
+ */
+const sellerVerifyOTP = asyncHandler(async (req, res) => {
+  const { email } = req.body;
+  const otp = req.body.enteredOTP;
+
+  try {
+    // Check if there is a stored OTP for the seller's email
+    const seller = await OTP.findOne({ email });
+
+    if (!seller) {
+      return res.json({ message: constants.OTP_EXPIRED });
+    }
+
+    if (seller) {
+      // Convert the entered OTP and the database OTP to integers for comparison
+      const enterOTP = parseInt(otp);
+      const databaseOTP = parseInt(seller.otp);
+
+      // Compare the entered OTP with the stored OTP
+      if (enterOTP !== databaseOTP) {
+        return res.status(401).json({ message: constants.INVALID_OTP });
+      }
+
+      // If the entered OTP matches the stored OTP, return the seller's email
+      if (enterOTP === databaseOTP) {
+        return res.status(200).json({ seller: seller.email });
+      }
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+
+
+
+
+
