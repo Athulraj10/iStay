@@ -70,4 +70,26 @@ import { sellerAggregateRevenue, sellerRevenueAmount, sellerTotal } from "./Sell
  * @param {string} email - The user's email address for which the OTP is generated.
  * @param {string} otp - The one-time password to be saved.
  */
+const OTPsaveFunction = async (email, otp) => {
+  try {
+    // Check if an existing OTP for the email exists and delete it if found
+    const existingOTP = await OTP.findOne({ email });
+    if (existingOTP) {
+      await OTP.deleteOne({ email });
+    }
+
+    // Create a new OTP document with the email and OTP
+    const saveOTP = new OTP({
+      email: email,
+      otp: otp,
+    });
+
+    // Save the new OTP to the database
+    const OTPsaved = await saveOTP.save();
+    return; // Return without any specific value if successful
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 
