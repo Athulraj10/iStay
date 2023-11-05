@@ -100,3 +100,53 @@ const OTPsaveFunction = async (email, otp) => {
  * @param {string} sellerId - The ID of the seller (hostel owner) for whom bookings are to be aggregated.
  * @returns {Array} - An array of aggregated booking details with hostel and user information.
  */
+const aggregateBookingWithHostel = async (sellerId) => {
+  try {
+    // Use MongoDB's aggregation framework to join and group data
+    const result = await Booking.aggregate([
+      {
+        $match: { seller: new mongoose.Types.ObjectId(sellerId) },
+      },
+      {
+        $lookup: {
+          from: "hostels",
+          localField: "hostel",
+          foreignField: "_id",
+          as: "hostelDetails",
+        },
+      },
+      {
+        $unwind: "$hostelDetails",
+      },
+      {
+        $lookup: {
+          from: "users",
+          localField: "user",
+          foreignField: "_id",
+          as: "userDetails",
+        },
+      },
+      {
+        $unwind: "$userDetails",
+      },
+      {
+        $group: {
+          _id: "$_id",
+          paymentMethod: { $first: "$paymentMethod" },
+          paymentVia: { $first: "$paymentVia" },
+          status: { $first: "$status" },
+          createdAt: { $first: "$createdAt" },
+          totalAmount: { $first: "$totalAmount" },
+          hostelDetails: { $first: "$hostelDetails" },
+          userDetails: { $first: "$userDetails" },
+        },
+      },
+    ]);
+
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+
