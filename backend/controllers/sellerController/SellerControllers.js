@@ -60,3 +60,14 @@ import { sellerAggregateRevenue, sellerRevenueAmount, sellerTotal } from "./Sell
   }
 };
 
+
+// -------------------Save OTP with UserEmail---------------------------
+/**
+ * OTP Save Function
+
+ * This function is responsible for saving a one-time password (OTP) associated with a user's email. It first checks if an OTP for the given email already exists, and if so, it deletes the existing OTP. Then, it saves the new OTP to the database.
+ *
+ * @param {string} email - The user's email address for which the OTP is generated.
+ * @param {string} otp - The one-time password to be saved.
+ */
+
