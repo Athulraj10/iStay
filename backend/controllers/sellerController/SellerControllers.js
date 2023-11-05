@@ -335,6 +335,45 @@ const sellerVerifyOTP = asyncHandler(async (req, res) => {
 });
 
 
+// ----------------------------Reset Password-------------
+/**
+ * Seller Reset Password
+ * This function is responsible for resetting the password of a seller. It retrieves the seller's information based on their email and updates the password with the new one provided in the request.
+ * @param {Object} req - The HTTP request object containing the seller's email (as userId) and the new password.
+ * @param {Object} res - The HTTP response object to send the result of the password reset process.
+ * @returns {Object} - A success message when the seller's password is reset successfully.
+ * @throws {Error} - If the seller does not exist, it throws an error with a 404 status code.
+ */
+const sellersResetPassword = asyncHandler(async (req, res) => {
+  const { userId, password } = req.body;
+
+  try {
+    // Find the seller based on their email (userId)
+    const seller = await Seller.findOne({ email: userId });
+
+    if (!seller) {
+      return res.status(404).json({ message: constants.INTERNAL_SERVER_ERROR });
+    }
+
+    if (seller) {
+      // Update the seller's password with the new password
+      seller.password = password;
+      await seller.save();
+
+      // Send a success response when the password is reset
+      res.status(200).json({ message: constants.PASSWORD_RESET_SUCCESSFULLY });
+    }
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: constants.INTERNAL_SERVER_ERROR });
+  }
+});
+
+
+
+
+
+
 
 
 
