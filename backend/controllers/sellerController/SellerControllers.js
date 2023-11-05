@@ -421,4 +421,38 @@ const dashboardValues = asyncHandler(async (req, res) => {
 
 
 
+// -------------------Seller Notificaition Count Page---------------------------
+/**
+ * Seller Notification
+ * This function retrieves the number of bookings associated with a seller and sends it as a notification.
+ *
+ * @param {Object} req - The HTTP request object containing the seller's ID (as sellerInfo).
+ * @param {Object} res - The HTTP response object to send the retrieved notification data.
+ *
+ * @returns {Object} - An object containing the number of bookings as a notification for the seller.
+ * @throws {Error} - If there's an error during the process, it returns an error response with a 500 status code.
+ */
+const sellerNotification = asyncHandler(async (req, res) => {
+  try {
+    // Retrieve the seller's information from the request
+    const sellerInfo = req.query.sellerInfo;
+
+    // Count the number of bookings associated with the seller
+    const sellerBookings = await Booking.countDocuments({ seller: sellerInfo });
+
+    if (sellerBookings) {
+      // Return the number of bookings as a notification
+      return res.json({ sellerBookings });
+    }
+
+    if (!sellerBookings) {
+      // If there are no bookings, return a status code 502 (Bad Gateway)
+      return res.status(502)
+    }
+  } catch (error) {
+    console.error(error);
+  }
+});
+
+
 
