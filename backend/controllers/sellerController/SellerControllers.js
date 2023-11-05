@@ -205,3 +205,50 @@ const authSeller = asyncHandler(async (req, res) => {
 });
 
 
+
+
+// -------------------Register New seller---------------------------
+/**
+ * Register Seller
+ * This function is responsible for registering a new seller. It checks if a seller with the given email already exists and, if not, creates a new seller account. After successful registration, it generates an authentication token for the seller and sends their information in the response.
+ * @param {Object} req - The HTTP request object containing the seller's name, email, password, and mobile number.
+ * @param {Object} res - The HTTP response object to send the registration result, token, and seller information.
+ * @returns {Object} - An object containing seller information and a generated authentication token after successful registration.
+ * @throws {Error} - If a seller with the given email already exists, it throws an error with a 400 status code.
+ */
+const registerSeller = asyncHandler(async (req, res) => {
+  const { name, email, password, mobile } = req.body;
+
+  // Check if a seller with the same email already exists
+  const sellerExists = await Seller.findOne({ email });
+
+  if (sellerExists) {
+    const error = new Error(constants.SELLER_ALREADY_EXISTS);
+    res.status(400);
+    error.status = 400;
+    throw error;
+  }
+
+  // If the seller does not exist, create a new seller account
+  const sellerRegister = await Seller.create({
+    name,
+    email,
+    password,
+    mobile,
+  });
+
+  if (sellerRegister) {
+    // Generate an authentication token for the newly registered seller
+    generateTokenSeller(res, sellerRegister._id);
+
+    res.status(201).json({
+      _id: sellerRegister._id,
+      name: sellerRegister.name,
+      email: sellerRegister.email,
+    });
+  }
+});
+
+
+
+
