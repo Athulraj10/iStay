@@ -51,6 +51,7 @@ const upload = multer({ storage });
 // -----------------Admin ManageMent
 AdminRoute.post("/login", adminAuthentication);
 AdminRoute.post("/forget", adminForget);
+AdminRoute.post("/verifyOTP", adminVerifyOTP);
 
 
 
