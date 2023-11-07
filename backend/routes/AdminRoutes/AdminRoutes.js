@@ -59,6 +59,7 @@ AdminRoute.get("/listUser", listUser);
 AdminRoute.patch("/listUser/block/:id", blockUser);
 
 // ----------------Seller Management
+AdminRoute.post("/listSellers", listSellers);
 
 
 
