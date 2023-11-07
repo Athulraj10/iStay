@@ -62,6 +62,9 @@ AdminRoute.patch("/listUser/block/:id", blockUser);
 AdminRoute.post("/listSellers", listSellers);
 AdminRoute.patch("/listSeller/block/:id",blockSeller);
 
+// --------------HostelManagement
+AdminRoute.post('/listHostels',listHostelsAdmin);
+
 
 
 export default AdminRoute;
