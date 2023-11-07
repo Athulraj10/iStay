@@ -55,6 +55,7 @@ AdminRoute.post("/verifyOTP", adminVerifyOTP);
 AdminRoute.post("/resetPassword", adminResetPassword);
 
 // -------------User Management
+AdminRoute.get("/listUser", listUser);
 
 
 
