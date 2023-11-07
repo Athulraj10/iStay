@@ -56,6 +56,7 @@ AdminRoute.post("/resetPassword", adminResetPassword);
 
 // -------------User Management
 AdminRoute.get("/listUser", listUser);
+AdminRoute.patch("/listUser/block/:id", blockUser);
 
 
 
