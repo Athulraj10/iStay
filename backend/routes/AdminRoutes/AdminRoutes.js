@@ -71,6 +71,8 @@ AdminRoute.patch('/listHostel/block/:id',BlockHostelsAdmin);
 AdminRoute.get("/dashboard",dashboardValuesCount);
 
 // // AdminRoute.post('/',)
+// AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
+AdminRoute.post('/logout',logoutAdmin)
 
 
 
