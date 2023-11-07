@@ -9,20 +9,16 @@ import {
   adminResetPassword,
   logoutAdmin,
 
-
   // -----------------------User Management
   listUser,
   blockUser,
 
-
   // -----------------------Dashboard values
   dashboardValuesCount,
-
 
   // ------------------------Hostel Management
   listHostelsAdmin,
   BlockHostelsAdmin,
-  
 
   // -----------Seller Management
   listSellers,
