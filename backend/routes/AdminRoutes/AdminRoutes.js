@@ -36,4 +36,21 @@ import {
 import { adminMiddleware } from "../../middleware/AdminMiddleware/authMiddleware.js";
 const AdminRoute = express.Router();
 
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+      cb(null, 'backend/public/images');
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+// -----------------Admin ManageMent
+AdminRoute.post("/login", adminAuthentication);
+
+
+
 export default AdminRoute;
