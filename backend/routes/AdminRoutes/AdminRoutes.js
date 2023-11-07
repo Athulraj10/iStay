@@ -54,6 +54,8 @@ AdminRoute.post("/forget", adminForget);
 AdminRoute.post("/verifyOTP", adminVerifyOTP);
 AdminRoute.post("/resetPassword", adminResetPassword);
 
+// -------------User Management
+
 
 
 export default AdminRoute;
