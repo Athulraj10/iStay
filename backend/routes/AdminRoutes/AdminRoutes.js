@@ -70,6 +70,8 @@ AdminRoute.patch('/listHostel/block/:id',BlockHostelsAdmin);
 //-------------------- Dashboard Values
 AdminRoute.get("/dashboard",dashboardValuesCount);
 
+// // AdminRoute.post('/',)
+
 
 
 export default AdminRoute;
