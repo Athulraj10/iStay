@@ -74,6 +74,3 @@ AdminRoute.get("/dashboard",dashboardValuesCount);
 // AdminRoute.route('/profile').get(protect,getUserProfile).put(protect,updateUserProfile)
 AdminRoute.post('/logout',logoutAdmin)
 
-
-
-export default AdminRoute;
