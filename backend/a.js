@@ -32,6 +32,19 @@
 // maximumUnits(boxTypes,truckSize)
 
 // Existing aggregatedData array
+// NODE_ENV= production
+// PORT=5000
+// MONGO_URI =mongodb+srv://iStay:iStay_authentication@istay.n6mcjpe.mongodb.net/iStay?retryWrites=true
+// STRIPE_KEY = sk_test_51O1TtASDbPUS3oyQsA7LcZql2FXhaKmKFcMNGMhdBDZbfrq3gjYloGzmvpvaaMzNn9eNFylaQOkjjQMVEOHD1EIt00ovbGWoGW
+// CLOUDINARY = https://api.cloudinary.com/v1_1/dl3et0ysz
+
+
+// JWT_SECRET = authenticationVerificationProcess 
+
+// SESSIONSECRET = 'mysitesessionsecret'
+// EMAIL_USER = 'arshithaarshi1701@gmail.com'
+// NEW_APP_PASSWORD =  'upmdjsainlzpbeej'
+
 const aggregatedData = [
   {
     _id: {
