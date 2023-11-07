@@ -58,6 +58,8 @@ AdminRoute.post("/resetPassword", adminResetPassword);
 AdminRoute.get("/listUser", listUser);
 AdminRoute.patch("/listUser/block/:id", blockUser);
 
+// ----------------Seller Management
+
 
 
 export default AdminRoute;
