@@ -1,14 +1,14 @@
 // import axios from 'axios';
 
 // export const USERSAPI = axios.create({
-//   baseURL : "https://www.hexashop.shop/api/"
+//   baseURL : "https://www.istay.site/api/"
 // })
 
 import axios from 'axios';
 import Cookies from 'js-cookie'; // Import the library you're using to manage cookies
 
 export const USERSAPI = axios.create({
-  baseURL: "https://www.hexashop.shop/api/",
+  baseURL: "https://www.istay.site/api/",
 });
 
 // Get the token from the cookie

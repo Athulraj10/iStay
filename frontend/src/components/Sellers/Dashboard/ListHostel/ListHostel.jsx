@@ -119,7 +119,7 @@ function ListHostel() {
                                 {item.images.map((image, index) => (
                                   <img
                                     key={index}
-                                    src={`https://www.hexashop.shop/images/${image}`}
+                                    src={`https://www.istay.site/images/${image}`}
                                     // src={`/public/${image}`}
                                     alt={`Image ${index}`}
                                     className="event-image"

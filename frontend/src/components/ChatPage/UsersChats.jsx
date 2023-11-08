@@ -8,7 +8,7 @@ import { FaCalendar, FaEnvelope, FaHandPointRight, FaPhone, FaUserCircle } from 
 import { USERSAPI } from "../AxiosAPI/AxiosInstance";
 import { Col, Row } from "react-bootstrap";
 
-const ENDPOINT = "https://www.hexashop.shop/"
+const ENDPOINT = "https://www.istay.site/"
 var socket, selectedChatCompare;
 
 const UserChats = () => {

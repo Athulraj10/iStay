@@ -74,7 +74,7 @@ const SingleViewHostel = () => {
           "Content-Type": "application/json",
         };
         const response = await fetch(
-          "https://hexashop.shop/api/users/bookingHostel",
+          "https://istay.site/api/users/bookingHostel",
           {
             method: "POST",
             headers: headers,
@@ -500,7 +500,7 @@ const SingleViewHostel = () => {
         hostelData[0].images.map((image, index) => (
           <img
             key={index}
-            src={`https://www.hexashop.shop/images/${image}`}
+            src={`https://www.istay.site/images/${image}`}
             alt={`Image ${index}`}
             className={`m-3  thumbnail-image ${
               selectedImageIndex === index ? "selected" : ""
@@ -783,7 +783,7 @@ const SingleViewHostel = () => {
         onClick={() => setClickedImage(null)}
       >
         <img
-          src={`https://www.hexashop.shop/image/${clickedImage}`}
+          src={`https://www.istay.site/image/${clickedImage}`}
           alt="Full Size Image"
           style={{ maxHeight: "40%", maxWidth: "50%", height: "300px" }}
         />

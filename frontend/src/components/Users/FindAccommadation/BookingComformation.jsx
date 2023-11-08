@@ -57,7 +57,7 @@ const BookingComformation = () => {
             {/* Left Side: Primary Image */}
             <div style={{ flex: 6 }}>
               <img
-                src={`https://www.hexashop.shop/images/${hostelData.images[0]}`}
+                src={`https://www.istay.site/images/${hostelData.images[0]}`}
                 alt={`Image`}
                 className="event-image rounded-3"
                 style={{ height: "300px", width: "100%" }}

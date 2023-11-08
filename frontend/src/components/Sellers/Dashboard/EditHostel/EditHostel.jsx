@@ -158,7 +158,7 @@ const EditHostel = () => {
             {imageInitial.map((url, index) => (
               <div key={index} className="img-item">
                 <img
-                  src={`https://www.hexashop.shop/images/${url}`}
+                  src={`https://www.istay.site/images/${url}`}
                   alt={`Image ${index}`}
                 />
               </div>

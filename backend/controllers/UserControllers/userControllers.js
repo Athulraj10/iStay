@@ -565,8 +565,8 @@ const bookHostel = asyncHandler(async (req, res) => {
           quantity: 1,
         },
       ],
-      success_url: `https://hexashop.shop/bookingConfirmation?userId=${userId}&hostel=${hostel._id}`,
-      cancel_url: `https://hexashop.shop/api/users/login`,
+      success_url: `https://istay.site/bookingConfirmation?userId=${userId}&hostel=${hostel._id}`,
+      cancel_url: `https://istay.site/api/users/login`,
     });
     
     // Respond with the session ID created by Stripe

@@ -24,7 +24,7 @@ app.use(express.json());
 // app.use(cors());
 app.use(express.urlencoded({extended:true}))
 app.use(cors({
-    origin: ["https://hexashop.shop","https://www.hexashop.shop"],
+    origin: ["https://istay.site","https://www.istay.site"],
     credentials: true
   }));
 app.use('/api/users',userRoutes)
@@ -55,7 +55,7 @@ import { Server } from 'socket.io'
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
-    origin: ["https://hexashop.shop","https://www.hexashop.shop"],
+    origin: ["https://istay.site","https://www.istay.site"],
   },
 }); 
 
