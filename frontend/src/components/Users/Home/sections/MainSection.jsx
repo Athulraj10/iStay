@@ -5,6 +5,7 @@ import image2 from "./image.jpg"; // Import the image
 import premium from "./premium.png"; // Import the image
 import { Row, Col, Container, Button } from "react-bootstrap";
 import "./Header.css";
+import React from "react";
 
 const MainSection = () => {
   const containerStyle = {

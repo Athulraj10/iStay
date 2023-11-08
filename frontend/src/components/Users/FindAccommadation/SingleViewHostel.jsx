@@ -660,19 +660,24 @@ const SingleViewHostel = () => {
       </Modal.Header>
       <Modal.Body>
         <Form.Group>
+          <div>
           <input
             type="file"
             accept="image/*"
             // multiple
             onChange={handleAddPhoto}
           />
+          </div>
+          <div>
           <textarea
             value={formData.hostelReview}
+            required
             onChange={(e) =>
               setFormData({ ...formData, hostelReview: e.target.value })
             }
             placeholder="Enter your review description"
           />
+          </div>
         </Form.Group>
       </Modal.Body>
       <Modal.Footer>
@@ -723,7 +728,7 @@ const SingleViewHostel = () => {
                   ? review.images.map((image, imageIndex) => (
                       <img
                         key={imageIndex}
-                        src={`https://www.istay.site/image/${image}`}
+                        src={`https://www.istay.site/image/${0}`}
                         alt={`Image`}
                         className="event-image rounded-3"
                         style={{
@@ -738,7 +743,7 @@ const SingleViewHostel = () => {
                   : null}
               </div>
               <div style={{ flex: 1, width: "200px", maxWidth: "300" }}>
-                {review.content.substring(0, 100)}
+                {review.content.substring(0, 50)}
               </div>
             </div>
           </div>

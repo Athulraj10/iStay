@@ -142,8 +142,7 @@ export default function UserProfile() {
     } else {
       navigate("/login");
     }
-  }, [mobile]);
-  console.log("COOKIEEESS IS "+Cookies.get('user_JWT_token'))
+  }, [mobile,imageLoading]);
   return isLoading ? (
     <SpinnerChakra />
   ) : (
@@ -182,7 +181,7 @@ export default function UserProfile() {
                         <Form.Control
                           type="email"
                           name="email"
-                          readOnly={!isEditable}
+                          readOnly
                           value={email}
                           onChange={handleInputChange}
                         />
@@ -204,21 +203,25 @@ export default function UserProfile() {
                         />
                       </Form.Group>
 
-                      <Form.Group
-                        className="mb-3"
-                        controlId="formBasicExperience"
-                      >
-                        <Form.Label className="fields text-white">
-                          User Profile Picture
-                        </Form.Label>
-                        <input
-                          type="file"
-                          readOnly={!isEditable}
-                          accept="image/*"
-                          // value={mobile}
-                          onChange={(e) => handleImage(e.target.files[0])}
-                        />
-                      </Form.Group>
+                    {isEditable ? (
+                          <Form.Group
+                          className="mb-3"
+                          controlId="formBasicExperience"
+                        >
+                          <Form.Label className="fields text-white">
+                            User Profile Picture
+                          </Form.Label>
+                          <input
+                            type="file"
+                            readOnly={!isEditable}
+                            accept="image/*"
+                            // value={mobile}
+                            onChange={(e) => handleImage(e.target.files[0])}
+                          />
+                        </Form.Group>
+                    ):(
+                      ""
+                    )}
 
                       {isEditable ? (
                         <>
