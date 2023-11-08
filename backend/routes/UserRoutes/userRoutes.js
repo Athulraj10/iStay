@@ -43,7 +43,7 @@ router.get('/findAccommodation/high',high)
 router.get('/findAccommodation/low',low)
 router.get('/findAccommodation/search',search)
 router.post('/bookingHostel',bookHostel)
-router.get('/bookingConfirmation/',bookingConfirmation)
+router.get('/bookingConfirmation/',protect,bookingConfirmation)
 router.patch('/WalletConfirmation/',WalletConfirmation)
 router.post('/addReview',protect,upload.array('files',3),addReview)
 
