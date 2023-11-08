@@ -27,6 +27,7 @@ const protect = asyncHandler(async (req, res, next) => {
 
       // Attach the user information to the request for further use in the route handlers
       req.user = userFound;
+      console.log(req.user)
       next();
       
     } catch (error) {

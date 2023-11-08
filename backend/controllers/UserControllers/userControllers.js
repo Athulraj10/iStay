@@ -611,8 +611,8 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
       // Create a booking record
       const conformBooking = new Booking({
         user: userId,
-        userEmail: req.user.email || "No Remail",
-        userName: req.user.name || 'No Name',
+        userEmail: req.user.email | "No Remail",
+        userName: req.user.name | 'No Name',
         status: "confirmed",
         hostel: hostelId,
         seller: sellerId,
