@@ -113,7 +113,7 @@ const FindAccommodation = () => {
           {hostel.images.slice(0, 1).map((image, index) => (
             <img
               key={index}
-              src={`https://www.hexashop.shop/images/${image}`}
+              src={`https://www.istay.site/images/${image}`}
               alt={`Image ${index}`}
               className="event-image rounded-4"
               style={{ height: "300px", width: "100%" }}

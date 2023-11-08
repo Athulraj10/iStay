@@ -264,7 +264,7 @@ const SingleViewHostel = () => {
         {/* Left Side: Primary Image */}
         <div style={{ flex: 6 }}>
           <img
-            src={`https://www.hexashop.shop/images/${hostel.images[selectedImageIndex]}`}
+            src={`https://www.istay.site/images/${hostel.images[selectedImageIndex]}`}
             alt={`Image ${selectedImageIndex}`}
             className="event-image rounded-3"
             style={{ height: "400px", width: "100%" }}
@@ -723,7 +723,7 @@ const SingleViewHostel = () => {
                   ? review.images.map((image, imageIndex) => (
                       <img
                         key={imageIndex}
-                        src={`https://www.hexashop.shop/image/${image}`}
+                        src={`https://www.istay.site/image/${image}`}
                         alt={`Image`}
                         className="event-image rounded-3"
                         style={{

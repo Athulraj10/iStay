@@ -137,7 +137,7 @@ const EditHostel = () => {
             lg={12}
             className="align-items-center justify-content-center"
             style={{
-              backgroundImage: `url(https://www.hexashop.shop/images/${imageInitial[0]})`, // Correct the interpolation
+              backgroundImage: `url(https://www.istay.site/images/${imageInitial[0]})`, // Correct the interpolation
               backgroundSize: "cover",
               backgroundPosition: "center",
               height: "auto",
