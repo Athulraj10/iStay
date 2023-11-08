@@ -279,7 +279,6 @@ const UserChats = () => {
             </div>
           )}
         </div>
-
         <div className="w-1/2 h-full border-l-2 p-3">
           {chatId ? (
             <div className="h-full w-full">
