@@ -315,7 +315,7 @@ const UserChats = () => {
                   )
                 ) : (
                   <div className="w-full h-full flex items-center justify-center">
-                    No Chats
+                    Currently No Chat
                   </div>
                 )}
               </div>
