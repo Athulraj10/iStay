@@ -842,3 +842,14 @@
   height: 20px; /* Set the desired height */
   margin-right: 10px;
 }
+
+
+.image-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.image-container {
+  margin: 5px;
+}

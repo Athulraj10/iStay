@@ -142,7 +142,7 @@ export default function UserProfile() {
     } else {
       navigate("/login");
     }
-  }, [mobile,imageLoading]);
+  }, [mobile]);
   return isLoading ? (
     <SpinnerChakra />
   ) : (
