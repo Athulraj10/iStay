@@ -677,7 +677,6 @@ const SingleViewHostel = () => {
                 <input
                   type="file"
                   accept="image/*"
-                  // multiple
                   onChange={handleAddPhoto}
                 />
               </div>
@@ -697,7 +696,7 @@ const SingleViewHostel = () => {
             <Button variant="secondary" onClick={() => setShowModal(false)}>
               Close
             </Button>
-            <Button variant="primary" onClick={addReview}>
+            <Button variant="primary" onClick={addReview} disabled={!formData.hostelReview}>
               Save
             </Button>
           </Modal.Footer>
