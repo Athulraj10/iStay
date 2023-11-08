@@ -121,6 +121,11 @@ const authUser = asyncHandler(async (req, res) => {
       name: user.name,
       email: user.email,
     });
+  }else{
+      res.status(401).json({
+      message: constants.EMAIL_PASSWORD_INCORRECT,
+    });
+    return
   }
   
  } catch (error) {
