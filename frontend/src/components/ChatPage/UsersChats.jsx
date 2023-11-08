@@ -127,14 +127,15 @@ const UserChats = () => {
     });
   });
   return (
-    <section className="container h-screen flex-col h-5/6">
+    <section style={{height:'auto'}} className="container h-screen flex-col h-5/6">
       <div
+
         className="flex h-4/5 w-full border-r-2 rounded-lg"
-        style={{ background: "#141d39", outline: "1px solid gray" }}
+        style={{height:'auto', background: "#141d39", outline: "1px solid gray" }}
       >
         <div
           className="w-1/2 p-5 overflow-y-auto"
-          style={{ background: "#141d39", outline: "1px solid gray" }}
+          style={{ height:'auto',background: "#141d39", outline: "1px solid gray" }}
         >
           {roomDetails ? (
             roomDetails?.map((chat, index) => (
