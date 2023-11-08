@@ -588,11 +588,9 @@ const bookHostel = asyncHandler(async (req, res) => {
  */
 const bookingConfirmation = asyncHandler(async (req, res) => {
   const { userId, hostelId } = req.query;
-
   try {
     // Find the hostel data by ID
     const hostelDatas = await singleHostelFinding(hostelId);
-
     // Extract relevant data from the hostel
     let price = parseFloat(hostelDatas.price);
     let extraPrice = parseFloat(hostelDatas.extraPrice);
@@ -609,10 +607,11 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
       thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
       // Create a booking record
+      console.log(req.user)
       const conformBooking = new Booking({
         user: userId,
-        userEmail: req.user.email | "No Remail",
-        userName: req.user.name | 'No Name',
+        userEmail: req.user.email ? req.user.email : 'no email',
+        userName: req.user.name ? req.user.name : 'No name',
         status: "confirmed",
         hostel: hostelId,
         seller: sellerId,
