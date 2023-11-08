@@ -607,7 +607,6 @@ const bookingConfirmation = asyncHandler(async (req, res) => {
       thirtyDaysFromNow.setDate(thirtyDaysFromNow.getDate() + 30);
 
       // Create a booking record
-      console.log(req.user)
       const conformBooking = new Booking({
         user: userId,
         userEmail: req.user.email ? req.user.email : 'no email',
