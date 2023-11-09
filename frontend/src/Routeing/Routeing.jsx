@@ -22,3 +22,6 @@ import SellerDashboardScreen from "../components/Sellers/Screens/SellerDashboard
 import SellerOTPScreen from "../components/Sellers/Screens/SellerOTPScreen";
 import SellerForgetScreenPassword from "../components/Sellers/Screens/SellerForgetScreenPassword";
 import SellerResetPassword from "../components/Sellers/Screens/SellerResetPasswordScreen";
+import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
+import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
+import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
