@@ -45,3 +45,19 @@ import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
 
 
 
+const LazyFindAccommodation = React.lazy(() => import("../components/Users/Screens/FindAccommodationScreen"));
+import SinglePageView from "../components/Users/Screens/SinglePageViewScreen";
+import UserProfileScreen from "../components/Users/Screens/UserProfileScreen";
+import BookingConformationScreen from "../components/Users/Screens/BookingConformationScreen";
+import MyBookingScreen from "../components/Users/Screens/MyBookingScreen";
+
+// ------------------Chat Components
+import UserChats from "../components/ChatPage/UsersChats";
+import SellerChat from "../components/Sellers/SellerChat/SellerChat";
+import Enquery from "../components/Users/Enquery/Enquery";
+
+
+const Routeing = () => {
+  return (
+    <Routes>
+      {/* ------------------------------UserScreen */}
