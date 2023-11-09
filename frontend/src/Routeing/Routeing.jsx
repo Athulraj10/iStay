@@ -12,3 +12,7 @@ import RegisterScreen from "../components/Users/Screens/RegisterScreen";
 import OTPScreen from "../components/Users/Screens/OTPScreen";
 import ForgetScreenPassword from "../components/Users/Screens/ForgetScreenPassword";
 import ResetPassword from "../components/Users/Screens/ResetPasswordScreen";
+
+
+
+// --------------Sellers Panel-----------
