@@ -32,3 +32,6 @@ import SellerNotificationScreen from "../components/Sellers/Screens/SellerNotifi
 
 
 // --------------Admin  Panel-----------
+import AdminLoginScreen from "../components/Admin/Screens/AdminLoginScreen";
+import AdminDashboardScreen from "../components/Admin/Screens/AdminDashboardScreen";
+import AdminOTPScreen from "../components/Admin/Screens/AdminOTPScreen";
