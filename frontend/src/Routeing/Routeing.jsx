@@ -74,3 +74,8 @@ const Routeing = () => {
       <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
       <Route path="/myBookings" element={<MyBookingScreen />} />
       <Route path="/Enquires" element={<Enquery />} />
+
+
+      <Route path="/chats" element={<UserChats />} />
+
+
