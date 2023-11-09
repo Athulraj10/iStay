@@ -25,3 +25,10 @@ import SellerResetPassword from "../components/Sellers/Screens/SellerResetPasswo
 import SellerHostelList from "../components/Sellers/Screens/SellerHostelList";
 import SelllerListEnquery from "../components/Sellers/Screens/SelllerListEnquery";
 import SellerMessageList from "../components/Sellers/Screens/SellerMessageList";
+import AddHostelSeller from "../components/Sellers/Dashboard/AddHostel/AddHostelSeller";
+import SellerHostelEditScreen from "../components/Sellers/Screens/SellerHostelEditScreen";
+import SellerNotificationScreen from "../components/Sellers/Screens/SellerNotificationScreen";
+
+
+
+// --------------Admin  Panel-----------
