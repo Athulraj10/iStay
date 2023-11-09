@@ -35,3 +35,6 @@ import SellerNotificationScreen from "../components/Sellers/Screens/SellerNotifi
 import AdminLoginScreen from "../components/Admin/Screens/AdminLoginScreen";
 import AdminDashboardScreen from "../components/Admin/Screens/AdminDashboardScreen";
 import AdminOTPScreen from "../components/Admin/Screens/AdminOTPScreen";
+import AdminForgetScreenPassword from "../components/Admin/Screens/AdminForgetScreenPassword";
+import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordScreen";
+import AdminUserList from "../components/Admin/Screens/AdminUserList";
