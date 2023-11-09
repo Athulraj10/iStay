@@ -98,4 +98,13 @@ const Routeing = () => {
       <Route path="/admin" element={<AdminLoginScreen />} />
       <Route path="/admin/dashboard" element={<AdminDashboardScreen />} />
       <Route path="/admin/forget" element={<AdminForgetScreenPassword />} />
+      <Route path="/admin/verifyOTP" element={<AdminOTPScreen />} />
+      <Route path="/admin/resetPassword" element={<AdminResetPassword />} />
+      <Route path="/admin/listUsers" element={<AdminUserList />} />
+      <Route path="/admin/listSellers" element={<AdminSellerList />} />
+      <Route path="/admin/listHostels" element={<AdminHostelList />} />
+      <Route path="*" element={<NotFoundScreen/>} />
+    </Routes>
+  );
+};
 
