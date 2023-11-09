@@ -107,4 +107,5 @@ const Routeing = () => {
     </Routes>
   );
 };
+export default Routeing;
 
