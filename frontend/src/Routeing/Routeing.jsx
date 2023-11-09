@@ -78,4 +78,19 @@ const Routeing = () => {
 
       <Route path="/chats" element={<UserChats />} />
 
+      <Route path="/seller/message" element={<SellerChat />} />
+      <Route path='/seller/chats' element={<SellerChat/>}/>
+      {/* ----------------------------------------------------Seller Routes---------- */}
+      <Route path="/seller/register" element={<SellerRegisterScreen />} />
+      <Route path="/seller/login" element={<SellerLoginScreen />} />
+      <Route path="/seller" element={<SellerLoginScreen />} />
+      <Route path="/seller/dashboard" element={<SellerDashboardScreen />} />
+      <Route path="/seller/notification" element={<SellerNotificationScreen />} />
+      <Route path="/seller/forget" element={<SellerForgetScreenPassword />} />
+      <Route path="/seller/verifyOTP" element={<SellerOTPScreen />} />
+      <Route path="/seller/resetPassword" element={<SellerResetPassword />} />
+      <Route path="/seller/listEnquery" element={<SelllerListEnquery />} />
+      <Route path="/seller/listHostels" element={<SellerHostelList />} />
+      <Route path="/seller/listHostels/addhostel" element={<AddHostelSeller />}/>
+      <Route path="/seller/listHostels/editHostelDetails" element={<SellerHostelEditScreen />}/>
 
