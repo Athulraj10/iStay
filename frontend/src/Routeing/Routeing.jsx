@@ -61,3 +61,6 @@ const Routeing = () => {
   return (
     <Routes>
       {/* ------------------------------UserScreen */}
+      <Route path="/register" element={<RegisterScreen />} />
+      <Route path="/login" element={<LoginScreen />} />
+      <Route path="/profile" element={<UserProfileScreen />} />
