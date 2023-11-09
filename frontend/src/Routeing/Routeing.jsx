@@ -64,3 +64,13 @@ const Routeing = () => {
       <Route path="/register" element={<RegisterScreen />} />
       <Route path="/login" element={<LoginScreen />} />
       <Route path="/profile" element={<UserProfileScreen />} />
+      <Route path="/" element={<HomeScreen />} />
+      <Route path="/forget" element={<ForgetScreenPassword />} />
+      <Route path="/OTP" element={<OTPScreen />} />
+      <Route path="/resetPassword" element={<ResetPassword />} />
+      {/* <Route path="/findAccommodation" element={<FindAccommodationScreen />} /> */}
+      <Route path="/findAccommodation" element={<Suspense fallback={<div>Loading...</div>}><LazyFindAccommodation /></Suspense>} />
+      <Route path="/findAccommodation/singlePageView" element={<SinglePageView />}/>
+      <Route path="/bookingConfirmation" element={<BookingConformationScreen />}/>
+      <Route path="/myBookings" element={<MyBookingScreen />} />
+      <Route path="/Enquires" element={<Enquery />} />
