@@ -16,3 +16,6 @@ import ResetPassword from "../components/Users/Screens/ResetPasswordScreen";
 
 
 // --------------Sellers Panel-----------
+import SellerRegisterScreen from "../components/Sellers/Screens/SellerRegisterScreen";
+import SellerLoginScreen from "../components/Sellers/Screens/SellerLoginScreen";
+import SellerDashboardScreen from "../components/Sellers/Screens/SellerDashboardScreen";
