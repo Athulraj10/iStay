@@ -94,3 +94,8 @@ const Routeing = () => {
       <Route path="/seller/listHostels/addhostel" element={<AddHostelSeller />}/>
       <Route path="/seller/listHostels/editHostelDetails" element={<SellerHostelEditScreen />}/>
 
+      {/* ----------------------------------------------------Admin Panel--------- */}
+      <Route path="/admin" element={<AdminLoginScreen />} />
+      <Route path="/admin/dashboard" element={<AdminDashboardScreen />} />
+      <Route path="/admin/forget" element={<AdminForgetScreenPassword />} />
+
