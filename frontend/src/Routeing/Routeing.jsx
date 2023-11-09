@@ -38,3 +38,10 @@ import AdminOTPScreen from "../components/Admin/Screens/AdminOTPScreen";
 import AdminForgetScreenPassword from "../components/Admin/Screens/AdminForgetScreenPassword";
 import AdminResetPassword from "../components/Admin/Screens/AdminResetPasswordScreen";
 import AdminUserList from "../components/Admin/Screens/AdminUserList";
+import AdminSellerList from "../components/Admin/Screens/AdminSellerList";
+import AdminHostelList from "../components/Admin/Screens/AdminHostelList";
+
+
+
+
+
