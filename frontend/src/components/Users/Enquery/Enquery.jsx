@@ -13,9 +13,9 @@ const Enquery = () => {
     const fetch = async () => {
       try {
         let response = await USERSAPI.get("/users/listenqueryreplyuser");
-        console.log(response)
+        console.log(response);
+        console.log("response");
         if (response.data.enquiry) {
-          // console.log(response.data.userEnquiry)
           setEnquery(response.data.userEnquiry);
         }
       } catch (error) {
@@ -23,7 +23,7 @@ const Enquery = () => {
       }
     };
     fetch();
-  }, []);
+  }, [USERSAPI]); // Include USERSAPI in the dependency array
 
   return (
     <div className="event-schedule-area-two p-4 rounded " style={{height:'100vh'}}>
