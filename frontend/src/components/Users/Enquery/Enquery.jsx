@@ -30,7 +30,7 @@ const Enquery = () => {
         <Row>
           <Col lg={12} md={6} style={{ display: "flex" }}>
             {enquery.length > 0 ? (
-              enquery.map((enquery, index) => (
+              enquery?.map((enquery, index) => (
                 <Card
                   className="applicationCard"
                   style={{ width: "18rem", margin: "10px" }}
