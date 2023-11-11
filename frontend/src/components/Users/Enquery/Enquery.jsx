@@ -13,6 +13,7 @@ const Enquery = () => {
     const fetch = async () => {
       try {
         let response = await USERSAPI.get("/users/listenqueryreplyuser");
+        console.log(response)
         if (response.data.enquiry) {
           // console.log(response.data.userEnquiry)
           setEnquery(response.data.userEnquiry);
