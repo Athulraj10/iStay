@@ -14,6 +14,7 @@ const Enquery = () => {
       try {
         let response = await USERSAPI.get("/users/listenqueryreplyuser");
         if (response.data.enquery) {
+          console.log(response.data.userEnquiry)
           setEnquery(response.data.userEnquiry);
         }
       } catch (error) {
