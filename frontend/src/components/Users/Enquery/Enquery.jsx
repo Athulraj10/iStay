@@ -1,13 +1,13 @@
 import ChatLoading from "../../ChatPage/ChatLoading";
 
 import React, { useEffect, useState } from "react";
-import { Container, Row, Col, Card, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Card } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { USERSAPI } from "../../AxiosAPI/AxiosInstance";
 
 const Enquery = () => {
-  const [enquery, setEnquery] = useState("");
+  const [enquery, setEnquery] = useState([]);
 
   useEffect(() => {
     const fetch = async () => {
