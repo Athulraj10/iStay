@@ -14,7 +14,7 @@ const Enquery = () => {
       try {
         let response = await USERSAPI.get("/users/listenqueryreplyuser");
         if (response.data.enquery) {
-          setEnquery(response.data.userEnquery);
+          setEnquery(response.data.userEnquiry);
         }
       } catch (error) {
         toast.error(error || "Error in ListSeller React");
