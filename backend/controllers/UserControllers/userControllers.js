@@ -775,7 +775,7 @@ const listEnqueryReplyUser = asyncHandler(async (req, res) => {
     // Find enquiries made by the user
     const userEnquiry = await Enquiry.find({ user: req.user._id });
     if (userEnquiry) {
-      // If user enquiries are found, respond with the data
+       // If user enquiries are found, respond with the data
       res.status(200).json({ enquiry: true, userEnquiry: userEnquiry });
     } else {
       // If no user enquiries are found, respond with a message
