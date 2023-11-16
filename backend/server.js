@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
       res.send('API is running....');
     });
   }
-  
+
 
 app.get('/',(req,res)=>res.send("server is ready"))
 
@@ -50,7 +50,6 @@ app.use(notFound)
 app.use(errorHandler)
 const server = app.listen(port,()=>console.log(`server start port ${port}`.yellow.bold))
 import { Server } from 'socket.io'
-// import { userInfo } from "os";
 
 const io = new Server(server, {
   pingTimeout: 60000,
