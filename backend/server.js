@@ -42,7 +42,7 @@ if (process.env.NODE_ENV === 'production') {
       res.send('API is running....');
     });
   }
-
+  
 
 app.get('/',(req,res)=>res.send("server is ready"))
 
@@ -56,6 +56,7 @@ const io = new Server(server, {
   cors: {
     origin: ["https://istay.site","https://www.istay.site"],
   },
+  
 }); 
 
 io.on("connection",(socket)=>{
