@@ -33,8 +33,7 @@ app.use('/api/admin',adminRoutes)
 app.use('/api/chats',chatRoutes)
 if (process.env.NODE_ENV === 'production') {
     const __dirname = path.resolve();
-    app.use(express.static(path.join(__dirname, '/frontend/dist')));
-  
+    app.use(express.static(path.join(__dirname, '/frontend/dist')));  
     app.get('*', (req, res) =>
       res.sendFile(path.resolve(__dirname, 'frontend', 'dist', 'index.html'))
     );
@@ -43,6 +42,7 @@ if (process.env.NODE_ENV === 'production') {
       res.send('API is running....');
     });
   }
+  
 
 app.get('/',(req,res)=>res.send("server is ready"))
 
@@ -50,13 +50,13 @@ app.use(notFound)
 app.use(errorHandler)
 const server = app.listen(port,()=>console.log(`server start port ${port}`.yellow.bold))
 import { Server } from 'socket.io'
-// import { userInfo } from "os";
 
 const io = new Server(server, {
   pingTimeout: 60000,
   cors: {
     origin: ["https://istay.site","https://www.istay.site"],
   },
+  
 }); 
 
 io.on("connection",(socket)=>{
